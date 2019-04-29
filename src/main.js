@@ -6,6 +6,7 @@ import router from './router'
 import axios from 'axios'
 import echarts from 'echarts'
 
+
 Vue.config.productionTip = false
 
 Vue.prototype.$http = axios

@@ -1,35 +1,13 @@
 <template>
   <div>
-    <!-- 头部 -->
-    <div class="websiteValue_banner">
-      <div class="websiteValue_banner_contain">
-        <p class="websiteValue_banner_title2">SEO综合查询</p>
-        <div class="websiteValue_banner_input">
-          <form>
-            <input
-              v-model="content"
-              type="text"
-              placeholder="输入想要查询价格的域名"
-              class="websiteValue_banner_input1"
-              name="yuming"
-            >
-            <input type="button">
-              <img  @click="getlist" src="../../assets/websiteValue-search.png" alt class="websiteValue-search">
-            </input>
-          </form>
-        </div>
-        <!-- 热门搜索 -->
-        <div class="clearfix websiteValue_banner_ul1">
-          <span class="websiteValue_banner_ul_title">热门搜索：</span>
-          <ul class="websiteValue_banner_ul clearfix">
-            <li v-for="items in hotsearch">
-              <a href="javascript:void(0);">{{items}}</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="seo_main_content">
+    <!-- 头部搜索框 -->
+    <SearchBox
+      :hotsearch="hotsearch"
+      :title="title"
+      @msgToSearch="getMsg"
+    ></SearchBox>
+    <div class="cha_default" v-if="content==''||content==undefined">请输入要查询的站点</div>
+    <div class="seo_main_content" v-if="!content==''">
       <!-- 主体第一大块 -->
       <div class="content_title clearfix">
         <span class="t_title fl">手机游戏_手机软件 - PC6手机站</span>
@@ -39,7 +17,7 @@
       <div>
         <ul class="weight_content clearfix">
           <li class="weight_details">
-            <div class="weight_net">{{weightnet | ellipsis}}</div>
+            <div class="weight_net">{{content | ellipsis}}</div>
             <span class="weight_name">域名</span>
           </li>
           <li class="weight_details" v-for="weights in weightcontent">
@@ -542,15 +520,18 @@
 
 <script>
 import LineCharts from "../Echarts/line"
+import SearchBox from '../BaseComponents/SearchBox'
 export default {
     name:'SeoSearch',
     components: {
-      LineCharts
+      LineCharts,
+      SearchBox
     },
     data () {
     return {
+      title:"SEO综合查询",
       content:"",
-      weightnet:"",
+      SeoContent:"",
       equipchange:'0',
       dayschange:"0",
       related_net:"0",
@@ -715,13 +696,9 @@ export default {
       ChangeNet (net) {
         this.related_net = net
       },
-      getlist () {
-         this.$http.get('')
-         .then((res)=>{
-           console.log(res)
-         })
-         .catch(()=>{})
-      },
+      getMsg (data) {
+        this.content=data
+      }
   },
   filters: {
     ellipsis (value) {
@@ -734,7 +711,6 @@ export default {
   },
   mounted () {
       this.content = this.$route.params.content
-      this.weightnet = this.$route.params.content
       this.series = this.mockdata[0].series
       this.xdata = this.mockdata[0].xdata
   }
@@ -742,19 +718,18 @@ export default {
 </script>
 
 <style lang="less" scoped>
-    .websiteValue_banner{background:#f5f6f9;height: 220px;width: 100%;}
-    .websiteValue_banner_contain{width: 840px;margin: 0 auto;text-align: center;color: #666;}
-    .websiteValue_banner_title{font-size: 48px;padding-top: 105px;}
-    .websiteValue_banner_title2{font-size: 26px;padding-top: 42px;color:#333;}
-    .websiteValue_banner_input1{width: 100%;height: 50px;border-radius: 4px;border: none;outline: none;text-indent: 20px;}
-    .websiteValue_banner_input{position: relative;margin-top: 28px;}
-    .websiteValue-search{position: absolute;right: 0;width: 30px;height: 30px;top: 0;margin: 10px 0;border-left: 1px solid #f5f5f5;padding: 0 20px;cursor: pointer;}
-    .websiteValue_banner_ul li{float: left;padding-left: 16px;}
-    .websiteValue_banner_ul li a{color: #666;font-size: 14px;}
-    .websiteValue_banner_ul_title{float: left;}
     .bg_gray{
       background: #fafafa;
       color: #808080;
+    }
+    .cha_default{
+      width: 1200px;
+      margin: 0 auto;
+      padding: 130px 0 130px;
+      color: #d3d3d3;
+      letter-spacing: 2px;
+      font-size: 30px;
+      text-align: center;
     }
     .seo_main_content{
       width: 1200px;

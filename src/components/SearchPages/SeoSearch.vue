@@ -85,7 +85,7 @@
           </li>
         </ul>
       </div>
-      <!-- 第一表格 -->
+      <!-- 表格 -->
       <div class="table_content_1st">
         <table width="1200px">
           <tr>
@@ -109,7 +109,7 @@
         </table>
       </div>
       <!-- 第一块广告位 -->
-      <div class="advertise_box1">
+      <div class="advertise_box">
         <img v-for="advs in advpic" :src='require(`../../assets/${advs}.png`)'>
       </div>
       <!-- 第二表格 -->
@@ -138,7 +138,7 @@
           </tr>
         </table>
       </div>
-      <!-- 主体第二块百度关键词 -->
+      <!-- 百度关键词 -->
       <div class="echarts_container">
         <div class="echarts_title">
           <span class="echarts_title_name">百度关键词</span>
@@ -149,7 +149,7 @@
           <span class="echarts_days" :class="{ days_blue:dayschange == '2'}" @click="ChangeDays('2')">3个月</span>
         </div>
         <div class="echarts_main">
-          <table width="1200px">
+          <table width="1200px" class="bn_right">
             <tr>
               <td class="bg_gray bn_top bn_left"><span class="e_blue"></span>前10名</td>
               <td class="bg_gray bn_top"><span class="e_green"></span>前20名</td>
@@ -158,14 +158,14 @@
               <td class="bg_gray bn_top bn_right"><span class="e_purple"></span>前50名</td>
             </tr>
             <tr>
-              <td>2387</td>
+              <td class="bn_left">2387</td>
               <td>2387</td>
               <td>2387</td>
               <td>2387</td>
               <td>2387</td>
             </tr>
           </table>
-          <!-- 第一图表 -->
+          <!-- 图表 -->
           <LineCharts
           :xdata="xdata"
           :option="series"
@@ -224,10 +224,10 @@
         </div>
       </div>
       <!-- 第二块广告位 -->
-      <div class="advertise_box1">
+      <div class="advertise_box">
         <img v-for="advs in advpic" :src='require(`../../assets/${advs}.png`)'>
       </div>
-      <!-- 第三块来路关键词 -->
+      <!-- 来路关键词 -->
       <div class="echarts_container">
         <div class="echarts_title">
           <span class="echarts_title_name">来路关键词</span>
@@ -314,14 +314,14 @@
           <span class="echarts_days" :class="{ days_blue:dayschange == '2'}" @click="ChangeDays('2')">3个月</span>
         </div>
         <div class="echarts_main">
-          <table width="1200px">
+          <table width="1200px" class="bn_right">
             <tr>
-              <td class="bg_gray">今日</td>
-              <td class="bg_gray">一周</td>
-              <td class="bg_gray">一月</td>
+              <td class="bg_gray bn_top bn_left">今日</td>
+              <td class="bg_gray bn_top">一周</td>
+              <td class="bg_gray bn_top">一月</td>
             </tr>
             <tr>
-              <td>2387</td>
+              <td class="bn_left">2387</td>
               <td>2387</td>
               <td>2387</td>
             </tr>
@@ -440,16 +440,16 @@
           <span class="echarts_title_name">ALEXA趋势信息</span>
         </div>
         <div class="echarts_main">
-          <table width="1200px">
+          <table width="1200px" class="bn_right">
             <tr>
-              <td class="bg_gray">综合排名</td>
-              <td class="bg_gray">当日排名</td>
-              <td class="bg_gray">一周排名</td>
-              <td class="bg_gray">一月排名</td>
-              <td class="bg_gray">三月排名</td>
+              <td class="bg_gray bn_top bn_left">综合排名</td>
+              <td class="bg_gray bn_top">当日排名</td>
+              <td class="bg_gray bn_top">一周排名</td>
+              <td class="bg_gray bn_top">一月排名</td>
+              <td class="bg_gray bn_top">三月排名</td>
             </tr>
             <tr>
-              <td>2387</td>
+              <td class="bn_left">2387</td>
               <td>2387</td>
               <td>2387</td>
               <td>2387</td>
@@ -468,6 +468,74 @@
           </div>
         </div>
       </div>
+      <!-- 相关域名 -->
+      <div class="echarts_container">
+        <div class="echarts_title">
+          <span class="echarts_title_name">相关域名</span>
+          <span class="echarts_title_first" :class="{ color_blue:related_net == '0'}" @click="ChangeNet('0')">子域名</span>
+          <span class="echarts_title_first" :class="{ color_blue:related_net == '1'}" @click="ChangeNet('1')">同IP网站</span>
+          <span class="echarts_title_first" :class="{ color_blue:related_net == '2'}" @click="ChangeNet('2')">网站反链</span>
+        </div>
+        <div class="echarts_main keyword_container_5th">
+          <table width="1200px">
+            <tr>
+              <td class="bg_gray"><i>17316</i> 个相关子域名</td>
+            </tr>
+            <tr>
+              <td>
+                <ul class="clearfix">
+                  <li  v-for="items in hotsearch"><a>{{items}}</a></li>
+                  <li  v-for="items in hotsearch"><a>{{items}}</a></li>
+                </ul>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <!-- 服务器信息 -->
+      <div class="echarts_container">
+        <div class="echarts_title keyword_title_2nd">
+          <span class="echarts_title_name">服务器信息</span>
+        </div>
+        <div class="echarts_main keyword_container_6th">
+          <table width="1200px">
+            <tr>
+              <td class="bg_gray">IP：</td>
+              <td>220.181.56.216</td>
+              <td class="bg_gray">经度：</td>
+              <td>116.3883</td>
+            </tr>
+            <tr>
+              <td class="bg_gray">纬度：</td>
+              <td>39.9289</td>
+              <td class="bg_gray">托管地址：</td>
+              <td>China Beijing</td>
+            </tr>
+            <tr>
+              <td  class="bg_gray">所在地址：</td>
+              <td>北京市电信</td>
+              <td class="bg_gray"></td>
+              <td></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <!-- 底部广告位 -->
+      <div class="advertise_box bottom_adv">
+        <img v-for="advs in advpic" :src='require(`../../assets/${advs}.png`)'>
+      </div>
+    </div>
+    <!-- 底部最近查询 -->
+    <div class="recent_search">
+      <div class="recent_search_box">
+        <p>最近查询</p>
+        <ul class="clearfix">
+          <li  v-for="items in hotsearch"><a>{{items}}</a></li>
+          <li  v-for="items in hotsearch"><a>{{items}}</a></li>
+          <li  v-for="items in hotsearch"><a>{{items}}</a></li>
+          <li  v-for="items in hotsearch"><a>{{items}}</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -485,6 +553,7 @@ export default {
       weightnet:"",
       equipchange:'0',
       dayschange:"0",
+      related_net:"0",
       xdata:[],
       xdata2:['04-02','04-03','-04-04','04-05','04-06','04-07','04-08','04-09'],
       series: [],
@@ -642,6 +711,9 @@ export default {
         this.dayschange = days
         this.series = this.mockdata[days].series
         this.xdata = this.mockdata[days].xdata
+      },
+      ChangeNet (net) {
+        this.related_net = net
       },
       getlist () {
          this.$http.get('')
@@ -803,16 +875,18 @@ export default {
     .echarts_main table{
       .bn_top{border-top: none}
       .bn_left{border-left: none}
-      .bn_right{border-right: none}
     }
     .table_content_2nd table td,.echarts_main table td{
       width: 239px;
       height: 60px;
     }
-    .advertise_box1{
+    .advertise_box{
       display:flex;
       justify-content: space-between;
       margin-bottom: 20px;
+    }
+    .bottom_adv{
+      margin-bottom: 60px;
     }
     .echarts_title{
       padding: 10px 0 20px 0;
@@ -862,6 +936,7 @@ export default {
       height: auto;
       border: 1px solid #ebebeb;
       padding-bottom: 20px;
+      .bn_right{border-right: none;}
     }
     .echarts_main table td span{
       display: inline-block;
@@ -916,6 +991,42 @@ export default {
         }
       }
     }
+    .keyword_container_5th{
+      border: none;
+      padding-bottom: 0;
+      table{
+        tr{
+          td{
+            text-align: left;
+            padding: 0 3% 0 3%;
+            line-height: 32px;
+            i{color:#ec1f37}
+            ul{
+              padding: 20px 0;
+              li{
+                float: left;
+                margin-right: 20px;
+                a{cursor: pointer;color: #666;}
+                a:hover{color: #007bb7;}
+              }
+            }
+          }
+        }
+      }
+    }
+    .keyword_container_6th{
+      border: none;
+      padding-bottom: 0;
+      table{
+        tr{
+          td{text-align: left;padding: 0 3% 0 3%;line-height: 32px;}
+          td:first-child{width:20%;border-right: none;}
+          td:nth-child(2){width:30%;border-left: none;}
+          td:nth-child(3){width:20%;border-left: none;}
+          td:last-child{border-left: none;}
+        }
+      }
+    }
     .keyword_container_3rd{
       border: none;
       height: auto;
@@ -946,5 +1057,32 @@ export default {
       margin-top: 50px;
       p{margin-bottom: 30px}
       div{float: left;width: 46%;margin-left: 4%}
+    }
+    .recent_search{
+      width: 100%;
+      background:#f5f6f9;
+      height: 220px;
+      .recent_search_box{
+        width:1200px;
+        margin: 0 auto;
+        p{
+          font-size: 16px;
+          color: #333;
+          padding: 40px 0 10px 0;
+        }
+        ul{
+          line-height: 32px;
+          li{
+            float: left;
+            margin-right: 10px;
+            a{
+              color: #666;
+              font-size: 12px;
+              cursor: pointer;
+            }
+            a:hover{color: #007bb7;}
+          }
+        }
+      }
     }
 </style>

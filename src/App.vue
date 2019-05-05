@@ -65,6 +65,9 @@ export default {
   a:hover {
     color: #007bb7;
   }
+  .color_blue{
+      color: #008abd;
+  }
   input,
   select,
   div:hover,

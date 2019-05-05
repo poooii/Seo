@@ -884,9 +884,6 @@ export default {
     .echarts_title_3rd{
       margin-right: 698px;
     }
-    .color_blue{
-      color: #008abd;
-    }
     .echarts_days{
       display: inline-block;
       width: 56px;

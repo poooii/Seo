@@ -4,6 +4,7 @@ import Home from '@/components/Home'
 import Searchs from '../components/Searchs'
 import NotFound from '../components/BaseComponents/NotFound'
 import SeoSearch from '../components/SearchPages/SeoSearch'
+import BaiduWeight from '../components/SearchPages/BaiduWeight'
 
 Vue.use(Router)
 
@@ -24,6 +25,11 @@ export default new Router({
             path:'/',
             name:'SeoSearch',
             component:SeoSearch,
+          },
+          {
+            path:'baiduweight',
+            name:'BaiduWeight',
+            component:BaiduWeight,
           }
         ]
     },

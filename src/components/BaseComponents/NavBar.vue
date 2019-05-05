@@ -10,8 +10,8 @@
         <li class="websiteValue_top_ul_up" v-for="menu in menus" @mouseenter="changeActive($event)" @mouseleave="removeActive($event)">
           {{menu.name}}
           <ul class="websiteValue_top_ul_next" hidden>
-            <li v-for="details in menu.details">
-              <a href="javascript:void(0);">{{details}}</a>
+            <li v-for="itmes in menu.details">
+              <router-link :to="{ name: itmes.links,params:{content:''} }">{{itmes.name}}</router-link>
             </li>
           </ul>
         </li>
@@ -38,23 +38,55 @@ export default {
       "menus":[
         {
           name:'SEO常用工具',
-          details:['网站价值评估','收录历史查询工具','网页源代码查看','备案查询','HTTP状态查询',
-          '网页死链检测','源代码查看','关键词密度检测','内页收录查询','网站速度测试']
+          details:[
+            {name:'SEO综合查询',links:'SeoSearch'},
+            {name:'百度权重',links:'BaiduWeight'},
+            {name:'备案查询',links:'SeoSearch'},
+            {name:'HTTP状态查询',links:'SeoSearch'},
+            {name:'源代码查看',links:'SeoSearch'},
+            {name:'关键词密度检测',links:'SeoSearch'},
+            {name:'内页收录查询',links:'SeoSearch'},
+            {name:'网站速度测试',links:'SeoSearch'},
+          ]
         },
         {
           name:'搜索优化工具',
-          details:['网站价值评估','收录历史查询工具','网页源代码查看','备案查询','HTTP状态查询',
-          '网页死链检测','源代码查看','关键词密度检测','内页收录查询','网站速度测试']
+          details:[
+              {name:'SEO综合查询',links:'SeoSearch'},
+              {name:'百度权重',links:'BaiduWeight'},
+              {name:'备案查询',links:'SeoSearch'},
+              {name:'HTTP状态查询',links:'SeoSearch'},
+              {name:'源代码查看',links:'SeoSearch'},
+              {name:'关键词密度检测',links:'SeoSearch'},
+              {name:'内页收录查询',links:'SeoSearch'},
+              {name:'网站速度测试',links:'SeoSearch'},
+          ]
         },
         {
           name:'域名/IP查询',
-          details:['网站价值评估','收录历史查询工具','网页源代码查看','备案查询','HTTP状态查询',
-          '网页死链检测','源代码查看','关键词密度检测','内页收录查询','网站速度测试']
+          details:[
+            {name:'SEO综合查询',links:'SeoSearch'},
+            {name:'百度权重',links:'BaiduWeight'},
+            {name:'备案查询',links:'SeoSearch'},
+            {name:'HTTP状态查询',links:'SeoSearch'},
+            {name:'源代码查看',links:'SeoSearch'},
+            {name:'关键词密度检测',links:'SeoSearch'},
+            {name:'内页收录查询',links:'SeoSearch'},
+            {name:'网站速度测试',links:'SeoSearch'},
+          ]
         },
         {
           name:'其他工具',
-          details:['网站价值评估','收录历史查询工具','网页源代码查看','备案查询','HTTP状态查询',
-          '网页死链检测','源代码查看','关键词密度检测','内页收录查询','网站速度测试']
+          details:[
+            {name:'SEO综合查询',links:'SeoSearch'},
+            {name:'百度权重',links:'BaiduWeight'},
+            {name:'备案查询',links:'SeoSearch'},
+            {name:'HTTP状态查询',links:'SeoSearch'},
+            {name:'源代码查看',links:'SeoSearch'},
+            {name:'关键词密度检测',links:'SeoSearch'},
+            {name:'内页收录查询',links:'SeoSearch'},
+            {name:'网站速度测试',links:'SeoSearch'},
+          ]
         }
       ]
     };

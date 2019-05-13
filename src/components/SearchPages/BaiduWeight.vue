@@ -48,9 +48,17 @@
           </li>
         </ul>
       </div>
+      <!-- 折线图 -->
       <div class="chart_container">
         <div class="title_container">
-          
+          <span class="color_line_blue">总关键词</span>
+          <span>预计来路</span>
+          <span>权重</span>
+          <span>收录</span>
+          <span>索引</span>
+          <span class="fr"><i class="eyellow"></i>总量</span>
+          <span class="fr"><i class="eblue"></i>移动端</span>
+          <span class="fr"><i class="egreen"></i>PC端</span>
         </div>
         <LineCharts
           :xdata="xdata"
@@ -58,6 +66,17 @@
           :styl="{width: '1140px', height: '340px'}"
           id="keywordChart">
         </LineCharts>
+      </div>
+      <div class="chart_container related_name">
+        <div class="title_container">
+          <span>相关子域名</span>
+        </div>
+        <ul class="clearfix related_name_box">
+          <li  v-for="items in hotsearch"><a>{{items}}</a></li>
+          <li  v-for="items in hotsearch"><a>{{items}}</a></li>
+          <li  v-for="items in hotsearch"><a>{{items}}</a></li>
+          <li  v-for="items in hotsearch"><a>{{items}}</a></li>
+        </ul>
       </div>
     </div>
   </div>
@@ -80,6 +99,7 @@ export default {
       equipchange:'0',
       dayschange:"0",
       related_net:"0",
+      hotsearch:['po188.com','www.hj135.com','jiaofu.cn','riyiseo.com','shuadan.cn','caoping6s.cn','014121.cn'],
       xdata:[],
       xdata2:['04-02','04-03','-04-04','04-05','04-06','04-07','04-08','04-09'],
       series: [],
@@ -253,7 +273,7 @@ export default {
             margin-left: 90px;
           }
         }
-        margin: 28px 0 20px 0;
+        margin: 28px 0 0 0;
         color: #999;
         font-size: 16px;
       .weight_details{
@@ -272,11 +292,61 @@ export default {
       }
     }
     .chart_container{
+      color: #666;
+      margin-top: 20px;
       height: 430px;
       border: 1px solid #ebebeb;
+      .related_name_box{
+          line-height: 32px;
+          padding: 0 36px;
+          li{
+            float: left;
+            margin-right: 15px;
+            a{
+              color: #666;
+              font-size: 12px;
+              cursor: pointer;
+            }
+            a:hover{color: #007bb7;}
+          }
+        }
       .title_container{
         height: 60px;
         background: #fafafa;
+        span{
+            display: inline-block;
+            height: 60px;
+            line-height: 60px;
+            margin-left: 36px;
+            cursor: pointer;
+            i{
+              display: inline-block;
+              width: 16px;
+              height: 16px;
+              border-radius: 2px;
+              margin-right: 8px;
+              vertical-align: -2px;
+            }
+        }
+        span:nth-child(6){
+          margin-right: 36px;
+        }
       }
+    }
+    .color_line_blue{
+      border-bottom: 2px solid #2aa0ea;
+      color: #2aa0ea;
+    }
+    .eblue{
+      background: @echartsBlue
+    }
+    .egreen{
+      background: @echartsGreen
+    }
+    .eyellow{
+      background: @echartsYellow
+    }
+    .related_name{
+      height: 180px;
     }
 </style>

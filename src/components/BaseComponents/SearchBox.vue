@@ -54,7 +54,8 @@ export default {
         }
     },
     mounted() {
-        this.SeoContent=this.$route.params.content
+        let storage=window.localStorage;
+        this.SeoContent=storage.searchContent
     },
 }
 </script>

@@ -79,6 +79,8 @@ export default {
   },
   methods:{
     tosearch() {
+      let storage=window.localStorage;
+      storage.setItem("searchContent",this.content);
       this.$router.push({
         name:"SeoSearch",
         params:{
@@ -86,7 +88,7 @@ export default {
         }
       })
     }
-  }
+  },
 }
 </script>
 

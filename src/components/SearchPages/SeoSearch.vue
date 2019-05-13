@@ -503,7 +503,7 @@
         <img v-for="advs in advpic" :src='require(`../../assets/${advs}.png`)'>
       </div>
     </div>
-    <!-- 底部最近查询 -->
+    <!-- 最近查询 -->
     <div class="recent_search">
       <div class="recent_search_box">
         <p>最近查询</p>
@@ -697,7 +697,9 @@ export default {
         this.related_net = net
       },
       getMsg (data) {
-        this.content=data
+         let storage=window.localStorage;
+         storage.setItem("searchContent",data);
+        this.content=storage.searchContent
       }
   },
   filters: {
@@ -710,7 +712,8 @@ export default {
     }
   },
   mounted () {
-      this.content = this.$route.params.content
+      let storage=window.localStorage;
+      this.content = storage.searchContent
       this.series = this.mockdata[0].series
       this.xdata = this.mockdata[0].xdata
   }

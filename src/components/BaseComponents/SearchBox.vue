@@ -54,7 +54,7 @@ export default {
         }
     },
     mounted() {
-        let storage=window.localStorage;
+        let storage=window.sessionStorage;
         this.SeoContent=storage.searchContent
     },
 }

@@ -697,7 +697,7 @@ export default {
         this.related_net = net
       },
       getMsg (data) {
-         let storage=window.localStorage;
+         let storage=window.sessionStorage;
          storage.setItem("searchContent",data);
         this.content=storage.searchContent
       }
@@ -712,7 +712,7 @@ export default {
     }
   },
   mounted () {
-      let storage=window.localStorage;
+      let storage=window.sessionStorage;
       this.content = storage.searchContent
       this.series = this.mockdata[0].series
       this.xdata = this.mockdata[0].xdata

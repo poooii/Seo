@@ -79,7 +79,7 @@ export default {
   },
   methods:{
     tosearch() {
-      let storage=window.localStorage;
+      let storage=window.sessionStorage;
       storage.setItem("searchContent",this.content);
       this.$router.push({
         name:"SeoSearch",

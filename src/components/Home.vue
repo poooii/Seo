@@ -74,7 +74,7 @@ export default {
   data () {
     return {
       content:"",
-      hotsearch:['po188.com','www.hj135.com','jiaofu.cn','riyiseo.com','shuadan.cn','caoping6s.cn','014121.cn'],
+      hotsearch:['po188.com','www.hj135.com','jiaofu.cn','riyiseo.com','shuadan.cn','caoping6s.cn','014121.cn']
     }
   },
   methods:{
@@ -82,10 +82,7 @@ export default {
       let storage=window.sessionStorage;
       storage.setItem("searchContent",this.content);
       this.$router.push({
-        name:"SeoSearch",
-        params:{
-        content:this.content
-        }
+        name:"SeoSearch"
       })
     }
   },

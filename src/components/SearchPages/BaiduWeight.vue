@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 头部搜索框 -->
-    <SearchBox :hotsearch="hotsearch" :title="title" @msgToSearch="getMsg"></SearchBox>
+    <SearchBox :hotsearch="hotsearch" :content="content" :title="title" @msgToSearch="getMsg"></SearchBox>
     <div class="cha_default" v-if="content==''||content==undefined">请输入要查询的站点</div>
     <div class="baidu_main_content" v-if="!content==''">
       <div class="content_title">
@@ -207,31 +207,188 @@
         </table>
       </div>
       <!-- 排名趋势echarts -->
-      <div class="chart_container">
+      <div class="chart_container clearfix">
         <div class="title_container">
-          <span class="color_line_blue">总关键词</span>
-          <span>预计来路</span>
-          <span>权重</span>
-          <span>收录</span>
-          <span>索引</span>
-          <span class="fr">
-            <i class="eyellow"></i>总量
-          </span>
-          <span class="fr">
-            <i class="eblue"></i>移动端
-          </span>
-          <span class="fr">
-            <i class="egreen"></i>PC端
-          </span>
+          <span>排名趋势</span>
+          <span
+            class="fr echarts_days"
+            :class="{ days_blue:dayschange == '2'}"
+            @click="ChangeDays('2')"
+            style="margin-right:20px"
+          >3个月</span>
+          <span
+            class="fr echarts_days"
+            :class="{ days_blue:dayschange == '1'}"
+            @click="ChangeDays('1')"
+          >30天</span>
+          <span
+            class="fr echarts_days"
+            :class="{ days_blue:dayschange == '0'}"
+            @click="ChangeDays('0')"
+          >7天</span>
         </div>
         <LineCharts
           :xdata="xdata"
           :option="series"
-          :styl="{width: '800px', height: '340px'}"
+          :styl="{width: '800px', height: '340px',float:'left'}"
           id="keywordChart2"
         ></LineCharts>
-        <circleCharts :styl="{width: '400px', height: '400px'}" id="circleChart" :option="cseries"></circleCharts>
+        <circleCharts
+          :styl="{width: '320px', height: '320px',float:'left'}"
+          id="circleChart"
+          :option="cseries"
+        ></circleCharts>
       </div>
+      <!-- 平台数据 -->
+      <div class="commerce_box">
+        <div class="commerce_title">
+          <span class="commerce_title_name">平台</span>
+          <span class="commerce_title_first color_blue">PC端</span>
+          <span>移动端</span>
+        </div>
+        <div class="chart_container" style="padding:0">
+          <div class="title_container">
+            <span class="color_line_blue">涨入关键词</span>
+            <span>跌出关键词</span>
+          </div>
+          <table width="1200px" class="commerce_table">
+            <tr>
+              <td>关键词</td>
+              <td>搜索量</td>
+              <td>新排名</td>
+              <td>旧排名</td>
+            </tr>
+            <tr>
+              <td>申通快递单号查询</td>
+              <td>122,100</td>
+              <td>第16名</td>
+              <td>无排名</td>
+            </tr>
+            <tr>
+              <td>直播吧</td>
+              <td>122,100</td>
+              <td>第16名</td>
+              <td>无排名</td>
+            </tr>
+            <tr>
+              <td>成人版抖音app</td>
+              <td>122,100</td>
+              <td>第16名</td>
+              <td>无排名</td>
+            </tr>
+            <tr>
+              <td>直播吧</td>
+              <td>122,100</td>
+              <td>第16名</td>
+              <td>无排名</td>
+            </tr>
+            <tr>
+              <td>直播吧</td>
+              <td>122,100</td>
+              <td>第16名</td>
+              <td>无排名</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+        <div class="chart_container" style="padding:0;margin-bottom:60px">
+          <div class="title_container">
+            <span class="color_line_blue">/</span>
+            <span>mipd</span>
+            <span>company</span>
+            <span>z</span>
+            <span>n</span>
+            <span>x</span>
+          </div>
+          <table width="1200px" class="commerce_detail_table">
+            <tr>
+              <td>关键词</td>
+              <td>排名</td>
+              <td>（PC）搜索量</td>
+              <td>收录量</td>
+              <td>网页标题</td>
+            </tr>
+            <tr>
+              <td>申通快递单号查询</td>
+              <td>第1页第1位</td>
+              <td>13</td>
+              <td>18，000</td>
+              <td>APP下载乐视视频安卓...</td>
+            </tr>
+            <tr>
+              <td>直播吧</td>
+              <td>第1页第1位</td>
+              <td>13</td>
+              <td>18，000</td>
+              <td>APP下载乐视视频安卓...</td>
+            </tr>
+            <tr>
+              <td>成人版抖音app</td>
+              <td>第1页第1位</td>
+              <td>13</td>
+              <td>18，000</td>
+              <td>APP下载乐视视频安卓...</td>
+            </tr>
+            <tr>
+              <td>直播吧</td>
+              <td>第1页第1位</td>
+              <td>13</td>
+              <td>18，000</td>
+              <td>APP下载乐视视频安卓...</td>
+            </tr>
+            <tr>
+              <td>直播吧</td>
+              <td>第1页第1位</td>
+              <td>13</td>
+              <td>18，000</td>
+              <td>APP下载乐视视频安卓...</td>
+            </tr>
+            <tr>
+              <td>直播吧</td>
+              <td>第1页第1位</td>
+              <td>13</td>
+              <td>18，000</td>
+              <td>APP下载乐视视频安卓...</td>
+            </tr>
+            <tr>
+              <td>直播吧</td>
+              <td>第1页第1位</td>
+              <td>13</td>
+              <td>18，000</td>
+              <td>APP下载乐视视频安卓...</td>
+            </tr>
+            <tr>
+              <td>直播吧</td>
+              <td>第1页第1位</td>
+              <td>13</td>
+              <td>18，000</td>
+              <td>APP下载乐视视频安卓...</td>
+            </tr>
+            <tr>
+              <td>直播吧</td>
+              <td>第1页第1位</td>
+              <td>13</td>
+              <td>18，000</td>
+              <td>APP下载乐视视频安卓...</td>
+            </tr>
+            <tr>
+              <td>直播吧</td>
+              <td>第1页第1位</td>
+              <td>13</td>
+              <td>18，000</td>
+              <td>APP下载乐视视频安卓...</td>
+            </tr>
+          </table>
+          <div class="page_box">
+            <span><</span>
+            <span v-for="num in 10">{{num}}</span>
+            <span>...</span>
+            <span>50</span>
+            <span>></span>
+          </div>
+        </div>
+      </div>
+    <NearlySearch @msgNearlysearch="getNearly"></NearlySearch>
     </div>
   </div>
 </template>
@@ -240,21 +397,21 @@
 import LineCharts from "../Echarts/line";
 import circleCharts from "../Echarts/circle";
 import SearchBox from "../BaseComponents/SearchBox";
+import NearlySearch from '../BaseComponents/NearlySearch'
 export default {
   name: "BaiduWeight",
   components: {
     LineCharts,
     SearchBox,
-    circleCharts
+    circleCharts,
+    NearlySearch
   },
   data() {
     return {
       title: "百度权重",
       content: "",
       SeoContent: "",
-      equipchange: "0",
       dayschange: "0",
-      related_net: "0",
       hotsearch: [
         "po188.com",
         "www.hj135.com",
@@ -280,7 +437,7 @@ export default {
         {
           name: "访问来源",
           type: "pie",
-          radius: ["25%","55%"],
+          radius: ["25%", "55%"],
           center: ["50%", "50%"],
           data: [
             { value: 10.76, name: "第一页" },
@@ -297,7 +454,7 @@ export default {
             }
           },
           label: {
-            formatter: '{b}\n{d}%'
+            formatter: "{b}\n\n{d}%"
           }
         }
       ],
@@ -428,16 +585,8 @@ export default {
     };
   },
   methods: {
-    ChangeEquip(equip) {
-      this.equipchange = equip;
-      this.dayschange = "0";
-      this.series = this.mockdata[equip].series;
-      this.xdata = this.mockdata[equip].xdata;
-    },
     ChangeDays(days) {
       this.dayschange = days;
-      this.series = this.mockdata[days].series;
-      this.xdata = this.mockdata[days].xdata;
     },
     ChangeNet(net) {
       this.related_net = net;
@@ -446,6 +595,12 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+    },
+    getNearly(msg) {
+      let storage=window.sessionStorage;
+      storage.setItem("searchContent",msg);
+      this.content=storage.searchContent
+      window.scrollTo(0,0);
     }
   },
   mounted() {
@@ -543,11 +698,14 @@ export default {
   .title_container {
     height: 60px;
     background: #fafafa;
+    border-bottom: 1px solid #ebebeb;
     span {
       display: inline-block;
       height: 60px;
       line-height: 60px;
       margin-left: 36px;
+      min-width: 30px;
+      text-align: center;
       cursor: pointer;
       i {
         display: inline-block;
@@ -561,10 +719,88 @@ export default {
     span:nth-child(6) {
       margin-right: 36px;
     }
+    .echarts_days {
+      display: inline-block;
+      width: 56px;
+      height: 28px;
+      line-height: 28px;
+      text-align: center;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      margin-left: 5px;
+      margin-top: 15px;
+    }
+    .days_blue {
+      color: #fff;
+      background: #008abd;
+      border-color: #008abd;
+    }
+  }
+  .commerce_table {
+    tr:first-child td {
+      border-bottom: 1px solid #ebebeb;
+      color: #666;
+    }
+    td {
+      height: 60px;
+      width: 25%;
+      text-align: center;
+    }
+    td:first-child {
+      border-right: 1px solid #ebebeb;
+      background: #fafafa;
+      text-align: left;
+      padding-left: 36px;
+      width: 20%;
+    }
+    td:nth-child(3) {
+      color: #fc9a30;
+    }
+  }
+  .commerce_detail_table {
+    border-bottom: 1px solid #ebebeb;
+    tr:first-child td {
+      border-bottom: 1px solid #ebebeb;
+      color: #666;
+    }
+    td {
+      height: 60px;
+      width: 18%;
+      text-align: center;
+    }
+    td:first-child {
+      border-right: 1px solid #ebebeb;
+      background: #fafafa;
+      text-align: left;
+      padding-left: 36px;
+      width: 20%
+    }
+    td:last-child{
+      width: 26%;
+    }
+    td:nth-child(2) {
+      color: #2aa0ea;
+    }
+  }
+  .page_box{
+    width: 100%;
+    height: 60px;
+    text-align: right;
+    span{
+      display: inline-block;
+      height: 60px;
+      line-height: 60px;
+      margin-right: 24px;
+      cursor: pointer;
+    }
   }
 }
 .color_line_blue {
   border-bottom: 2px solid #2aa0ea;
+  color: #2aa0ea;
+}
+.color_blue {
   color: #2aa0ea;
 }
 .eblue {
@@ -620,6 +856,25 @@ export default {
     position: relative;
     margin-right: 5px;
     bottom: 12px;
+  }
+}
+.commerce_box {
+  margin-top: 20px;
+  .commerce_title {
+    padding: 10px 0 20px 0;
+    border-bottom: 1px solid #ebebeb;
+    margin-bottom: 20px;
+    span {
+      cursor: pointer;
+    }
+    .commerce_title_name {
+      font-size: 24px;
+      margin-right: 36px;
+      cursor: default;
+    }
+    .commerce_title_first {
+      margin-right: 36px;
+    }
   }
 }
 </style>

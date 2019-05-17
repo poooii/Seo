@@ -1,17 +1,17 @@
 <template>
   <div class="websiteValue_top">
     <div class="websiteValue_top_contain">
-      <img src="../../assets/17chalogo.png" alt class="websiteValue_top_logo">
+      <img src="../../assets/17chalogo.png" alt class="websiteValue_top_logo" @click="goToIndex">
       <ul class="websiteValue_top_ul">
-        <li class="websiteValue_top_nostyle">
-          <router-link to="/">首页</router-link>
+        <li class="websiteValue_top_nostyle" @click="changeIndexZero">
+          <router-link :class="{websiteValue_top_on:navIndex == '0'}" to="/">首页</router-link>
         </li>
 
-        <li class="websiteValue_top_ul_up" v-for="menu in menus" @mouseenter="changeActive($event)" @mouseleave="removeActive($event)">
+        <li :class="{websiteValue_top_ul_up:true,nav_active:navIndex == index+1,websiteValue_top_hover:navBgIndex ==index+1}" v-for="(menu,index) in menus"  @click="changeNavBg(index)" @mouseenter="changeActive(index)" @mouseleave="removeActive(index)">
           {{menu.name}}
           <ul class="websiteValue_top_ul_next" hidden>
             <li v-for="itmes in menu.details">
-              <router-link :to="{ name: itmes.links,params:{content:''} }">{{itmes.name}}</router-link>
+              <router-link tag="a" :to="{ name: itmes.links,params:{content:''} }">{{itmes.name}}</router-link>
             </li>
           </ul>
         </li>
@@ -35,7 +35,9 @@ export default {
   name: "NavBar",
   data() {
     return {
-      "menus":[
+      navIndex:0,
+      navBgIndex:null,
+      menus:[
         {
           name:'SEO常用工具',
           details:[
@@ -92,11 +94,22 @@ export default {
     };
   },
   methods:{
-    changeActive($event){
-        $event.currentTarget.className = 'websiteValue_top_ul_up websiteValue_top_hover';
+    changeActive(index){
+        this.navBgIndex=index+1
     },
-    removeActive($event){
-        $event.currentTarget.className = 'websiteValue_top_ul_up';
+    removeActive(index){
+        this.navBgIndex=null
+    },
+    changeNavBg(index) {
+      this.navIndex=index+1
+    },
+    changeIndexZero() {
+      this.navIndex=0
+    },
+    goToIndex() {
+      this.$router.push({
+        name:"Home",
+      })
     }
   }
 };
@@ -120,6 +133,7 @@ export default {
   width: 200px;
   height: 57px;
   float: left;
+  cursor: pointer;
 }
 .websiteValue_top_ul > li {
   float: left;
@@ -163,7 +177,11 @@ export default {
   width: 50%;
   line-height: 28px;
 }
-
+.websiteValue_top_ul_next a{
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
 .websiteValue_top_hover {
   color: #008abd !important;
   border-top: 3px solid #008abd !important;
@@ -189,5 +207,8 @@ export default {
   font-size: 14px;
   color: #008abd;
   padding-right: 10px;
+}
+.websiteValue_top_ul .nav_active{
+  color: #008abd;
 }
 </style>

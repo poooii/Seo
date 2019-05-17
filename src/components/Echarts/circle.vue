@@ -5,6 +5,9 @@
 <script>
 export default {
   name: "echarts-circle",
+  data (){
+    return{}
+  },
   props: {
     id: {
       type: String

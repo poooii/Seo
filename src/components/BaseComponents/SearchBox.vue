@@ -34,8 +34,9 @@
 export default {
     name: "SearchBox",
     props:{
-        hotsearch:{},
-        title:{},
+        hotsearch:{type: Array},
+        title:{type: String},
+        content:{type: String}
     },
     data () {
         return{
@@ -53,6 +54,14 @@ export default {
             this.$emit("msgToSearch",this.SeoContent)
         }
     },
+    watch: {
+    content: {
+      handler(newVal, oldVal) {
+        this.SeoContent=newVal
+      },
+      deep: true
+    }
+  },
     mounted() {
         let storage=window.sessionStorage;
         this.SeoContent=storage.searchContent

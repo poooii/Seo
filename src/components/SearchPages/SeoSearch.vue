@@ -218,6 +218,7 @@
           <!-- 图表 -->
           <LineCharts
             :xdata="xdata"
+            :showxis="showxis"
             :option="series"
             :styl="{width: '1140px', height: '340px'}"
             id="keywordChart"
@@ -407,6 +408,7 @@
           <!-- 第二图表 -->
           <LineCharts
             :xdata="xdata2"
+            :showxis="showxis"
             :option="series2"
             :styl="{width: '1140px', height: '340px'}"
             id="keywordChart2"
@@ -652,6 +654,7 @@ export default {
   },
   data() {
     return {
+      showxis:true,
       title: "SEO综合查询",
       content: "",
       SeoContent: "",
@@ -888,6 +891,7 @@ export default {
   },
   mounted() {
     let storage = window.sessionStorage;
+    storage.setItem("navIndex", '1');
     this.content = storage.searchContent;
     this.series = this.mockdata[0].series;
     this.xdata = this.mockdata[0].xdata;

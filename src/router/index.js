@@ -6,6 +6,7 @@ import NotFound from '../components/BaseComponents/NotFound'
 import SeoSearch from '../components/SearchPages/SeoSearch'
 import BaiduWeight from '../components/SearchPages/BaiduWeight'
 import WeightDetail from '../components/SearchPages/WeightDetail'
+import HistoryData from '../components/SearchPages/HistoryData'
 
 Vue.use(Router)
 
@@ -36,6 +37,11 @@ export default new Router({
             path:'weightdetail',
             name:'WeightDetail',
             component:WeightDetail,
+          },
+          {
+            path:'historydata',
+            name:'HistoryData',
+            component:HistoryData,
           }
         ]
     },

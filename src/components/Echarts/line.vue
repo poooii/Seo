@@ -18,7 +18,12 @@ export default {
     xdata: {
         type: Array
     },
-    styl: Object
+    styl: {
+      type: Object
+    },
+    showxis: {
+      type:Boolean
+    }
     
   },
   mounted() {
@@ -47,6 +52,7 @@ export default {
               containLabel: true
           },
           xAxis: {
+              show:this.showxis,
               type: 'category',
               boundaryGap: false,
               data: this.xdata,
@@ -69,6 +75,7 @@ export default {
               }
           },
           yAxis: {
+              show:this.showxis,
               type: 'value',
               axisLine:{
                 lineStyle: {

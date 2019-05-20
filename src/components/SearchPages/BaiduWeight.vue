@@ -84,6 +84,7 @@
           </span>
         </div>
         <LineCharts
+          :showxis="showxis"
           :xdata="xdata"
           :option="series"
           :styl="{width: '1140px', height: '340px'}"
@@ -228,6 +229,7 @@
           >7天</span>
         </div>
         <LineCharts
+          :showxis="showxis"
           :xdata="xdata"
           :option="series"
           :styl="{width: '800px', height: '340px',float:'left'}"
@@ -408,6 +410,7 @@ export default {
   },
   data() {
     return {
+      showxis:true,
       title: "百度权重",
       content: "",
       SeoContent: "",
@@ -605,9 +608,11 @@ export default {
   },
   mounted() {
     let storage = window.sessionStorage;
+    storage.setItem("navIndex", '1');
     this.content = storage.searchContent;
     this.series = this.mockdata[0].series;
     this.xdata = this.mockdata[0].xdata;
+    window.scrollTo(0,0);
   }
 };
 </script>

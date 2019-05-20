@@ -82,10 +82,15 @@ export default {
       let storage=window.sessionStorage;
       storage.setItem("searchContent",this.content);
       this.$router.push({
-        name:"SeoSearch"
+        name:"SeoSearch",
+        params: { navIndex: "1" }
       })
     }
   },
+  created() {
+    let storage=window.sessionStorage;
+    storage.setItem("navIndex", '0');
+  }
 }
 </script>
 

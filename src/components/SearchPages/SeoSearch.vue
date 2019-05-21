@@ -654,7 +654,7 @@ export default {
   },
   data() {
     return {
-      showxis:true,
+      showxis: true,
       title: "SEO综合查询",
       content: "",
       SeoContent: "",
@@ -891,7 +891,7 @@ export default {
   },
   mounted() {
     let storage = window.sessionStorage;
-    storage.setItem("navIndex", '1');
+    storage.setItem("navIndex", "1");
     this.content = storage.searchContent;
     this.series = this.mockdata[0].series;
     this.xdata = this.mockdata[0].xdata;

@@ -4,7 +4,7 @@
 
 <script>
 export default {
-    name:'Searchs',
+    name:'SeoMain',
     data () {
     return {
       

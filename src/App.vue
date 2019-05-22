@@ -3,7 +3,7 @@
 <template>
   <div id="app">
     <navbar v-show="!this.$route.meta.showpublic"></navbar>
-    <router-view/>
+    <router-view></router-view>
     <footerbar v-show="!this.$route.meta.showpublic"></footerbar>
   </div>
 </template>
@@ -15,7 +15,7 @@ export default {
   name: "App",
   components: {
     navbar: NavBar,
-    footerbar:FooterBar
+    footerbar:FooterBar,
   }
 };
 </script>
@@ -64,6 +64,9 @@ export default {
   } /* 未访问的链接 */
   a:hover {
     color: #007bb7;
+  }
+  .color_blue{
+      color: #008abd;
   }
   input,
   select,

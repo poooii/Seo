@@ -1,17 +1,23 @@
 <template>
   <div class="websiteValue_top">
     <div class="websiteValue_top_contain">
-      <img src="../../assets/17chalogo.png" alt class="websiteValue_top_logo">
+      <img src="../../assets/17chalogo.png" alt class="websiteValue_top_logo" @click="goToIndex">
       <ul class="websiteValue_top_ul">
-        <li class="websiteValue_top_nostyle">
-          <router-link to="/">首页</router-link>
+        <li class="websiteValue_top_nostyle" @click="changeIndexZero">
+          <router-link :class="{websiteValue_top_on:navIndex == '0'}" to="/">首页</router-link>
         </li>
 
-        <li class="websiteValue_top_ul_up" v-for="menu in menus" @mouseenter="changeActive($event)" @mouseleave="removeActive($event)">
+        <li
+          :class="{websiteValue_top_ul_up:true,websiteValue_top_on:navIndex == index+1,websiteValue_top_hover:navBgIndex ==index+1}"
+          v-for="(menu,index) in menus"
+          @click="changeNavBg(index)"
+          @mouseenter="changeActive(index)"
+          @mouseleave="removeActive(index)"
+        >
           {{menu.name}}
           <ul class="websiteValue_top_ul_next" hidden>
-            <li v-for="details in menu.details">
-              <a href="javascript:void(0);">{{details}}</a>
+            <li v-for="itmes in menu.details">
+              <router-link tag="a" :to="{ name: itmes.links,params:{content:''} }">{{itmes.name}}</router-link>
             </li>
           </ul>
         </li>
@@ -35,38 +41,93 @@ export default {
   name: "NavBar",
   data() {
     return {
-      "menus":[
+      navIndex: 0,
+      navBgIndex: null,
+      menus: [
         {
-          name:'SEO常用工具',
-          details:['网站价值评估','收录历史查询工具','网页源代码查看','备案查询','HTTP状态查询',
-          '网页死链检测','源代码查看','关键词密度检测','内页收录查询','网站速度测试']
+          name: "SEO常用工具",
+          details: [
+            { name: "SEO综合查询", links: "SeoSearch" },
+            { name: "百度权重", links: "BaiduWeight" },
+            { name: "历史数据", links: "HistoryData" },
+            { name: "ICP备案查询", links: "IcpAbout" },
+            { name: "IP反查域名", links: "IpSearch" },
+            { name: "关键词密度检测", links: "SeoSearch" },
+            { name: "内页收录查询", links: "SeoSearch" },
+            { name: "网站速度测试", links: "SeoSearch" }
+          ]
         },
         {
-          name:'搜索优化工具',
-          details:['网站价值评估','收录历史查询工具','网页源代码查看','备案查询','HTTP状态查询',
-          '网页死链检测','源代码查看','关键词密度检测','内页收录查询','网站速度测试']
+          name: "搜索优化工具",
+          details: [
+            { name: "SEO综合查询", links: "SeoSearch" },
+            { name: "百度权重", links: "BaiduWeight" },
+            { name: "备案查询", links: "SeoSearch" },
+            { name: "HTTP状态查询", links: "SeoSearch" },
+            { name: "源代码查看", links: "SeoSearch" },
+            { name: "关键词密度检测", links: "SeoSearch" },
+            { name: "内页收录查询", links: "SeoSearch" },
+            { name: "网站速度测试", links: "SeoSearch" }
+          ]
         },
         {
-          name:'域名/IP查询',
-          details:['网站价值评估','收录历史查询工具','网页源代码查看','备案查询','HTTP状态查询',
-          '网页死链检测','源代码查看','关键词密度检测','内页收录查询','网站速度测试']
+          name: "域名/IP查询",
+          details: [
+            { name: "SEO综合查询", links: "SeoSearch" },
+            { name: "百度权重", links: "BaiduWeight" },
+            { name: "备案查询", links: "SeoSearch" },
+            { name: "HTTP状态查询", links: "SeoSearch" },
+            { name: "源代码查看", links: "SeoSearch" },
+            { name: "关键词密度检测", links: "SeoSearch" },
+            { name: "内页收录查询", links: "SeoSearch" },
+            { name: "网站速度测试", links: "SeoSearch" }
+          ]
         },
         {
-          name:'其他工具',
-          details:['网站价值评估','收录历史查询工具','网页源代码查看','备案查询','HTTP状态查询',
-          '网页死链检测','源代码查看','关键词密度检测','内页收录查询','网站速度测试']
+          name: "其他工具",
+          details: [
+            { name: "SEO综合查询", links: "SeoSearch" },
+            { name: "百度权重", links: "BaiduWeight" },
+            { name: "备案查询", links: "SeoSearch" },
+            { name: "HTTP状态查询", links: "SeoSearch" },
+            { name: "源代码查看", links: "SeoSearch" },
+            { name: "关键词密度检测", links: "SeoSearch" },
+            { name: "内页收录查询", links: "SeoSearch" },
+            { name: "网站速度测试", links: "SeoSearch" }
+          ]
         }
       ]
     };
   },
-  methods:{
-    changeActive($event){
-        $event.currentTarget.className = 'websiteValue_top_ul_up websiteValue_top_hover';
+  methods: {
+    changeActive(index) {
+      this.navBgIndex = index + 1;
     },
-    removeActive($event){
-        $event.currentTarget.className = 'websiteValue_top_ul_up';
+    removeActive(index) {
+      this.navBgIndex = null;
+    },
+    changeNavBg(index) {
+      this.navIndex = index + 1;
+    },
+    changeIndexZero() {
+      this.navIndex = 0;
+    },
+    goToIndex() {
+      this.$router.push({
+        name: "Home",
+        params: { navIndex: "0" }
+      });
     }
-  }
+  },
+  watch: {
+    $route(to, from) {
+      this.navIndex=to.params.navIndex
+    }
+  },
+  mounted() {
+    let storage = window.sessionStorage;
+    this.navIndex=storage.navIndex
+  },
 };
 </script>
 <style scoped>
@@ -88,6 +149,7 @@ export default {
   width: 200px;
   height: 57px;
   float: left;
+  cursor: pointer;
 }
 .websiteValue_top_ul > li {
   float: left;
@@ -115,7 +177,9 @@ export default {
   cursor: pointer;
   border-top: 3px solid #fff;
 }
-.websiteValue_top_ul>li:hover .websiteValue_top_ul_next{display: block;}
+.websiteValue_top_ul > li:hover .websiteValue_top_ul_next {
+  display: block;
+}
 
 .websiteValue_top_ul_next {
   position: absolute;
@@ -131,7 +195,11 @@ export default {
   width: 50%;
   line-height: 28px;
 }
-
+.websiteValue_top_ul_next a {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
 .websiteValue_top_hover {
   color: #008abd !important;
   border-top: 3px solid #008abd !important;
@@ -157,5 +225,8 @@ export default {
   font-size: 14px;
   color: #008abd;
   padding-right: 10px;
+}
+.websiteValue_top_ul .nav_active {
+  color: #008abd;
 }
 </style>

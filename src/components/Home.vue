@@ -74,18 +74,22 @@ export default {
   data () {
     return {
       content:"",
-      hotsearch:['po188.com','www.hj135.com','jiaofu.cn','riyiseo.com','shuadan.cn','caoping6s.cn','014121.cn'],
+      hotsearch:['po188.com','www.hj135.com','jiaofu.cn','riyiseo.com','shuadan.cn','caoping6s.cn','014121.cn']
     }
   },
   methods:{
     tosearch() {
+      let storage=window.sessionStorage;
+      storage.setItem("searchContent",this.content);
       this.$router.push({
         name:"SeoSearch",
-        params:{
-        content:this.content
-        }
+        params: { navIndex: "1" }
       })
     }
+  },
+  created() {
+    let storage=window.sessionStorage;
+    storage.setItem("navIndex", '0');
   }
 }
 </script>

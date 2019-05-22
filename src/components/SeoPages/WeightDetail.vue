@@ -341,7 +341,10 @@ export default {
         params: { navIndex: "1" }
       });
     }
-  }
+  },
+  mounted() {
+    window.scrollTo(0,0);
+  },
 };
 </script>
 

@@ -51,7 +51,7 @@ export default {
             { name: "百度权重", links: "BaiduWeight" },
             { name: "历史数据", links: "HistoryData" },
             { name: "ICP备案查询", links: "IcpAbout" },
-            { name: "源代码查看", links: "SeoSearch" },
+            { name: "IP反查域名", links: "IpSearch" },
             { name: "关键词密度检测", links: "SeoSearch" },
             { name: "内页收录查询", links: "SeoSearch" },
             { name: "网站速度测试", links: "SeoSearch" }

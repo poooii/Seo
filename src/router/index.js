@@ -8,6 +8,7 @@ import BaiduWeight from '../components/SeoPages/BaiduWeight'
 import WeightDetail from '../components/SeoPages/WeightDetail'
 import HistoryData from '../components/SeoPages/HistoryData'
 import IcpAbout from '../components/SeoPages/IcpAbout'
+import IpSearch from '../components/SeoPages/IpSearch'
 
 Vue.use(Router)
 
@@ -48,6 +49,11 @@ export default new Router({
             path:'icpabout',
             name:'IcpAbout',
             component:IcpAbout,
+          },
+          {
+            path:'ipsearch',
+            name:'IpSearch',
+            component:IpSearch,
           }
         ]
     },

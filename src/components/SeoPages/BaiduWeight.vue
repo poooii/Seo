@@ -251,7 +251,9 @@
         <div class="chart_container" style="padding:0">
           <div class="title_container">
             <span class="color_line_blue">涨入关键词</span>
+            <a @click="goToWeightDetail" href="javascript:void(0)">></a>
             <span>跌出关键词</span>
+            <a @click="goToWeightDetail" href="javascript:void(0)">></a>
           </div>
           <table width="1200px" class="commerce_table">
             <tr>
@@ -613,6 +615,11 @@ export default {
       storage.setItem("searchContent",msg);
       this.content=storage.searchContent
       window.scrollTo(0,0);
+    },
+    goToWeightDetail() {
+      this.$router.push({
+        name:"WeightDetail"
+      })
     }
   },
   mounted() {
@@ -712,6 +719,22 @@ export default {
     height: 60px;
     background: #fafafa;
     border-bottom: 1px solid #ebebeb;
+    a {
+      display: inline-block;
+      margin: 1px 0 0 10px;
+      width: 22px;
+      height: 22px;
+      background: #fafafa;
+      border: none;
+      color: #969292;
+      font-size: 20px;
+      text-align: center;
+      line-height: 22px;
+    }
+    a:hover{
+      background: #008abd;
+      color: #fff;
+    }
     span {
       display: inline-block;
       height: 60px;

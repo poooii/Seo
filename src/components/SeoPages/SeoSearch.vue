@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 头部搜索框 -->
-    <SearchBox :hotsearch="hotsearch" :title="title" :content="content" @msgToSearch="getMsg"></SearchBox>
+    <SearchBox :title="title" :content="content" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
     <div class="cha_default" v-if="content==''||content==undefined">请输入要查询的站点</div>
     <div class="seo_main_content" v-if="!content==''">
       <!-- 主体第一大块 -->
@@ -854,6 +854,7 @@ export default {
     };
   },
   methods: {
+    // 几个标签选择切换
     ChangeEquip(equip) {
       this.equipchange = equip;
       this.dayschange = "0";
@@ -868,11 +869,19 @@ export default {
     ChangeNet(net) {
       this.related_net = net;
     },
+    // 搜索框点击事件
     getMsg(data) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
     },
+    // 点击热门搜索
+    searchHot(data) {
+      let storage = window.sessionStorage;
+      storage.setItem("searchContent", data);
+      this.content = storage.searchContent;
+    },
+    // 点击底部最近搜索
     getNearly(msg) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
@@ -881,6 +890,7 @@ export default {
     }
   },
   filters: {
+    // 限制头部表格网址字符个数
     ellipsis(value) {
       if (!value) return "";
       if (value.length > 18) {

@@ -4,8 +4,9 @@
         <div class="websiteValue_banner_contain">
         <p class="websiteValue_banner_title2">{{title}}</p>
         <div class="websiteValue_banner_input">
-            <form>
+            <form @submit.prevent>
             <input
+                @keyup.enter="getlist"
                 v-model="SeoContent"
                 type="text"
                 placeholder="输入想要查询价格的域名"
@@ -22,7 +23,7 @@
             <span class="websiteValue_banner_ul_title">热门搜索：</span>
             <ul class="websiteValue_banner_ul clearfix">
             <li v-for="items in hotsearch">
-                <a href="javascript:void(0);">{{items}}</a>
+                <a @click="searchHot(items)">{{items}}</a>
             </li>
             </ul>
         </div>
@@ -34,13 +35,21 @@
 export default {
     name: "SearchBox",
     props:{
-        hotsearch:{type: Array},
         title:{type: String},
         content:{type: String}
     },
     data () {
         return{
-            SeoContent:""
+            SeoContent:"",
+            hotsearch: [
+                "po188.com",
+                "www.hj135.com",
+                "jiaofu.cn",
+                "riyiseo.com",
+                "shuadan.cn",
+                "caoping6s.cn",
+                "014121.cn"
+            ],
         }
     },
     methods: {
@@ -52,6 +61,9 @@ export default {
                 return false
             }
             this.$emit("msgToSearch",this.SeoContent)
+        },
+        searchHot(data) {
+            this.$emit("msgSearchHot", data);
         }
     },
     watch: {
@@ -61,11 +73,7 @@ export default {
       },
       deep: true
     }
-  },
-    mounted() {
-        let storage=window.sessionStorage;
-        this.SeoContent=storage.searchContent
-    },
+  }
 }
 </script>
 
@@ -80,4 +88,8 @@ export default {
     .websiteValue_banner_ul li{float: left;padding-left: 16px;}
     .websiteValue_banner_ul li a{color: #666;font-size: 14px;}
     .websiteValue_banner_ul_title{float: left;}
+    .websiteValue_banner_ul a:hover{
+        color: #007bb7;
+    }
+    .websiteValue_banner_ul a{cursor: pointer;}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 头部搜索框 -->
-    <SearchBox :hotsearch="hotsearch" :content="content" :title="title" @msgToSearch="getMsg"></SearchBox>
+    <SearchBox :content="content" :title="title" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
     <div class="cha_default" v-if="content==''||content==undefined">请输入要查询的站点</div>
     <div class="baidu_main_content" v-if="!content==''">
       <div class="content_title">
@@ -588,17 +588,26 @@ export default {
     };
   },
   methods: {
+    // 标签切换
     ChangeDays(days) {
       this.dayschange = days;
     },
     ChangeNet(net) {
       this.related_net = net;
     },
+    // 搜索框点击
     getMsg(data) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
     },
+    // 热门搜索
+    searchHot(data) {
+      let storage = window.sessionStorage;
+      storage.setItem("searchContent", data);
+      this.content = storage.searchContent;
+    },
+    // 最近搜索
     getNearly(msg) {
       let storage=window.sessionStorage;
       storage.setItem("searchContent",msg);
@@ -609,7 +618,6 @@ export default {
   mounted() {
     let storage = window.sessionStorage;
     storage.setItem("navIndex", '1');
-    this.content = storage.searchContent;
     this.series = this.mockdata[0].series;
     this.xdata = this.mockdata[0].xdata;
     window.scrollTo(0,0);

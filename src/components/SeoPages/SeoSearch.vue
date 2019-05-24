@@ -900,7 +900,6 @@ export default {
         )
         .then(res => {
           console.log(res)
-          this.content=res.data.info
         })
         .catch(res => {
           
@@ -920,7 +919,7 @@ export default {
   mounted() {
     let storage = window.sessionStorage;
     storage.setItem("navIndex", "1");
-    // this.content = storage.searchContent;
+    this.content = storage.searchContent;
     this.series = this.mockdata[0].series;
     this.xdata = this.mockdata[0].xdata;
     this.getBaidu()

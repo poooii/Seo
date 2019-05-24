@@ -571,10 +571,14 @@ export default {
         getList() {
             this.content=this.SeoContent
             this.showViews=this.searchIdx
+            let storage = window.sessionStorage;
+            storage.setItem("searchContent", this.content);
         }
     },
     mounted() {
     let storage = window.sessionStorage;
+    this.content = storage.searchContent;
+    this.SeoContent = storage.searchContent;
     storage.setItem("navIndex", '1');
     window.scrollTo(0,0);
   }

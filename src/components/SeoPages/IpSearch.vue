@@ -187,6 +187,7 @@ export default {
   },
   mounted() {
     let storage = window.sessionStorage;
+    this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
   }

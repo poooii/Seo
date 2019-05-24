@@ -128,7 +128,9 @@ export default {
   },
   watch: {
     $route(to, from) {
+      let storage = window.sessionStorage;
       this.navIndex=to.params.navIndex
+      storage.removeItem("searchContent");
     }
   },
   mounted() {

@@ -887,6 +887,24 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
+    },
+    //请求数据
+    getBaidu() {
+      this.$http
+        .get("/Api/OnlineZhongJie",{
+          params:{
+            cc:1,
+            rn:1
+          }
+        }
+        )
+        .then(res => {
+          console.log(res)
+          this.content=res.data.info
+        })
+        .catch(res => {
+          
+        });
     }
   },
   filters: {
@@ -902,9 +920,10 @@ export default {
   mounted() {
     let storage = window.sessionStorage;
     storage.setItem("navIndex", "1");
-    this.content = storage.searchContent;
+    // this.content = storage.searchContent;
     this.series = this.mockdata[0].series;
     this.xdata = this.mockdata[0].xdata;
+    this.getBaidu()
   }
 };
 </script>
@@ -914,15 +933,7 @@ export default {
   background: #fafafa;
   color: #808080;
 }
-.cha_default {
-  width: 1200px;
-  margin: 0 auto;
-  padding: 130px 0 130px;
-  color: #d3d3d3;
-  letter-spacing: 2px;
-  font-size: 30px;
-  text-align: center;
-}
+
 .seo_main_content {
   width: 1200px;
   background: #fff;

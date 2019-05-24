@@ -4,33 +4,19 @@
     <SearchBox :title="title" :content="content" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
     <div class="cha_default" v-if="content==''||content==undefined">请输入要查询的站点</div>
     <div class="main_content" v-if="!content==''">
-      <div class="content_title">备案信息</div>
-      <table width="1200px" class="icptable">
+      <div class="content_title">查询结果</div>
+      <table width="1200px" class="tsz_table">
         <tr>
-          <td>主办单位名称</td>
-          <td>长沙七丽网络科技有限公司</td>
-          <td>主办单位性质：</td>
-          <td>企业</td>
+          <td>序号</td>
+          <td>网址</td>
+          <td>百度7天收录</td>
         </tr>
         <tr>
-          <td>网站备案/许可证号：</td>
-          <td>湘ICP备16001275号-10</td>
-          <td>网站名称：</td>
-          <td>PC6下载</td>
-        </tr>
-        <tr>
-          <td>网站首页网址：</td>
+          <td>1</td>
           <td>
-            <a href="http://www.pc6.com" target="_blank">www.pc6.com</a>
+            <a href="http://www.baidu.com">www.baidu.com</a>
           </td>
-          <td>网站域名：</td>
-          <td>pc6.com</td>
-        </tr>
-        <tr>
-          <td>审核时间：</td>
-          <td>2018-10-29</td>
-          <td></td>
-          <td></td>
+          <td>7天收录：80513</td>
         </tr>
       </table>
       <div class="adv_box">
@@ -47,14 +33,14 @@
 import SearchBox from "../BaseComponents/SearchBox";
 import NearlySearch from "../BaseComponents/NearlySearch";
 export default {
-  name: "IcpAbout",
+  name: "BdSevenSearch",
   components: {
     SearchBox,
     NearlySearch
   },
   data() {
     return {
-      title: "ICP备案查询",
+      title: "百度7天收录查询",
       content: "",
       advpic: ["adv1", "adv3", "adv2"]
     };
@@ -94,17 +80,17 @@ export default {
   font-size: 24px;
   margin: 60px 0 30px 0;
 }
-.icptable {
+.tsz_table {
   border-right: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
   tr {
     td {
       border-top: 1px solid #ebebeb;
       vertical-align: middle;
-      padding-left: 40px;
-      width: 300px;
+      width: 250px;
       height: 60px;
       font-size: 16px;
+      text-align: center;
       a {
         width: 100%;
         height: 100%;
@@ -113,21 +99,23 @@ export default {
       }
     }
     td:first-child {
-      background: #fafafa;
-      width: 220px;
-      color: #808080;
       border-left: 1px solid #ebebeb;
+      width: 100px;
     }
-    td:nth-child(3) {
+    td:nth-child(2) {
+      width: 350px;
+    }
+  }
+  tr:first-child {
+    td {
       background: #fafafa;
-      width: 220px;
-      color: #808080;
+      color: #666;
     }
   }
 }
 .adv_box {
   display: flex;
   justify-content: space-between;
-  margin: 30px 0 50px 0;
+  margin: 240px 0 50px 0;
 }
 </style>

@@ -637,15 +637,7 @@ export default {
   background: #fafafa;
   color: #808080;
 }
-.cha_default {
-  width: 1200px;
-  margin: 0 auto;
-  padding: 130px 0 130px;
-  color: #d3d3d3;
-  letter-spacing: 2px;
-  font-size: 30px;
-  text-align: center;
-}
+
 .baidu_main_content {
   width: 1200px;
   background: #fff;

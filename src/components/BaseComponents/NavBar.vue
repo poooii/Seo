@@ -52,9 +52,16 @@ export default {
             { name: "历史数据", links: "HistoryData" },
             { name: "ICP备案查询", links: "IcpAbout" },
             { name: "IP反查域名", links: "IpSearch" },
-            { name: "关键词密度检测", links: "SeoSearch" },
-            { name: "内页收录查询", links: "SeoSearch" },
-            { name: "网站速度测试", links: "SeoSearch" }
+            { name: "360权重", links: "ThreeSixZeroWeight" },
+            { name: "360网站安全检测", links: "ThreeSixZeroSafe" },
+            { name: "alexa趋势信息", links: "AleaxTrend" },
+            { name: "PING检测", links: "PingTest" },
+            { name: "PR查询", links: "PrSearch" },
+            { name: "百度7天收录查询", links: "BdSevenSearch" },
+            { name: "百度是否收录查询", links: "BdWhetherTake" },
+            { name: "百度收录查询", links: "BdTake" },
+            { name: "百度网站安全检测", links: "BdSafeTest" },
+            { name: "百度1天收录查询", links: "BdOneSearch" },
           ]
         },
         {

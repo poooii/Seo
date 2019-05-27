@@ -61,7 +61,7 @@ export default {
             { name: "百度是否收录查询", links: "BdWhetherTake" },
             { name: "百度收录查询", links: "BdTake" },
             { name: "百度网站安全检测", links: "BdSafeTest" },
-            { name: "百度1天收录查询", links: "BdOneSearch" },
+            { name: "百度1天收录查询", links: "BdOneSearch" }
           ]
         },
         {
@@ -128,15 +128,17 @@ export default {
   },
   watch: {
     $route(to, from) {
-      let storage = window.sessionStorage;
-      this.navIndex=to.params.navIndex
-      storage.removeItem("searchContent");
+      this.navIndex = to.params.navIndex;
+      if (to.path !== "/searchs/") {
+        let storage = window.sessionStorage;
+        storage.removeItem("searchContent");
+      }
     }
   },
   mounted() {
     let storage = window.sessionStorage;
-    this.navIndex=storage.navIndex
-  },
+    this.navIndex = storage.navIndex;
+  }
 };
 </script>
 <style scoped>

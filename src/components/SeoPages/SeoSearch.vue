@@ -2,7 +2,7 @@
   <div>
     <!-- 头部搜索框 -->
     <SearchBox :title="title" :content="content" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
-    <div class="cha_default" v-if="content==''||content==undefined">请输入要查询的站点</div>
+    <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
     <div class="seo_main_content" v-if="!content==''">
       <!-- 主体第一大块 -->
       <div class="content_title clearfix">

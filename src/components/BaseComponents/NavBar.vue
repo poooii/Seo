@@ -73,10 +73,10 @@ export default {
         {
           name: "搜索优化工具",
           details: [
-            { name: "SEO综合查询", links: "SeoSearch" },
-            { name: "百度权重", links: "BaiduWeight" },
-            { name: "备案查询", links: "SeoSearch" },
-            { name: "HTTP状态查询", links: "SeoSearch" },
+            { name: "HTTP状态查询", links: "HttpState" },
+            { name: "Robots检测", links: "RobotsTest" },
+            { name: "关键词密度查询", links: "KeywordsDensity" },
+            { name: "关键词密度查询", links: "SeoSearch" },
             { name: "源代码查看", links: "SeoSearch" },
             { name: "关键词密度检测", links: "SeoSearch" },
             { name: "内页收录查询", links: "SeoSearch" },
@@ -134,10 +134,11 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.navIndex = to.params.navIndex;
+      // this.navIndex = to.params.navIndex;
       if (to.path !== "/searchs/") {
         let storage = window.sessionStorage;
         storage.removeItem("searchContent");
+        storage.removeItem("Keywords");
       }
     }
   },

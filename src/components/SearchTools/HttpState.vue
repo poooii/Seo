@@ -5,30 +5,31 @@
     <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
     <div class="main_content" v-if="!content==''">
       <div class="content_title">查询结果</div>
-      <table width="1200px" class="tsz_table">
+      <table class="http_table" width="1200px" v-if="content!=='nores'">
         <tr>
-          <td>序号</td>
-          <td>网址</td>
-          <td>360综合权重</td>
-          <td>360权重PC</td>
-          <td>360权重WAP</td>
+          <td>返回状态码：</td>
+          <td class="found">302 FOUND</td>
         </tr>
         <tr>
-          <td>1</td>
+          <td>网页返回HEAD信息：</td>
           <td>
-            <a href="http://www.baidu.com">www.baidu.com</a>
-          </td>
-          <td>
-            <img src="../../assets/sg-5.png" alt>
-          </td>
-          <td>
-            <img src="../../assets/sg-5.png" alt>
-          </td>
-          <td>
-            <img src="../../assets/sg-5.png" alt>
+            CONNECTION: KEEP-ALIVE
+            <br>CONTENT-LENGTH: 225
+            <br>CONTENT-TYPE: TEXT/HTML
+            <br>DATE: FRI, 01 MAR 2019 02:39:13 GMT
+            <br>LOCATION: HTTPS://WWW.BAIDU.COM/
+            <br>P3P: CP=" OTI DSP COR IVA OUR IND COM "
+            <br>SERVER: BWS/1.1
+            <br>SET-COOKIE: BAIDUID=45583FAAD4DF8C8EB3FCA77BE2AFF6C9:FG=1; EXPIRES=THU, 31-DEC-37 23:55:55 GMT
+            <br>; MAX-AGE=2147483647; PATH=/; DOMAIN=.BAIDU.COM
+            <br>SET-COOKIE: BIDUPSID=45583FAAD4DF8C8EB3FCA77BE2AFF6C9; EXPIRES=THU, 31-DEC-37 23:55:55 GMT;
+            <br>
           </td>
         </tr>
       </table>
+      <div class="no_res" v-if="content=='nores'">
+        <img src="../../assets/no_res.png" alt>
+      </div>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
           <img :src="require(`../../assets/${advs}.png`)">
@@ -43,14 +44,14 @@
 import SearchBox from "../BaseComponents/SearchBox";
 import NearlySearch from "../BaseComponents/NearlySearch";
 export default {
-  name: "ThreeSixZeroWeight",
+  name: "HttpState",
   components: {
     SearchBox,
     NearlySearch
   },
   data() {
     return {
-      title: "360权重查询",
+      title: "HTTP状态查询",
       content: "",
       advpic: ["adv1", "adv3", "adv2"]
     };
@@ -76,7 +77,7 @@ export default {
   mounted() {
     let storage = window.sessionStorage;
     this.content = storage.searchContent;
-    storage.setItem("navIndex", "1");
+    storage.setItem("navIndex", "2");
     window.scrollTo(0, 0);
   }
 };
@@ -91,42 +92,44 @@ export default {
   font-size: 24px;
   margin: 60px 0 30px 0;
 }
-.tsz_table {
-  border-right: 1px solid #ebebeb;
-  border-bottom: 1px solid #ebebeb;
+.http_table {
+  border: 1px solid #ebebeb;
+  border-bottom: none;
+  font-size: 16px;
   tr {
     td {
-      border-top: 1px solid #ebebeb;
-      vertical-align: middle;
-      width: 250px;
       height: 60px;
-      font-size: 16px;
-      text-align: center;
-      a {
-        width: 100%;
-        height: 100%;
-        line-height: 60px;
-        color: #007bb7;
-      }
+      border-bottom: 1px solid #ebebeb;
+      padding-left: 30px;
     }
     td:first-child {
-      border-left: 1px solid #ebebeb;
-      width: 100px;
-    }
-    td:nth-child(2) {
-      width: 350px;
-    }
-  }
-  tr:first-child {
-    td {
       background: #fafafa;
-      color: #666;
+      color: #808080;
+    }
+    .found {
+      color: #5aad54;
     }
   }
+  tr:last-child {
+    td {
+      padding: 20px 0 20px 30px;
+    }
+    td:first-child {
+      vertical-align: top;
+    }
+  }
+}
+.no_res {
+  width: 1200px;
+  height: 360px;
+  border: 1px solid #ebebeb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .adv_box {
   display: flex;
   justify-content: space-between;
-  margin: 240px 0 50px 0;
+  margin: 80px 0 50px 0;
 }
 </style>

@@ -4,29 +4,25 @@
     <SearchBox :title="title" :content="content" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
     <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
     <div class="main_content" v-if="!content==''">
-      <div class="content_title">查询结果</div>
+      <div class="content_title">
+        查询结果：
+        <span>文件状态良好，请查看下面具体报告</span>
+      </div>
       <table width="1200px" class="tsz_table">
         <tr>
-          <td>序号</td>
-          <td>网址</td>
-          <td>360综合权重</td>
-          <td>360权重PC</td>
-          <td>360权重WAP</td>
+          <td>规则</td>
+          <td>解释</td>
+          <td>有效</td>
         </tr>
         <tr>
-          <td>1</td>
-          <td>
-            <a href="http://www.baidu.com">www.baidu.com</a>
-          </td>
-          <td>
-            <img src="../../assets/sg-5.png" alt>
-          </td>
-          <td>
-            <img src="../../assets/sg-5.png" alt>
-          </td>
-          <td>
-            <img src="../../assets/sg-5.png" alt>
-          </td>
+          <td>Disallow: /*?*</td>
+          <td>禁止Baiduspider访问任何带参数的页面</td>
+          <td class="right">正确</td>
+        </tr>
+        <tr>
+          <td>User-agent: Baiduspider</td>
+          <td>开始配置：Baiduspider</td>
+          <td class="right">正确</td>
         </tr>
       </table>
       <div class="adv_box">
@@ -43,14 +39,14 @@
 import SearchBox from "../BaseComponents/SearchBox";
 import NearlySearch from "../BaseComponents/NearlySearch";
 export default {
-  name: "ThreeSixZeroWeight",
+  name: "RobotsTest",
   components: {
     SearchBox,
     NearlySearch
   },
   data() {
     return {
-      title: "360权重查询",
+      title: "Robots检测",
       content: "",
       advpic: ["adv1", "adv3", "adv2"]
     };
@@ -76,7 +72,7 @@ export default {
   mounted() {
     let storage = window.sessionStorage;
     this.content = storage.searchContent;
-    storage.setItem("navIndex", "1");
+    storage.setItem("navIndex", "2");
     window.scrollTo(0, 0);
   }
 };
@@ -90,6 +86,10 @@ export default {
 .content_title {
   font-size: 24px;
   margin: 60px 0 30px 0;
+  span {
+    font-size: 18px;
+    color: #666;
+  }
 }
 .tsz_table {
   border-right: 1px solid #ebebeb;
@@ -98,23 +98,16 @@ export default {
     td {
       border-top: 1px solid #ebebeb;
       vertical-align: middle;
-      width: 250px;
       height: 60px;
       font-size: 16px;
-      text-align: center;
-      a {
-        width: 100%;
-        height: 100%;
-        line-height: 60px;
-        color: #007bb7;
-      }
+      padding-left: 35px;
     }
     td:first-child {
       border-left: 1px solid #ebebeb;
-      width: 100px;
+      color: #999;
     }
-    td:nth-child(2) {
-      width: 350px;
+    .right {
+      color: #00b35d;
     }
   }
   tr:first-child {
@@ -127,6 +120,6 @@ export default {
 .adv_box {
   display: flex;
   justify-content: space-between;
-  margin: 240px 0 50px 0;
+  margin: 180px 0 50px 0;
 }
 </style>

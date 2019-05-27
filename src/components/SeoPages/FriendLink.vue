@@ -2,7 +2,7 @@
   <div>
     <!-- 头部搜索框 -->
     <SearchBox :title="title" :content="content" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
-    <div class="cha_default" v-if="content==''||content==undefined">请输入要查询的站点</div>
+    <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
     <div class="main_content" v-if="!content==''">
       <div class="content_title">手机游戏_手机软件 - PC6手机站</div>
       <table class="title_table" width="1200px">

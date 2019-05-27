@@ -19,6 +19,12 @@ import BdWhetherTake from '../components/SeoPages/BdWhetherTake'
 import BdTake from '../components/SeoPages/BdTake'
 import BdSafeTest from '../components/SeoPages/BdSafeTest'
 import BdOneSearch from '../components/SeoPages/BdOneSearch'
+import AntiChain from '../components/SeoPages/AntiChain'
+import KeyWords from '../components/SeoPages/KeyWords'
+import BuildSearch from '../components/SeoPages/BuildSearch'
+import WebTitleSearch from '../components/SeoPages/WebTitleSearch'
+import WebOutLink from '../components/SeoPages/WebOutLink'
+import FriendLink from '../components/SeoPages/FriendLink'
 
 Vue.use(Router)
 
@@ -114,6 +120,36 @@ export default new Router({
             path:'bdonesearch',
             name:'BdOneSearch',
             component:BdOneSearch,
+          },
+          {
+            path:'antichain',
+            name:'AntiChain',
+            component:AntiChain,
+          },
+          {
+            path:'keywords',
+            name:'KeyWords',
+            component:KeyWords,
+          },
+          {
+            path:'buildsearch',
+            name:'BuildSearch',
+            component:BuildSearch,
+          },
+          {
+            path:'webtitlesearch',
+            name:'WebTitleSearch',
+            component:WebTitleSearch,
+          },
+          {
+            path:'weboutlink',
+            name:'WebOutLink',
+            component:WebOutLink,
+          },
+          {
+            path:'friendlink',
+            name:'FriendLink',
+            component:FriendLink,
           },
         ]
     },

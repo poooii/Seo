@@ -61,7 +61,13 @@ export default {
             { name: "百度是否收录查询", links: "BdWhetherTake" },
             { name: "百度收录查询", links: "BdTake" },
             { name: "百度网站安全检测", links: "BdSafeTest" },
-            { name: "百度1天收录查询", links: "BdOneSearch" }
+            { name: "百度1天收录查询", links: "BdOneSearch" },
+            { name: "反链查询", links: "AntiChain" },
+            { name: "关键词挖掘", links: "KeyWords" },
+            { name: "建站时间查询", links: "BuildSearch" },
+            { name: "网站标题查询", links: "WebTitleSearch" },
+            { name: "网站导出链接数量查询", links: "WebOutLink" },
+            { name: "友链检测", links: "FriendLink" },
           ]
         },
         {

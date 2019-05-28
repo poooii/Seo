@@ -4,11 +4,17 @@
 
 <script>
 export default {
-    name:'SeoMain',
-    data () {
-    return {
-      
+  name: "SeoMain",
+  beforeRouteLeave(to, from, next) {
+    if (to.path !== "/searchs/") {
+      let storage = window.sessionStorage;
+      storage.removeItem("searchContent");
+      storage.removeItem("Keywords");
     }
+    next()
+  },
+  data() {
+    return {};
   }
-}
+};
 </script>

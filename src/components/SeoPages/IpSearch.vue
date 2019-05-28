@@ -33,10 +33,10 @@
           </td>
           <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
           <td>
-            <img src="../../assets/yd-5.png" alt>
+            <img src="../../assets/bd_wt.png" alt>
           </td>
           <td>
-            <img src="../../assets/zz-5.png" alt>
+            <img src="../../assets/zz_wt.png" alt>
           </td>
         </tr>
         <tr>
@@ -46,10 +46,10 @@
           </td>
           <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
           <td>
-            <img src="../../assets/yd-5.png" alt>
+            <img src="../../assets/bd_wt.png" alt>
           </td>
           <td>
-            <img src="../../assets/zz-5.png" alt>
+            <img src="../../assets/zz_wt.png" alt>
           </td>
         </tr>
         <tr>
@@ -62,7 +62,7 @@
             <img src alt>
           </td>
           <td>
-            <img src="../../assets/zz-5.png" alt>
+            <img src="../../assets/zz_wt.png" alt>
           </td>
         </tr>
         <tr>
@@ -72,10 +72,10 @@
           </td>
           <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
           <td>
-            <img src="../../assets/yd-5.png" alt>
+            <img src="../../assets/bd_wt.png" alt>
           </td>
           <td>
-            <img src="../../assets/zz-5.png" alt>
+            <img src="../../assets/zz_wt.png" alt>
           </td>
         </tr>
         <tr>
@@ -85,10 +85,10 @@
           </td>
           <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
           <td>
-            <img src="../../assets/yd-5.png" alt>
+            <img src="../../assets/bd_wt.png" alt>
           </td>
           <td>
-            <img src="../../assets/zz-5.png" alt>
+            <img src="../../assets/zz_wt.png" alt>
           </td>
         </tr>
         <tr>
@@ -98,10 +98,10 @@
           </td>
           <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
           <td>
-            <img src="../../assets/yd-5.png" alt>
+            <img src="../../assets/bd_wt.png" alt>
           </td>
           <td>
-            <img src="../../assets/zz-5.png" alt>
+            <img src="../../assets/zz_wt.png" alt>
           </td>
         </tr>
         <tr>
@@ -111,10 +111,10 @@
           </td>
           <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
           <td>
-            <img src="../../assets/yd-5.png" alt>
+            <img src="../../assets/bd_wt.png" alt>
           </td>
           <td>
-            <img src="../../assets/zz-5.png" alt>
+            <img src="../../assets/zz_wt.png" alt>
           </td>
         </tr>
         <tr>

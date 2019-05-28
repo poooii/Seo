@@ -21,11 +21,11 @@
         <tr>
           <td>百度权重</td>
           <td>
-            <img src="../../assets/yd-5.png" alt>
+            <img src="../../assets/bd_wt.png" alt>
           </td>
           <td>PR：</td>
           <td>
-            <img src="../../assets/sg-5.png" alt>
+            <img src="../../assets/sg_wt.png" alt>
           </td>
         </tr>
       </table>

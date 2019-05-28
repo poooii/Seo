@@ -76,7 +76,7 @@ export default {
             { name: "HTTP状态查询", links: "HttpState" },
             { name: "Robots检测", links: "RobotsTest" },
             { name: "关键词密度查询", links: "KeywordsDensity" },
-            { name: "关键词密度查询", links: "SeoSearch" },
+            { name: "死链接检测", links: "DeadLink" },
             { name: "源代码查看", links: "SeoSearch" },
             { name: "关键词密度检测", links: "SeoSearch" },
             { name: "内页收录查询", links: "SeoSearch" },

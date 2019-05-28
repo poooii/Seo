@@ -21,7 +21,7 @@
           </td>
           <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
           <td>
-            <img src="../../assets/yd-5.png" alt>
+            <img src="../../assets/bd_wt.png" alt>
           </td>
           <td>≈13</td>
           <td>PC6安卓网</td>
@@ -33,7 +33,7 @@
           </td>
           <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
           <td>
-            <img src="../../assets/yd-5.png" alt>
+            <img src="../../assets/bd_wt.png" alt>
           </td>
           <td>≈13</td>
           <td>PC6安卓网</td>
@@ -45,7 +45,7 @@
           </td>
           <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
           <td>
-            <img src="../../assets/yd-5.png" alt>
+            <img src="../../assets/bd_wt.png" alt>
           </td>
           <td>≈13</td>
           <td>PC6安卓网</td>
@@ -57,7 +57,7 @@
           </td>
           <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
           <td>
-            <img src="../../assets/yd-5.png" alt>
+            <img src="../../assets/bd_wt.png" alt>
           </td>
           <td>≈13</td>
           <td>PC6安卓网</td>
@@ -69,7 +69,7 @@
           </td>
           <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
           <td>
-            <img src="../../assets/yd-5.png" alt>
+            <img src="../../assets/bd_wt.png" alt>
           </td>
           <td>≈13</td>
           <td>PC6安卓网</td>
@@ -81,7 +81,7 @@
           </td>
           <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
           <td>
-            <img src="../../assets/yd-5.png" alt>
+            <img src="../../assets/bd_wt.png" alt>
           </td>
           <td>≈13</td>
           <td>PC6安卓网</td>
@@ -93,7 +93,7 @@
           </td>
           <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
           <td>
-            <img src="../../assets/yd-5.png" alt>
+            <img src="../../assets/bd_wt.png" alt>
           </td>
           <td>≈13</td>
           <td>PC6安卓网</td>

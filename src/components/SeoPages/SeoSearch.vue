@@ -1,6 +1,7 @@
 <template>
   <div>
     <!-- 头部搜索框 -->
+    <!-- 搜索框子组件，可反复调用，title为传入的搜索框上文字，@msgToSearch为组件传出的搜索内容，@msgSearchHot为组件传出的热门搜索内容 -->
     <SearchBox :title="title" :content="content" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
     <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
     <div class="seo_main_content" v-if="!content==''">
@@ -15,13 +16,16 @@
       <div>
         <ul class="weight_content clearfix">
           <li class="weight_details">
+            <!-- 过滤器，限制域名字符个数 -->
             <div class="weight_net">{{content | ellipsis}}</div>
             <span class="weight_name">域名</span>
           </li>
           <li class="weight_details" v-for="weights in weightcontent">
             <div class="weight_net">
+              <!-- 循环权重图片 -->
               <img :src="require(`../../assets/${weights.img}.png`)">
             </div>
+            <!-- 循环名称 -->
             <span class="weight_name">{{weights.name}}</span>
           </li>
         </ul>
@@ -162,6 +166,7 @@
       <div class="echarts_container">
         <div class="echarts_title">
           <span class="echarts_title_name">百度关键词</span>
+          <!-- 以下为点击切换标签，并且传值进方法中，后期根据传入的值得，在方法中调用ajax，重新赋值数据，刷新页面，0，1，2等值后期可以任意修改，对应方法中也需要修改 -->
           <span
             class="echarts_title_first"
             :class="{ color_blue:equipchange == '0'}"
@@ -216,6 +221,7 @@
             </tr>
           </table>
           <!-- 图表 -->
+          <!-- 封装的echarts图表组件 ：后面为传入的值得，在data中定义-->
           <LineCharts
             :xdata="xdata"
             :showxis="showxis"
@@ -496,7 +502,12 @@
         </div>
         <div class="echarts_main keyword_container_4th">
           <table width="1200px">
-            <tr>
+            <tr v-for="item in footballdata">
+              <td class="bg_gray">{{item.title}}</td>
+              <td>{{item.content}}</td>
+              <td><i>{{item.num}}</i>个字符（一般不超过80）</td>
+            </tr>
+            <!-- <tr>
               <td class="bg_gray">网站标题：</td>
               <td>足球比分预测足球在线交流-亚博体育官方论坛 - POWERED BY DISCUZ!0</td>
               <td>
@@ -519,7 +530,7 @@
               <td>
                 <i>180</i>个字符（一般不超过100）
               </td>
-            </tr>
+            </tr> -->
           </table>
         </div>
       </div>
@@ -654,14 +665,37 @@ export default {
   },
   data() {
     return {
+      // 传入echarts中，是否显示x轴和y轴
       showxis: true,
+      // 搜索框标题
       title: "SEO综合查询",
+      // 搜索内容
       content: "",
-      SeoContent: "",
+      // 以下几个为切换标签的默认值得，如要修改与dom处对应即可
       equipchange: "0",
       dayschange: "0",
       related_net: "0",
+      // 模拟足球数据
+      footballdata:[
+        {
+          title:"网站标题：",
+          content:"足球比分预测足球在线交流-亚博体育官方论坛 - POWERED BY DISCUZ!0",
+          num:"30"
+        },
+        {
+          title:"网站关键字：",
+          content:"亚博体育 足球交流 足球比分预测",
+          num:"18"
+        },
+        {
+          title:"网站简介",
+          content:"看足球比分，首选亚博体育！体育足球比分频道提供最快最准最全的足球即时比分，比分直播、足球比分直播与比赛现场同步，更有赛事数据统计、现场分析等。亚博 体育官网为您提供更全面的足球资讯-看足球来这里就对了。。",
+          num:"5"
+        },
+      ],
+      // 传入echarts中的数据
       xdata: [],
+      // 模拟的假数据，可看做是ajax返回的数据
       xdata2: [
         "04-02",
         "04-03",
@@ -672,7 +706,9 @@ export default {
         "04-08",
         "04-09"
       ],
+      // 传入echarts中的数据
       series: [],
+      // 模拟的假数据，可看做是ajax返回的数据
       series2: [
         {
           name: "前10",
@@ -682,6 +718,7 @@ export default {
           areaStyle: { normal: { color: "#e2f4ff" } }
         }
       ],
+      // 模拟的假数据，可看做是ajax返回的数据
       mockdata: [
         {
           name: "seven",
@@ -819,6 +856,7 @@ export default {
           ]
         }
       ],
+      // 模拟的热门搜索数据
       hotsearch: [
         "po188.com",
         "www.hj135.com",
@@ -828,7 +866,9 @@ export default {
         "caoping6s.cn",
         "014121.cn"
       ],
+      // 模拟图片数据
       advpic: ["adv1", "adv3", "adv2"],
+      // 模拟权重处数据
       weightcontent: [
         {
           name: "爱站权重",

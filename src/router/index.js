@@ -29,6 +29,7 @@ import ToolsMain from '../components/SearchTools/ToolsMain'
 import HttpState from '../components/SearchTools/HttpState'
 import RobotsTest from '../components/SearchTools/RobotsTest'
 import KeywordsDensity from '../components/SearchTools/KeywordsDensity'
+import DeadLink from '../components/SearchTools/DeadLink'
 
 Vue.use(Router)
 
@@ -175,6 +176,11 @@ export default new Router({
           path: 'keywordsdensity',
           name: 'KeywordsDensity',
           component: KeywordsDensity,
+        },
+        {
+          path: 'deadlink',
+          name: 'DeadLink',
+          component: DeadLink,
         },
       ]
     },

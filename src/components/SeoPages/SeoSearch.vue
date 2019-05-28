@@ -24,6 +24,7 @@
             <div class="weight_net">
               <!-- 循环权重图片 -->
               <img :src="require(`../../assets/${weights.img}.png`)">
+              <span>{{weights.weight}}</span>
             </div>
             <!-- 循环名称 -->
             <span class="weight_name">{{weights.name}}</span>
@@ -872,23 +873,28 @@ export default {
       weightcontent: [
         {
           name: "爱站权重",
-          img: "az-5"
+          weight: "5",
+          img: "az_wt"
         },
         {
           name: "站长权重",
-          img: "zz-5"
+           weight: "4",
+          img: "zz_wt"
         },
         {
           name: "移动权重",
-          img: "yd-5"
+           weight: "3",
+          img: "bd_wt"
         },
         {
           name: "搜狗PR",
-          img: "sg-5"
+           weight: "4",
+          img: "sg_wt"
         },
         {
           name: "谷歌PR",
-          img: "az-5"
+           weight: "2",
+          img: "gg_wt"
         }
       ]
     };
@@ -1024,6 +1030,13 @@ export default {
   font-size: 18px;
   color: #333;
   margin-top: 20px;
+  position: relative;
+  span{
+    position: absolute;
+    top: -4px;
+    left: 108px;
+    color: #fff;
+  }
 }
 .weight_net:first-child {
   line-height: 30px;

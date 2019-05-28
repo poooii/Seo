@@ -18,7 +18,7 @@
               </li>
               <li>
                 权重：
-                <img src="../../assets/yd-5.png" alt>
+                <img src="../../assets/bd_wt.png" alt>
               </li>
               <li>
                 分类：
@@ -38,7 +38,7 @@
               </li>
               <li>
                 权重：
-                <img src="../../assets/yd-5.png" alt>
+                <img src="../../assets/bd_wt.png" alt>
               </li>
               <li>
                 分类：
@@ -568,23 +568,23 @@ export default {
       weightcontent: [
         {
           name: "爱站权重",
-          img: "az-5"
+          img: "az_wt"
         },
         {
           name: "站长权重",
-          img: "zz-5"
+          img: "zz_wt"
         },
         {
           name: "移动权重",
-          img: "yd-5"
+          img: "bd_wt"
         },
         {
           name: "搜狗PR",
-          img: "sg-5"
+          img: "sg_wt"
         },
         {
           name: "谷歌PR",
-          img: "az-5"
+          img: "gg_wt"
         }
       ]
     };

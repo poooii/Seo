@@ -134,7 +134,7 @@ export default {
   },
   watch: {
     $route(to, from) {
-      // this.navIndex = to.params.navIndex;
+      this.navIndex = window.sessionStorage.navIndex;
       if (to.path !== "/searchs/") {
         let storage = window.sessionStorage;
         storage.removeItem("searchContent");

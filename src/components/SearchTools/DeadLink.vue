@@ -40,438 +40,66 @@
         </div>
         <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
         <div class="main_content" v-if="!content==''">
-            <div class="content_title">手机游戏_手机软件 - PC6手机站</div>
-            <div class="lishi_range clearfix">
-                <div class="search_check fl">
-                    <ul>
-                        <li :class="{active:range=='1m'}" @click="changeRange('1m')">一个月</li>
-                        <li :class="{active:range=='3m'}" @click="changeRange('3m')">三个月</li>
-                        <li :class="{active:range=='6m'}" @click="changeRange('6m')">半年</li>
-                    </ul>
-                </div>
-                <div class="range">
-                    <div class="prev" @click="changePrey"><i class="ico-pager-prev"></i></div>
-                    <div class="next" @click="changeNexty"><i class="ico-pager-next"></i></div>
-                    <div class="prevYear" v-model="prevyear">{{prevyear}}年</div>
-                    <div class="nextYear" v-model="nextyear">{{nextyear}}年</div>
-                    <div class="list">
-                        <ul class="date_range">
-                            <li @click="changeMonth(index)" :class="{active:index==Month,firstactive:index==Month}" v-for="(month,index) in months">{{month}}月</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- SEO搜索结果 -->
-            <div v-if="showViews=='0'">
-                <div class="chart_container">
-                    <div class="title_container">
-                        <span class="color_line_blue">PC词量</span>
-                        <span>移动词量</span>
-                        <span>百度PC来路</span>
-                        <span>百度移动来路</span>
-                        <span>总预计来路</span>
-                        <span>PC权重</span>
-                        <span>移动权重</span>
-                    </div>
-                    <LineCharts
-                        :xdata="xdata2"
-                        :showxis="showxis"
-                        :option="series2"
-                        :styl="{width: '1140px', height: '360px'}"
-                        id="paimingChart"
-                    ></LineCharts>
-                </div>
-                <div class="paiming_table_container">
-                    <table width="1200px">
-                        <tr>
-                            <td>日期</td>
-                            <td>PC权重</td>
-                            <td>移动权重</td>
-                            <td>PC词量</td>
-                            <td>移动词量</td>
-                            <td>百度PC来路</td>
-                            <td>百度移动来路</td>
-                            <td>总预计来路</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                    </table>
-                    <div class="page_box">
+            <div class="content_title">查询结果：<span> 共有链接<i class="alive"> 498</i> 个；死链接<i class="dead"> 214</i> 个 检测完成</span></div>
+            <table class="link_table" width="1200px">
+                <tr>
+                    <td>序号</td>
+                    <td>链接信息</td>
+                    <td>网站标题</td>
+                    <td>状态</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a></td>
+                    <td>搜狐号</td>
+                    <td class="alive">正常</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a></td>
+                    <td>搜狐号</td>
+                    <td class="alive">正常</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a></td>
+                    <td>搜狐号</td>
+                    <td class="alive">正常</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a></td>
+                    <td>搜狐号</td>
+                    <td class="dead">死链接</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a></td>
+                    <td>搜狐号</td>
+                    <td class="alive">正常</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a></td>
+                    <td>搜狐号</td>
+                    <td class="alive">正常</td>
+                </tr>
+                <tr>
+                    <td colspan="4">
                         <span><</span>
                         <span v-for="num in 10">{{num}}</span>
                         <span>...</span>
                         <span class="color_blue">50</span>
                         <span>></span>
-                    </div>
-                </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="adv_box">
+                <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
+                <img :src="require(`../../assets/${advs}.png`)">
+                </a>
             </div>
-            <!-- ALEAX搜索结果 -->
-            <div v-if="showViews=='1'">
-                <div class="chart_container">
-                    <div class="title_container">
-                        <span class="color_line_blue">今日排名</span>
-                        <span>一周平均排名</span>
-                        <span>一月平均排名</span>
-                        <span>三月平均排名</span>
-                    </div>
-                    <LineCharts
-                        :xdata="xdata2"
-                        :showxis="showxis"
-                        :option="series2"
-                        :styl="{width: '1140px', height: '360px'}"
-                        id="paimingChart"
-                    ></LineCharts>
-                </div>
-                <div class="paiming_table_container">
-                    <table width="1200px">
-                        <tr>
-                            <td>日期</td>
-                            <td>今日排行</td>
-                            <td>一周平均排名</td>
-                            <td>一月平均排名</td>
-                            <td>三月平均排名</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span> </td>
-                            <td>2,387 <span class="upper"><i></i>37</span> </td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span> </td>
-                            <td>2,387 <span class="upper"><i></i>37</span> </td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span> </td>
-                            <td>2,387 <span class="upper"><i></i>37</span> </td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span> </td>
-                            <td>2,387 <span class="upper"><i></i>37</span> </td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span> </td>
-                            <td>2,387 <span class="upper"><i></i>37</span> </td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span> </td>
-                            <td>2,387 <span class="upper"><i></i>37</span> </td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span> </td>
-                            <td>2,387 <span class="upper"><i></i>37</span> </td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span> </td>
-                            <td>2,387 <span class="upper"><i></i>37</span> </td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span> </td>
-                            <td>2,387 <span class="upper"><i></i>37</span> </td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span> </td>
-                            <td>2,387 <span class="upper"><i></i>37</span> </td>
-                        </tr>
-                    </table>
-                    <div class="page_box">
-                        <span><</span>
-                        <span v-for="num in 10">{{num}}</span>
-                        <span>...</span>
-                        <span class="color_blue">50</span>
-                        <span>></span>
-                    </div>
-                </div>
-            </div>
-            <!-- 收录/反链搜索结果 -->
-            <div v-if="showViews=='2'">
-                <div class="chart_container">
-                    <div class="title_container">
-                        <span class="color_line_blue">百度收录</span>
-                        <span>百度索引</span>
-                        <span>百度反链</span>
-                        <span>搜狗收录</span>
-                        <span>搜狗反链</span>
-                        <span>360收录</span>
-                        <span>360反链</span>
-                    </div>
-                    <LineCharts
-                        :xdata="xdata2"
-                        :showxis="showxis"
-                        :option="series2"
-                        :styl="{width: '1140px', height: '360px'}"
-                        id="paimingChart"
-                    ></LineCharts>
-                </div>
-                <div class="paiming_table_container">
-                    <table width="1200px">
-                        <tr>
-                            <td>日期</td>
-                            <td>百度收录</td>
-                            <td>百度索引</td>
-                            <td>百度反链</td>
-                            <td>搜狗收录</td>
-                            <td>搜狗反链</td>
-                            <td>360收录</td>
-                            <td>360反链</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
-                        </tr>
-                    </table>
-                    <div class="page_box">
-                        <span><</span>
-                        <span v-for="num in 10">{{num}}</span>
-                        <span>...</span>
-                        <span class="color_blue">50</span>
-                        <span>></span>
-                    </div>
-                </div>
-            </div>
-        </div>
+         </div>
         <NearlySearch @msgNearlysearch="getNearly"></NearlySearch>
     </div>
 </template>
@@ -487,14 +115,9 @@ export default {
     },
     data() {
         return {
-            showViews:'0',
-            showxis: true,
-            prevyear:'2018',
-            nextyear:'2019',
-            range:'1m',
-            Month:'18',
             searchIdx:'0',
             SeoContent: "",
+             advpic: ["adv1", "adv3", "adv2"],
             content:'',
             hotsearch: [
                 "po188.com",
@@ -504,26 +127,6 @@ export default {
                 "shuadan.cn",
                 "caoping6s.cn",
                 "014121.cn"
-            ],
-            months: ['10','11','12','1','2','3','4','5','6','7','8','9','10','11','12','1','2','3','4','5'],
-            xdata2: [
-                "04-02",
-                "04-03",
-                "-04-04",
-                "04-05",
-                "04-06",
-                "04-07",
-                "04-08",
-                "04-09"
-            ],
-            series2: [
-                {
-                name: "前10",
-                type: "line",
-                symbol: "none",
-                data: [22000, 20000, 21000, 21000, 21000, 22000, 21000, 20000],
-                areaStyle: { normal: { color: "#e2f4ff" } }
-                }
             ],
         }
     },
@@ -540,20 +143,6 @@ export default {
             this.searchIdx=0
             }
         },
-        changeRange(range) {
-            this.range=range
-        },
-        changeMonth(index) {
-            this.Month=index
-        },
-        changePrey() {
-            this.prevyear--
-            this.nextyear--
-        },
-        changeNexty() {
-            this.prevyear++
-            this.nextyear++
-        },
         searchHot(data){
             let storage = window.sessionStorage;
             storage.setItem("searchContent", data);
@@ -565,7 +154,6 @@ export default {
             storage.setItem("searchContent",msg)
             this.content=storage.searchContent
             this.searchIdx=0
-            this.showViews=0
             window.scrollTo(0,0);
         },
         getList() {
@@ -579,7 +167,7 @@ export default {
     let storage = window.sessionStorage;
     this.content = storage.searchContent;
     this.SeoContent = storage.searchContent;
-    storage.setItem("navIndex", '1');
+    storage.setItem("navIndex", '2');
     window.scrollTo(0,0);
   }
 }
@@ -600,7 +188,6 @@ export default {
     .websiteValue_banner_ul a:hover{
         color: #007bb7;
     }
-
     .search_downlist{
         width: 150px;
         height: 50px;
@@ -639,224 +226,71 @@ export default {
             font-size: 24px;
             color: #333;
             margin: 60px 0 35px 0;
-        }
-    }
-    .lishi_range{
-        .search_check{
-            margin: 20px 0 0;
-            ul{
-                li{
-                    float: left;
-                    margin-left: -1px;
-                    border: 1px solid #e3e3e3;
-                    background: #f7f7f7;
-                    padding: 10px 12px;
-                    color: #999;
-                    cursor: pointer;
-                }
-                .active{
-                    position: relative;
-                    color: #47a7e2;
-                    border-color: #99d8ff;
-                    background: #e0f3ff;
-                }
-            }
-        }
-        .range{
-            position: relative;
-            float: right;
-            margin-top: 20px;
-            width: 1000px;
-            height: 39px;
-            .prev{
-                position: absolute;
-                left: 0;
-                z-index: 3;
-                top: -25px;
-                width: 24px;
-                height: 24px;
-                cursor: pointer;
-                i{
-                    width: 24px;
-                    height: 24px;
-                    display: block;
-                    background-image: url(../../assets/icon_prev.png)
-                }
-            }
-            .next{
-                    position: absolute;
-                    right: 0;
-                    z-index: 3;
-                    top: -25px;
-                    width: 24px;
-                    height: 24px;
-                    cursor: pointer;
-                    i{
-                         width: 24px;
-                        height: 24px;
-                        display: block;
-                        background-image: url(../../assets/icon_next.png)
-                    }
-            }
-            .prevYear{
-                position: absolute;
-                left: 30px;
-                z-index: 3;
-                top: -22px;
-                height: 24px;
-                font-size: 14px;
-                color: #666;
-            }
-            .nextYear{
-                position: absolute;
-                right: 30px;
-                z-index: 3;
-                top: -22px;
-                height: 24px;
-                font-size: 14px;
-                color: #666;
-            }
-            .date_range {
-                li{
-                    position: relative;
-                    float: left;
-                    width: 49px;
-                    line-height: 37px;
-                    text-align: center;
-                    color: #666;
-                    border-left: solid 1px #e6e6e6;
-                    border-top: solid 1px #e6e6e6;
-                    border-bottom: solid 1px #e6e6e6;
-                    background: #f7f7f7;
-                    cursor: pointer;
-                }
-                li:last-child{
-                    border-right: 1px solid #e6e6e6;
-                    width: 48px;
-                }
-                .active{
-                        position: relative;
-                        z-index: 2;
-                        border-color: #99d8ff;
-                        background: #e0f3ff;
-                        color: #47a7e2;
-                }
-                .firstactive:before{
-                    content: "";
-                    display: block;
-                    position: absolute;
-                    top: 42px;
-                    left: 20px;
-                    width: 0;
-                    height: 0;
-                    font-size: 0;
-                    line-height: 0;
-                    border-left: 4px solid transparent;
-                    border-right: 4px solid transparent;
-                    border-bottom: 4px solid #2aa0ea;
-                }
-                .active:after{
-                    content: "";
-                    display: block;
-                    position: absolute;
-                    top: -1px;
-                    right: -1px;
-                    width: 1px;
-                    height: 39px;
-                    background: #99d8ff;
-                }
-            }
-
-        }
-    }
-    .chart_container{
-        height: 440px;
-        border: 1px solid #ebebeb;
-        margin-top: 30px;
-        .title_container{
-            height: 60px;
-            background: #fafafa;
-            border-bottom: 1px solid #ebebeb;
             span{
+                font-size:18px;
+                color: #666;
+                .alive{
+                    color: #00b35d;
+                }
+                .dead{
+                    color: #ff3838;
+                }
+            }
+        }
+    }
+    .link_table{
+        border: 1px solid #ebebeb;
+        border-bottom: none;
+        tr{
+            td{
+                min-width: 100px;
+                height: 60px;
+                text-align: center;
+                font-size:16px;
+                border-bottom: 1px solid #ebebeb;
+                a{
+                    color: #007bb7;
+                }
+            }
+            .alive{
+                    color: #00b35d;
+                }
+            .dead{
+                color: #ff3838;
+                }
+            td:nth-child(2){
+                text-align: left;
+            }
+            td:first-child{
+                width: 100px;
+                padding-right: 40px;
+            }
+        }
+        tr:first-child{
+            background: #fafafa;
+            color: #666;
+        }
+        tr:last-child {
+            td {
+            text-align: right;
+            span {
                 display: inline-block;
                 height: 60px;
                 line-height: 60px;
-                margin-left: 36px;
-                min-width: 30px;
-                text-align: center;
+                margin-right: 24px;
                 cursor: pointer;
-                font-size:16px;
+                font-size: 16px;
+                color: #333;
             }
-            .color_line_blue{
-                border-bottom: 2px solid #2aa0ea;
-                color: #2aa0ea;
+            span:hover{
+                color: #007bb7;
             }
-        }
-    }
-    .paiming_table_container{
-        color: #666;
-        margin-top: 20px;
-        height: auto;
-        border-bottom: 1px solid #ebebeb;
-        table{
-            border-right: 1px solid #ebebeb;
-            border-bottom: 1px solid #ebebeb;
-            tr{
-                td{
-                    border-left: 1px solid #ebebeb;
-                    border-top: 1px solid #ebebeb;
-                    text-align: center;
-                    vertical-align: middle;
-                    height: 60px;
-                    font-size:16px;
-                    .lower{
-                        color: #00b35d;
-                        i{
-                            width: 0;
-                            height: 0;
-                            top: 15px;
-                            border-width: 5px 5px 0;
-                            border-style: solid;
-                            border-color: #00b35d transparent transparent;
-                            position: relative;
-                            margin-right: 5px;
-                        }
-                    }
-                    .upper{
-                        color: #ec1f37;
-                        i{
-                            width: 0;
-                            height: 0;
-                            border-width: 0 5px 5px;
-                            border-style: solid;
-                            border-color: transparent transparent #ec1f37;
-                            position: relative;
-                            margin-right: 5px;
-                            bottom: 12px;
-                        }
-                    }
-                }
-            }
-            tr:first-child{
-                td{
-                    background: #fafafa;
-                }
             }
         }
     }
-    .page_box{
-        width: 100%;
-        height: 60px;
-        text-align: right;
-        border-left: 1px solid #ebebeb;
-        border-right: 1px solid #ebebeb;
-        span{
-            display: inline-block;
-            height: 60px;
-            line-height: 60px;
-            margin-right: 24px;
-            cursor: pointer;
-            font-size:16px;
-        }
+    .adv_box {
+        display: flex;
+        justify-content: space-between;
+        margin: 30px 0 50px 0;
     }
 </style>

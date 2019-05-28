@@ -30,6 +30,8 @@ import HttpState from '../components/SearchTools/HttpState'
 import RobotsTest from '../components/SearchTools/RobotsTest'
 import KeywordsDensity from '../components/SearchTools/KeywordsDensity'
 import DeadLink from '../components/SearchTools/DeadLink'
+import SeGrabePage from '../components/SearchTools/SeGrabePage'
+import WebSimiler from '../components/SearchTools/WebSimiler'
 
 Vue.use(Router)
 
@@ -181,6 +183,16 @@ export default new Router({
           path: 'deadlink',
           name: 'DeadLink',
           component: DeadLink,
+        },
+        {
+          path: 'segrabepage',
+          name: 'SeGrabePage',
+          component: SeGrabePage,
+        },
+        {
+          path: 'websimiler',
+          name: 'WebSimiler',
+          component: WebSimiler,
         },
       ]
     },

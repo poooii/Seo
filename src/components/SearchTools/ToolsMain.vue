@@ -10,6 +10,7 @@ export default {
       let storage = window.sessionStorage;
       storage.removeItem("searchContent");
       storage.removeItem("Keywords");
+      storage.removeItem("S_SeoContent");
     }
     next();
   },

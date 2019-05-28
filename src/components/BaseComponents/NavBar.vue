@@ -77,10 +77,8 @@ export default {
             { name: "Robots检测", links: "RobotsTest" },
             { name: "关键词密度查询", links: "KeywordsDensity" },
             { name: "死链接检测", links: "DeadLink" },
-            { name: "源代码查看", links: "SeoSearch" },
-            { name: "关键词密度检测", links: "SeoSearch" },
-            { name: "内页收录查询", links: "SeoSearch" },
-            { name: "网站速度测试", links: "SeoSearch" }
+            { name: "模拟抓取", links: "SeGrabePage" },
+            { name: "页面相似度查询", links: "WebSimiler" }
           ]
         },
         {
@@ -139,6 +137,7 @@ export default {
         let storage = window.sessionStorage;
         storage.removeItem("searchContent");
         storage.removeItem("Keywords");
+        storage.removeItem("S_SeoContent");
       }
     }
   },

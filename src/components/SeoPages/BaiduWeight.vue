@@ -2,7 +2,7 @@
   <div>
     <!-- 头部搜索框 -->
     <SearchBox :content="content" :title="title" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
-    <div class="cha_default" v-if="content==''||content==undefined">请输入要查询的站点</div>
+    <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
     <div class="baidu_main_content" v-if="!content==''">
       <div class="content_title">
         <span class="t_title">手机游戏_手机软件 - PC6手机站</span>
@@ -624,6 +624,7 @@ export default {
   },
   mounted() {
     let storage = window.sessionStorage;
+    this.content = storage.searchContent;
     storage.setItem("navIndex", '1');
     this.series = this.mockdata[0].series;
     this.xdata = this.mockdata[0].xdata;
@@ -637,15 +638,7 @@ export default {
   background: #fafafa;
   color: #808080;
 }
-.cha_default {
-  width: 1200px;
-  margin: 0 auto;
-  padding: 130px 0 130px;
-  color: #d3d3d3;
-  letter-spacing: 2px;
-  font-size: 30px;
-  text-align: center;
-}
+
 .baidu_main_content {
   width: 1200px;
   background: #fff;

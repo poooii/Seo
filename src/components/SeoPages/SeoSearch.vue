@@ -2,7 +2,7 @@
   <div>
     <!-- 头部搜索框 -->
     <SearchBox :title="title" :content="content" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
-    <div class="cha_default" v-if="content==''||content==undefined">请输入要查询的站点</div>
+    <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
     <div class="seo_main_content" v-if="!content==''">
       <!-- 主体第一大块 -->
       <div class="content_title clearfix">
@@ -887,6 +887,23 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
+    },
+    //请求数据
+    getBaidu() {
+      this.$http
+        .get("/Api/OnlineZhongJie",{
+          params:{
+            cc:1,
+            rn:1
+          }
+        }
+        )
+        .then(res => {
+          console.log(res)
+        })
+        .catch(res => {
+          
+        });
     }
   },
   filters: {
@@ -905,6 +922,7 @@ export default {
     this.content = storage.searchContent;
     this.series = this.mockdata[0].series;
     this.xdata = this.mockdata[0].xdata;
+    this.getBaidu()
   }
 };
 </script>
@@ -914,15 +932,7 @@ export default {
   background: #fafafa;
   color: #808080;
 }
-.cha_default {
-  width: 1200px;
-  margin: 0 auto;
-  padding: 130px 0 130px;
-  color: #d3d3d3;
-  letter-spacing: 2px;
-  font-size: 30px;
-  text-align: center;
-}
+
 .seo_main_content {
   width: 1200px;
   background: #fff;

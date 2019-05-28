@@ -4,33 +4,25 @@
     <SearchBox :title="title" :content="content" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
     <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
     <div class="main_content" v-if="!content==''">
-      <div class="content_title">备案信息</div>
-      <table width="1200px" class="icptable">
+      <div class="content_title">
+        查询结果：
+        <span>文件状态良好，请查看下面具体报告</span>
+      </div>
+      <table width="1200px" class="tsz_table">
         <tr>
-          <td>主办单位名称</td>
-          <td>长沙七丽网络科技有限公司</td>
-          <td>主办单位性质：</td>
-          <td>企业</td>
+          <td>规则</td>
+          <td>解释</td>
+          <td>有效</td>
         </tr>
         <tr>
-          <td>网站备案/许可证号：</td>
-          <td>湘ICP备16001275号-10</td>
-          <td>网站名称：</td>
-          <td>PC6下载</td>
+          <td>Disallow: /*?*</td>
+          <td>禁止Baiduspider访问任何带参数的页面</td>
+          <td class="right">正确</td>
         </tr>
         <tr>
-          <td>网站首页网址：</td>
-          <td>
-            <a href="http://www.pc6.com" target="_blank">www.pc6.com</a>
-          </td>
-          <td>网站域名：</td>
-          <td>pc6.com</td>
-        </tr>
-        <tr>
-          <td>审核时间：</td>
-          <td>2018-10-29</td>
-          <td></td>
-          <td></td>
+          <td>User-agent: Baiduspider</td>
+          <td>开始配置：Baiduspider</td>
+          <td class="right">正确</td>
         </tr>
       </table>
       <div class="adv_box">
@@ -47,14 +39,14 @@
 import SearchBox from "../BaseComponents/SearchBox";
 import NearlySearch from "../BaseComponents/NearlySearch";
 export default {
-  name: "IcpAbout",
+  name: "RobotsTest",
   components: {
     SearchBox,
     NearlySearch
   },
   data() {
     return {
-      title: "ICP备案查询",
+      title: "Robots检测",
       content: "",
       advpic: ["adv1", "adv3", "adv2"]
     };
@@ -80,7 +72,7 @@ export default {
   mounted() {
     let storage = window.sessionStorage;
     this.content = storage.searchContent;
-    storage.setItem("navIndex", "1");
+    storage.setItem("navIndex", "2");
     window.scrollTo(0, 0);
   }
 };
@@ -94,41 +86,40 @@ export default {
 .content_title {
   font-size: 24px;
   margin: 60px 0 30px 0;
+  span {
+    font-size: 18px;
+    color: #666;
+  }
 }
-.icptable {
+.tsz_table {
   border-right: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
   tr {
     td {
       border-top: 1px solid #ebebeb;
       vertical-align: middle;
-      padding-left: 40px;
-      width: 300px;
       height: 60px;
       font-size: 16px;
-      a {
-        width: 100%;
-        height: 100%;
-        line-height: 60px;
-        color: #007bb7;
-      }
+      padding-left: 35px;
     }
     td:first-child {
-      background: #fafafa;
-      width: 220px;
-      color: #808080;
       border-left: 1px solid #ebebeb;
+      color: #999;
     }
-    td:nth-child(3) {
+    .right {
+      color: #00b35d;
+    }
+  }
+  tr:first-child {
+    td {
       background: #fafafa;
-      width: 220px;
-      color: #808080;
+      color: #666;
     }
   }
 }
 .adv_box {
   display: flex;
   justify-content: space-between;
-  margin: 30px 0 50px 0;
+  margin: 180px 0 50px 0;
 }
 </style>

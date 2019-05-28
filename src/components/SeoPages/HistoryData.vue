@@ -38,7 +38,7 @@
             </div>
             </div>
         </div>
-        <div class="cha_default" v-if="content==''||content==undefined">请输入要查询的站点</div>
+        <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
         <div class="main_content" v-if="!content==''">
             <div class="content_title">手机游戏_手机软件 - PC6手机站</div>
             <div class="lishi_range clearfix">
@@ -571,10 +571,14 @@ export default {
         getList() {
             this.content=this.SeoContent
             this.showViews=this.searchIdx
+            let storage = window.sessionStorage;
+            storage.setItem("searchContent", this.content);
         }
     },
     mounted() {
     let storage = window.sessionStorage;
+    this.content = storage.searchContent;
+    this.SeoContent = storage.searchContent;
     storage.setItem("navIndex", '1');
     window.scrollTo(0,0);
   }
@@ -854,14 +858,5 @@ export default {
             cursor: pointer;
             font-size:16px;
         }
-    }
-    .cha_default {
-        width: 1200px;
-        margin: 0 auto;
-        padding: 130px 0 130px;
-        color: #d3d3d3;
-        letter-spacing: 2px;
-        font-size: 30px;
-        text-align: center;
     }
 </style>

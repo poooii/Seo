@@ -4,27 +4,27 @@
     <SearchBox :title="title" :content="content" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
     <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
     <div class="main_content" v-if="!content==''">
-      <table class="title_table" width="1200px">
-        <tr>
-          <td>域名</td>
-          <td>IP地址</td>
-          <td>地区</td>
-        </tr>
-        <tr>
-          <td>
-            <a href="http://www.pc6.com" target="_blank">www.pc6.com</a>
-          </td>
-          <td>123.206.112.44</td>
-          <td>北京市</td>
-        </tr>
-      </table>
+      <div class="content_title">查询结果</div>
       <table class="ip_main_table" width="1200px">
         <tr>
           <td>序号</td>
           <td>域名</td>
           <td>标题</td>
           <td>BR</td>
-          <td>PR</td>
+          <td>反链数</td>
+          <td>链接名称</td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td>
+            <a href="http://www.pc6.com" target="_blank">www.pc6.com</a>
+          </td>
+          <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
+          <td>
+            <img src="../../assets/yd-5.png" alt>
+          </td>
+          <td>≈13</td>
+          <td>PC6安卓网</td>
         </tr>
         <tr>
           <td>1</td>
@@ -35,9 +35,8 @@
           <td>
             <img src="../../assets/yd-5.png" alt>
           </td>
-          <td>
-            <img src="../../assets/zz-5.png" alt>
-          </td>
+          <td>≈13</td>
+          <td>PC6安卓网</td>
         </tr>
         <tr>
           <td>2</td>
@@ -48,22 +47,20 @@
           <td>
             <img src="../../assets/yd-5.png" alt>
           </td>
-          <td>
-            <img src="../../assets/zz-5.png" alt>
-          </td>
+          <td>≈13</td>
+          <td>PC6安卓网</td>
         </tr>
         <tr>
           <td>3</td>
           <td>
             <a href="http://www.pc6.com" target="_blank">www.pc6.com</a>
           </td>
-          <td class="fail">查询失败</td>
+          <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
           <td>
-            <img src alt>
+            <img src="../../assets/yd-5.png" alt>
           </td>
-          <td>
-            <img src="../../assets/zz-5.png" alt>
-          </td>
+          <td>≈13</td>
+          <td>PC6安卓网</td>
         </tr>
         <tr>
           <td>4</td>
@@ -74,9 +71,8 @@
           <td>
             <img src="../../assets/yd-5.png" alt>
           </td>
-          <td>
-            <img src="../../assets/zz-5.png" alt>
-          </td>
+          <td>≈13</td>
+          <td>PC6安卓网</td>
         </tr>
         <tr>
           <td>5</td>
@@ -87,9 +83,8 @@
           <td>
             <img src="../../assets/yd-5.png" alt>
           </td>
-          <td>
-            <img src="../../assets/zz-5.png" alt>
-          </td>
+          <td>≈13</td>
+          <td>PC6安卓网</td>
         </tr>
         <tr>
           <td>6</td>
@@ -100,44 +95,16 @@
           <td>
             <img src="../../assets/yd-5.png" alt>
           </td>
-          <td>
-            <img src="../../assets/zz-5.png" alt>
-          </td>
+          <td>≈13</td>
+          <td>PC6安卓网</td>
         </tr>
         <tr>
-          <td>7</td>
-          <td>
-            <a href="http://www.pc6.com" target="_blank">www.pc6.com</a>
-          </td>
-          <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
-          <td>
-            <img src="../../assets/yd-5.png" alt>
-          </td>
-          <td>
-            <img src="../../assets/zz-5.png" alt>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="5">
+          <td colspan="6">
             <span><</span>
             <span v-for="num in 10">{{num}}</span>
             <span>...</span>
             <span class="color_blue">50</span>
             <span>></span>
-          </td>
-        </tr>
-      </table>
-      <table class="ip_main_table" width="1200px">
-        <tr>
-          <td>序号</td>
-          <td>域名</td>
-          <td>标题</td>
-          <td>BR</td>
-          <td>PR</td>
-        </tr>
-        <tr>
-          <td colspan="5">
-            <img src="../../assets/no_ipdata.png" alt>
           </td>
         </tr>
       </table>
@@ -155,14 +122,14 @@
 import SearchBox from "../BaseComponents/SearchBox";
 import NearlySearch from "../BaseComponents/NearlySearch";
 export default {
-  name: "IpSearch",
+  name: "AntiChain",
   components: {
     SearchBox,
     NearlySearch
   },
   data() {
     return {
-      title: "IP反查域名",
+      title: "反链查询-首页反链",
       content: "",
       advpic: ["adv1", "adv3", "adv2"]
     };
@@ -199,32 +166,9 @@ export default {
   width: 1200px;
   margin: 0 auto;
 }
-.title_table {
-  border-right: 1px solid #ebebeb;
-  border-bottom: 1px solid #ebebeb;
-  font-size: 16px;
-  margin-top: 60px;
-  tr {
-    td {
-      width: 33.33%;
-      height: 60px;
-      text-align: center;
-      border-left: 1px solid #ebebeb;
-      border-top: 1px solid #ebebeb;
-      a {
-        width: 100%;
-        height: 100%;
-        line-height: 60px;
-        color: #007bb7;
-      }
-    }
-  }
-  tr:first-child {
-    td {
-      background: #fafafa;
-      color: #666;
-    }
-  }
+.content_title {
+  font-size: 24px;
+  margin: 60px 0 30px 0;
 }
 .ip_main_table {
   font-size: 16px;
@@ -233,7 +177,7 @@ export default {
   border-bottom: none;
   tr {
     td {
-      width: 220px;
+      width: 180px;
       height: 60px;
       text-align: center;
       border-bottom: 1px solid #ebebeb;
@@ -244,16 +188,12 @@ export default {
         color: #007bb7;
       }
     }
-    td:first-child,
-    td:last-child {
+    td:first-child {
       width: 100px;
     }
     td:nth-child(3) {
       width: 560px;
       text-align: left;
-    }
-    .fail {
-      color: #ff3838;
     }
     .color_blue {
       color: #007bb7;

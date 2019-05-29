@@ -84,8 +84,8 @@ export default {
         {
           name: "域名/IP查询",
           details: [
-            { name: "SEO综合查询", links: "SeoSearch" },
-            { name: "百度权重", links: "BaiduWeight" },
+            { name: "Whois查询", links: "WhoisSearch" },
+            { name: "Whois反查", links: "WhoisDeserve" },
             { name: "备案查询", links: "SeoSearch" },
             { name: "HTTP状态查询", links: "SeoSearch" },
             { name: "源代码查看", links: "SeoSearch" },

@@ -73,6 +73,7 @@ export default {
     getList() {
       if(this.S_SeoContent == this.SeoContent && this.S_SeoContent!==""){
         this.isSame = true
+        this.content=this.SeoContent
       }else{
         this.isSame = false
         this.content=this.SeoContent

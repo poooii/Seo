@@ -564,6 +564,7 @@ export default {
             let storage=window.sessionStorage
             storage.setItem("searchContent",msg)
             this.content=storage.searchContent
+            this.SeoContent = storage.searchContent
             this.searchIdx=0
             this.showViews=0
             window.scrollTo(0,0);

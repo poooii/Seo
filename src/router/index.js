@@ -35,6 +35,12 @@ import WebSimiler from '../components/SearchTools/WebSimiler'
 import DomainIpMain from '../components/DomainIpPages/DomainIpMain'
 import WhoisSearch from '../components/DomainIpPages/WhoisSearch'
 import WhoisDeserve from '../components/DomainIpPages/WhoisDeserve'
+import WebIpSearch from '../components/DomainIpPages/WebIpSearch'
+import DomainNameSealed from '../components/DomainIpPages/DomainNameSealed'
+import DomainNameWall from '../components/DomainIpPages/DomainNameWall'
+import DomainNameHistory from '../components/DomainIpPages/DomainNameHistory'
+import OtherToolsMain from '../components/OtherTools/OtherToolsMain'
+import IpMultipleSearch from '../components/OtherTools/IpMultipleSearch'
 
 Vue.use(Router)
 
@@ -212,6 +218,37 @@ export default new Router({
           path: 'whoisdeserve',
           name: 'WhoisDeserve',
           component: WhoisDeserve,
+        },
+        {
+          path: 'webipsearch',
+          name: 'WebIpSearch',
+          component: WebIpSearch,
+        },
+        {
+          path: 'domainNameSealed',
+          name: 'DomainNameSealed',
+          component: DomainNameSealed,
+        },
+        {
+          path: 'domainNameWall',
+          name: 'DomainNameWall',
+          component: DomainNameWall,
+        },
+        {
+          path: 'domainNameHistory',
+          name: 'DomainNameHistory',
+          component: DomainNameHistory,
+        }
+      ]
+    },
+    {
+      path: '/othertools',
+      component: OtherToolsMain,
+      children: [
+        {
+          path: 'ipMultipleSearch',
+          name: 'IpMultipleSearch',
+          component: IpMultipleSearch,
         },
       ]
     },

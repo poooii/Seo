@@ -3,13 +3,14 @@
         <!-- 头部 -->
         <div class="websiteValue_banner">
             <div class="websiteValue_banner_contain">
-                <p class="websiteValue_banner_title2">Whois反查</p>
+                <p class="websiteValue_banner_title2">域名被封</p>
                 <div class="websiteValue_banner_input">
                     <form @submit.prevent>
                         <div class="search_downlist" @click.stop>
                             <ul>
-                                <li :class="{show:searchIdx==0||searchIdx==undefined}" @click="changeSearch('0')">通过注册人</li>
-                                <li :class="{show:searchIdx==1||searchIdx==undefined}" @click="changeSearch('1')">通过邮箱</li>
+                                <li :class="{show:searchIdx==0||searchIdx==undefined}" @click="changeSearch('0')">微信域名检测</li>
+                                <li :class="{show:searchIdx==1||searchIdx==undefined}" @click="changeSearch('1')">qq域名检测</li>
+                                <li :class="{show:searchIdx==2||searchIdx==undefined}" @click="changeSearch('2')">域名检测</li>
                             </ul>
                             <i></i>
                         </div>
@@ -26,51 +27,34 @@
                         </input>
                     </form>
                 </div>
+                <!-- 热门搜索 -->
+                <div class="clearfix websiteValue_banner_ul1">
+                    <span class="websiteValue_banner_ul_title">热门搜索：</span>
+                    <ul class="websiteValue_banner_ul clearfix">
+                    <li v-for="items in hotsearch">
+                        <a @click="searchHot(items)">{{items}}</a>
+                    </li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
         <div class="main_content" v-if="!content==''">
-            <div class="content_title">查询结果：<span> 共有链接<i class="alive"> 498</i> 个；死链接<i class="dead"> 214</i> 个 检测完成</span></div>
+            <div class="content_title">查询结果</div>
             <table class="link_table" width="1200px">
                 <tr>
                     <td>序号</td>
                     <td>域名</td>
-                    <td>注册人</td>
-                    <td>邮箱</td>
-                    <td>BR</td>
-                    <td>PR</td>
-                </tr>
+                    <td>状态</td>
                 <tr>
                     <td>1</td>
-                    <td><a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a></td>
-                    <td>马云</td>
-                    <td><a href="javascript:void(0);">sjjh@163.com</a></td>
-                    <td><img src="../../assets/bd_wt.png" alt=""><span>0</span></td>
-                    <td><img src="../../assets/gg_wt.png" alt=""><span>0</span></td>
+                    <td>http://news.sohu.com/s2018/guoqing69/index.shtml</td>
+                    <td class="sealed">域名被封</td>
                 </tr>
                 <tr>
                     <td>2</td>
-                    <td><a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a></td>
-                    <td>马云</td>
-                    <td><a href="javascript:void(0);">sjjh@163.com</a></td>
-                    <td><img src="../../assets/bd_wt.png" alt=""><span>0</span></td>
-                    <td><img src="../../assets/gg_wt.png" alt=""><span>0</span></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td><a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a></td>
-                    <td>马云</td>
-                    <td><a href="javascript:void(0);">sjjh@163.com</a></td>
-                    <td><img src="../../assets/bd_wt.png" alt=""><span>0</span></td>
-                    <td><img src="../../assets/gg_wt.png" alt=""><span>0</span></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td><a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a></td>
-                    <td>马云</td>
-                    <td><a href="javascript:void(0);">sjjh@163.com</a></td>
-                    <td><img src="../../assets/bd_wt.png" alt=""><span>0</span></td>
-                    <td><img src="../../assets/gg_wt.png" alt=""><span>0</span></td>
+                    <td>http://www.baidu.com</td>
+                    <td class="normal">域名正常</td>
                 </tr>
             </table>
             <div class="adv_box">
@@ -86,7 +70,7 @@
 <script>
 import NearlySearch from "../BaseComponents/NearlySearch"
 export default {
-    name: "WhoisDeserve",
+    name: "DomainNameSealed",
     components: {
         NearlySearch
     },
@@ -95,7 +79,16 @@ export default {
             searchIdx:'0',
             SeoContent: "",
             advpic: ["adv1", "adv3", "adv2"],
-            content:''
+            content:'',
+            hotsearch: [
+                "po188.com",
+                "www.hj135.com",
+                "jiaofu.cn",
+                "riyiseo.com",
+                "shuadan.cn",
+                "caoping6s.cn",
+                "014121.cn"
+            ],
         }
     },
     methods: {
@@ -110,6 +103,12 @@ export default {
             if(this.searchIdx==undefined){
             this.searchIdx=0
             }
+        },
+        searchHot(data){
+            let storage = window.sessionStorage;
+            storage.setItem("searchContent", data);
+            this.SeoContent = storage.searchContent;
+            this.content = storage.searchContent;
         },
         getNearly(msg) {
             let storage=window.sessionStorage
@@ -189,16 +188,6 @@ export default {
             font-size: 24px;
             color: #333;
             margin: 60px 0 35px 0;
-            span{
-                font-size:18px;
-                color: #666;
-                .alive{
-                    color: #00b35d;
-                }
-                .dead{
-                    color: #ff3838;
-                }
-            }
         }
     }
     .link_table{
@@ -212,23 +201,19 @@ export default {
                 font-size:16px;
                 border-bottom: 1px solid #ebebeb;
                 position: relative;
-                a{
-                    color: #007bb7;
-                }
-                span{
-                    position: absolute;
-                    top: 17px;
-                    left: 63px;
-                    color: #fff;
-                }
             }
-            td:nth-child(2),td:nth-child(4){
+            td:nth-child(2){
                 text-align: left;
-                min-width: 200px;
-                padding-left: 60px;
+                padding-left: 100px;
             }
             td:first-child{
                 width: 100px;
+            }
+            .sealed{
+                color: #ff3838;
+            }
+            .normal{
+                color: #63c85e;
             }
         }
         tr:first-child{

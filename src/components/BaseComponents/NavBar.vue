@@ -86,25 +86,17 @@ export default {
           details: [
             { name: "Whois查询", links: "WhoisSearch" },
             { name: "Whois反查", links: "WhoisDeserve" },
-            { name: "备案查询", links: "SeoSearch" },
-            { name: "HTTP状态查询", links: "SeoSearch" },
-            { name: "源代码查看", links: "SeoSearch" },
-            { name: "关键词密度检测", links: "SeoSearch" },
-            { name: "内页收录查询", links: "SeoSearch" },
-            { name: "网站速度测试", links: "SeoSearch" }
+            { name: "网站IP查询", links: "WebIpSearch" },
+            { name: "域名被封", links: "DomainNameSealed" },
+            { name: "域名被墙", links: "DomainNameWall" },
+            { name: "域名历史", links: "DomainNameHistory" }
           ]
         },
         {
           name: "其他工具",
           details: [
-            { name: "SEO综合查询", links: "SeoSearch" },
-            { name: "百度权重", links: "BaiduWeight" },
-            { name: "备案查询", links: "SeoSearch" },
-            { name: "HTTP状态查询", links: "SeoSearch" },
-            { name: "源代码查看", links: "SeoSearch" },
-            { name: "关键词密度检测", links: "SeoSearch" },
-            { name: "内页收录查询", links: "SeoSearch" },
-            { name: "网站速度测试", links: "SeoSearch" }
+            { name: "IP地址批量查询工具", links: "IpMultipleSearch" },
+            { name: "自动排版工具", links: "BaiduWeight" }
           ]
         }
       ]

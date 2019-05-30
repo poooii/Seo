@@ -3,39 +3,39 @@
         <!-- 头部 -->
         <div class="websiteValue_banner">
             <div class="websiteValue_banner_contain">
-            <p class="websiteValue_banner_title2">死链接检测</p>
-            <div class="websiteValue_banner_input">
-                <form @submit.prevent>
-                    <div class="search_downlist" @click.stop>
-                        <ul>
-                            <li :class="{show:searchIdx==0||searchIdx==undefined}" @click="changeSearch('0')">全部链接</li>
-                            <li :class="{show:searchIdx==1||searchIdx==undefined}" @click="changeSearch('1')">站内链接</li>
-                            <li :class="{show:searchIdx==2||searchIdx==undefined}" @click="changeSearch('2')">站外链接</li>
-                        </ul>
-                         <i></i>
-                    </div>
-                    <input
-                        @keyup.enter="getList"
-                        v-model="SeoContent"
-                        type="text"
-                        placeholder="输入想要查询价格的域名"
-                        class="websiteValue_banner_input1"
-                        name="yuming"
-                    >
-                    <input type="button">
-                        <img @click="getList"  src="../../assets/websiteValue-search.png" alt class="websiteValue-search">
-                    </input>
-                </form>
-            </div>
-            <!-- 热门搜索 -->
-            <div class="clearfix websiteValue_banner_ul1">
-                <span class="websiteValue_banner_ul_title">热门搜索：</span>
-                <ul class="websiteValue_banner_ul clearfix">
-                <li v-for="items in hotsearch">
-                    <a @click="searchHot(items)">{{items}}</a>
-                </li>
-                </ul>
-            </div>
+                <p class="websiteValue_banner_title2">死链接检测</p>
+                <div class="websiteValue_banner_input">
+                    <form @submit.prevent>
+                        <div class="search_downlist" @click.stop>
+                            <ul>
+                                <li :class="{show:searchIdx==0||searchIdx==undefined}" @click="changeSearch('0')">全部链接</li>
+                                <li :class="{show:searchIdx==1||searchIdx==undefined}" @click="changeSearch('1')">站内链接</li>
+                                <li :class="{show:searchIdx==2||searchIdx==undefined}" @click="changeSearch('2')">站外链接</li>
+                            </ul>
+                            <i></i>
+                        </div>
+                        <input
+                            @keyup.enter="getList"
+                            v-model="SeoContent"
+                            type="text"
+                            placeholder="输入想要查询价格的域名"
+                            class="websiteValue_banner_input1"
+                            name="yuming"
+                        >
+                        <input type="button">
+                            <img @click="getList"  src="../../assets/websiteValue-search.png" alt class="websiteValue-search">
+                        </input>
+                    </form>
+                </div>
+                <!-- 热门搜索 -->
+                <div class="clearfix websiteValue_banner_ul1">
+                    <span class="websiteValue_banner_ul_title">热门搜索：</span>
+                    <ul class="websiteValue_banner_ul clearfix">
+                    <li v-for="items in hotsearch">
+                        <a @click="searchHot(items)">{{items}}</a>
+                    </li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
@@ -151,6 +151,7 @@ export default {
             let storage=window.sessionStorage
             storage.setItem("searchContent",msg)
             this.content=storage.searchContent
+            this.SeoContent = storage.searchContent
             this.searchIdx=0
             window.scrollTo(0,0);
         },

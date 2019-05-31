@@ -13,6 +13,7 @@ Vue.prototype.$http = axios
 
 Vue.prototype.$echarts = echarts
 
+Vue.prototype.bus = new Vue;
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -57,9 +57,31 @@ export default {
   },
   methods: {
     getMsg(data) {
+      this.bus.$emit('loading', true);
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getAll();
+    },
+    getAll() {
+      this.$http.all([this.getBd1(), this.getBd2()]).then(
+        this.$http.spread((acct, perms) => {
+          console.log(acct)
+          console.log(perms)
+          this.bus.$emit('loading', false);
+        })
+      );
+    },
+    getBd1() {
+      return this.$http.get("/Api/OnlineZhongJie", {
+        params: {
+          cc: 1,
+          rn: 1
+        }
+      });
+    },
+    getBd2() {
+      return this.$http.get("/Api/OnlineZhongJie");
     },
     searchHot(data) {
       let storage = window.sessionStorage;

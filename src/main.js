@@ -14,6 +14,15 @@ Vue.prototype.$http = axios
 Vue.prototype.$echarts = echarts
 
 Vue.prototype.bus = new Vue;
+
+axios.interceptors.response.use(
+  res => {
+    return res.data
+  },
+  error => {
+    return Promise.reject(error);
+  }
+)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

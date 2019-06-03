@@ -66,7 +66,7 @@ export default {
       this.bus.$emit("loading", true);
       this.$http.all([this.getBd1(), this.getBd2()]).then(
         this.$http.spread((acct, perms) => {
-          this.bus.$emit("loading", false);
+          this.bus.$emit("loading", false)
         })
       );
     },

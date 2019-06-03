@@ -96,7 +96,7 @@ export default {
           name: "其他工具",
           details: [
             { name: "IP地址批量查询工具", links: "IpMultipleSearch" },
-            { name: "自动排版工具", links: "BaiduWeight" }
+            { name: "自动排版工具", links: "AutoSetType" }
           ]
         }
       ]

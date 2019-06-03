@@ -41,6 +41,7 @@ import DomainNameWall from '../components/DomainIpPages/DomainNameWall'
 import DomainNameHistory from '../components/DomainIpPages/DomainNameHistory'
 import OtherToolsMain from '../components/OtherTools/OtherToolsMain'
 import IpMultipleSearch from '../components/OtherTools/IpMultipleSearch'
+import AutoSetType from '../components/OtherTools/AutoSetType'
 
 Vue.use(Router)
 
@@ -225,17 +226,17 @@ export default new Router({
           component: WebIpSearch,
         },
         {
-          path: 'domainNameSealed',
+          path: 'domainnamesealed',
           name: 'DomainNameSealed',
           component: DomainNameSealed,
         },
         {
-          path: 'domainNameWall',
+          path: 'domainnamewall',
           name: 'DomainNameWall',
           component: DomainNameWall,
         },
         {
-          path: 'domainNameHistory',
+          path: 'domainnamehistory',
           name: 'DomainNameHistory',
           component: DomainNameHistory,
         }
@@ -246,10 +247,15 @@ export default new Router({
       component: OtherToolsMain,
       children: [
         {
-          path: 'ipMultipleSearch',
+          path: 'ipmultiplesearch',
           name: 'IpMultipleSearch',
           component: IpMultipleSearch,
         },
+        {
+          path: 'autosettype',
+          name: 'AutoSetType',
+          component: AutoSetType,
+        }
       ]
     },
     {

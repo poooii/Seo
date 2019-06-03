@@ -109,7 +109,7 @@ export default {
   },
   mounted() {
     let storage = window.sessionStorage;
-    if (storage.searchContent !== "" || storage.searchContent !== undefined) {
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
       this.content = storage.searchContent;
       this.getAll();
     }

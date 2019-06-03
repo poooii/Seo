@@ -57,12 +57,22 @@ export default {
   },
   methods: {
     getMsg(data) {
-      this.bus.$emit('loading',true)
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
-      this.$http
-        .get("/Api/OnlineZhongJie", {
+      this.getAll();
+    },
+    getAll() {
+      this.bus.$emit("loading", true);
+      this.$http.all([this.getBd1(), this.getBd2()]).then(
+        this.$http.spread((acct, perms) => {
+          this.bus.$emit("loading", false);
+        })
+      );
+    },
+    getBd1() {
+      return this.$http
+        .get("/Api/OnlineZhongJi", {
           params: {
             cc: 1,
             rn: 1
@@ -70,9 +80,20 @@ export default {
         })
         .then(res => {
           console.log(res);
-          this.bus.$emit('loading',false)
         })
-        .catch(res => {});
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getBd2() {
+      return this.$http
+        .get("/Api/OnlineZhongJie")
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     searchHot(data) {
       let storage = window.sessionStorage;
@@ -88,7 +109,11 @@ export default {
   },
   mounted() {
     let storage = window.sessionStorage;
-    this.content = storage.searchContent;
+    if (storage.searchContent !== "" || storage.searchContent !== undefined) {
+      this.content = storage.searchContent;
+      this.getAll();
+    }
+
     storage.setItem("navIndex", "3");
     window.scrollTo(0, 0);
   }

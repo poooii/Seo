@@ -3,14 +3,13 @@
         <!-- 头部 -->
         <div class="websiteValue_banner">
             <div class="websiteValue_banner_contain">
-                <p class="websiteValue_banner_title2">死链接检测</p>
+                <p class="websiteValue_banner_title2">Whois反查</p>
                 <div class="websiteValue_banner_input">
                     <form @submit.prevent>
                         <div class="search_downlist" @click.stop>
                             <ul>
-                                <li :class="{show:searchIdx==0||searchIdx==undefined}" @click="changeSearch('0')">全部链接</li>
-                                <li :class="{show:searchIdx==1||searchIdx==undefined}" @click="changeSearch('1')">站内链接</li>
-                                <li :class="{show:searchIdx==2||searchIdx==undefined}" @click="changeSearch('2')">站外链接</li>
+                                <li :class="{show:searchIdx==0||searchIdx==undefined}" @click="changeSearch('0')">通过注册人</li>
+                                <li :class="{show:searchIdx==1||searchIdx==undefined}" @click="changeSearch('1')">通过邮箱</li>
                             </ul>
                             <i></i>
                         </div>
@@ -27,15 +26,6 @@
                         </input>
                     </form>
                 </div>
-                <!-- 热门搜索 -->
-                <div class="clearfix websiteValue_banner_ul1">
-                    <span class="websiteValue_banner_ul_title">热门搜索：</span>
-                    <ul class="websiteValue_banner_ul clearfix">
-                    <li v-for="items in hotsearch">
-                        <a @click="searchHot(items)">{{items}}</a>
-                    </li>
-                    </ul>
-                </div>
             </div>
         </div>
         <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
@@ -44,54 +34,43 @@
             <table class="link_table" width="1200px">
                 <tr>
                     <td>序号</td>
-                    <td>链接信息</td>
-                    <td>网站标题</td>
-                    <td>状态</td>
+                    <td>域名</td>
+                    <td>注册人</td>
+                    <td>邮箱</td>
+                    <td>BR</td>
+                    <td>PR</td>
                 </tr>
                 <tr>
                     <td>1</td>
                     <td><a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a></td>
-                    <td>搜狐号</td>
-                    <td class="alive">正常</td>
+                    <td>马云</td>
+                    <td><a href="javascript:void(0);">sjjh@163.com</a></td>
+                    <td><img src="../../assets/bd_wt.png" alt=""><span>0</span></td>
+                    <td><img src="../../assets/gg_wt.png" alt=""><span>0</span></td>
                 </tr>
                 <tr>
-                    <td>1</td>
+                    <td>2</td>
                     <td><a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a></td>
-                    <td>搜狐号</td>
-                    <td class="alive">正常</td>
+                    <td>马云</td>
+                    <td><a href="javascript:void(0);">sjjh@163.com</a></td>
+                    <td><img src="../../assets/bd_wt.png" alt=""><span>0</span></td>
+                    <td><img src="../../assets/gg_wt.png" alt=""><span>0</span></td>
                 </tr>
                 <tr>
-                    <td>1</td>
+                    <td>3</td>
                     <td><a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a></td>
-                    <td>搜狐号</td>
-                    <td class="alive">正常</td>
+                    <td>马云</td>
+                    <td><a href="javascript:void(0);">sjjh@163.com</a></td>
+                    <td><img src="../../assets/bd_wt.png" alt=""><span>0</span></td>
+                    <td><img src="../../assets/gg_wt.png" alt=""><span>0</span></td>
                 </tr>
                 <tr>
-                    <td>1</td>
+                    <td>4</td>
                     <td><a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a></td>
-                    <td>搜狐号</td>
-                    <td class="dead">死链接</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td><a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a></td>
-                    <td>搜狐号</td>
-                    <td class="alive">正常</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td><a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a></td>
-                    <td>搜狐号</td>
-                    <td class="alive">正常</td>
-                </tr>
-                <tr>
-                    <td colspan="4">
-                        <span><</span>
-                        <span v-for="num in 10">{{num}}</span>
-                        <span>...</span>
-                        <span class="color_blue">50</span>
-                        <span>></span>
-                    </td>
+                    <td>马云</td>
+                    <td><a href="javascript:void(0);">sjjh@163.com</a></td>
+                    <td><img src="../../assets/bd_wt.png" alt=""><span>0</span></td>
+                    <td><img src="../../assets/gg_wt.png" alt=""><span>0</span></td>
                 </tr>
             </table>
             <div class="adv_box">
@@ -105,9 +84,9 @@
 </template>
 
 <script>
-import NearlySearch from "../BaseComponents/NearlySearch";
+import NearlySearch from "../BaseComponents/NearlySearch"
 export default {
-    name: "DeadLink",
+    name: "WhoisDeserve",
     components: {
         NearlySearch
     },
@@ -115,17 +94,8 @@ export default {
         return {
             searchIdx:'0',
             SeoContent: "",
-             advpic: ["adv1", "adv3", "adv2"],
-            content:'',
-            hotsearch: [
-                "po188.com",
-                "www.hj135.com",
-                "jiaofu.cn",
-                "riyiseo.com",
-                "shuadan.cn",
-                "caoping6s.cn",
-                "014121.cn"
-            ],
+            advpic: ["adv1", "adv3", "adv2"],
+            content:''
         }
     },
     methods: {
@@ -141,17 +111,11 @@ export default {
             this.searchIdx=0
             }
         },
-        searchHot(data){
-            let storage = window.sessionStorage;
-            storage.setItem("searchContent", data);
-            this.SeoContent = storage.searchContent;
-            this.content = storage.searchContent;
-        },
         getNearly(msg) {
             let storage=window.sessionStorage
             storage.setItem("searchContent",msg)
             this.content=storage.searchContent
-            this.SeoContent = storage.searchContent
+            this.SeoContent = storage.searchContent;
             this.searchIdx=0
             window.scrollTo(0,0);
         },
@@ -166,7 +130,7 @@ export default {
     let storage = window.sessionStorage;
     this.content = storage.searchContent;
     this.SeoContent = storage.searchContent;
-    storage.setItem("navIndex", '2');
+    storage.setItem("navIndex", '3');
     window.scrollTo(0,0);
   }
 }
@@ -247,49 +211,34 @@ export default {
                 text-align: center;
                 font-size:16px;
                 border-bottom: 1px solid #ebebeb;
+                position: relative;
                 a{
                     color: #007bb7;
                 }
+                span{
+                    position: absolute;
+                    top: 17px;
+                    left: 63px;
+                    color: #fff;
+                }
             }
-            .alive{
-                    color: #00b35d;
-                }
-            .dead{
-                color: #ff3838;
-                }
-            td:nth-child(2){
+            td:nth-child(2),td:nth-child(4){
                 text-align: left;
+                min-width: 200px;
+                padding-left: 60px;
             }
             td:first-child{
                 width: 100px;
-                padding-right: 40px;
             }
         }
         tr:first-child{
             background: #fafafa;
             color: #666;
         }
-        tr:last-child {
-            td {
-            text-align: right;
-            span {
-                display: inline-block;
-                height: 60px;
-                line-height: 60px;
-                margin-right: 24px;
-                cursor: pointer;
-                font-size: 16px;
-                color: #333;
-            }
-            span:hover{
-                color: #007bb7;
-            }
-            }
-        }
     }
     .adv_box {
         display: flex;
         justify-content: space-between;
-        margin: 30px 0 50px 0;
+        margin: 100px 0 50px 0;
     }
 </style>

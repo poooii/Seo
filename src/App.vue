@@ -4,6 +4,7 @@
   <div id="app">
     <navbar v-show="!this.$route.meta.showpublic"></navbar>
     <router-view></router-view>
+    <Loading></Loading>
     <footerbar v-show="!this.$route.meta.showpublic"></footerbar>
   </div>
 </template>
@@ -11,11 +12,13 @@
 <script>
 import NavBar from "./components/BaseComponents/NavBar"
 import FooterBar from './components/BaseComponents/FooterBar'
+import Loading from './components/Loading/Loading'
 export default {
   name: "App",
   components: {
     navbar: NavBar,
     footerbar:FooterBar,
+    Loading
   }
 };
 </script>

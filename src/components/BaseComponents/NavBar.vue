@@ -77,36 +77,26 @@ export default {
             { name: "Robots检测", links: "RobotsTest" },
             { name: "关键词密度查询", links: "KeywordsDensity" },
             { name: "死链接检测", links: "DeadLink" },
-            { name: "源代码查看", links: "SeoSearch" },
-            { name: "关键词密度检测", links: "SeoSearch" },
-            { name: "内页收录查询", links: "SeoSearch" },
-            { name: "网站速度测试", links: "SeoSearch" }
+            { name: "模拟抓取", links: "SeGrabePage" },
+            { name: "页面相似度查询", links: "WebSimiler" }
           ]
         },
         {
           name: "域名/IP查询",
           details: [
-            { name: "SEO综合查询", links: "SeoSearch" },
-            { name: "百度权重", links: "BaiduWeight" },
-            { name: "备案查询", links: "SeoSearch" },
-            { name: "HTTP状态查询", links: "SeoSearch" },
-            { name: "源代码查看", links: "SeoSearch" },
-            { name: "关键词密度检测", links: "SeoSearch" },
-            { name: "内页收录查询", links: "SeoSearch" },
-            { name: "网站速度测试", links: "SeoSearch" }
+            { name: "Whois查询", links: "WhoisSearch" },
+            { name: "Whois反查", links: "WhoisDeserve" },
+            { name: "网站IP查询", links: "WebIpSearch" },
+            { name: "域名被封", links: "DomainNameSealed" },
+            { name: "域名被墙", links: "DomainNameWall" },
+            { name: "域名历史", links: "DomainNameHistory" }
           ]
         },
         {
           name: "其他工具",
           details: [
-            { name: "SEO综合查询", links: "SeoSearch" },
-            { name: "百度权重", links: "BaiduWeight" },
-            { name: "备案查询", links: "SeoSearch" },
-            { name: "HTTP状态查询", links: "SeoSearch" },
-            { name: "源代码查看", links: "SeoSearch" },
-            { name: "关键词密度检测", links: "SeoSearch" },
-            { name: "内页收录查询", links: "SeoSearch" },
-            { name: "网站速度测试", links: "SeoSearch" }
+            { name: "IP地址批量查询工具", links: "IpMultipleSearch" },
+            { name: "自动排版工具", links: "AutoSetType" }
           ]
         }
       ]
@@ -139,6 +129,7 @@ export default {
         let storage = window.sessionStorage;
         storage.removeItem("searchContent");
         storage.removeItem("Keywords");
+        storage.removeItem("S_SeoContent");
       }
     }
   },

@@ -30,6 +30,18 @@ import HttpState from '../components/SearchTools/HttpState'
 import RobotsTest from '../components/SearchTools/RobotsTest'
 import KeywordsDensity from '../components/SearchTools/KeywordsDensity'
 import DeadLink from '../components/SearchTools/DeadLink'
+import SeGrabePage from '../components/SearchTools/SeGrabePage'
+import WebSimiler from '../components/SearchTools/WebSimiler'
+import DomainIpMain from '../components/DomainIpPages/DomainIpMain'
+import WhoisSearch from '../components/DomainIpPages/WhoisSearch'
+import WhoisDeserve from '../components/DomainIpPages/WhoisDeserve'
+import WebIpSearch from '../components/DomainIpPages/WebIpSearch'
+import DomainNameSealed from '../components/DomainIpPages/DomainNameSealed'
+import DomainNameWall from '../components/DomainIpPages/DomainNameWall'
+import DomainNameHistory from '../components/DomainIpPages/DomainNameHistory'
+import OtherToolsMain from '../components/OtherTools/OtherToolsMain'
+import IpMultipleSearch from '../components/OtherTools/IpMultipleSearch'
+import AutoSetType from '../components/OtherTools/AutoSetType'
 
 Vue.use(Router)
 
@@ -182,6 +194,68 @@ export default new Router({
           name: 'DeadLink',
           component: DeadLink,
         },
+        {
+          path: 'segrabepage',
+          name: 'SeGrabePage',
+          component: SeGrabePage,
+        },
+        {
+          path: 'websimiler',
+          name: 'WebSimiler',
+          component: WebSimiler,
+        },
+      ]
+    },
+    {
+      path: '/domainsearchs',
+      component: DomainIpMain,
+      children: [
+        {
+          path: 'whoisSearch',
+          name: 'WhoisSearch',
+          component: WhoisSearch,
+        },
+        {
+          path: 'whoisdeserve',
+          name: 'WhoisDeserve',
+          component: WhoisDeserve,
+        },
+        {
+          path: 'webipsearch',
+          name: 'WebIpSearch',
+          component: WebIpSearch,
+        },
+        {
+          path: 'domainnamesealed',
+          name: 'DomainNameSealed',
+          component: DomainNameSealed,
+        },
+        {
+          path: 'domainnamewall',
+          name: 'DomainNameWall',
+          component: DomainNameWall,
+        },
+        {
+          path: 'domainnamehistory',
+          name: 'DomainNameHistory',
+          component: DomainNameHistory,
+        }
+      ]
+    },
+    {
+      path: '/othertools',
+      component: OtherToolsMain,
+      children: [
+        {
+          path: 'ipmultiplesearch',
+          name: 'IpMultipleSearch',
+          component: IpMultipleSearch,
+        },
+        {
+          path: 'autosettype',
+          name: 'AutoSetType',
+          component: AutoSetType,
+        }
       ]
     },
     {

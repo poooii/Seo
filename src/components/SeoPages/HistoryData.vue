@@ -56,7 +56,7 @@
                     <div class="nextYear" v-model="nextyear">{{nextyear}}年</div>
                     <div class="list">
                         <ul class="date_range">
-                            <li @click="changeMonth(index)" :class="{active:index==Month,firstactive:index==Month}" v-for="(month,index) in months">{{month}}月</li>
+                            <li @click="changeMonth(index)" :class="{active:selMonths.indexOf(index)>=0,firstactive:index==Month}" v-for="(month,index) in months">{{month}}月</li>
                         </ul>
                     </div>
                 </div>
@@ -487,15 +487,20 @@ export default {
     },
     data() {
         return {
+            // 控制不同分类的搜索结果显示
             showViews:'0',
+            // 折线图坐标轴
             showxis: true,
+            // 时间选择器年份
             prevyear:'2018',
             nextyear:'2019',
+            // 时间选择器时间范围
             range:'1m',
-            Month:'18',
+            // 搜索框三个分类
             searchIdx:'0',
             SeoContent: "",
             content:'',
+            // 热门搜索测试数据
             hotsearch: [
                 "po188.com",
                 "www.hj135.com",
@@ -505,7 +510,13 @@ export default {
                 "caoping6s.cn",
                 "014121.cn"
             ],
+            // 月份作为固定数据
             months: ['10','11','12','1','2','3','4','5','6','7','8','9','10','11','12','1','2','3','4','5'],
+            // 初始选中的月份
+            selMonths:[18],
+            // 初始选中的带小箭头的月份
+            Month:"18",
+            // 折线图测试数据
             xdata2: [
                 "04-02",
                 "04-03",
@@ -516,6 +527,7 @@ export default {
                 "04-08",
                 "04-09"
             ],
+            // 折线图测试数据
             series2: [
                 {
                 name: "前10",
@@ -528,6 +540,7 @@ export default {
         }
     },
     methods: {
+        // 改变搜索分类
         changeSearch(index) {
             if(this.searchIdx==index){
                 this.searchIdx=undefined;
@@ -535,17 +548,35 @@ export default {
                 this.searchIdx=index;
             }
         },
+        // 隐藏搜索框不用管
         hideSearchBox() {
             if(this.searchIdx==undefined){
             this.searchIdx=0
             }
         },
+        // 改变搜索范围后面用range当参数，不用管这个
         changeRange(range) {
             this.range=range
         },
+        // 改变月份，直接在里面写ajax
         changeMonth(index) {
             this.Month=index
+            this.selMonths.length=0
+            if(this.range=="1m"){
+                this.selMonths.push(index)
+            }
+            if(this.range=="3m"){
+                for (let i = index-2; i <= index; i++) {
+                    this.selMonths.push(i)
+                }
+            }
+            if(this.range=="6m"){
+                 for (let i = index-5; i <= index; i++) {
+                    this.selMonths.push(i)
+                }
+            }
         },
+        // 改变年份的两个
         changePrey() {
             this.prevyear--
             this.nextyear--
@@ -554,20 +585,24 @@ export default {
             this.prevyear++
             this.nextyear++
         },
+        // 热门搜索
         searchHot(data){
             let storage = window.sessionStorage;
             storage.setItem("searchContent", data);
             this.SeoContent = storage.searchContent;
             this.content = storage.searchContent;
         },
+        // 最近搜索
         getNearly(msg) {
             let storage=window.sessionStorage
             storage.setItem("searchContent",msg)
             this.content=storage.searchContent
+            this.SeoContent = storage.searchContent
             this.searchIdx=0
             this.showViews=0
             window.scrollTo(0,0);
         },
+        // 搜索框搜索
         getList() {
             this.content=this.SeoContent
             this.showViews=this.searchIdx

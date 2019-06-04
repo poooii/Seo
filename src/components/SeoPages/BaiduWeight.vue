@@ -412,11 +412,13 @@ export default {
   },
   data() {
     return {
+      // 折线图坐标轴显示
       showxis:true,
       title: "百度权重",
       content: "",
       SeoContent: "",
       dayschange: "0",
+      // 热门搜索测试数据
       hotsearch: [
         "po188.com",
         "www.hj135.com",
@@ -426,7 +428,9 @@ export default {
         "caoping6s.cn",
         "014121.cn"
       ],
+      // echarts测试数据
       xdata: [],
+      // echarts测试数据
       xdata2: [
         "04-02",
         "04-03",
@@ -437,7 +441,9 @@ export default {
         "04-08",
         "04-09"
       ],
+      // echarts测试数据
       series: [],
+      // echarts测试数据
       cseries: [
         {
           name: "访问来源",
@@ -463,6 +469,7 @@ export default {
           }
         }
       ],
+      // echarts测试数据
       mockdata: [
         {
           name: "seven",
@@ -564,7 +571,9 @@ export default {
           ]
         }
       ],
+      // 图片测试数据
       advpic: ["adv1", "adv3", "adv2"],
+      // 权重图线上数据
       weightcontent: [
         {
           name: "爱站权重",

@@ -56,7 +56,7 @@
                     <div class="nextYear" v-model="nextyear">{{nextyear}}年</div>
                     <div class="list">
                         <ul class="date_range">
-                            <li @click="changeMonth(index)" :class="{active:index==Month,firstactive:index==Month}" v-for="(month,index) in months">{{month}}月</li>
+                            <li @click="changeMonth(index)" :class="{active:selMonths.indexOf(index)>=0,firstactive:index==Month}" v-for="(month,index) in months">{{month}}月</li>
                         </ul>
                     </div>
                 </div>
@@ -492,7 +492,6 @@ export default {
             prevyear:'2018',
             nextyear:'2019',
             range:'1m',
-            Month:'18',
             searchIdx:'0',
             SeoContent: "",
             content:'',
@@ -506,6 +505,8 @@ export default {
                 "014121.cn"
             ],
             months: ['10','11','12','1','2','3','4','5','6','7','8','9','10','11','12','1','2','3','4','5'],
+            selMonths:[18],
+            Month:"18",
             xdata2: [
                 "04-02",
                 "04-03",
@@ -545,6 +546,20 @@ export default {
         },
         changeMonth(index) {
             this.Month=index
+            this.selMonths.length=0
+            if(this.range=="1m"){
+                this.selMonths.push(index)
+            }
+            if(this.range=="3m"){
+                for (let i = index-2; i <= index; i++) {
+                    this.selMonths.push(i)
+                }
+            }
+            if(this.range=="6m"){
+                 for (let i = index-5; i <= index; i++) {
+                    this.selMonths.push(i)
+                }
+            }
         },
         changePrey() {
             this.prevyear--

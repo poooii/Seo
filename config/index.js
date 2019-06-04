@@ -12,15 +12,15 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/Api': {
-        target: 'https://m.zhongjie.com',  // 后台api
+        target: 'http://www.cha.com',  // 后台api
         changeOrigin: true,  //是否跨域
-        secure: false,
+        // secure: false,
         pathRewrite: {
           '^/Api': '/Api'   //需要rewrite的,
         }
       }
     },
-
+    method: 'post',
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined

@@ -23,15 +23,7 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 )
-/* eslint-disable no-new */
-axios.interceptors.response.use(
-    res => {
-      return res.data
-    },
-    error => {
-      return Promise.reject(error);
-    }
-);
+
 new Vue({
   el: '#app',
   router,

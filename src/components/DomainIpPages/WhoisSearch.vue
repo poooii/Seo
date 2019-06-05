@@ -132,7 +132,7 @@ export default {
   },
   computed: {
     showdetailList: {
-      get: function() {
+      get() {
         if (this.show_all) {
           if (this.detailMsg.length < 7) {
             return this.detailMsg;

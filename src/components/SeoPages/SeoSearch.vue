@@ -834,6 +834,8 @@ export default {
       this.chartdayschange = days;
       var seriesType;
       var xdataType;
+      var echartsData = [];
+      var chartXdata = [];
       if (this.equipchange == 0) {
         seriesType = this.seriesRes;
         xdataType = this.xdataRes;
@@ -841,31 +843,21 @@ export default {
         seriesType = this.seriesRes_m;
         xdataType = this.xdataRes_m;
       }
+      echartsData = JSON.parse(JSON.stringify(seriesType));
+      chartXdata = JSON.parse(JSON.stringify(xdataType));
       if (this.chartdayschange == "0") {
-        let echartsData = [];
-        let chartXdata = [];
-        echartsData = JSON.parse(JSON.stringify(seriesType));
-        chartXdata = JSON.parse(JSON.stringify(xdataType));
         for (let i in echartsData) {
           echartsData[i].data = seriesType[i].data.slice(-7);
         }
-        for (let i in chartXdata) {
-          chartXdata = xdataType.slice(-7);
-        }
+        chartXdata = xdataType.slice(-7);
         this.series = echartsData;
         this.xdata = chartXdata;
       }
       if (this.chartdayschange == "1") {
-        let echartsData = [];
-        let chartXdata = [];
-        echartsData = JSON.parse(JSON.stringify(seriesType));
-        chartXdata = JSON.parse(JSON.stringify(xdataType));
         for (let i in echartsData) {
           echartsData[i].data = seriesType[i].data.slice(-30);
         }
-        for (let i in chartXdata) {
-          chartXdata = xdataType.slice(-30);
-        }
+        chartXdata = xdataType.slice(-30);
         this.series = echartsData;
         this.xdata = chartXdata;
       }

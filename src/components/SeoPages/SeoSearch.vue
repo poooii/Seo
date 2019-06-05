@@ -1337,7 +1337,6 @@ export default {
     storage.setItem("navIndex", "1");
     this.content = storage.searchContent;
     this.doAllGet();
-    console.log(this.echartsData);
   }
 };
 </script>

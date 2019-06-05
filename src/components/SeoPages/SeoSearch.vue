@@ -827,76 +827,51 @@ export default {
     ChangeEquip(equip) {
       this.equipchange = equip;
       this.word_localtion_local = this.word_localtion[equip];
-      this.ChangeChartDays(2)
+      this.ChangeChartDays(2);
     },
+    // 百度关键词echarts图标切换
     ChangeChartDays(days) {
       this.chartdayschange = days;
+      var seriesType;
+      var xdataType;
       if (this.equipchange == 0) {
-        if (this.chartdayschange == "0") {
-          let echartsData = [];
-          let chartXdata = [];
-          echartsData = JSON.parse(JSON.stringify(this.seriesRes));
-          chartXdata = JSON.parse(JSON.stringify(this.xdataRes));
-          for (let i in echartsData) {
-            echartsData[i].data = this.seriesRes[i].data.slice(-7);
-          }
-          for (let i in chartXdata) {
-            chartXdata = this.xdataRes.slice(-7);
-          }
-          this.series = echartsData;
-          this.xdata = chartXdata;
-        }
-        if (this.chartdayschange == "1") {
-          let echartsData = [];
-          let chartXdata = [];
-          echartsData = JSON.parse(JSON.stringify(this.seriesRes));
-          chartXdata = JSON.parse(JSON.stringify(this.xdataRes));
-          for (let i in echartsData) {
-            echartsData[i].data = this.seriesRes[i].data.slice(-30);
-          }
-          for (let i in chartXdata) {
-            chartXdata = this.xdataRes.slice(-30);
-          }
-          this.series = echartsData;
-          this.xdata = chartXdata;
-        }
-        if (this.chartdayschange == "2") {
-          this.series = this.seriesRes;
-          this.xdata = this.xdataRes;
-        }
+        seriesType = this.seriesRes;
+        xdataType = this.xdataRes;
       } else {
-        if (this.chartdayschange == "0") {
-          let echartsData = [];
-          let chartXdata = [];
-          echartsData = JSON.parse(JSON.stringify(this.seriesRes_m));
-          chartXdata = JSON.parse(JSON.stringify(this.xdataRes_m));
-          for (let i in echartsData) {
-            echartsData[i].data = this.seriesRes_m[i].data.slice(-7);
-          }
-          for (let i in chartXdata) {
-            chartXdata = this.xdataRes_m.slice(-7);
-          }
-          this.series = echartsData;
-          this.xdata = chartXdata;
+        seriesType = this.seriesRes_m;
+        xdataType = this.xdataRes_m;
+      }
+      if (this.chartdayschange == "0") {
+        let echartsData = [];
+        let chartXdata = [];
+        echartsData = JSON.parse(JSON.stringify(seriesType));
+        chartXdata = JSON.parse(JSON.stringify(xdataType));
+        for (let i in echartsData) {
+          echartsData[i].data = seriesType[i].data.slice(-7);
         }
-        if (this.chartdayschange == "1") {
-          let echartsData = [];
-          let chartXdata = [];
-          echartsData = JSON.parse(JSON.stringify(this.seriesRes_m));
-          chartXdata = JSON.parse(JSON.stringify(this.xdataRes_m));
-          for (let i in echartsData) {
-            echartsData[i].data = this.seriesRes_m[i].data.slice(-30);
-          }
-          for (let i in chartXdata) {
-            chartXdata = this.xdataRes_m.slice(-30);
-          }
-          this.series = echartsData;
-          this.xdata = chartXdata;
+        for (let i in chartXdata) {
+          chartXdata = xdataType.slice(-7);
         }
-        if (this.chartdayschange == "2") {
-          this.series = this.seriesRes_m;
-          this.xdata = this.xdataRes_m;
+        this.series = echartsData;
+        this.xdata = chartXdata;
+      }
+      if (this.chartdayschange == "1") {
+        let echartsData = [];
+        let chartXdata = [];
+        echartsData = JSON.parse(JSON.stringify(seriesType));
+        chartXdata = JSON.parse(JSON.stringify(xdataType));
+        for (let i in echartsData) {
+          echartsData[i].data = seriesType[i].data.slice(-30);
         }
+        for (let i in chartXdata) {
+          chartXdata = xdataType.slice(-30);
+        }
+        this.series = echartsData;
+        this.xdata = chartXdata;
+      }
+      if (this.chartdayschange == "2") {
+        this.series = seriesType;
+        this.xdata = xdataType;
       }
     },
     //切换ip标签
@@ -930,7 +905,7 @@ export default {
 
     // google 权重
     getPrGoogle() {
-      this.$http
+      return this.$http
         .get("/Api/seo/pr_google", {
           params: {
             domain: this.content
@@ -944,7 +919,7 @@ export default {
         });
     },
     getPrSogou() {
-      this.$http
+      return this.$http
         .get("/Api/seo/pr_sogou", {
           params: {
             domain: this.content
@@ -958,7 +933,7 @@ export default {
         });
     },
     getBaiduRank() {
-      this.$http
+      return this.$http
         .get("/Api/seo/baidurank", {
           params: {
             domain: this.content
@@ -985,7 +960,7 @@ export default {
         });
     },
     getIcp() {
-      this.$http
+      return this.$http
         .get("/Api/seo/icp", {
           params: {
             domain: this.content
@@ -1012,7 +987,7 @@ export default {
         });
     },
     getWhois() {
-      this.$http
+      return this.$http
         .get("/Api/seo/whois", {
           params: {
             domain: this.content
@@ -1034,7 +1009,7 @@ export default {
         });
     },
     getAlexa() {
-      this.$http
+      return this.$http
         .get("/Api/seo/alexa", {
           params: {
             domain: this.content
@@ -1050,7 +1025,7 @@ export default {
         });
     },
     getSubdomains() {
-      this.$http
+      return this.$http
         .get("/Api/seo/subdomains", {
           params: {
             domain: this.content
@@ -1072,7 +1047,7 @@ export default {
         });
     },
     getSpeed() {
-      this.$http
+      return this.$http
         .get("/Api/seo/speed", {
           params: {
             domain: this.content
@@ -1088,7 +1063,7 @@ export default {
         });
     },
     getDns() {
-      this.$http
+      return this.$http
         .get("/Api/seo/dns", {
           params: {
             domain: this.content
@@ -1110,7 +1085,7 @@ export default {
         });
     },
     getLink() {
-      this.$http
+      return this.$http
         .get("/Api/seo/link", {
           params: {
             domain: this.content
@@ -1130,7 +1105,7 @@ export default {
         });
     },
     getShoulu1() {
-      this.$http
+      return this.$http
         .get("/Api/seo/shoulu1", {
           params: {
             domain: this.content
@@ -1152,7 +1127,7 @@ export default {
         });
     },
     getShoulu2() {
-      this.$http
+      return this.$http
         .get("/Api/seo/shoulu2", {
           params: {
             domain: this.content
@@ -1173,7 +1148,7 @@ export default {
         });
     },
     getShoulu3() {
-      this.$http
+      return this.$http
         .get("/Api/seo/shoulu3", {
           params: {
             domain: this.content
@@ -1191,7 +1166,7 @@ export default {
         });
     },
     getWebpage() {
-      this.$http
+      return this.$http
         .get("/Api/seo/webpage", {
           params: {
             domain: this.content
@@ -1213,7 +1188,7 @@ export default {
         });
     },
     getBaidurankKeywords() {
-      this.$http
+      return this.$http
         .get("/Api/seo/baidurankKeywords", {
           params: {
             domain: this.content
@@ -1227,7 +1202,7 @@ export default {
         });
     },
     wordlocation() {
-      this.$http
+      return this.$http
         .get("/Api/seo/wordlocation", {
           params: {
             domain: this.content
@@ -1237,14 +1212,16 @@ export default {
           var i = res.data;
           var n = 0,
             l = 0;
-          for (n = 0; n < 5; n++) {
-            l = i["pc_sum_" + (n + 1)];
-            this.word_localtion_local.push(l);
-            this.word_localtion[0].push(l);
-          }
-          for (n = 0; n < 5; n++) {
-            l = i["m_sum_" + (n + 1)];
-            this.word_localtion[1].push(l);
+          if (this.word_localtion_local.length < 2) {
+            for (n = 0; n < 5; n++) {
+              l = i["pc_sum_" + (n + 1)];
+              this.word_localtion_local.push(l);
+              this.word_localtion[0].push(l);
+            }
+            for (n = 0; n < 5; n++) {
+              l = i["m_sum_" + (n + 1)];
+              this.word_localtion[1].push(l);
+            }
           }
         })
         .catch(res => {
@@ -1252,20 +1229,20 @@ export default {
         });
     },
     baiduTrend_m() {
-      this.$http
+      return this.$http
         .get("/Api/seo/baiduTrend_m", {
           params: {
             domain: this.content
           }
         })
         .then(res => {
-          this.xdataRes_m = res.data.date;
+          this.xdataRes_m = res.data.date.reverse();
           this.xdata_m = this.xdataRes_m;
-          this.seriesRes_m[0].data = res.data.t1;
-          this.seriesRes_m[1].data = res.data.t2;
-          this.seriesRes_m[2].data = res.data.t3;
-          this.seriesRes_m[3].data = res.data.t4;
-          this.seriesRes_m[4].data = res.data.t5;
+          this.seriesRes_m[0].data = res.data.t1.reverse();
+          this.seriesRes_m[1].data = res.data.t2.reverse();
+          this.seriesRes_m[2].data = res.data.t3.reverse();
+          this.seriesRes_m[3].data = res.data.t4.reverse();
+          this.seriesRes_m[4].data = res.data.t5.reverse();
           this.series_m = this.seriesRes_m;
         })
         .catch(res => {
@@ -1273,7 +1250,7 @@ export default {
         });
     },
     baiduTrend_pc() {
-      this.$http
+      return this.$http
         .get("/Api/seo/baiduTrend_pc", {
           params: {
             domain: this.content
@@ -1316,24 +1293,33 @@ export default {
       return "第" + i + "页第" + j + "位";
     },
     doAllGet() {
-      this.getBaiduRank();
-      this.getPrSogou();
-      this.getPrGoogle();
-      this.getIcp();
-      this.getWhois();
-      this.getAlexa();
-      this.getSubdomains();
-      this.getSpeed();
-      this.getDns();
-      this.getLink();
-      this.getShoulu1();
-      this.getShoulu2();
-      this.getShoulu3();
-      this.getWebpage();
-      this.getBaidurankKeywords();
-      this.wordlocation();
-      this.baiduTrend_pc();
-      this.baiduTrend_m();
+      this.bus.$emit("loading", true);
+      this.$http
+        .all([
+          this.getBaiduRank(),
+          this.getPrSogou(),
+          this.getPrGoogle(),
+          this.getIcp(),
+          this.getWhois(),
+          this.getAlexa(),
+          this.getSubdomains(),
+          this.getSpeed(),
+          this.getDns(),
+          this.getLink(),
+          this.getShoulu1(),
+          this.getShoulu2(),
+          this.getShoulu3(),
+          this.getWebpage(),
+          this.getBaidurankKeywords(),
+          this.wordlocation(),
+          this.baiduTrend_pc(),
+          this.baiduTrend_m()
+        ])
+        .then(
+          this.$http.spread((acct, perms) => {
+            this.bus.$emit("loading", false);
+          })
+        );
     }
   },
   filters: {

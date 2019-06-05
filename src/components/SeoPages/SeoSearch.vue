@@ -606,6 +606,7 @@
 import LineCharts from "../Echarts/line";
 import SearchBox from "../BaseComponents/SearchBox";
 import NearlySearch from "../BaseComponents/NearlySearch";
+import { setTimeout } from "timers";
 
 export default {
   name: "SeoSearch",
@@ -879,6 +880,9 @@ export default {
       this.content = storage.searchContent;
 
       this.doAllGet();
+      setTimeout(() => {
+        this.bus.$emit("loading", false);
+      }, 1500);
     },
     // 点击热门搜索
     searchHot(data) {
@@ -1329,6 +1333,9 @@ export default {
     storage.setItem("navIndex", "1");
     this.content = storage.searchContent;
     this.doAllGet();
+    setTimeout(() => {
+      this.bus.$emit("loading", false);
+    }, 1000);
   }
 };
 </script>

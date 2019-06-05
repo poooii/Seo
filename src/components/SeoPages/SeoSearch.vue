@@ -1332,7 +1332,9 @@ export default {
     let storage = window.sessionStorage;
     storage.setItem("navIndex", "1");
     this.content = storage.searchContent;
-    this.doAllGet();
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.doAllGet();
+    }
     setTimeout(() => {
       this.bus.$emit("loading", false);
     }, 1000);

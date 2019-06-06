@@ -1297,23 +1297,25 @@ export default {
           this.getPrGoogle(),
           this.getIcp(),
           this.getWhois(),
-          this.getAlexa(),
-          this.getSubdomains(),
-          this.getSpeed(),
-          this.getDns(),
-          this.getLink(),
-          this.getShoulu1(),
-          this.getShoulu2(),
-          this.getShoulu3(),
-          this.getWebpage(),
-          this.getBaidurankKeywords(),
-          this.wordlocation(),
-          this.baiduTrend_pc(),
-          this.baiduTrend_m()
+          this.getAlexa()
         ])
         .then(
           this.$http.spread((acct, perms) => {
             this.bus.$emit("loading", false);
+            this.$http.all([
+              this.getSubdomains(),
+              this.getSpeed(),
+              this.getDns(),
+              this.getLink(),
+              this.getShoulu1(),
+              this.getShoulu2(),
+              this.getShoulu3(),
+              this.getWebpage(),
+              this.getBaidurankKeywords(),
+              this.wordlocation(),
+              this.baiduTrend_pc(),
+              this.baiduTrend_m()
+            ]);
           })
         );
     }
@@ -1337,7 +1339,7 @@ export default {
     }
     setTimeout(() => {
       this.bus.$emit("loading", false);
-    }, 1000);
+    }, 2000);
   }
 };
 </script>

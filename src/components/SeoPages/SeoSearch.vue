@@ -356,10 +356,15 @@
               <td class="bg_gray bn_top">一周</td>
               <td class="bg_gray bn_top">一月</td>
             </tr>
-            <tr>
-              <td class="bn_left">2387</td>
-              <td>2387</td>
-              <td>2387</td>
+            <tr v-show="suoyinChange=='0'">
+              <td>{{shouluNum.tday}}</td>
+              <td>{{shouluNum.wk}}</td>
+              <td>{{shouluNum.mon}}</td>
+            </tr>
+            <tr v-show="suoyinChange=='1'">
+              <td>{{suoyinNum.tday}}</td>
+              <td>{{suoyinNum.wk}}</td>
+              <td>{{suoyinNum.mon}}</td>
             </tr>
           </table>
           <!-- 第二图表 -->
@@ -389,61 +394,8 @@
           <td>1,382,374</td>
           <td>539,000</td>
         </tr>
-        <tr>
-          <td>2019-04-08</td>
-          <td>1,260,000</td>
-          <td>1,726,946</td>
-          <td>63,600</td>
-          <td>1,382,374</td>
-          <td>539,000</td>
-        </tr>
-        <tr>
-          <td>2019-04-08</td>
-          <td>1,260,000</td>
-          <td>1,726,946</td>
-          <td>63,600</td>
-          <td>1,382,374</td>
-          <td>539,000</td>
-        </tr>
-        <tr>
-          <td>2019-04-08</td>
-          <td>1,260,000</td>
-          <td>1,726,946</td>
-          <td>63,600</td>
-          <td>1,382,374</td>
-          <td>539,000</td>
-        </tr>
-        <tr>
-          <td>2019-04-08</td>
-          <td>1,260,000</td>
-          <td>1,726,946</td>
-          <td>63,600</td>
-          <td>1,382,374</td>
-          <td>539,000</td>
-        </tr>
-        <tr>
-          <td>2019-04-08</td>
-          <td>1,260,000</td>
-          <td>1,726,946</td>
-          <td>63,600</td>
-          <td>1,382,374</td>
-          <td>539,000</td>
-        </tr>
-        <tr>
-          <td>2019-04-08</td>
-          <td>1,260,000</td>
-          <td>1,726,946</td>
-          <td>63,600</td>
-          <td>1,382,374</td>
-          <td>539,000</td>
-        </tr>
-        <tr>
-          <td>2019-04-08</td>
-          <td>1,260,000</td>
-          <td>1,726,946</td>
-          <td>63,600</td>
-          <td>1,382,374</td>
-          <td>539,000</td>
+        <tr v-for="">
+
         </tr>
       </table>
       <!-- 页面信息 -->
@@ -794,7 +746,10 @@ export default {
       },
       //收录索引图表
       suoyinChange: "0",
-      suoyindayschange: "0"
+      suoyindayschange: "0",
+      shouluNum: [],
+      suoyinNum: [],
+      shouluRecent: []
     };
   },
   methods: {
@@ -1251,6 +1206,9 @@ export default {
         })
         .then(res => {
           console.log(res);
+          this.shouluNum = res.data.shoulu;
+          this.suoyinNum = res.data.index;
+          this.shouluRecent = res.data.recent10;
         })
         .catch(err => {
           console.log(err);

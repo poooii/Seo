@@ -1213,11 +1213,9 @@ export default {
         .then(res => {
           this.xdataRes_m = res.data.date.reverse();
           this.xdata_m = this.xdataRes_m;
-          this.seriesRes_m[0].data = res.data.t1.reverse();
-          this.seriesRes_m[1].data = res.data.t2.reverse();
-          this.seriesRes_m[2].data = res.data.t3.reverse();
-          this.seriesRes_m[3].data = res.data.t4.reverse();
-          this.seriesRes_m[4].data = res.data.t5.reverse();
+          for (let i = 0; i < 5; i++) {
+            this.seriesRes_m[i].data = res.data["t" + (i + 1)].reverse();
+          }
           this.series_m = this.seriesRes_m;
         })
         .catch(res => {
@@ -1234,15 +1232,27 @@ export default {
         .then(res => {
           this.xdataRes = res.data.date.reverse();
           this.xdata = this.xdataRes;
-          this.seriesRes[0].data = res.data.t1.reverse();
-          this.seriesRes[1].data = res.data.t2.reverse();
-          this.seriesRes[2].data = res.data.t3.reverse();
-          this.seriesRes[3].data = res.data.t4.reverse();
-          this.seriesRes[4].data = res.data.t5.reverse();
+          for (let i = 0; i < 5; i++) {
+            this.seriesRes[i].data = res.data["t" + (i + 1)].reverse();
+          }
           this.series = this.seriesRes;
         })
         .catch(res => {
           console.log(res.msg);
+        });
+    },
+    getSuoyin() {
+      return this.$http
+        .get("/Api/seo/shoulu_thrend", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
         });
     },
     toThousands(t) {
@@ -1293,7 +1303,8 @@ export default {
               this.getBaidurankKeywords(),
               this.wordlocation(),
               this.baiduTrend_pc(),
-              this.baiduTrend_m()
+              this.baiduTrend_m(),
+              this.getSuoyin()
             ]);
           })
         );

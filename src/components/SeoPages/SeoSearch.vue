@@ -325,28 +325,28 @@
           <span class="echarts_title_name">收录/索引信息</span>
           <span
             class="echarts_title_first"
-            :class="{ color_blue:equipchange == '0'}"
-            @click="ChangeEquip('0')"
+            :class="{ color_blue:suoyinChange == '0'}"
+            @click="ChangeSuoyin('0')"
           >收录</span>
           <span
             class="echarts_title_3rd"
-            :class="{ color_blue:equipchange == '1'}"
-            @click="ChangeEquip('1')"
+            :class="{ color_blue:suoyinChange == '1'}"
+            @click="ChangeSuoyin('1')"
           >索引</span>
           <span
             class="echarts_days"
-            :class="{ days_blue:dayschange == '0'}"
-            @click="ChangeDays('0')"
+            :class="{ days_blue:suoyindayschange == '0'}"
+            @click="ChangeSuoyinDays('0')"
           >7天</span>
           <span
             class="echarts_days"
-            :class="{ days_blue:dayschange == '1'}"
-            @click="ChangeDays('1')"
+            :class="{ days_blue:suoyindayschange == '1'}"
+            @click="ChangeSuoyinDays('1')"
           >30天</span>
           <span
             class="echarts_days"
-            :class="{ days_blue:dayschange == '2'}"
-            @click="ChangeDays('2')"
+            :class="{ days_blue:suoyindayschange == '2'}"
+            @click="ChangeSuoyinDays('2')"
           >3个月</span>
         </div>
         <div class="echarts_main">
@@ -695,12 +695,9 @@ export default {
       ],
       // 传入echarts中的数据
       xdata: [],
-      xdata_m: [],
+      series: [],
       xdataRes: [],
       xdataRes_m: [],
-      series: [],
-      series_m: [],
-      // 模拟的假数据，可看做是ajax返回的数据
       seriesRes: [
         {
           name: "前10",
@@ -794,7 +791,10 @@ export default {
           weight: "0",
           img: "gg_wt"
         }
-      }
+      },
+      //收录索引图表
+      suoyinChange: "0",
+      suoyindayschange: "0"
     };
   },
   methods: {
@@ -806,26 +806,29 @@ export default {
         this.word_localtion_local = this.word_localtion.slice(-5);
       }
       this.equipchange = equip;
-
       this.ChangeChartDays(2);
     },
     //来路关键词切换
     ChangeFrom(fromnum) {
       this.fromchange = fromnum;
     },
+    //收录索引图表切换
+    ChangeSuoyin(suoyin) {
+      this.suoyinChange = suoyin;
+    },
+    ChangeSuoyinDays(days) {
+      this.suoyindayschange = days;
+    },
     // 百度关键词echarts图标切换
     ChangeChartDays(days) {
       this.chartdayschange = days;
-      var seriesType;
-      var xdataType;
+      var seriesType = this.seriesRes_m;
+      var xdataType = this.xdataRes_m;
       var echartsData = [];
       var chartXdata = [];
-      if (this.equipchange == 0) {
+      if (this.equipchange == "0") {
         seriesType = this.seriesRes;
         xdataType = this.xdataRes;
-      } else {
-        seriesType = this.seriesRes_m;
-        xdataType = this.xdataRes_m;
       }
       echartsData = JSON.parse(JSON.stringify(seriesType));
       chartXdata = JSON.parse(JSON.stringify(xdataType));
@@ -1212,11 +1215,9 @@ export default {
         })
         .then(res => {
           this.xdataRes_m = res.data.date.reverse();
-          this.xdata_m = this.xdataRes_m;
           for (let i = 0; i < 5; i++) {
             this.seriesRes_m[i].data = res.data["t" + (i + 1)].reverse();
           }
-          this.series_m = this.seriesRes_m;
         })
         .catch(res => {
           console.log(res.msg);

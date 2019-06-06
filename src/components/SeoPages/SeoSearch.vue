@@ -289,13 +289,13 @@
           <span class="echarts_title_name">来路关键词</span>
           <span
             class="echarts_title_first"
-            :class="{ color_blue:equipchange == '0'}"
-            @click="ChangeEquip('0')"
+            :class="{ color_blue:fromchange == '0'}"
+            @click="ChangeFrom('0')"
           >PC趋势</span>
           <span
             class="echarts_title_second"
-            :class="{ color_blue:equipchange == '1'}"
-            @click="ChangeEquip('1')"
+            :class="{ color_blue:fromchange == '1'}"
+            @click="ChangeFrom('1')"
           >移动趋势</span>
         </div>
         <div class="echarts_main keyword_container_3rd">
@@ -460,30 +460,6 @@
                 <i>{{item.num}}</i>个字符（一般不超过80）
               </td>
             </tr>
-            <!-- <tr>
-                          <td class="bg_gray">网站标题：</td>
-                          <td>足球比分预测足球在线交流-亚博体育官方论坛 - POWERED BY DISCUZ!0</td>
-                          <td>
-                            <i>30</i>个字符（一般不超过80）
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="bg_gray">网站关键字：</td>
-                          <td>亚博体育 足球交流 足球比分预测</td>
-                          <td>
-                            <i>9</i>个字符（一般不超过100）
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="bg_gray">网站简介：</td>
-                          <td>
-                            看足球比分，首选亚博体育！体育足球比分频道提供最快最准最全的足球即时比分，比分直播、足球比分直播与比赛现场同步，更有赛事数据统计、现场分析等。亚博
-                            体育官网为您提供更全面的足球资讯-看足球来这里就对了。。
-                          </td>
-                          <td>
-                            <i>180</i>个字符（一般不超过100）
-                          </td>
-            </tr>-->
           </table>
         </div>
       </div>
@@ -628,6 +604,8 @@ export default {
       },
       // 搜索框标题
       title: "SEO综合查询",
+      //来路关键词切换
+      fromchange: "0",
       // 搜索内容
       content: "",
       // 以下几个为切换标签的默认值得，如要修改与dom处对应即可
@@ -694,11 +672,7 @@ export default {
       qushi_yidong: {},
       // 关键词排名
       word_localtion_local: [],
-      word_localtion: {
-        0: [],
-        1: []
-      },
-
+      word_localtion: [],
       // 模拟足球数据
       footballdata: [
         {
@@ -826,9 +800,18 @@ export default {
   methods: {
     // 几个标签选择切换
     ChangeEquip(equip) {
+      if (equip == "0") {
+        this.word_localtion_local = this.word_localtion.slice(0, 5);
+      } else {
+        this.word_localtion_local = this.word_localtion.slice(-5);
+      }
       this.equipchange = equip;
-      this.word_localtion_local = this.word_localtion[equip];
+
       this.ChangeChartDays(2);
+    },
+    //来路关键词切换
+    ChangeFrom(fromnum) {
+      this.fromchange = fromnum;
     },
     // 百度关键词echarts图标切换
     ChangeChartDays(days) {
@@ -878,7 +861,9 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
-
+      this.word_localtion_local.length = 0;
+      this.word_localtion.length = 0;
+      this.equipchange = 0;
       this.doAllGet();
       setTimeout(() => {
         this.bus.$emit("loading", false);
@@ -1206,19 +1191,13 @@ export default {
         })
         .then(res => {
           var i = res.data;
-          var n = 0,
-            l = 0;
-          if (this.word_localtion_local.length < 2) {
-            for (n = 0; n < 5; n++) {
-              l = i["pc_sum_" + (n + 1)];
-              this.word_localtion_local.push(l);
-              this.word_localtion[0].push(l);
-            }
-            for (n = 0; n < 5; n++) {
-              l = i["m_sum_" + (n + 1)];
-              this.word_localtion[1].push(l);
-            }
+          for (let n = 0; n < 5; n++) {
+            let l = i["pc_sum_" + (n + 1)];
+            let m = i["m_sum_" + (n + 1)];
+            this.word_localtion.push(l);
+            this.word_localtion.push(m);
           }
+          this.word_localtion_local = this.word_localtion.slice(0, 5);
         })
         .catch(res => {
           console.log(res.msg);

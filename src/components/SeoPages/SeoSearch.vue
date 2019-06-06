@@ -41,7 +41,7 @@
             </span>
                         <span class="msg_details">
               移动来路：
-              <span class="black">{{m_baidulailu}}</span>IP
+              <span class="black">134,014 ~ 173,573</span>IP
             </span>
                         <span class="msg_details">
               出站链接：
@@ -289,13 +289,13 @@
                     <span class="echarts_title_name">来路关键词</span>
                     <span
                             class="echarts_title_first"
-                            :class="{ color_blue:equipchange == '0'}"
-                            @click="ChangeEquip('0')"
+                            :class="{ color_blue:fromchange == '0'}"
+                            @click="ChangeFrom('0')"
                     >PC趋势</span>
                     <span
                             class="echarts_title_second"
-                            :class="{ color_blue:equipchange == '1'}"
-                            @click="ChangeEquip('1')"
+                            :class="{ color_blue:fromchange == '1'}"
+                            @click="ChangeFrom('1')"
                     >移动趋势</span>
                 </div>
                 <div class="echarts_main keyword_container_3rd">
@@ -325,28 +325,28 @@
                     <span class="echarts_title_name">收录/索引信息</span>
                     <span
                             class="echarts_title_first"
-                            :class="{ color_blue:equipchange == '0'}"
-                            @click="ChangeEquip('0')"
+                            :class="{ color_blue:suoyinChange == '0'}"
+                            @click="ChangeSuoyin('0')"
                     >收录</span>
                     <span
                             class="echarts_title_3rd"
-                            :class="{ color_blue:equipchange == '1'}"
-                            @click="ChangeEquip('1')"
+                            :class="{ color_blue:suoyinChange == '1'}"
+                            @click="ChangeSuoyin('1')"
                     >索引</span>
                     <span
                             class="echarts_days"
-                            :class="{ days_blue:dayschange == '0'}"
-                            @click="ChangeDays('0')"
+                            :class="{ days_blue:suoyindayschange == '0'}"
+                            @click="ChangeSuoyinDays('0')"
                     >7天</span>
                     <span
                             class="echarts_days"
-                            :class="{ days_blue:dayschange == '1'}"
-                            @click="ChangeDays('1')"
+                            :class="{ days_blue:suoyindayschange == '1'}"
+                            @click="ChangeSuoyinDays('1')"
                     >30天</span>
                     <span
                             class="echarts_days"
-                            :class="{ days_blue:dayschange == '2'}"
-                            @click="ChangeDays('2')"
+                            :class="{ days_blue:suoyindayschange == '2'}"
+                            @click="ChangeSuoyinDays('2')"
                     >3个月</span>
                 </div>
                 <div class="echarts_main">
@@ -356,10 +356,15 @@
                             <td class="bg_gray bn_top">一周</td>
                             <td class="bg_gray bn_top">一月</td>
                         </tr>
-                        <tr>
-                            <td class="bn_left">2387</td>
-                            <td>2387</td>
-                            <td>2387</td>
+                        <tr v-show="suoyinChange=='0'">
+                            <td>{{shouluNum.tday}}</td>
+                            <td>{{shouluNum.wk}}</td>
+                            <td>{{shouluNum.mon}}</td>
+                        </tr>
+                        <tr v-show="suoyinChange=='1'">
+                            <td>{{suoyinNum.tday}}</td>
+                            <td>{{suoyinNum.wk}}</td>
+                            <td>{{suoyinNum.mon}}</td>
                         </tr>
                     </table>
                     <!-- 第二图表 -->
@@ -389,61 +394,8 @@
                     <td>1,382,374</td>
                     <td>539,000</td>
                 </tr>
-                <tr>
-                    <td>2019-04-08</td>
-                    <td>1,260,000</td>
-                    <td>1,726,946</td>
-                    <td>63,600</td>
-                    <td>1,382,374</td>
-                    <td>539,000</td>
-                </tr>
-                <tr>
-                    <td>2019-04-08</td>
-                    <td>1,260,000</td>
-                    <td>1,726,946</td>
-                    <td>63,600</td>
-                    <td>1,382,374</td>
-                    <td>539,000</td>
-                </tr>
-                <tr>
-                    <td>2019-04-08</td>
-                    <td>1,260,000</td>
-                    <td>1,726,946</td>
-                    <td>63,600</td>
-                    <td>1,382,374</td>
-                    <td>539,000</td>
-                </tr>
-                <tr>
-                    <td>2019-04-08</td>
-                    <td>1,260,000</td>
-                    <td>1,726,946</td>
-                    <td>63,600</td>
-                    <td>1,382,374</td>
-                    <td>539,000</td>
-                </tr>
-                <tr>
-                    <td>2019-04-08</td>
-                    <td>1,260,000</td>
-                    <td>1,726,946</td>
-                    <td>63,600</td>
-                    <td>1,382,374</td>
-                    <td>539,000</td>
-                </tr>
-                <tr>
-                    <td>2019-04-08</td>
-                    <td>1,260,000</td>
-                    <td>1,726,946</td>
-                    <td>63,600</td>
-                    <td>1,382,374</td>
-                    <td>539,000</td>
-                </tr>
-                <tr>
-                    <td>2019-04-08</td>
-                    <td>1,260,000</td>
-                    <td>1,726,946</td>
-                    <td>63,600</td>
-                    <td>1,382,374</td>
-                    <td>539,000</td>
+                <tr v-for="">
+
                 </tr>
             </table>
             <!-- 页面信息 -->
@@ -457,33 +409,9 @@
                             <td class="bg_gray">{{item.title}}</td>
                             <td>{{item.content}}</td>
                             <td>
-                                <i>{{item.num}}</i>个字符（一般不超过80）
+                                <i>{{item.num}}</i>个字符（一般不超过{{item.xz}}）
                             </td>
                         </tr>
-                        <!-- <tr>
-                                      <td class="bg_gray">网站标题：</td>
-                                      <td>足球比分预测足球在线交流-亚博体育官方论坛 - POWERED BY DISCUZ!0</td>
-                                      <td>
-                                        <i>30</i>个字符（一般不超过80）
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td class="bg_gray">网站关键字：</td>
-                                      <td>亚博体育 足球交流 足球比分预测</td>
-                                      <td>
-                                        <i>9</i>个字符（一般不超过100）
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td class="bg_gray">网站简介：</td>
-                                      <td>
-                                        看足球比分，首选亚博体育！体育足球比分频道提供最快最准最全的足球即时比分，比分直播、足球比分直播与比赛现场同步，更有赛事数据统计、现场分析等。亚博
-                                        体育官网为您提供更全面的足球资讯-看足球来这里就对了。。
-                                      </td>
-                                      <td>
-                                        <i>180</i>个字符（一般不超过100）
-                                      </td>
-                        </tr>-->
                     </table>
                 </div>
             </div>
@@ -628,8 +556,10 @@
                 },
                 // 搜索框标题
                 title: "SEO综合查询",
-                update_time:'',
-                site_title:'',
+                site_title: '',
+                update_time: '',
+                //来路关键词切换
+                fromchange: "0",
                 // 搜索内容
                 content: "",
                 // 以下几个为切换标签的默认值得，如要修改与dom处对应即可
@@ -671,7 +601,6 @@
                 address: "",
                 dns_num: "",
                 //ip框
-
                 //索引 收录1
                 baiduindex: "",
                 shoulu_baidu: "",
@@ -697,39 +626,33 @@
                 qushi_yidong: {},
                 // 关键词排名
                 word_localtion_local: [],
-                word_localtion: {
-                    0: [],
-                    1: []
-                },
-
+                word_localtion: [],
                 // 模拟足球数据
                 footballdata: [
                     {
                         title: "网站标题：",
-                        content:
-                            "足球比分预测足球在线交流-亚博体育官方论坛 - POWERED BY DISCUZ!0",
-                        num: "30"
+                        content: "",
+                        num: "",
+                        xz:'100'
                     },
                     {
                         title: "网站关键字：",
-                        content: "亚博体育 足球交流 足球比分预测",
-                        num: "18"
+                        content: "",
+                        num: "",
+                        xz:'100'
                     },
                     {
                         title: "网站简介",
-                        content:
-                            "看足球比分，首选亚博体育！体育足球比分频道提供最快最准最全的足球即时比分，比分直播、足球比分直播与比赛现场同步，更有赛事数据统计、现场分析等。亚博 体育官网为您提供更全面的足球资讯-看足球来这里就对了。。",
-                        num: "5"
+                        content: "",
+                        num: "",
+                        xz:'200'
                     }
                 ],
                 // 传入echarts中的数据
                 xdata: [],
-                xdata_m: [],
+                series: [],
                 xdataRes: [],
                 xdataRes_m: [],
-                series: [],
-                series_m: [],
-                // 模拟的假数据，可看做是ajax返回的数据
                 seriesRes: [
                     {
                         name: "前10",
@@ -823,29 +746,47 @@
                         weight: "0",
                         img: "gg_wt"
                     }
-                }
+                },
+                //收录索引图表
+                suoyinChange: "0",
+                suoyindayschange: "0",
+                shouluNum: [],
+                suoyinNum: [],
+                shouluRecent: []
             };
         },
         methods: {
             // 几个标签选择切换
             ChangeEquip(equip) {
+                if (equip == "0") {
+                    this.word_localtion_local = this.word_localtion.slice(0, 5);
+                } else {
+                    this.word_localtion_local = this.word_localtion.slice(-5);
+                }
                 this.equipchange = equip;
-                this.word_localtion_local = this.word_localtion[equip];
                 this.ChangeChartDays(2);
+            },
+            //来路关键词切换
+            ChangeFrom(fromnum) {
+                this.fromchange = fromnum;
+            },
+            //收录索引图表切换
+            ChangeSuoyin(suoyin) {
+                this.suoyinChange = suoyin;
+            },
+            ChangeSuoyinDays(days) {
+                this.suoyindayschange = days;
             },
             // 百度关键词echarts图标切换
             ChangeChartDays(days) {
                 this.chartdayschange = days;
-                var seriesType;
-                var xdataType;
+                var seriesType = this.seriesRes_m;
+                var xdataType = this.xdataRes_m;
                 var echartsData = [];
                 var chartXdata = [];
-                if (this.equipchange == 0) {
+                if (this.equipchange == "0") {
                     seriesType = this.seriesRes;
                     xdataType = this.xdataRes;
-                } else {
-                    seriesType = this.seriesRes_m;
-                    xdataType = this.xdataRes_m;
                 }
                 echartsData = JSON.parse(JSON.stringify(seriesType));
                 chartXdata = JSON.parse(JSON.stringify(xdataType));
@@ -881,7 +822,9 @@
                 let storage = window.sessionStorage;
                 storage.setItem("searchContent", data);
                 this.content = storage.searchContent;
-
+                this.word_localtion_local.length = 0;
+                this.word_localtion.length = 0;
+                this.equipchange = 0;
                 this.doAllGet();
                 setTimeout(() => {
                     this.bus.$emit("loading", false);
@@ -901,7 +844,6 @@
                 window.scrollTo(0, 0);
             },
             //请求数据
-
             // google 权重
             getPrGoogle() {
                 return this.$http
@@ -1180,6 +1122,7 @@
                         }
                     })
                     .then(res => {
+
                         this.server_type = res.data.header.Server
                             ? res.data.header.Server
                             : "-";
@@ -1189,9 +1132,16 @@
                         this.xieyi_type = res.data.header.Protocol
                             ? res.data.header.Protocol
                             : "-";
-
                         this.site_title = res.data.html.title ? res.data.html.title : '-'
                         this.update_time = res.data.header.Date ? res.data.header.Date : '-'
+
+
+                        this.footballdata[0].content = res.data.html.title ? res.data.html.title : '-'
+                        this.footballdata[0].num = res.data.html.title_len ? res.data.html.title_len : '-'
+                        this.footballdata[1].content = res.data.html.keywords ? res.data.html.keywords : '-'
+                        this.footballdata[1].num = res.data.html.keywords_len ? res.data.html.keywords_len : '-'
+                        this.footballdata[2].content = res.data.html.description ? res.data.html.description : '-'
+                        this.footballdata[2].num = res.data.html.description_len ? res.data.html.description_len : '-'
                     })
                     .catch(res => {
                         console.log(res.msg);
@@ -1220,19 +1170,13 @@
                     })
                     .then(res => {
                         var i = res.data;
-                        var n = 0,
-                            l = 0;
-                        if (this.word_localtion_local.length < 2) {
-                            for (n = 0; n < 5; n++) {
-                                l = i["pc_sum_" + (n + 1)];
-                                this.word_localtion_local.push(l);
-                                this.word_localtion[0].push(l);
-                            }
-                            for (n = 0; n < 5; n++) {
-                                l = i["m_sum_" + (n + 1)];
-                                this.word_localtion[1].push(l);
-                            }
+                        for (let n = 0; n < 5; n++) {
+                            let l = i["pc_sum_" + (n + 1)];
+                            let m = i["m_sum_" + (n + 1)];
+                            this.word_localtion.push(l);
+                            this.word_localtion.push(m);
                         }
+                        this.word_localtion_local = this.word_localtion.slice(0, 5);
                     })
                     .catch(res => {
                         console.log(res.msg);
@@ -1247,13 +1191,9 @@
                     })
                     .then(res => {
                         this.xdataRes_m = res.data.date.reverse();
-                        this.xdata_m = this.xdataRes_m;
-                        this.seriesRes_m[0].data = res.data.t1.reverse();
-                        this.seriesRes_m[1].data = res.data.t2.reverse();
-                        this.seriesRes_m[2].data = res.data.t3.reverse();
-                        this.seriesRes_m[3].data = res.data.t4.reverse();
-                        this.seriesRes_m[4].data = res.data.t5.reverse();
-                        this.series_m = this.seriesRes_m;
+                        for (let i = 0; i < 5; i++) {
+                            this.seriesRes_m[i].data = res.data["t" + (i + 1)].reverse();
+                        }
                     })
                     .catch(res => {
                         console.log(res.msg);
@@ -1269,15 +1209,30 @@
                     .then(res => {
                         this.xdataRes = res.data.date.reverse();
                         this.xdata = this.xdataRes;
-                        this.seriesRes[0].data = res.data.t1.reverse();
-                        this.seriesRes[1].data = res.data.t2.reverse();
-                        this.seriesRes[2].data = res.data.t3.reverse();
-                        this.seriesRes[3].data = res.data.t4.reverse();
-                        this.seriesRes[4].data = res.data.t5.reverse();
+                        for (let i = 0; i < 5; i++) {
+                            this.seriesRes[i].data = res.data["t" + (i + 1)].reverse();
+                        }
                         this.series = this.seriesRes;
                     })
                     .catch(res => {
                         console.log(res.msg);
+                    });
+            },
+            getSuoyin() {
+                return this.$http
+                    .get("/Api/seo/shoulu_thrend", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        console.log(res);
+                        this.shouluNum = res.data.shoulu;
+                        this.suoyinNum = res.data.index;
+                        this.shouluRecent = res.data.recent10;
+                    })
+                    .catch(err => {
+                        console.log(err);
                     });
             },
             toThousands(t) {
@@ -1328,7 +1283,8 @@
                                 this.getBaidurankKeywords(),
                                 this.wordlocation(),
                                 this.baiduTrend_pc(),
-                                this.baiduTrend_m()
+                                this.baiduTrend_m(),
+                                this.getSuoyin()
                             ]);
                         })
                     );

@@ -41,7 +41,7 @@
             </span>
                         <span class="msg_details">
               移动来路：
-              <span class="black">134,014 ~ 173,573</span>IP
+              <span class="black">{{m_baidulailu}}</span>IP
             </span>
                         <span class="msg_details">
               出站链接：
@@ -123,7 +123,7 @@
                     <tr>
                         <td>{{pc_cishu}}</td>
                         <td>{{yidong_cishu}}</td>
-                        <td>1</td>
+                        <td>-</td>
                         <td>{{baiduindex}}</td>
                         <td>{{shoulu_1day}}</td>
                         <td>{{shoulu_7day}}</td>
@@ -246,36 +246,17 @@
                             <td class="bg_gray">排名变化</td>
                             <td class="bg_gray">预计流量</td>
                         </tr>
-                        <tr>
-                            <td>手机游戏下载</td>
-                            <td>4</td>
-                            <td>1.68%</td>
-                            <td>308</td>
-                            <td>102</td>
-                            <td>50+</td>
+                        <tr v-for="item in baidu_keywords">
+                            <td>{{item.c}}</td>
+                            <td>{{item.n}}</td>
+                            <td>{{item.r}}</td>
+                            <td>{{item.z}}</td>
+                            <td>{{item.z360}}</td>
                             <td>-</td>
-                            <td class="color_blue">较少 IP</td>
-                        </tr>
-                        <tr>
-                            <td>手机游戏下载</td>
-                            <td>3</td>
-                            <td>1.26%</td>
-                            <td>612</td>
-                            <td>165</td>
-                            <td class="color_blue">重试</td>
                             <td>-</td>
-                            <td class="color_blue">未知 IP</td>
+                            <td class="color_blue">未知</td>
                         </tr>
-                        <tr>
-                            <td>手机游戏免费下载</td>
-                            <td>1</td>
-                            <td>0.56%</td>
-                            <td>212</td>
-                            <td>0</td>
-                            <td class="color_blue">重试</td>
-                            <td>-</td>
-                            <td class="color_blue">未知 IP</td>
-                        </tr>
+
                     </table>
                 </div>
             </div>
@@ -369,9 +350,9 @@
                     </table>
                     <!-- 第二图表 -->
                     <LineCharts
-                            :xdata="xdata"
+                            :xdata="xdata2"
                             :showxis="showxis"
-                            :option="series"
+                            :option="series2"
                             :styl="{width: '1140px', height: '340px'}"
                             id="keywordChart2"
                     ></LineCharts>
@@ -386,16 +367,13 @@
                     <td class="bg_gray">搜狗收录</td>
                     <td class="bg_gray">360收录</td>
                 </tr>
-                <tr>
-                    <td>2019-04-08</td>
-                    <td>1,260,000</td>
-                    <td>1,726,946</td>
-                    <td>63,600</td>
-                    <td>1,382,374</td>
-                    <td>539,000</td>
-                </tr>
-                <tr v-for="">
-
+                <tr v-for="item in shouluRecent">
+                    <td>{{item.date}}</td>
+                    <td>{{item.baidu|NumFormat}}</td>
+                    <td>{{item.baiduindex|NumFormat}}</td>
+                    <td>{{item.baidu_r|NumFormat}}</td>
+                    <td>{{item.sogou|NumFormat}}</td>
+                    <td>{{item['360']|NumFormat}}</td>
                 </tr>
             </table>
             <!-- 页面信息 -->
@@ -409,7 +387,8 @@
                             <td class="bg_gray">{{item.title}}</td>
                             <td>{{item.content}}</td>
                             <td>
-                                <i>{{item.num}}</i>个字符（一般不超过{{item.xz}}）
+                                <i>{{item.num}}</i>
+                                个字符（一般不超过{{item.xz}}）
                             </td>
                         </tr>
                     </table>
@@ -429,11 +408,11 @@
                             <td class="bg_gray bn_top">三月排名</td>
                         </tr>
                         <tr>
-                            <td class="bn_left">2387</td>
-                            <td>2387</td>
-                            <td>2387</td>
-                            <td>2387</td>
-                            <td>2387</td>
+                            <td>{{alexa_3month}}</td>
+                            <td>{{alexa_1day}}</td>
+                            <td>{{alexa_7day}}</td>
+                            <td>{{alexa_1month}}</td>
+                            <td>{{alexa_3month}}</td>
                         </tr>
                     </table>
                     <div class="alexa_pic_content clearfix">
@@ -534,7 +513,7 @@
     import LineCharts from "../Echarts/line";
     import SearchBox from "../BaseComponents/SearchBox";
     import NearlySearch from "../BaseComponents/NearlySearch";
-    import {setTimeout} from "timers";
+    import { setTimeout } from "timers";
 
     export default {
         name: "SeoSearch",
@@ -556,8 +535,8 @@
                 },
                 // 搜索框标题
                 title: "SEO综合查询",
-                site_title: '',
-                update_time: '',
+                site_title: "",
+                update_time: "",
                 //来路关键词切换
                 fromchange: "0",
                 // 搜索内容
@@ -587,6 +566,11 @@
                 alexa_rank: "",
                 alexa_ip: "",
                 alexa_pv: "",
+                alexa_3month:'',
+                alexa_1month:'',
+                alexa_7day:'',
+                alexa_1day:'',
+
                 //子域名
                 subdomain_sum: "",
                 subdomain_sums: {
@@ -594,6 +578,8 @@
                     1: "",
                     2: ""
                 },
+                //关键词
+                baidu_keywords:{},
                 //测速
                 speed: "",
                 //dns信息
@@ -622,8 +608,10 @@
                 server_type: "",
                 //来路趋势
                 qushi: {},
-                qushi_pc: {},
-                qushi_yidong: {},
+                qushi_total:{
+                    0:{},
+                    1:{}
+                },
                 // 关键词排名
                 word_localtion_local: [],
                 word_localtion: [],
@@ -633,26 +621,30 @@
                         title: "网站标题：",
                         content: "",
                         num: "",
-                        xz:'100'
+                        xz: "100"
                     },
                     {
                         title: "网站关键字：",
                         content: "",
                         num: "",
-                        xz:'100'
+                        xz: "100"
                     },
                     {
                         title: "网站简介",
                         content: "",
                         num: "",
-                        xz:'200'
+                        xz: "200"
                     }
                 ],
                 // 传入echarts中的数据
                 xdata: [],
+                xdata2: [],
                 series: [],
+                series2: [],
                 xdataRes: [],
                 xdataRes_m: [],
+                xdataShoulu: [],
+                xdataSuoyin: [],
                 seriesRes: [
                     {
                         name: "前10",
@@ -717,6 +709,24 @@
                         data: []
                     }
                 ],
+                seriesShoulu: [
+                    {
+                        name: "收录",
+                        type: "line",
+                        symbol: "none",
+                        data: [],
+                        areaStyle: { normal: { color: "#e2f4ff" } }
+                    }
+                ],
+                seriesSuoyin: [
+                    {
+                        name: "索引",
+                        type: "line",
+                        symbol: "none",
+                        data: [],
+                        areaStyle: { normal: { color: "#e2f4ff" } }
+                    }
+                ],
                 // 模拟图片数据
                 advpic: ["adv1", "adv3", "adv2"],
                 // 模拟权重处数据
@@ -749,7 +759,7 @@
                 },
                 //收录索引图表
                 suoyinChange: "0",
-                suoyindayschange: "0",
+                suoyindayschange: "2",
                 shouluNum: [],
                 suoyinNum: [],
                 shouluRecent: []
@@ -769,13 +779,43 @@
             //来路关键词切换
             ChangeFrom(fromnum) {
                 this.fromchange = fromnum;
+                this.qushi = this.qushi_total[fromnum]
             },
             //收录索引图表切换
             ChangeSuoyin(suoyin) {
                 this.suoyinChange = suoyin;
+                this.ChangeSuoyinDays(2);
             },
             ChangeSuoyinDays(days) {
                 this.suoyindayschange = days;
+                var seriesType = this.seriesShoulu;
+                var xdataType = this.xdataShoulu;
+                var echartsData = [];
+                var chartXdata = [];
+                if (this.suoyinChange == "1") {
+                    seriesType = this.seriesSuoyin;
+                    xdataType = this.xdataSuoyin;
+                }
+                echartsData = JSON.parse(JSON.stringify(seriesType));
+                chartXdata = JSON.parse(JSON.stringify(xdataType));
+                if (this.suoyindayschange == "0") {
+                    echartsData[0].data = seriesType[0].data.slice(-7);
+
+                    chartXdata = xdataType.slice(-7);
+                    this.series2 = echartsData;
+                    this.xdata2 = chartXdata;
+                }
+                if (this.suoyindayschange == "1") {
+                    echartsData[0].data = seriesType[0].data.slice(-30);
+
+                    chartXdata = xdataType.slice(-30);
+                    this.series2 = echartsData;
+                    this.xdata2 = chartXdata;
+                }
+                if (this.suoyindayschange == "2") {
+                    this.series2 = seriesType;
+                    this.xdata2 = xdataType;
+                }
             },
             // 百度关键词echarts图标切换
             ChangeChartDays(days) {
@@ -824,8 +864,10 @@
                 this.content = storage.searchContent;
                 this.word_localtion_local.length = 0;
                 this.word_localtion.length = 0;
-                this.equipchange = 0;
                 this.doAllGet();
+                this.equipchange = 0;
+                this.suoyindayschange = 2;
+                this.suoyinChange = 0;
                 setTimeout(() => {
                     this.bus.$emit("loading", false);
                 }, 1500);
@@ -965,9 +1007,14 @@
                         }
                     })
                     .then(res => {
+                        console.log(res.data)
                         this.alexa_ip = res.data.ip ? res.data.ip : "-";
                         this.alexa_pv = res.data.pv ? res.data.pv : "-";
                         this.alexa_rank = res.data.rank ? res.data.rank : "-";
+                        this.alexa_3month = res.data.alexaUsageStatistic.alexa_3months.value
+                        this.alexa_1month = res.data.alexaUsageStatistic.alexa_1months.value
+                        this.alexa_7day = res.data.alexaUsageStatistic.alexa_7days.value
+                        this.alexa_1day = res.data.alexaUsageStatistic.alexa_1days.value
                     })
                     .catch(res => {
                         console.log(res.msg);
@@ -1122,7 +1169,6 @@
                         }
                     })
                     .then(res => {
-
                         this.server_type = res.data.header.Server
                             ? res.data.header.Server
                             : "-";
@@ -1132,16 +1178,29 @@
                         this.xieyi_type = res.data.header.Protocol
                             ? res.data.header.Protocol
                             : "-";
-                        this.site_title = res.data.html.title ? res.data.html.title : '-'
-                        this.update_time = res.data.header.Date ? res.data.header.Date : '-'
+                        this.site_title = res.data.html.title ? res.data.html.title : "-";
+                        this.update_time = res.data.header.Date ? res.data.header.Date : "-";
 
+                        this.footballdata[0].content = res.data.html.title
+                            ? res.data.html.title
+                            : "-";
+                        this.footballdata[0].num = res.data.html.title_len
+                            ? res.data.html.title_len
+                            : "-";
+                        this.footballdata[1].content = res.data.html.keywords
+                            ? res.data.html.keywords
+                            : "-";
+                        this.footballdata[1].num = res.data.html.keywords_len
+                            ? res.data.html.keywords_len
+                            : "-";
+                        this.footballdata[2].content = res.data.html.description
+                            ? res.data.html.description
+                            : "-";
+                        this.footballdata[2].num = res.data.html.description_len
+                            ? res.data.html.description_len
+                            : "-";
 
-                        this.footballdata[0].content = res.data.html.title ? res.data.html.title : '-'
-                        this.footballdata[0].num = res.data.html.title_len ? res.data.html.title_len : '-'
-                        this.footballdata[1].content = res.data.html.keywords ? res.data.html.keywords : '-'
-                        this.footballdata[1].num = res.data.html.keywords_len ? res.data.html.keywords_len : '-'
-                        this.footballdata[2].content = res.data.html.description ? res.data.html.description : '-'
-                        this.footballdata[2].num = res.data.html.description_len ? res.data.html.description_len : '-'
+                        this.baidu_keywords = res.data.keywords
                     })
                     .catch(res => {
                         console.log(res.msg);
@@ -1155,7 +1214,22 @@
                         }
                     })
                     .then(res => {
-                        this.qushi = this.qushi_pc = res.data.data;
+                        this.qushi = res.data.data;
+                        this.qushi_total[0] = res.data.data;
+                    })
+                    .catch(res => {
+                        console.log(res.msg);
+                    });
+            },
+            getBaidurankKeywords_m() {
+                return this.$http
+                    .get("/Api/seo/baidurankKeywords_m", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        this.qushi_total[1] = res.data.data;
                     })
                     .catch(res => {
                         console.log(res.msg);
@@ -1226,10 +1300,16 @@
                         }
                     })
                     .then(res => {
-                        console.log(res);
+                        console.log(res)
                         this.shouluNum = res.data.shoulu;
                         this.suoyinNum = res.data.index;
                         this.shouluRecent = res.data.recent10;
+                        this.xdataShoulu = res.data.chartData.shoulu.period.reverse();
+                        this.seriesShoulu[0].data = res.data.chartData.shoulu.data.reverse();
+                        this.xdataSuoyin = res.data.chartData.index.period.reverse();
+                        this.seriesSuoyin[0].data = res.data.chartData.index.data.reverse();
+                        this.xdata2 = this.xdataShoulu;
+                        this.series2 = this.seriesShoulu;
                     })
                     .catch(err => {
                         console.log(err);
@@ -1284,7 +1364,8 @@
                                 this.wordlocation(),
                                 this.baiduTrend_pc(),
                                 this.baiduTrend_m(),
-                                this.getSuoyin()
+                                this.getSuoyin(),
+                                this.getBaidurankKeywords_m()
                             ]);
                         })
                     );
@@ -1298,6 +1379,13 @@
                     return value.slice(0, 18) + "...";
                 }
                 return value;
+            },
+            NumFormat(value) {
+                if (!value) return "-";
+                var intPartFormat = value
+                    .toString()
+                    .replace(/(\d)(?=(?:\d{3})+$)/g, "$1,");
+                return intPartFormat;
             }
         },
         mounted() {

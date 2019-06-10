@@ -75,12 +75,6 @@ export default {
               color: "#666"
             }
           },
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: "#ebebeb"
-            }
-          },
           axisTick: {
             show: false
           }

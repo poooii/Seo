@@ -99,10 +99,10 @@
     </table>
     <div class="weight_container" style="padding:0;margin-bottom:60px">
       <div class="title_container">
-        <span class="color_line_blue">涨入关键词（PC端）</span>
-        <span>跌出关键词（PC端）</span>
-        <span>涨入关键词（移动端）</span>
-        <span>跌出关键词（移动端）</span>
+        <span :class="{color_line_blue:keywords=='0'}" @click="changeKeywords('0')">涨入关键词（PC端）</span>
+        <span :class="{color_line_blue:keywords=='1'}" @click="changeKeywords('1')">跌出关键词（PC端）</span>
+        <span :class="{color_line_blue:keywords=='2'}" @click="changeKeywords('2')">涨入关键词（移动端）</span>
+        <span :class="{color_line_blue:keywords=='3'}" @click="changeKeywords('3')">跌出关键词（移动端）</span>
       </div>
       <table width="1200px" class="commerce_detail_table">
         <tr>
@@ -313,6 +313,7 @@ export default {
         "caoping6s.cn",
         "014121.cn"
       ],
+      keywords: "0",
       showxis: false,
       xdata2: ["04-02", "04-03", "04-04", "04-06", "04-07", "04-08"],
       series2: [
@@ -333,6 +334,9 @@ export default {
     };
   },
   methods: {
+    changeKeywords(idx) {
+      this.keywords = idx;
+    },
     backToWeight(data) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);

@@ -75,15 +75,30 @@
           <span :class="{color_line_blue:weightType=='2'}" @click="changeWeightType('2')">权重</span>
           <span :class="{color_line_blue:weightType=='3'}" @click="changeWeightType('3')">收录</span>
           <span :class="{color_line_blue:weightType=='4'}" @click="changeWeightType('4')">索引</span>
-          <span class="fr">
-            <i class="eyellow"></i>总量
-          </span>
-          <span class="fr">
-            <i class="eblue"></i>移动端
-          </span>
-          <span class="fr">
-            <i class="egreen"></i>PC端
-          </span>
+          <template v-if="this.weightType=='0'||this.weightType=='1'">
+            <span class="fr">
+              <i class="eyellow"></i>总量
+            </span>
+            <span class="fr">
+              <i class="eblue"></i>移动端
+            </span>
+            <span class="fr">
+              <i class="egreen"></i>PC端
+            </span>
+          </template>
+          <template v-if="this.weightType=='2'">
+            <span class="fr">
+              <i class="eblue"></i>移动端
+            </span>
+            <span class="fr">
+              <i class="egreen"></i>PC端
+            </span>
+          </template>
+          <template v-if="this.weightType=='3'||this.weightType=='4'">
+            <span class="fr">
+              <i class="eyellow"></i>总量
+            </span>
+          </template>
         </div>
         <LineCharts
           :showxis="showxis"
@@ -143,7 +158,9 @@
       <!-- 排名趋势echarts -->
       <div class="chart_container clearfix">
         <div class="title_container">
-          <span>排名趋势</span>
+          <span class="ranking_trend">排名趋势</span>
+          <span :class="{color_blue:rankingTrend=='0'}" @click="changeRankingTrend('0')">PC端</span>
+          <span :class="{color_blue:rankingTrend=='1'}" @click="changeRankingTrend('1')">移动端</span>
           <span
             class="fr echarts_days"
             :class="{ days_blue:dayschange == '2'}"
@@ -163,8 +180,8 @@
         </div>
         <LineCharts
           :showxis="showxis"
-          :xdata="xdata"
-          :option="series"
+          :xdata="xdata2"
+          :option="series2"
           :styl="{width: '800px', height: '340px',float:'left'}"
           id="keywordChart2"
         ></LineCharts>
@@ -175,7 +192,7 @@
         ></circleCharts>
       </div>
       <!-- 平台数据 -->
-      <div class="commerce_box">
+      <!-- <div class="commerce_box">
         <div class="commerce_title">
           <span class="commerce_title_name">平台</span>
           <span
@@ -226,7 +243,7 @@
           <span>50</span>
           <span>></span>
         </div>
-      </div>
+      </div>-->
     </div>
     <NearlySearch @msgNearlysearch="getNearly"></NearlySearch>
   </div>
@@ -310,19 +327,192 @@ export default {
           data: []
         }
       ],
-      // echarts饼图测试数据
-      cseries: [
+      ipRes: [
         {
-          name: "访问来源",
+          name: "移动端",
+          type: "line",
+          symbol: "none",
+          data: []
+        },
+        {
+          name: "PC端",
+          type: "line",
+          symbol: "none",
+          data: []
+        },
+        {
+          name: "总量",
+          type: "line",
+          symbol: "none",
+          data: []
+        }
+      ],
+      rankRes: [
+        {
+          name: "移动端",
+          type: "line",
+          symbol: "none",
+          data: []
+        },
+        {
+          name: "PC端",
+          type: "line",
+          symbol: "none",
+          data: []
+        },
+        {
+          name: "总量",
+          type: "line",
+          symbol: "none",
+          data: []
+        }
+      ],
+      bdshouluRes: [
+        {
+          name: "移动端",
+          type: "line",
+          symbol: "none",
+          data: []
+        },
+        {
+          name: "PC端",
+          type: "line",
+          symbol: "none",
+          data: []
+        },
+        {
+          name: "总量",
+          type: "line",
+          symbol: "none",
+          data: []
+        }
+      ],
+      bdsuoyinRes: [
+        {
+          name: "移动端",
+          type: "line",
+          symbol: "none",
+          data: []
+        },
+        {
+          name: "PC端",
+          type: "line",
+          symbol: "none",
+          data: []
+        },
+        {
+          name: "总量",
+          type: "line",
+          symbol: "none",
+          data: []
+        }
+      ],
+      // 第二张图表数据
+      rankingTrend: "0",
+      xdata2: [],
+      series2: [],
+      xdataRes: [],
+      xdataRes_m: [],
+      seriesRes: [
+        {
+          name: "前10",
+          type: "line",
+          symbol: "none",
+          data: []
+        },
+        {
+          name: "前20号",
+          type: "line",
+          symbol: "none",
+          data: []
+        },
+        {
+          name: "前30",
+          type: "line",
+          symbol: "none",
+          data: []
+        },
+        {
+          name: "前40",
+          type: "line",
+          symbol: "none",
+          data: []
+        },
+        {
+          name: "前50",
+          type: "line",
+          symbol: "none",
+          data: []
+        }
+      ],
+      seriesRes_m: [
+        {
+          name: "前10",
+          type: "line",
+          symbol: "none",
+          data: []
+        },
+        {
+          name: "前20号",
+          type: "line",
+          symbol: "none",
+          data: []
+        },
+        {
+          name: "前30",
+          type: "line",
+          symbol: "none",
+          data: []
+        },
+        {
+          name: "前40",
+          type: "line",
+          symbol: "none",
+          data: []
+        },
+        {
+          name: "前50",
+          type: "line",
+          symbol: "none",
+          data: []
+        }
+      ],
+      cseries: [],
+      cseriesRes: [
+        {
           type: "pie",
           radius: ["25%", "55%"],
           center: ["50%", "50%"],
           data: [
-            { value: 10.76, name: "第一页" },
-            { value: 17.69, name: "第二页" },
-            { value: 28.4, name: "第三页" },
-            { value: 24.2, name: "第四页" },
-            { value: 18.95, name: "第五页" }
+            { value: 0, name: "第一页" },
+            { value: 0, name: "第二页" },
+            { value: 0, name: "第三页" },
+            { value: 0, name: "第四页" },
+            { value: 0, name: "第五页" }
+          ],
+          itemStyle: {
+            emphasis: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: "rgba(0, 0, 0, 0.5)"
+            }
+          },
+          label: {
+            formatter: "{b}\n\n{d}%"
+          }
+        }
+      ],
+      cseriesRes_m: [
+        {
+          type: "pie",
+          radius: ["25%", "55%"],
+          center: ["50%", "50%"],
+          data: [
+            { value: 0, name: "第一页" },
+            { value: 0, name: "第二页" },
+            { value: 0, name: "第三页" },
+            { value: 0, name: "第四页" },
+            { value: 0, name: "第五页" }
           ],
           itemStyle: {
             emphasis: {
@@ -368,6 +558,36 @@ export default {
     // 标签切换
     ChangeDays(days) {
       this.dayschange = days;
+      var seriesType = this.seriesRes_m;
+      var xdataType = this.xdataRes_m;
+      var echartsData = [];
+      var chartXdata = [];
+      if (this.rankingTrend == "0") {
+        seriesType = this.seriesRes;
+        xdataType = this.xdataRes;
+      }
+      echartsData = JSON.parse(JSON.stringify(seriesType));
+      chartXdata = JSON.parse(JSON.stringify(xdataType));
+      if (this.dayschange == "0") {
+        for (let i in echartsData) {
+          echartsData[i].data = seriesType[i].data.slice(-7);
+        }
+        chartXdata = xdataType.slice(-7);
+        this.series2 = echartsData;
+        this.xdata2 = chartXdata;
+      }
+      if (this.dayschange == "1") {
+        for (let i in echartsData) {
+          echartsData[i].data = seriesType[i].data.slice(-30);
+        }
+        chartXdata = xdataType.slice(-30);
+        this.series2 = echartsData;
+        this.xdata2 = chartXdata;
+      }
+      if (this.dayschange == "2") {
+        this.series2 = seriesType;
+        this.xdata2 = xdataType;
+      }
     },
     ChangeNet(net) {
       this.related_net = net;
@@ -377,10 +597,38 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.related_web.length = 0;
+      this.getAll();
     },
     //折线图分类切换
     changeWeightType(idx) {
       this.weightType = idx;
+      if (idx == "0") {
+        this.series = this.keySumRes;
+      }
+      if (idx == "1") {
+        this.series = this.ipRes;
+      }
+      if (idx == "2") {
+        this.series = this.rankRes;
+      }
+      if (idx == "3") {
+        this.series = this.bdshouluRes;
+      }
+      if (idx == "4") {
+        this.series = this.bdsuoyinRes;
+      }
+    },
+    //切换排名趋势
+    changeRankingTrend(idx) {
+      this.rankingTrend = idx;
+      this.ChangeDays(2);
+      if (idx == "0") {
+        this.cseries = this.cseriesRes;
+      }
+      if (idx == "1") {
+        this.cseries = this.cseriesRes_m;
+      }
     },
     //平台移动pc切换
     changeNetworks(idx) {
@@ -427,7 +675,10 @@ export default {
             endtime: a
           }
         })
-        .then(res => {})
+        .then(res => {
+          this.bdshouluRes[2].data = res.data.series.baidu.reverse();
+          this.bdsuoyinRes[2].data = res.data.series.baiduindex.reverse();
+        })
         .catch(res => {
           console.log(res.msg);
         });
@@ -445,17 +696,30 @@ export default {
           }
         })
         .then(res => {
-          console.log(res);
           var msum = res.data.series.mSum.reverse();
           var pcsum = res.data.series.pcSum.reverse();
+          var ip = res.data.series.IP.reverse();
+          var mip = res.data.series.mIP.reverse();
           this.keySumRes[0].data = msum;
           this.keySumRes[1].data = pcsum;
-          var total = msum.map(function(value, index) {
-            return value*1 + pcsum[index]*1;
+          this.ipRes[0].data = mip;
+          this.ipRes[1].data = ip;
+          this.rankRes[0].data = res.data.series.mBR.reverse();
+          this.rankRes[1].data = res.data.series.BR;
+          var total = msum.map((value, index) => {
+            return value * 1 + pcsum[index] * 1;
           });
-          console.log(total)
+          var ipSum = mip.map((value, index) => {
+            return value * 1 + ip[index] * 1;
+          });
+          this.keySumRes[2].data = total;
+          this.ipRes[2].data = ipSum;
           this.series = this.keySumRes;
-          this.xdata = res.data.date.BR.reverse();
+          var xdatares = res.data.date.BR.reverse();
+          for (let i in xdatares) {
+            xdatares[i] = xdatares[i].slice(5);
+          }
+          this.xdata = xdatares;
         })
         .catch(res => {
           console.log(res.msg);
@@ -470,10 +734,18 @@ export default {
           }
         })
         .then(res => {
-          // this.xdataRes_m = res.data.date.reverse();
-          // for (let i = 0; i < 5; i++) {
-          //     this.seriesRes_m[i].data = res.data["t" + (i + 1)].reverse();
-          // }
+          console.log(res);
+          this.xdataRes_m = res.data.date.reverse();
+          for (let i = 0; i < 5; i++) {
+            this.seriesRes_m[i].data = res.data["t" + (i + 1)].reverse();
+          }
+          this.cseriesRes_m[0].data[0].value =
+            res.data["t" + 1][res.data["t" + 1].length - 1];
+          for (let i = 1; i < 5; i++) {
+            this.cseriesRes_m[0].data[i].value =
+              res.data["t" + (i + 1)][res.data["t" + (i + 1)].length - 1] -
+              res.data["t" + i][res.data["t" + i].length - 1];
+          }
         })
         .catch(res => {
           console.log(res.msg);
@@ -488,12 +760,20 @@ export default {
           }
         })
         .then(res => {
-          // this.xdataRes = res.data.date.reverse();
-          // this.xdata = this.xdataRes;
-          // for (let i = 0; i < 5; i++) {
-          //     this.seriesRes[i].data = res.data["t" + (i + 1)].reverse();
-          // }
-          // this.series = this.seriesRes;
+          this.xdataRes = res.data.date.reverse();
+          this.xdata2 = this.xdataRes;
+          for (let i = 0; i < 5; i++) {
+            this.seriesRes[i].data = res.data["t" + (i + 1)].reverse();
+          }
+          this.series2 = this.seriesRes;
+          this.cseriesRes[0].data[0].value =
+            res.data["t" + 1][res.data["t" + 1].length - 1];
+          for (let i = 1; i < 5; i++) {
+            this.cseriesRes[0].data[i].value =
+              res.data["t" + (i + 1)][res.data["t" + (i + 1)].length - 1] -
+              res.data["t" + i][res.data["t" + i].length - 1];
+          }
+          this.cseries = this.cseriesRes;
         })
         .catch(res => {
           console.log(res.msg);
@@ -629,7 +909,14 @@ export default {
       );
     },
     getAll() {
-      this.$http.all([this.getBaiduRank(), this.getHiswave2()]);
+      this.$http.all([
+        this.getBaiduRank(),
+        this.getHiswave2(),
+        this.getHiswave(),
+        this.getSubdomains(),
+        this.baiduTrend_m(),
+        this.baiduTrend_pc()
+      ]);
     }
   },
   mounted() {
@@ -728,7 +1015,7 @@ export default {
 
       a {
         color: #666;
-        font-size: 12px;
+        font-size: 13px;
         cursor: pointer;
       }
 
@@ -742,7 +1029,9 @@ export default {
     height: 60px;
     background: #fafafa;
     border-bottom: 1px solid #ebebeb;
-
+    .ranking_trend {
+      font-size: 24px;
+    }
     a {
       display: inline-block;
       margin: 1px 0 0 10px;
@@ -779,11 +1068,6 @@ export default {
         vertical-align: -2px;
       }
     }
-
-    span:nth-child(6) {
-      margin-right: 36px;
-    }
-
     .echarts_days {
       display: inline-block;
       width: 56px;

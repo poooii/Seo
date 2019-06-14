@@ -74,9 +74,6 @@ export default {
             textStyle: {
               color: "#666"
             }
-          },
-          axisTick: {
-            show: false
           }
         },
         yAxis: {

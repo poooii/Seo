@@ -135,10 +135,29 @@
           </tr>
           <tr>
             <td>总词数</td>
-            <td>22,387</td>
-            <td>42,387</td>
+            <td>{{seriesRes[4].data[seriesRes[4].data.length-1]}}</td>
+            <td>{{seriesRes_m[4].data[seriesRes_m[4].data.length-1]}}</td>
           </tr>
-          <tr>
+          <tr v-for="(item,index) in trend_list">
+            <td>{{`第${index+1}页`}}</td>
+            <td>
+              {{item.pc}}
+              <span :class="{upper:item.value>0,lower:item.value<0,equal:item.value==0}">
+                <i></i>
+                <b>{{item.value}}</b>
+                （{{(item.pc/seriesRes[4].data[seriesRes[4].data.length-1]*100).toFixed(2)+"%"}}）
+              </span>
+            </td>
+            <td>
+              {{item.mb}}
+              <span>
+                <i></i>
+                <b>{{item.value_m}}</b>
+                （{{(item.mb/seriesRes[4].data[seriesRes[4].data.length-1]*100).toFixed(2)+"%"}}）
+              </span>
+            </td>
+          </tr>
+          <!-- <tr>
             <td>第一页</td>
             <td>
               2,387
@@ -152,7 +171,7 @@
                 <i></i> 87（7.15%）
               </span>
             </td>
-          </tr>
+          </tr>-->
         </table>
       </div>
       <!-- 排名趋势echarts -->
@@ -304,6 +323,38 @@ export default {
         "shuadan.cn",
         "caoping6s.cn",
         "014121.cn"
+      ],
+      trend_list: [
+        {
+          pc: "1",
+          mb: "",
+          value: "",
+          value_m: ""
+        },
+        {
+          pc: "",
+          mb: "",
+          value: "",
+          value_m: ""
+        },
+        {
+          pc: "",
+          mb: "",
+          value: "",
+          value_m: ""
+        },
+        {
+          pc: "",
+          mb: "",
+          value: "",
+          value_m: ""
+        },
+        {
+          pc: "",
+          mb: "",
+          value: "",
+          value_m: ""
+        }
       ],
       xdata: [],
       series: [],
@@ -599,6 +650,12 @@ export default {
       this.content = storage.searchContent;
       this.related_web.length = 0;
       this.getAll();
+      this.weightType = 0;
+      this.rankingTrend = 0;
+      this.dayschange = 2;
+      setTimeout(() => {
+        this.bus.$emit("loading", false);
+      }, 1500);
     },
     //折线图分类切换
     changeWeightType(idx) {
@@ -734,17 +791,24 @@ export default {
           }
         })
         .then(res => {
-          console.log(res);
           this.xdataRes_m = res.data.date.reverse();
           for (let i = 0; i < 5; i++) {
             this.seriesRes_m[i].data = res.data["t" + (i + 1)].reverse();
           }
           this.cseriesRes_m[0].data[0].value =
             res.data["t" + 1][res.data["t" + 1].length - 1];
+          this.trend_list[0].mb = this.cseriesRes_m[0].data[0].value;
+          this.trend_list[0].value_m =
+            this.cseriesRes_m[0].data[0].value -
+            res.data["t" + 1][res.data["t" + 1].length - 2];
           for (let i = 1; i < 5; i++) {
             this.cseriesRes_m[0].data[i].value =
               res.data["t" + (i + 1)][res.data["t" + (i + 1)].length - 1] -
               res.data["t" + i][res.data["t" + i].length - 1];
+            this.trend_list[i].mb = this.cseriesRes_m[0].data[i].value;
+            this.trend_list[i].value_m =
+              res.data["t" + (i + 1)][res.data["t" + (i + 1)].length - 1] -
+              res.data["t" + (i + 1)][res.data["t" + (i + 1)].length - 2];
           }
         })
         .catch(res => {
@@ -768,10 +832,18 @@ export default {
           this.series2 = this.seriesRes;
           this.cseriesRes[0].data[0].value =
             res.data["t" + 1][res.data["t" + 1].length - 1];
+          this.trend_list[0].pc = this.cseriesRes[0].data[0].value;
+          this.trend_list[0].value =
+            this.cseriesRes[0].data[0].value -
+            res.data["t" + 1][res.data["t" + 1].length - 2];
           for (let i = 1; i < 5; i++) {
             this.cseriesRes[0].data[i].value =
               res.data["t" + (i + 1)][res.data["t" + (i + 1)].length - 1] -
               res.data["t" + i][res.data["t" + i].length - 1];
+            this.trend_list[i].pc = this.cseriesRes[0].data[i].value;
+            this.trend_list[i].value =
+              res.data["t" + (i + 1)][res.data["t" + (i + 1)].length - 1] -
+              res.data["t" + (i + 1)][res.data["t" + (i + 1)].length - 2];
           }
           this.cseries = this.cseriesRes;
         })
@@ -909,14 +981,21 @@ export default {
       );
     },
     getAll() {
-      this.$http.all([
-        this.getBaiduRank(),
-        this.getHiswave2(),
-        this.getHiswave(),
-        this.getSubdomains(),
-        this.baiduTrend_m(),
-        this.baiduTrend_pc()
-      ]);
+      this.bus.$emit("loading", true);
+      this.$http
+        .all([
+          this.getBaiduRank(),
+          this.getHiswave2(),
+          this.getHiswave(),
+          this.getSubdomains(),
+          this.baiduTrend_m(),
+          this.baiduTrend_pc()
+        ])
+        .then(
+          this.$http.spread((acct, perms) => {
+            this.bus.$emit("loading", false);
+          })
+        );
     }
   },
   mounted() {
@@ -924,12 +1003,20 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
-    this.getAll();
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.getAll();
+    }
+    setTimeout(() => {
+      this.bus.$emit("loading", false);
+    }, 2000);
   }
 };
 </script>
 
 <style lang="less" scoped>
+b {
+  font-weight: normal;
+}
 .bg_gray {
   background: #fafafa;
   color: #808080;
@@ -1231,6 +1318,16 @@ export default {
     position: relative;
     margin-right: 5px;
     bottom: 12px;
+  }
+}
+.equal {
+  color: #808080;
+  i {
+    width: 10px;
+    height: 3px;
+    background: #808080;
+    display: inline-block;
+    vertical-align: middle;
   }
 }
 

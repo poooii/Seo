@@ -150,28 +150,13 @@
             </td>
             <td>
               {{item.mb}}
-              <span>
+              <span :class="{upper:item.value_m>0,lower:item.value_m<0,equal:item.value_m==0}">
                 <i></i>
                 <b>{{item.value_m}}</b>
                 （{{(item.mb/seriesRes[4].data[seriesRes[4].data.length-1]*100).toFixed(2)+"%"}}）
               </span>
             </td>
           </tr>
-          <!-- <tr>
-            <td>第一页</td>
-            <td>
-              2,387
-              <span class="lower">
-                <i></i> 87（7.15%）
-              </span>
-            </td>
-            <td>
-              2,387
-              <span class="upper">
-                <i></i> 87（7.15%）
-              </span>
-            </td>
-          </tr>-->
         </table>
       </div>
       <!-- 排名趋势echarts -->

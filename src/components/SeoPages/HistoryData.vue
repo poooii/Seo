@@ -554,9 +554,10 @@ export default {
             this.searchIdx=0
             }
         },
-        // 改变搜索范围后面用range当参数，不用管这个
+        // 改变搜索范围后面用range当参数
         changeRange(range) {
             this.range=range
+            this.changeMonth(this.Month)
         },
         // 改变月份，直接在里面写ajax
         changeMonth(index) {
@@ -566,13 +567,29 @@ export default {
                 this.selMonths.push(index)
             }
             if(this.range=="3m"){
-                for (let i = index-2; i <= index; i++) {
-                    this.selMonths.push(i)
+                if(index<2){
+                    this.changePrey()
+                    for (let i = 12+index-2; i <= 12+index; i++) {
+                        this.selMonths.push(i)
+                    }
+                    this.Month=index+12
+                }else{
+                        for (let i = index-2; i <= index; i++) {
+                        this.selMonths.push(i)
+                    }
                 }
             }
             if(this.range=="6m"){
-                 for (let i = index-5; i <= index; i++) {
+                if(index<5){
+                    this.changePrey()
+                    for (let i = 12+index-5; i <= 12+index; i++) {
+                        this.selMonths.push(i)
+                    }
+                    this.Month=index+12
+                }else{
+                    for (let i = index-5; i <= index; i++) {
                     this.selMonths.push(i)
+                }
                 }
             }
         },
@@ -738,6 +755,9 @@ export default {
                 left: 30px;
                 z-index: 3;
                 top: -22px;
+                left: 150px;
+                padding-left: 5px;
+                border-left: 1px solid #ebebeb;
                 height: 24px;
                 font-size: 14px;
                 color: #666;
@@ -747,6 +767,9 @@ export default {
                 right: 30px;
                 z-index: 3;
                 top: -22px;
+                right: 197px;
+                border-left: 1px solid #ebebeb;
+                padding-left: 5px;
                 height: 24px;
                 font-size: 14px;
                 color: #666;

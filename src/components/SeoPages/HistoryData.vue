@@ -65,13 +65,13 @@
             <div v-if="showViews=='0'">
                 <div class="chart_container">
                     <div class="title_container">
-                        <span class="color_line_blue">PC词量</span>
-                        <span>移动词量</span>
-                        <span>百度PC来路</span>
-                        <span>百度移动来路</span>
-                        <span>总预计来路</span>
-                        <span>PC权重</span>
-                        <span>移动权重</span>
+                        <span :class="{color_line_blue:seoresult=='0'}" @click="changeSeoresult('0')">PC词量</span>
+                        <span :class="{color_line_blue:seoresult=='1'}" @click="changeSeoresult('1')">移动词量</span>
+                        <span :class="{color_line_blue:seoresult=='2'}" @click="changeSeoresult('2')">百度PC来路</span>
+                        <span :class="{color_line_blue:seoresult=='3'}" @click="changeSeoresult('3')">百度移动来路</span>
+                        <span :class="{color_line_blue:seoresult=='4'}" @click="changeSeoresult('4')">总预计来路</span>
+                        <span :class="{color_line_blue:seoresult=='5'}" @click="changeSeoresult('5')">PC权重</span>
+                        <span :class="{color_line_blue:seoresult=='6'}" @click="changeSeoresult('6')">移动权重</span>
                     </div>
                     <LineCharts
                         :xdata="xdata2"
@@ -217,10 +217,10 @@
             <div v-if="showViews=='1'">
                 <div class="chart_container">
                     <div class="title_container">
-                        <span class="color_line_blue">今日排名</span>
-                        <span>一周平均排名</span>
-                        <span>一月平均排名</span>
-                        <span>三月平均排名</span>
+                        <span :class="{color_line_blue:aleaxresult=='0'}" @click="changeAleaxresult('0')">今日排名</span>
+                        <span :class="{color_line_blue:aleaxresult=='1'}" @click="changeAleaxresult('1')">一周平均排名</span>
+                        <span :class="{color_line_blue:aleaxresult=='2'}" @click="changeAleaxresult('2')">一月平均排名</span>
+                        <span :class="{color_line_blue:aleaxresult=='3'}" @click="changeAleaxresult('3')">三月平均排名</span>
                     </div>
                     <LineCharts
                         :xdata="xdata2"
@@ -323,13 +323,13 @@
             <div v-if="showViews=='2'">
                 <div class="chart_container">
                     <div class="title_container">
-                        <span class="color_line_blue">百度收录</span>
-                        <span>百度索引</span>
-                        <span>百度反链</span>
-                        <span>搜狗收录</span>
-                        <span>搜狗反链</span>
-                        <span>360收录</span>
-                        <span>360反链</span>
+                        <span :class="{color_line_blue:shouluresult=='0'}" @click="changeShouluresult('0')">百度收录</span>
+                        <span :class="{color_line_blue:shouluresult=='1'}" @click="changeShouluresult('1')">百度索引</span>
+                        <span :class="{color_line_blue:shouluresult=='2'}" @click="changeShouluresult('2')">百度反链</span>
+                        <span :class="{color_line_blue:shouluresult=='3'}" @click="changeShouluresult('3')">搜狗收录</span>
+                        <span :class="{color_line_blue:shouluresult=='4'}" @click="changeShouluresult('4')">搜狗反链</span>
+                        <span :class="{color_line_blue:shouluresult=='5'}" @click="changeShouluresult('5')">360收录</span>
+                        <span :class="{color_line_blue:shouluresult=='6'}" @click="changeShouluresult('6')">360反链</span>
                     </div>
                     <LineCharts
                         :xdata="xdata2"
@@ -489,6 +489,12 @@ export default {
         return {
             // 控制不同分类的搜索结果显示
             showViews:'0',
+            //seo搜索结果图表
+            seoresult:'0',
+            //aleax搜索图表
+            aleaxresult:'0',
+            //收录反链图表
+            shouluresult:'0',
             // 折线图坐标轴
             showxis: true,
             // 时间选择器年份
@@ -601,6 +607,18 @@ export default {
         changeNexty() {
             this.prevyear++
             this.nextyear++
+        },
+        //切换seoresult图表
+        changeSeoresult(idx) {
+            this.seoresult=idx
+        },
+        //切换aleax图表
+        changeAleaxresult(idx) {
+            this.aleaxresult=idx
+        },
+        //切换收录反链图表
+        changeShouluresult(idx) {
+            this.shouluresult=idx
         },
         // 热门搜索
         searchHot(data){

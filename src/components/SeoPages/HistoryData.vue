@@ -15,7 +15,7 @@
                                     Aleax排名历史
                                 </li>
                                 <li :class="{show:searchIdx==2||searchIdx==undefined}" @click="changeSearch('2')">
-                                    收录/反链历史
+                                    收录/反链历史 
                                 </li>
                             </ul>
                             <i></i>
@@ -87,9 +87,9 @@
                         <span :class="{color_line_blue:seoresult=='6'}" @click="changeSeoresult('6')">移动权重</span>
                     </div>
                     <LineCharts
-                            :xdata="xdata2"
+                            :xdata="xdata"
                             :showxis="showxis"
-                            :option="series2"
+                            :option="series"
                             :styl="{width: '1140px', height: '360px'}"
                             id="paimingChart"
                     ></LineCharts>
@@ -106,124 +106,27 @@
                             <td>百度移动来路</td>
                             <td>总预计来路</td>
                         </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
+                        <tr v-for="(list,index) in seoList.data">
+                            <td>{{seoList.data[index]}}</td>
+                            <td>{{seoList.BR[index]}}</td>
+                            <td>{{seoList.mBR[index]}}</td>
+                            <td>{{seoList.pcSum[index]|NumFormat}}</td>
+                            <td>{{seoList.mSum[index]|NumFormat}}</td>
+                            <td>{{seoList.pcIP[index]|NumFormat}}</td>
+                            <td>{{seoList.mIP[index]|NumFormat}}</td>
+                            <td>{{seoList.IP[index]|NumFormat}}</td>
                         </tr>
                         <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
+                            <td>平均值</td>
+                            <td>{{seoList.BrAvg}}</td>
+                            <td>{{seoList.mBrAvg}}</td>
+                            <td>{{seoList.pcSumAvg}}</td>
+                            <td>{{seoList.mSumAvg}}</td>
+                            <td>{{seoList.pcIPAvg}}</td>
+                            <td>{{seoList.mIPAvg}}</td>
+                            <td>{{seoList.IPAvg}}</td>
                         </tr>
                     </table>
-                    <div class="page_box">
-                        <span><</span>
-                        <span v-for="num in 10">{{num}}</span>
-                        <span>...</span>
-                        <span class="color_blue">50</span>
-                        <span>></span>
-                    </div>
                 </div>
             </div>
             <!-- ALEAX搜索结果 -->
@@ -323,13 +226,6 @@
                             <td>2,387 <span class="upper"><i></i>37</span></td>
                         </tr>
                     </table>
-                    <div class="page_box">
-                        <span><</span>
-                        <span v-for="num in 10">{{num}}</span>
-                        <span>...</span>
-                        <span class="color_blue">50</span>
-                        <span>></span>
-                    </div>
                 </div>
             </div>
             <!-- 收录/反链搜索结果 -->
@@ -475,13 +371,6 @@
                             <td>1,560,000</td>
                         </tr>
                     </table>
-                    <div class="page_box">
-                        <span><</span>
-                        <span v-for="num in 10">{{num}}</span>
-                        <span>...</span>
-                        <span class="color_blue">50</span>
-                        <span>></span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -518,6 +407,11 @@
                 // 时间选择器年份
                 prevyear: G.Y - 1,
                 nextyear: G.Y,
+
+                // 搜索内容
+                search:'seo',
+
+
                 // 时间选择器时间范围
                 range: '1',
                 // 搜索框三个分类
@@ -541,6 +435,7 @@
                 // 初始选中的月份
                 // 初始选中的带小箭头的月份
                 // 折线图测试数据
+                xdata:[],
                 xdata2: [
                     "04-02",
                     "04-03",
@@ -556,6 +451,73 @@
                 //开始时间
                 s: '',
                 // 折线图测试数据
+                series:[],
+                seoList:"",
+                seoRes:{
+                    0:[
+                        {
+                            name:"PC词量",
+                            type:"line",
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ],
+                    1:[
+                        {
+                            name:"移动词量",
+                            type:"line",
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ],
+                    2:[
+                        {
+                            name:"百度PC来路",
+                            type:"line",
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ],
+                    3:[
+                        {
+                            name:"百度移动来路",
+                            type:"line",
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ],
+                    4:[
+                        {
+                            name:"总预计来路",
+                            type:"line",
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ],
+                    5:[
+                        {
+                            name:"PC权重",
+                            type:"line",
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ],
+                    6:[
+                        {
+                            name:"移动权重",
+                            type:"line",
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ]
+                },
                 series2: [
                     {
                         name: "前10",
@@ -583,7 +545,11 @@
                 this.months = a
                 this.e = this.getEDate(this.sel_y, this.sel_m)
                 this.s = this.getSDate(this.sel_y, this.sel_m, this.range)
-                this.getHiswave2()
+                this.seoresult=0
+                if (this.searchIdx == '0') this.getHiswave2()
+                if (this.searchIdx == '2') this.getHiswave()
+                if (this.searchIdx == '1') this.getHiswave3()
+                
             },
             getWebpage() {
                 return this.$http
@@ -599,8 +565,49 @@
                         console.log(res.msg);
                     });
             },
+            getHiswave() {
+                // 反链
+                 this.bus.$emit("loading", true)
+                return this.$http
+                    .get("/Api/BaiduRank/hiswave", {
+                        params: {
+                            domain: this.content,
+                            begintime: this.s,
+                            endtime: this.e
+                        }
+                    })
+                    .then(res => {
+                        console.log(res)
+                        this.bus.$emit("loading", false)
+                    })
+                     .catch(res => {
+                        console.log(res.msg);
+                         this.bus.$emit("loading", false)
+                    });
+            },
+            getHiswave3() {
+                // aleax
+                 this.bus.$emit("loading", true)
+                return this.$http
+                    .get("/Api/BaiduRank/hiswave3", {
+                        params: {
+                            domain: this.content,
+                            begintime: this.s,
+                            endtime: this.e
+                        }
+                    })
+                    .then(res => {
+                        console.log(res)
+                        this.bus.$emit("loading", false)
+                    })
+                     .catch(res => {
+                        console.log(res.msg);
+                         this.bus.$emit("loading", false)
+                    });
+            },
             getHiswave2() {
-                // 总关键词 预计来路 权重
+                // seo历史
+                 this.bus.$emit("loading", true)
                 return this.$http
                     .get("/Api/BaiduRank/hiswave2", {
                         params: {
@@ -610,34 +617,45 @@
                         }
                     })
                     .then(res => {
-                        console.log(res)
-                        // var msum = res.data.series.mSum.reverse();
-                        // var pcsum = res.data.series.pcSum.reverse();
-                        // var ip = res.data.series.IP.reverse();
-                        // var mip = res.data.series.mIP.reverse();
-                        // this.keySumRes[0].data = msum;
-                        // this.keySumRes[1].data = pcsum;
-                        // this.ipRes[0].data = mip;
-                        // this.ipRes[1].data = ip;
-                        // this.rankRes[0].data = res.data.series.mBR.reverse();
-                        // this.rankRes[1].data = res.data.series.BR;
-                        // var total = msum.map((value, index) => {
-                        //     return value * 1 + pcsum[index] * 1;
-                        // });
-                        // var ipSum = mip.map((value, index) => {
-                        //     return value * 1 + ip[index] * 1;
-                        // });
-                        // this.keySumRes[2].data = total;
-                        // this.ipRes[2].data = ipSum;
-                        // this.series = this.keySumRes;
-                        // var xdatares = res.data.date.BR.reverse();
-                        // for (let i in xdatares) {
-                        //     xdatares[i] = xdatares[i].slice(5);
-                        // }
-                        // this.xdata = xdatares;
+                        this.xdata=res.data.date.pcSum.reverse();
+                        this.seoRes[0][0].data=res.data.series.pcSum.reverse();
+                        this.seoRes[1][0].data=res.data.series.mSum.reverse();
+                        this.seoRes[2][0].data=res.data.series.pcIP.reverse();
+                        this.seoRes[3][0].data=res.data.series.mIP.reverse();
+                        this.seoRes[4][0].data=res.data.series.IP.reverse();
+                        this.seoRes[5][0].data=res.data.series.BR.reverse();
+                        this.seoRes[6][0].data=res.data.series.mBR.reverse();
+                        this.series=this.seoRes[0]
+                        var seoData = JSON.parse(JSON.stringify(res.data.series))
+                        seoData.BR=seoData.BR.reverse()
+                        seoData.mBR=seoData.mBR.reverse()
+                        seoData.pcSum=seoData.pcSum.reverse()
+                        seoData.mSum=seoData.mSum.reverse()
+                        seoData.pcIP=seoData.pcIP.reverse()
+                        seoData.mIP=seoData.mIP.reverse()
+                        seoData.IP=seoData.IP.reverse()
+                        this.seoList=seoData
+                        this.seoList.data=JSON.parse(JSON.stringify(this.xdata)).reverse()
+                        var avg =  function (array) {
+                            var len = array.length;
+                            var sum = 0;
+                            for(var i = 0; i < len ; i++){
+                                sum += array[i]*1;
+                            }
+                            return (sum/len).toFixed(0);
+                        }
+                        this.seoList.BrAvg=avg(seoData.BR)
+                        this.seoList.mBrAvg=avg(seoData.mBR)
+                        this.seoList.pcSumAvg=avg(seoData.pcSum)
+                        this.seoList.mSumAvg=avg(seoData.mSum)
+                        this.seoList.pcIPAvg=avg(seoData.pcIP)
+                        this.seoList.mIPAvg=avg(seoData.mIP)
+                        this.seoList.IPAvg=avg(seoData.IP)
+                        this.bus.$emit("loading", false)
                     })
                     .catch(res => {
                         console.log(res.msg);
+                         this.bus.$emit("loading", false)
                     });
             },
             // 改变搜索分类
@@ -698,6 +716,7 @@
             //切换seoresult图表
             changeSeoresult(idx) {
                 this.seoresult = idx
+                this.series=this.seoRes[idx]
             },
             //切换aleax图表
             changeAleaxresult(idx) {
@@ -730,7 +749,33 @@
                 this.showViews = this.searchIdx
                 let storage = window.sessionStorage;
                 storage.setItem("searchContent", this.content);
+                this.getAll()
+                setTimeout(() => {
+                    this.bus.$emit("loading", false);
+                }, 2000);
+            },
+            getAll() {
+                this.bus.$emit("loading", true);
+                this.$http
+                    .all([
+                    this.getMonthsBym(G.Y, G.M),
+                    this.getWebpage()
+                ])
+                .then(
+                    this.$http.spread((acct, perms) => {
+                    this.bus.$emit("loading", false);
+                    })
+                );
             }
+        },
+        filters: {
+            NumFormat(value) {
+                if (!value) return "-";
+                var intPartFormat = value
+                    .toString()
+                    .replace(/(\d)(?=(?:\d{3})+$)/g, "$1,");
+                return intPartFormat;
+                }
         },
         mounted() {
             let storage = window.sessionStorage;
@@ -738,8 +783,12 @@
             this.SeoContent = storage.searchContent;
             storage.setItem("navIndex", '1');
             window.scrollTo(0, 0);
-            this.getMonthsBym(G.Y, G.M)
-            this.getWebpage()
+            if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+            this.getAll()
+            }
+            setTimeout(() => {
+            this.bus.$emit("loading", false);
+            }, 2000);
         }
     }
 </script>
@@ -823,7 +872,7 @@
 
     .y {
         position: absolute;
-        top: -25px;
+        top: -30px;
         left: -1px;
         padding-left: 5px;
         border-left: 1px solid #ebebeb;
@@ -912,7 +961,7 @@
 
             .prev {
                 position: absolute;
-                left: 0;
+                left: -18px;
                 z-index: 3;
                 top: -25px;
                 width: 24px;
@@ -929,7 +978,7 @@
 
             .next {
                 position: absolute;
-                right: 0;
+                right: 32px;
                 z-index: 3;
                 top: -25px;
                 width: 24px;
@@ -1055,13 +1104,11 @@
             }
         }
     }
-
     .paiming_table_container {
         color: #666;
         margin-top: 20px;
         height: auto;
-        border-bottom: 1px solid #ebebeb;
-
+        margin-bottom: 60px;
         table {
             border-right: 1px solid #ebebeb;
             border-bottom: 1px solid #ebebeb;
@@ -1112,23 +1159,12 @@
                     background: #fafafa;
                 }
             }
-        }
-    }
-
-    .page_box {
-        width: 100%;
-        height: 60px;
-        text-align: right;
-        border-left: 1px solid #ebebeb;
-        border-right: 1px solid #ebebeb;
-
-        span {
-            display: inline-block;
-            height: 60px;
-            line-height: 60px;
-            margin-right: 24px;
-            cursor: pointer;
-            font-size: 16px;
+            tr:last-child {
+                td {
+                    color:#2097db;
+                    background: #f0f8ff;
+                }
+            }
         }
     }
 </style>

@@ -1,1859 +1,1882 @@
 <template>
-  <div>
-    <!-- 头部搜索框 -->
-    <!-- 搜索框子组件，可反复调用，title为传入的搜索框上文字，@msgToSearch为组件传出的搜索内容，@msgSearchHot为组件传出的热门搜索内容 -->
-    <SearchBox :title="title" :content="content" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
-    <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
-    <div class="seo_main_content" v-if="!content==''">
-      <!-- 主体第一大块 -->
-      <div class="content_title clearfix">
-        <span class="t_title fl">{{site_title}}</span>
-        <span class="t_time fr">更新时间：{{update_time}}</span>
-        <span class="t_history fr">
+    <div>
+        <!-- 头部搜索框 -->
+        <!-- 搜索框子组件，可反复调用，title为传入的搜索框上文字，@msgToSearch为组件传出的搜索内容，@msgSearchHot为组件传出的热门搜索内容 -->
+        <SearchBox :title="title" :content="content" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
+        <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
+        <div class="seo_main_content" v-if="!content==''">
+            <!-- 主体第一大块 -->
+            <div class="content_title clearfix">
+                <span class="t_title fl">{{site_title}}</span>
+                <span class="t_time fr">更新时间：{{update_time}}</span>
+                <span class="t_history fr">
           <img src="../../assets/dataupdate.png">历史数据
         </span>
-      </div>
-      <div>
-        <ul class="weight_content clearfix">
-          <li class="weight_details">
-            <!-- 过滤器，限制域名字符个数 -->
-            <div class="weight_net">{{content | ellipsis}}</div>
-            <span class="weight_name">域名</span>
-          </li>
-          <li class="weight_details" v-for="weights in weightcontent">
-            <div class="weight_net">
-              <!-- 循环权重图片 -->
-              <img :src="require(`../../assets/${weights.img}.png`)">
-              <span>{{weights.weight}}</span>
             </div>
-            <!-- 循环名称 -->
-            <span class="weight_name">{{weights.name}}</span>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <ul class="weight_details_p1">
-          <li>
-            <span class="weight_details_msg">SEO信息：</span>
-            <span class="msg_details">
+            <div>
+                <ul class="weight_content clearfix">
+                    <li class="weight_details">
+                        <!-- 过滤器，限制域名字符个数 -->
+                        <div class="weight_net">{{content | ellipsis}}</div>
+                        <span class="weight_name">域名</span>
+                    </li>
+                    <li class="weight_details" v-for="weights in weightcontent">
+                        <div class="weight_net">
+                            <!-- 循环权重图片 -->
+                            <img :src="require(`../../assets/${weights.img}.png`)">
+                            <span>{{weights.weight}}</span>
+                        </div>
+                        <!-- 循环名称 -->
+                        <span class="weight_name">{{weights.name}}</span>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <ul class="weight_details_p1">
+                    <li>
+                        <span class="weight_details_msg">SEO信息：</span>
+                        <span class="msg_details">
               百度来路：
               <span class="red">{{baidulailu}}</span>IP
             </span>
-            <span class="msg_details">
+                        <span class="msg_details">
               移动来路：
               <span class="black">{{m_baidulailu}}</span>IP
             </span>
-            <span class="msg_details">
+                        <span class="msg_details">
               出站链接：
-              <span class="black">13</span>
+              <span class="black">{{cz_link}}</span>
             </span>
-            <span class="msg_details">
+                        <span class="msg_details">
               首页内链：
-              <span class="black">17</span>
+              <span class="black">{{sy_link}}</span>
             </span>
-          </li>
-          <li>
-            <span class="weight_details_msg">ALEXA排名：</span>
-            <span class="msg_details">
+                    </li>
+                    <li>
+                        <span class="weight_details_msg">ALEXA排名：</span>
+                        <span class="msg_details">
               世界排名：
               <span class="black">{{alexa_rank}}</span>
             </span>
-            <span class="msg_details">
+                        <span class="msg_details">
               预估日均IP≈
               <span class="black">{{alexa_ip}}</span>
             </span>
-            <span class="msg_details">
+                        <span class="msg_details">
               预估日均PV≈
               <span class="black">{{alexa_pv}}</span>
             </span>
-          </li>
-          <li>
-            <span class="weight_details_msg">网站标题：</span>
-            <span class="msg_details black">{{site_title}}</span>
-          </li>
-          <li>
-            <span class="weight_details_msg">备案信息：</span>
-            <span class="msg_details">
+                    </li>
+                    <li>
+                        <span class="weight_details_msg">网站标题：</span>
+                        <span class="msg_details black">{{site_title}}</span>
+                    </li>
+                    <li>
+                        <span class="weight_details_msg">备案信息：</span>
+                        <span class="msg_details">
               备案号：
               <span class="blue">{{icp}}</span>
             </span>
-            <span class="msg_details">
+                        <span class="msg_details">
               性质：
               <span class="black">{{icp_type}}</span>
             </span>
-            <span class="msg_details">
+                        <span class="msg_details">
               名称：
               <span class="black">{{company}}</span>
             </span>
-            <span class="msg_details">
+                        <span class="msg_details">
               审核时间：
               <span class="black">{{icp_createtime}}</span>
             </span>
-          </li>
-          <li>
-            <span class="weight_details_msg">域名信息：</span>
-            <span class="msg_details">
+                    </li>
+                    <li>
+                        <span class="weight_details_msg">域名信息：</span>
+                        <span class="msg_details">
               注册邮箱：
               <span class="black">{{email_code | ellipsis}}</span>
             </span>
-            <span class="msg_details">
+                        <span class="msg_details">
               年龄：
               <span class="black">{{whios_created}}</span>
               （{{whios_created2}}）
             </span>
-          </li>
-          <li>
-            <span class="weight_details_msg">网站速度：</span>
-            <span class="msg_details">{{speed}}</span>
-          </li>
-        </ul>
-      </div>
-      <!-- 表格 -->
-      <div class="table_content_1st">
-        <table width="1200px">
-          <tr>
-            <td class="bg_gray">PC词数</td>
-            <td class="bg_gray">移动词数</td>
-            <td class="bg_gray">首页位置</td>
-            <td class="bg_gray">索引</td>
-            <td class="bg_gray">24小时收录</td>
-            <td class="bg_gray">一周收录</td>
-            <td class="bg_gray">一月收录</td>
-          </tr>
-          <tr>
-            <td>{{pc_cishu}}</td>
-            <td>{{yidong_cishu}}</td>
-            <td>-</td>
-            <td>{{baiduindex}}</td>
-            <td>{{shoulu_1day}}</td>
-            <td>{{shoulu_7day}}</td>
-            <td>{{shoulu_30day}}</td>
-          </tr>
-        </table>
-      </div>
-      <!-- 第一块广告位 -->
-      <div class="advertise_box">
-        <img v-for="advs in advpic" :src="require(`../../assets/${advs}.png`)">
-      </div>
-      <!-- 第二表格 -->
-      <div class="table_content_2nd">
-        <table width="1200px">
-          <tr>
-            <td class="bg_gray"></td>
-            <td class="bg_gray">百度</td>
-            <td class="bg_gray">google</td>
-            <td class="bg_gray">搜狗</td>
-            <td class="bg_gray">360</td>
-          </tr>
-          <tr>
-            <td>收录</td>
-            <td>{{shoulu_baidu}}</td>
-            <td>{{shoulu_google}}</td>
-            <td>{{shoulu_sougou}}</td>
-            <td>{{shoulu_360}}</td>
-          </tr>
-          <tr>
-            <td>反链</td>
-            <td>{{fanlian_baidu}}</td>
-            <td>{{fanlian_google}}</td>
-            <td>{{fanlian_sougou}}</td>
-            <td>{{fanlian_360}}</td>
-          </tr>
-        </table>
-      </div>
-      <!-- 百度关键词 -->
-      <div class="echarts_container">
-        <div class="echarts_title">
-          <span class="echarts_title_name">百度关键词</span>
-          <!-- 以下为点击切换标签，并且传值进方法中，后期根据传入的值得，在方法中调用ajax，重新赋值数据，刷新页面，0，1，2等值后期可以任意修改，对应方法中也需要修改 -->
-          <span
-            class="echarts_title_first"
-            :class="{ color_blue:equipchange == 0}"
-            @click="ChangeEquip(0)"
-          >PC趋势</span>
-          <span
-            class="echarts_title_second"
-            :class="{ color_blue:equipchange == 1}"
-            @click="ChangeEquip(1)"
-          >移动趋势</span>
-          <span
-            class="echarts_days"
-            :class="{ days_blue:chartdayschange == '0'}"
-            @click="ChangeChartDays('0')"
-          >7天</span>
-          <span
-            class="echarts_days"
-            :class="{ days_blue:chartdayschange == '1'}"
-            @click="ChangeChartDays('1')"
-          >30天</span>
-          <span
-            class="echarts_days"
-            :class="{ days_blue:chartdayschange == '2'}"
-            @click="ChangeChartDays('2')"
-          >3个月</span>
-        </div>
-        <div class="echarts_main">
-          <table width="1200px" class="bn_right">
-            <tr>
-              <td class="bg_gray bn_top bn_left">
-                <span class="e_blue"></span>前10名
-              </td>
-              <td class="bg_gray bn_top">
-                <span class="e_green"></span>前20名
-              </td>
-              <td class="bg_gray bn_top">
-                <span class="e_yellow"></span>前30名
-              </td>
-              <td class="bg_gray bn_top">
-                <span class="e_lblue"></span>前40名
-              </td>
-              <td class="bg_gray bn_top bn_right">
-                <span class="e_purple"></span>前50名
-              </td>
-            </tr>
-            <tr>
-              <td v-for="items in word_localtion_local">{{items}}</td>
-            </tr>
-          </table>
-          <!-- 图表 -->
-          <!-- 封装的echarts图表组件 ：后面为传入的值得，在data中定义-->
-          <LineCharts
-            :xdata="xdata"
-            :showxis="showxis"
-            :option="series"
-            :styl="{width: '1140px', height: '340px'}"
-            id="keywordChart"
-          ></LineCharts>
-        </div>
-      </div>
-      <div class="echarts_container">
-        <div class="echarts_title keyword_title_2nd">
-          <span class="echarts_title_name">百度关键词</span>
-        </div>
-        <div class="echarts_main keyword_container_2nd">
-          <table width="1200px">
-            <tr>
-              <td class="bg_gray">关键词</td>
-              <td class="bg_gray">出现频率</td>
-              <td class="bg_gray">
-                2%
-                密度
-                8%
-              </td>
-              <td class="bg_gray">百度指数</td>
-              <td class="bg_gray">360指数</td>
-              <td class="bg_gray">百度排名</td>
-              <td class="bg_gray">排名变化</td>
-              <td class="bg_gray">预计流量</td>
-            </tr>
-            <tr v-for="item in baidu_keywords">
-              <td>{{item.c}}</td>
-              <td>{{item.n}}</td>
-              <td>{{item.r}}</td>
-              <td>{{item.z}}</td>
-              <td>{{item.z360}}</td>
-              <td>-</td>
-              <td>-</td>
-              <td class="color_blue">未知</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-      <!-- 第二块广告位 -->
-      <div class="advertise_box">
-        <img v-for="advs in advpic" :src="require(`../../assets/${advs}.png`)">
-      </div>
-      <!-- 来路关键词 -->
-      <div class="echarts_container">
-        <div class="echarts_title">
-          <span class="echarts_title_name">来路关键词</span>
-          <span
-            class="echarts_title_first"
-            :class="{ color_blue:fromchange == '0'}"
-            @click="ChangeFrom('0')"
-          >PC趋势</span>
-          <span
-            class="echarts_title_second"
-            :class="{ color_blue:fromchange == '1'}"
-            @click="ChangeFrom('1')"
-          >移动趋势</span>
-        </div>
-        <div class="echarts_main keyword_container_3rd">
-          <table width="1200px">
-            <tr>
-              <td class="bg_gray">关键词</td>
-              <td class="bg_gray">百度排名</td>
-              <td class="bg_gray">百度指数</td>
-              <td class="bg_gray">PC指数</td>
-              <td class="bg_gray">移动指数</td>
-              <td class="bg_gray">收录量</td>
-            </tr>
-            <tr v-for="items in qushi">
-              <td>{{items.W}}</td>
-              <td class="keyword_3rd_orange">{{transfPage(items.P)}}</td>
-              <td>{{items.zs}}</td>
-              <td>{{items.zs_pc}}</td>
-              <td>{{items.zs_wise}}</td>
-              <td>{{toThousands(items.sl)}}</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-      <!-- 收录/索引信息 -->
-      <div class="echarts_container">
-        <div class="echarts_title">
-          <span class="echarts_title_name">收录/索引信息</span>
-          <span
-            class="echarts_title_first"
-            :class="{ color_blue:suoyinChange == '0'}"
-            @click="ChangeSuoyin('0')"
-          >收录</span>
-          <span
-            class="echarts_title_3rd"
-            :class="{ color_blue:suoyinChange == '1'}"
-            @click="ChangeSuoyin('1')"
-          >索引</span>
-          <span
-            class="echarts_days"
-            :class="{ days_blue:suoyindayschange == '0'}"
-            @click="ChangeSuoyinDays('0')"
-          >7天</span>
-          <span
-            class="echarts_days"
-            :class="{ days_blue:suoyindayschange == '1'}"
-            @click="ChangeSuoyinDays('1')"
-          >30天</span>
-          <span
-            class="echarts_days"
-            :class="{ days_blue:suoyindayschange == '2'}"
-            @click="ChangeSuoyinDays('2')"
-          >3个月</span>
-        </div>
-        <div class="echarts_main">
-          <table width="1200px" class="bn_right">
-            <tr>
-              <td class="bg_gray bn_top bn_left">今日</td>
-              <td class="bg_gray bn_top">一周</td>
-              <td class="bg_gray bn_top">一月</td>
-            </tr>
-            <tr v-show="suoyinChange=='0'">
-              <td>{{shouluNum.tday}}</td>
-              <td>{{shouluNum.wk}}</td>
-              <td>{{shouluNum.mon}}</td>
-            </tr>
-            <tr v-show="suoyinChange=='1'">
-              <td>{{suoyinNum.tday}}</td>
-              <td>{{suoyinNum.wk}}</td>
-              <td>{{suoyinNum.mon}}</td>
-            </tr>
-          </table>
-          <!-- 第二图表 -->
-          <LineCharts
-            :xdata="xdata2"
-            :showxis="showxis"
-            :option="series2"
-            :styl="{width: '1140px', height: '340px'}"
-            id="keywordChart2"
-          ></LineCharts>
-        </div>
-      </div>
-      <table width="1200px" class="search_table">
-        <tr>
-          <td class="bg_gray">日期</td>
-          <td class="bg_gray">百度搜录</td>
-          <td class="bg_gray">百度索引</td>
-          <td class="bg_gray">百度反链</td>
-          <td class="bg_gray">搜狗收录</td>
-          <td class="bg_gray">360收录</td>
-        </tr>
-        <tr v-for="item in shouluRecent">
-          <td>{{item.date}}</td>
-          <td>{{item.baidu|NumFormat}}</td>
-          <td>{{item.baiduindex|NumFormat}}</td>
-          <td>{{item.baidu_r|NumFormat}}</td>
-          <td>{{item.sogou|NumFormat}}</td>
-          <td>{{item['360']|NumFormat}}</td>
-        </tr>
-      </table>
-      <!-- 页面信息 -->
-      <div class="echarts_container">
-        <div class="echarts_title keyword_title_2nd">
-          <span class="echarts_title_name">页面信息</span>
-        </div>
-        <div class="echarts_main keyword_container_4th">
-          <table width="1200px">
-            <tr v-for="item in footballdata">
-              <td class="bg_gray">{{item.title}}</td>
-              <td>{{item.content}}</td>
-              <td>
-                <i>{{item.num}}</i>
-                个字符（一般不超过{{item.xz}}）
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-      <div class="echarts_container">
-        <div class="echarts_title keyword_title_2nd">
-          <span class="echarts_title_name">ALEXA趋势信息</span>
-        </div>
-        <div class="echarts_main">
-          <table width="1200px" class="bn_right">
-            <tr>
-              <td class="bg_gray bn_top bn_left">综合排名</td>
-              <td class="bg_gray bn_top">当日排名</td>
-              <td class="bg_gray bn_top">一周排名</td>
-              <td class="bg_gray bn_top">一月排名</td>
-              <td class="bg_gray bn_top">三月排名</td>
-            </tr>
-            <tr>
-              <td>{{alexa_3month}}</td>
-              <td>{{alexa_1day}}</td>
-              <td>{{alexa_7day}}</td>
-              <td>{{alexa_1month}}</td>
-              <td>{{alexa_3month}}</td>
-            </tr>
-          </table>
-          <div class="alexa_pic_content clearfix">
-            <div class="alexa_pic_left">
-              <p>ALEXA排名走势图</p>
-              <img
-                :src="`https://traffic.alexa.com/graph?w=700&h=280&r=6m&y=t&u=${this.content}`"
-                alt
-              >
+                    </li>
+                    <li>
+                        <span class="weight_details_msg">网站速度：</span>
+                        <span class="msg_details">{{speed}}</span>
+                    </li>
+                </ul>
             </div>
-            <div class="alexa_pic_right">
-              <p>ALEXA搜索流量占比</p>
-              <img
-                :src="`https://traffic.alexa.com/graph?w=700&h=280&r=6m&y=q&u=${this.content}`"
-                alt
-              >
+            <!-- 表格 -->
+            <div class="table_content_1st">
+                <table width="1200px">
+                    <tr>
+                        <td class="bg_gray">PC词数</td>
+                        <td class="bg_gray">移动词数</td>
+                        <td class="bg_gray">首页位置</td>
+                        <td class="bg_gray">索引</td>
+                        <td class="bg_gray">24小时收录</td>
+                        <td class="bg_gray">一周收录</td>
+                        <td class="bg_gray">一月收录</td>
+                    </tr>
+                    <tr>
+                        <td>{{pc_cishu}}</td>
+                        <td>{{yidong_cishu}}</td>
+                        <td>-</td>
+                        <td>{{baiduindex}}</td>
+                        <td>{{shoulu_1day}}</td>
+                        <td>{{shoulu_7day}}</td>
+                        <td>{{shoulu_30day}}</td>
+                    </tr>
+                </table>
             </div>
-          </div>
+            <!-- 第一块广告位 -->
+            <div class="advertise_box">
+                <img v-for="advs in advpic" :src="require(`../../assets/${advs}.png`)">
+            </div>
+            <!-- 第二表格 -->
+            <div class="table_content_2nd">
+                <table width="1200px">
+                    <tr>
+                        <td class="bg_gray"></td>
+                        <td class="bg_gray">百度</td>
+                        <td class="bg_gray">google</td>
+                        <td class="bg_gray">搜狗</td>
+                        <td class="bg_gray">360</td>
+                    </tr>
+                    <tr>
+                        <td>收录</td>
+                        <td>{{shoulu_baidu}}</td>
+                        <td>{{shoulu_google}}</td>
+                        <td>{{shoulu_sougou}}</td>
+                        <td>{{shoulu_360}}</td>
+                    </tr>
+                    <tr>
+                        <td>反链</td>
+                        <td>{{fanlian_baidu}}</td>
+                        <td>{{fanlian_google}}</td>
+                        <td>{{fanlian_sougou}}</td>
+                        <td>{{fanlian_360}}</td>
+                    </tr>
+                </table>
+            </div>
+            <!-- 百度关键词 -->
+            <div class="echarts_container">
+                <div class="echarts_title">
+                    <span class="echarts_title_name">百度关键词</span>
+                    <!-- 以下为点击切换标签，并且传值进方法中，后期根据传入的值得，在方法中调用ajax，重新赋值数据，刷新页面，0，1，2等值后期可以任意修改，对应方法中也需要修改 -->
+                    <span
+                            class="echarts_title_first"
+                            :class="{ color_blue:equipchange == 0}"
+                            @click="ChangeEquip(0)"
+                    >PC趋势</span>
+                    <span
+                            class="echarts_title_second"
+                            :class="{ color_blue:equipchange == 1}"
+                            @click="ChangeEquip(1)"
+                    >移动趋势</span>
+                    <span
+                            class="echarts_days"
+                            :class="{ days_blue:chartdayschange == '0'}"
+                            @click="ChangeChartDays('0')"
+                    >7天</span>
+                    <span
+                            class="echarts_days"
+                            :class="{ days_blue:chartdayschange == '1'}"
+                            @click="ChangeChartDays('1')"
+                    >30天</span>
+                    <span
+                            class="echarts_days"
+                            :class="{ days_blue:chartdayschange == '2'}"
+                            @click="ChangeChartDays('2')"
+                    >3个月</span>
+                </div>
+                <div class="echarts_main">
+                    <table width="1200px" class="bn_right">
+                        <tr>
+                            <td class="bg_gray bn_top bn_left">
+                                <span class="e_blue"></span>前10名
+                            </td>
+                            <td class="bg_gray bn_top">
+                                <span class="e_green"></span>前20名
+                            </td>
+                            <td class="bg_gray bn_top">
+                                <span class="e_yellow"></span>前30名
+                            </td>
+                            <td class="bg_gray bn_top">
+                                <span class="e_lblue"></span>前40名
+                            </td>
+                            <td class="bg_gray bn_top bn_right">
+                                <span class="e_purple"></span>前50名
+                            </td>
+                        </tr>
+                        <tr>
+                            <td v-for="items in word_localtion_local">{{items}}</td>
+                        </tr>
+                    </table>
+                    <!-- 图表 -->
+                    <!-- 封装的echarts图表组件 ：后面为传入的值得，在data中定义-->
+                    <LineCharts
+                            :xdata="xdata"
+                            :showxis="showxis"
+                            :option="series"
+                            :styl="{width: '1140px', height: '340px'}"
+                            id="keywordChart"
+                    ></LineCharts>
+                </div>
+            </div>
+            <div class="echarts_container">
+                <div class="echarts_title keyword_title_2nd">
+                    <span class="echarts_title_name">百度关键词</span>
+                </div>
+                <div class="echarts_main keyword_container_2nd">
+                    <table width="1200px">
+                        <tr>
+                            <td class="bg_gray">关键词</td>
+                            <td class="bg_gray">出现频率</td>
+                            <td class="bg_gray">
+                                2%
+                                密度
+                                8%
+                            </td>
+                            <td class="bg_gray">百度指数</td>
+                            <td class="bg_gray">360指数</td>
+                            <td class="bg_gray">百度排名</td>
+                            <td class="bg_gray">排名变化</td>
+                            <td class="bg_gray">预计流量</td>
+                        </tr>
+                        <tr v-for="item in baidu_keywords">
+                            <td>{{item.c}}</td>
+                            <td>{{item.n}}</td>
+                            <td>{{item.r}}</td>
+                            <td>{{item.z}}</td>
+                            <td>{{item.z360}}</td>
+                            <td  @click="selChange(item.c,item.z,1)">查询</td>
+                            <td>-</td>
+                            <td class="color_blue">未知</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <!-- 第二块广告位 -->
+            <div class="advertise_box">
+                <img v-for="advs in advpic" :src="require(`../../assets/${advs}.png`)">
+            </div>
+            <!-- 来路关键词 -->
+            <div class="echarts_container">
+                <div class="echarts_title">
+                    <span class="echarts_title_name">来路关键词</span>
+                    <span
+                            class="echarts_title_first"
+                            :class="{ color_blue:fromchange == '0'}"
+                            @click="ChangeFrom('0')"
+                    >PC趋势</span>
+                    <span
+                            class="echarts_title_second"
+                            :class="{ color_blue:fromchange == '1'}"
+                            @click="ChangeFrom('1')"
+                    >移动趋势</span>
+                </div>
+                <div class="echarts_main keyword_container_3rd">
+                    <table width="1200px">
+                        <tr>
+                            <td class="bg_gray">关键词</td>
+                            <td class="bg_gray">百度排名</td>
+                            <td class="bg_gray">百度指数</td>
+                            <td class="bg_gray">PC指数</td>
+                            <td class="bg_gray">移动指数</td>
+                            <td class="bg_gray">收录量</td>
+                        </tr>
+                        <tr v-for="items in qushi">
+                            <td>{{items.W}}</td>
+                            <td class="keyword_3rd_orange">{{transfPage(items.P)}}</td>
+                            <td>{{items.zs}}</td>
+                            <td>{{items.zs_pc}}</td>
+                            <td>{{items.zs_wise}}</td>
+                            <td>{{toThousands(items.sl)}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <!-- 收录/索引信息 -->
+            <div class="echarts_container">
+                <div class="echarts_title">
+                    <span class="echarts_title_name">收录/索引信息</span>
+                    <span
+                            class="echarts_title_first"
+                            :class="{ color_blue:suoyinChange == '0'}"
+                            @click="ChangeSuoyin('0')"
+                    >收录</span>
+                    <span
+                            class="echarts_title_3rd"
+                            :class="{ color_blue:suoyinChange == '1'}"
+                            @click="ChangeSuoyin('1')"
+                    >索引</span>
+                    <span
+                            class="echarts_days"
+                            :class="{ days_blue:suoyindayschange == '0'}"
+                            @click="ChangeSuoyinDays('0')"
+                    >7天</span>
+                    <span
+                            class="echarts_days"
+                            :class="{ days_blue:suoyindayschange == '1'}"
+                            @click="ChangeSuoyinDays('1')"
+                    >30天</span>
+                    <span
+                            class="echarts_days"
+                            :class="{ days_blue:suoyindayschange == '2'}"
+                            @click="ChangeSuoyinDays('2')"
+                    >3个月</span>
+                </div>
+                <div class="echarts_main">
+                    <table width="1200px" class="bn_right">
+                        <tr>
+                            <td class="bg_gray bn_top bn_left">今日</td>
+                            <td class="bg_gray bn_top">一周</td>
+                            <td class="bg_gray bn_top">一月</td>
+                        </tr>
+                        <tr v-show="suoyinChange=='0'">
+                            <td>{{shouluNum.tday}}</td>
+                            <td>{{shouluNum.wk}}</td>
+                            <td>{{shouluNum.mon}}</td>
+                        </tr>
+                        <tr v-show="suoyinChange=='1'">
+                            <td>{{suoyinNum.tday}}</td>
+                            <td>{{suoyinNum.wk}}</td>
+                            <td>{{suoyinNum.mon}}</td>
+                        </tr>
+                    </table>
+                    <!-- 第二图表 -->
+                    <LineCharts
+                            :xdata="xdata2"
+                            :showxis="showxis"
+                            :option="series2"
+                            :styl="{width: '1140px', height: '340px'}"
+                            id="keywordChart2"
+                    ></LineCharts>
+                </div>
+            </div>
+            <table width="1200px" class="search_table">
+                <tr>
+                    <td class="bg_gray">日期</td>
+                    <td class="bg_gray">百度搜录</td>
+                    <td class="bg_gray">百度索引</td>
+                    <td class="bg_gray">百度反链</td>
+                    <td class="bg_gray">搜狗收录</td>
+                    <td class="bg_gray">360收录</td>
+                </tr>
+                <tr v-for="item in shouluRecent">
+                    <td>{{item.date}}</td>
+                    <td>{{item.baidu|NumFormat}}</td>
+                    <td>{{item.baiduindex|NumFormat}}</td>
+                    <td>{{item.baidu_r|NumFormat}}</td>
+                    <td>{{item.sogou|NumFormat}}</td>
+                    <td>{{item['360']|NumFormat}}</td>
+                </tr>
+            </table>
+            <!-- 页面信息 -->
+            <div class="echarts_container">
+                <div class="echarts_title keyword_title_2nd">
+                    <span class="echarts_title_name">页面信息</span>
+                </div>
+                <div class="echarts_main keyword_container_4th">
+                    <table width="1200px">
+                        <tr v-for="item in footballdata">
+                            <td class="bg_gray">{{item.title}}</td>
+                            <td>{{item.content}}</td>
+                            <td>
+                                <i>{{item.num}}</i>
+                                个字符（一般不超过{{item.xz}}）
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="echarts_container">
+                <div class="echarts_title keyword_title_2nd">
+                    <span class="echarts_title_name">ALEXA趋势信息</span>
+                </div>
+                <div class="echarts_main">
+                    <table width="1200px" class="bn_right">
+                        <tr>
+                            <td class="bg_gray bn_top bn_left">综合排名</td>
+                            <td class="bg_gray bn_top">当日排名</td>
+                            <td class="bg_gray bn_top">一周排名</td>
+                            <td class="bg_gray bn_top">一月排名</td>
+                            <td class="bg_gray bn_top">三月排名</td>
+                        </tr>
+                        <tr>
+                            <td>{{alexa_3month}}</td>
+                            <td>{{alexa_1day}}</td>
+                            <td>{{alexa_7day}}</td>
+                            <td>{{alexa_1month}}</td>
+                            <td>{{alexa_3month}}</td>
+                        </tr>
+                    </table>
+                    <div class="alexa_pic_content clearfix">
+                        <div class="alexa_pic_left">
+                            <p>ALEXA排名走势图</p>
+                            <img
+                                    :src="`https://traffic.alexa.com/graph?w=700&h=280&r=6m&y=t&u=${this.content}`"
+                                    alt
+                            >
+                        </div>
+                        <div class="alexa_pic_right">
+                            <p>ALEXA搜索流量占比</p>
+                            <img
+                                    :src="`https://traffic.alexa.com/graph?w=700&h=280&r=6m&y=q&u=${this.content}`"
+                                    alt
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 相关域名 -->
+            <div class="echarts_container">
+                <div class="echarts_title">
+                    <span class="echarts_title_name">相关域名</span>
+                    <span
+                            class="echarts_title_first"
+                            :class="{ color_blue:related_net == '0'}"
+                            @click="ChangeNet('0')"
+                    >子域名</span>
+                    <span
+                            class="echarts_title_first"
+                            :class="{ color_blue:related_net == '1'}"
+                            @click="ChangeNet('1')"
+                    >同IP网站</span>
+                    <span
+                            class="echarts_title_first"
+                            :class="{ color_blue:related_net == '2'}"
+                            @click="ChangeNet('2')"
+                    >网站反链</span>
+                </div>
+                <div class="echarts_main keyword_container_5th">
+                    <table width="1200px">
+                        <tr>
+                            <td class="bg_gray" v-show="related_net=='0'">
+                                <i>{{subdomain_sum}}</i> 个相关子域名
+                            </td>
+                            <td class="bg_gray" v-show="related_net=='1'">
+                                <i>{{subdomain_sum}}</i> 个同IP网站
+                            </td>
+                            <td class="bg_gray" v-show="related_net=='2'">
+                                <i>{{subdomain_sum}}</i> 个网站反链
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <ul class="clearfix" v-show="related_net=='0'">
+                                    <li v-for="items in related_web">
+                                        <a>{{items}}</a>
+                                    </li>
+                                </ul>
+                                <ul class="clearfix" v-show="related_net=='1'">
+                                    <li v-for="items in same_ip">
+                                        <a>{{items}}</a>
+                                    </li>
+                                </ul>
+                                <ul class="clearfix" v-show="related_net=='2'">
+                                    <li v-for="items in web_rlink">
+                                        <a>{{items}}</a>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <!-- 服务器信息 -->
+            <div class="echarts_container">
+                <div class="echarts_title keyword_title_2nd">
+                    <span class="echarts_title_name">服务器信息</span>
+                </div>
+                <div class="echarts_main keyword_container_6th">
+                    <table width="1200px">
+                        <tr>
+                            <td class="bg_gray">IP：</td>
+                            <td>{{ip}}</td>
+                            <td class="bg_gray">协议类型：</td>
+                            <td>{{xieyi_type}}</td>
+                        </tr>
+                        <tr>
+                            <td class="bg_gray">服务器类型：</td>
+                            <td>{{server_type}}</td>
+                            <td class="bg_gray">页面类型：</td>
+                            <td>{{page_type}}</td>
+                        </tr>
+                        <tr>
+                            <td class="bg_gray">所在地址：</td>
+                            <td>{{address}}</td>
+                            <td class="bg_gray"></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <!-- 底部广告位 -->
+            <div class="advertise_box bottom_adv">
+                <img v-for="advs in advpic" :src="require(`../../assets/${advs}.png`)">
+            </div>
         </div>
-      </div>
-      <!-- 相关域名 -->
-      <div class="echarts_container">
-        <div class="echarts_title">
-          <span class="echarts_title_name">相关域名</span>
-          <span
-            class="echarts_title_first"
-            :class="{ color_blue:related_net == '0'}"
-            @click="ChangeNet('0')"
-          >子域名</span>
-          <span
-            class="echarts_title_first"
-            :class="{ color_blue:related_net == '1'}"
-            @click="ChangeNet('1')"
-          >同IP网站</span>
-          <span
-            class="echarts_title_first"
-            :class="{ color_blue:related_net == '2'}"
-            @click="ChangeNet('2')"
-          >网站反链</span>
-        </div>
-        <div class="echarts_main keyword_container_5th">
-          <table width="1200px">
-            <tr>
-              <td class="bg_gray" v-show="related_net=='0'">
-                <i>{{subdomain_sum}}</i> 个相关子域名
-              </td>
-              <td class="bg_gray" v-show="related_net=='1'">
-                <i>{{subdomain_sum}}</i> 个同IP网站
-              </td>
-              <td class="bg_gray" v-show="related_net=='2'">
-                <i>{{subdomain_sum}}</i> 个网站反链
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <ul class="clearfix" v-show="related_net=='0'">
-                  <li v-for="items in related_web">
-                    <a>{{items}}</a>
-                  </li>
-                </ul>
-                <ul class="clearfix" v-show="related_net=='1'">
-                  <li v-for="items in same_ip">
-                    <a>{{items}}</a>
-                  </li>
-                </ul>
-                <ul class="clearfix" v-show="related_net=='2'">
-                  <li v-for="items in web_rlink">
-                    <a>{{items}}</a>
-                  </li>
-                </ul>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-      <!-- 服务器信息 -->
-      <div class="echarts_container">
-        <div class="echarts_title keyword_title_2nd">
-          <span class="echarts_title_name">服务器信息</span>
-        </div>
-        <div class="echarts_main keyword_container_6th">
-          <table width="1200px">
-            <tr>
-              <td class="bg_gray">IP：</td>
-              <td>{{ip}}</td>
-              <td class="bg_gray">协议类型：</td>
-              <td>{{xieyi_type}}</td>
-            </tr>
-            <tr>
-              <td class="bg_gray">服务器类型：</td>
-              <td>{{server_type}}</td>
-              <td class="bg_gray">页面类型：</td>
-              <td>{{page_type}}</td>
-            </tr>
-            <tr>
-              <td class="bg_gray">所在地址：</td>
-              <td>{{address}}</td>
-              <td class="bg_gray"></td>
-              <td></td>
-            </tr>
-          </table>
-        </div>
-      </div>
-      <!-- 底部广告位 -->
-      <div class="advertise_box bottom_adv">
-        <img v-for="advs in advpic" :src="require(`../../assets/${advs}.png`)">
-      </div>
+        <NearlySearch @msgNearlysearch="getNearly"></NearlySearch>
     </div>
-    <NearlySearch @msgNearlysearch="getNearly"></NearlySearch>
-  </div>
 </template>
 
 <script>
-import LineCharts from "../Echarts/line";
-import SearchBox from "../BaseComponents/SearchBox";
-import NearlySearch from "../BaseComponents/NearlySearch";
-import { setTimeout } from "timers";
+    import LineCharts from "../Echarts/line";
+    import SearchBox from "../BaseComponents/SearchBox";
+    import NearlySearch from "../BaseComponents/NearlySearch";
+    import {setTimeout} from "timers";
 
-export default {
-  name: "SeoSearch",
-  components: {
-    LineCharts,
-    SearchBox,
-    NearlySearch
-  },
-  data() {
-    return {
-      // 传入echarts中，是否显示x轴和y轴
-      showxis: true,
-      //被遍历的ip集合
-      related_web: [],
-      same_ip: [],
-      web_rlink: [],
-      // 搜索框标题
-      title: "SEO综合查询",
-      site_title: "",
-      update_time: "",
-      //来路关键词切换
-      fromchange: "0",
-      // 搜索内容
-      content: "",
-      // 以下几个为切换标签的默认值得，如要修改与dom处对应即可
-      equipchange: "0",
-      dayschange: "",
-      chartdayschange: "2",
-      related_net: "0",
-      //百度来路ip
-      baidulailu: "",
-      m_baidulailu: "",
-      //pc词数
-      yidong_cishu: "",
-      //移动词数
-      pc_cishu: "",
-      // icp info
-      icp: "",
-      icp_type: "",
-      company: "",
-      //注册邮箱
-      email_code: "",
-      whios_created: "",
-      icp_createtime: "",
-      whios_created2: "",
-      //排名
-      alexa_rank: "",
-      alexa_ip: "",
-      alexa_pv: "",
-      alexa_3month: "",
-      alexa_1month: "",
-      alexa_7day: "",
-      alexa_1day: "",
+    export default {
+        name: "SeoSearch",
+        components: {
+            LineCharts,
+            SearchBox,
+            NearlySearch
+        },
+        data() {
+            return {
+                // 传入echarts中，是否显示x轴和y轴
+                showxis: true,
+                //被遍历的ip集合
+                related_web: [],
+                same_ip: [],
+                web_rlink: [],
+                // 搜索框标题
+                title: "SEO综合查询",
+                site_title: "",
+                update_time: "",
+                //来路关键词切换
+                fromchange: "0",
+                // 搜索内容
+                content: "",
+                // 以下几个为切换标签的默认值得，如要修改与dom处对应即可
+                equipchange: "0",
+                dayschange: "",
+                chartdayschange: "2",
+                related_net: "0",
+                //百度来路ip
+                baidulailu: "",
+                m_baidulailu: "",
+                //链接
+                cz_link: '',
+                sy_link: '',
+                //pc词数
+                yidong_cishu: "",
+                //移动词数
+                pc_cishu: "",
+                // icp info
+                icp: "",
+                icp_type: "",
+                company: "",
+                //注册邮箱
+                email_code: "",
+                whios_created: "",
+                icp_createtime: "",
+                whios_created2: "",
+                //排名
+                alexa_rank: "",
+                alexa_ip: "",
+                alexa_pv: "",
+                alexa_3month: "",
+                alexa_1month: "",
+                alexa_7day: "",
+                alexa_1day: "",
 
-      //子域名
-      subdomain_sum: "",
-      subdomain_sums: {
-        0: "",
-        1: "",
-        2: ""
-      },
-      //关键词
-      baidu_keywords: {},
-      //测速
-      speed: "",
-      //dns信息
-      ip: "",
-      address: "",
-      dns_num: "",
-      //ip框
-      //索引 收录1
-      baiduindex: "",
-      shoulu_baidu: "",
-      shoulu_google: "",
-      shoulu_sougou: "",
-      shoulu_360: "",
-      // 收录2
-      fanlian_baidu: "",
-      fanlian_google: "",
-      fanlian_sougou: "",
-      fanlian_360: "",
-      // 收录3
-      shoulu_1day: "",
-      shoulu_7day: "",
-      shoulu_30day: "",
-      // 类型
-      xieyi_type: "",
-      page_type: "",
-      server_type: "",
-      //来路趋势
-      qushi: {},
-      qushi_total: {
-        0: {},
-        1: {}
-      },
-      // 关键词排名
-      word_localtion_local: [],
-      word_localtion: [],
-      // 模拟足球数据
-      footballdata: [
-        {
-          title: "网站标题：",
-          content: "",
-          num: "",
-          xz: "100"
+                //子域名
+                subdomain_sum: "",
+                subdomain_sums: {
+                    0: "",
+                    1: "",
+                    2: ""
+                },
+                //关键词
+                baidu_keywords: {},
+                //测速
+                speed: "",
+                //dns信息
+                ip: "",
+                address: "",
+                dns_num: "",
+                //ip框
+                //索引 收录1
+                baiduindex: "",
+                shoulu_baidu: "",
+                shoulu_google: "",
+                shoulu_sougou: "",
+                shoulu_360: "",
+                // 收录2
+                fanlian_baidu: "",
+                fanlian_google: "",
+                fanlian_sougou: "",
+                fanlian_360: "",
+                // 收录3
+                shoulu_1day: "",
+                shoulu_7day: "",
+                shoulu_30day: "",
+                // 类型
+                xieyi_type: "",
+                page_type: "",
+                server_type: "",
+                //来路趋势
+                qushi: {},
+                qushi_total: {
+                    0: {},
+                    1: {}
+                },
+                // 关键词排名
+                word_localtion_local: [],
+                word_localtion: [],
+                // 模拟足球数据
+                footballdata: [
+                    {
+                        title: "网站标题：",
+                        content: "",
+                        num: "",
+                        xz: "100"
+                    },
+                    {
+                        title: "网站关键字：",
+                        content: "",
+                        num: "",
+                        xz: "100"
+                    },
+                    {
+                        title: "网站简介",
+                        content: "",
+                        num: "",
+                        xz: "200"
+                    }
+                ],
+                // 传入echarts中的数据
+                xdata: [],
+                xdata2: [],
+                series: [],
+                series2: [],
+                xdataRes: [],
+                xdataRes_m: [],
+                xdataShoulu: [],
+                xdataSuoyin: [],
+                seriesRes: [
+                    {
+                        name: "前10",
+                        type: "line",
+                        symbol: "none",
+                        data: []
+                    },
+                    {
+                        name: "前20号",
+                        type: "line",
+                        symbol: "none",
+                        data: []
+                    },
+                    {
+                        name: "前30",
+                        type: "line",
+                        symbol: "none",
+                        data: []
+                    },
+                    {
+                        name: "前40",
+                        type: "line",
+                        symbol: "none",
+                        data: []
+                    },
+                    {
+                        name: "前50",
+                        type: "line",
+                        symbol: "none",
+                        data: []
+                    }
+                ],
+                seriesRes_m: [
+                    {
+                        name: "前10",
+                        type: "line",
+                        symbol: "none",
+                        data: []
+                    },
+                    {
+                        name: "前20号",
+                        type: "line",
+                        symbol: "none",
+                        data: []
+                    },
+                    {
+                        name: "前30",
+                        type: "line",
+                        symbol: "none",
+                        data: []
+                    },
+                    {
+                        name: "前40",
+                        type: "line",
+                        symbol: "none",
+                        data: []
+                    },
+                    {
+                        name: "前50",
+                        type: "line",
+                        symbol: "none",
+                        data: []
+                    }
+                ],
+                seriesShoulu: [
+                    {
+                        name: "收录",
+                        type: "line",
+                        symbol: "none",
+                        data: [],
+                        areaStyle: {normal: {color: "#e2f4ff"}}
+                    }
+                ],
+                seriesSuoyin: [
+                    {
+                        name: "索引",
+                        type: "line",
+                        symbol: "none",
+                        data: [],
+                        areaStyle: {normal: {color: "#e2f4ff"}}
+                    }
+                ],
+                // 模拟图片数据
+                advpic: ["adv1", "adv3", "adv2"],
+                // 模拟权重处数据
+                weightcontent: {
+                    aizhan: {
+                        name: "爱站权重",
+                        weight: "0",
+                        img: "az_wt"
+                    },
+                    zhanzhang: {
+                        name: "站长权重",
+                        weight: "0",
+                        img: "zz_wt"
+                    },
+                    yidong: {
+                        name: "移动权重",
+                        weight: "0",
+                        img: "bd_wt"
+                    },
+                    sougou: {
+                        name: "搜狗PR",
+                        weight: "0",
+                        img: "sg_wt"
+                    },
+                    google: {
+                        name: "谷歌PR",
+                        weight: "0",
+                        img: "gg_wt"
+                    }
+                },
+                //收录索引图表
+                suoyinChange: "0",
+                suoyindayschange: "2",
+                shouluNum: [],
+                suoyinNum: [],
+                shouluRecent: []
+            };
         },
-        {
-          title: "网站关键字：",
-          content: "",
-          num: "",
-          xz: "100"
+        methods: {
+            // 几个标签选择切换
+            ChangeEquip(equip) {
+                if (equip == "0") {
+                    this.word_localtion_local = this.word_localtion.slice(0, 5);
+                } else {
+                    this.word_localtion_local = this.word_localtion.slice(-5);
+                }
+                this.equipchange = equip;
+                this.ChangeChartDays(2);
+            },
+            //来路关键词切换
+            ChangeFrom(fromnum) {
+                this.fromchange = fromnum;
+                this.qushi = this.qushi_total[fromnum];
+            },
+            //收录索引图表切换
+            ChangeSuoyin(suoyin) {
+                this.suoyinChange = suoyin;
+                this.ChangeSuoyinDays(2);
+            },
+            ChangeSuoyinDays(days) {
+                this.suoyindayschange = days;
+                var seriesType = this.seriesShoulu;
+                var xdataType = this.xdataShoulu;
+                var echartsData = [];
+                var chartXdata = [];
+                if (this.suoyinChange == "1") {
+                    seriesType = this.seriesSuoyin;
+                    xdataType = this.xdataSuoyin;
+                }
+                echartsData = JSON.parse(JSON.stringify(seriesType));
+                chartXdata = JSON.parse(JSON.stringify(xdataType));
+                if (this.suoyindayschange == "0") {
+                    echartsData[0].data = seriesType[0].data.slice(-7);
+
+                    chartXdata = xdataType.slice(-7);
+                    this.series2 = echartsData;
+                    this.xdata2 = chartXdata;
+                }
+                if (this.suoyindayschange == "1") {
+                    echartsData[0].data = seriesType[0].data.slice(-30);
+
+                    chartXdata = xdataType.slice(-30);
+                    this.series2 = echartsData;
+                    this.xdata2 = chartXdata;
+                }
+                if (this.suoyindayschange == "2") {
+                    this.series2 = seriesType;
+                    this.xdata2 = xdataType;
+                }
+            },
+            // 百度关键词echarts图标切换
+            ChangeChartDays(days) {
+                this.chartdayschange = days;
+                var seriesType = this.seriesRes_m;
+                var xdataType = this.xdataRes_m;
+                var echartsData = [];
+                var chartXdata = [];
+                if (this.equipchange == "0") {
+                    seriesType = this.seriesRes;
+                    xdataType = this.xdataRes;
+                }
+                echartsData = JSON.parse(JSON.stringify(seriesType));
+                chartXdata = JSON.parse(JSON.stringify(xdataType));
+                if (this.chartdayschange == "0") {
+                    for (let i in echartsData) {
+                        echartsData[i].data = seriesType[i].data.slice(-7);
+                    }
+                    chartXdata = xdataType.slice(-7);
+                    this.series = echartsData;
+                    this.xdata = chartXdata;
+                }
+                if (this.chartdayschange == "1") {
+                    for (let i in echartsData) {
+                        echartsData[i].data = seriesType[i].data.slice(-30);
+                    }
+                    chartXdata = xdataType.slice(-30);
+                    this.series = echartsData;
+                    this.xdata = chartXdata;
+                }
+                if (this.chartdayschange == "2") {
+                    this.series = seriesType;
+                    this.xdata = xdataType;
+                }
+            },
+            //切换ip标签
+            ChangeNet(net) {
+                this.related_net = net;
+                this.subdomain_sum = this.subdomain_sums[net];
+            },
+            // 搜索框点击事件
+            getMsg(data) {
+                let storage = window.sessionStorage;
+                storage.setItem("searchContent", data);
+                this.content = storage.searchContent;
+                this.word_localtion_local.length = 0;
+                this.word_localtion.length = 0;
+                this.same_ip.length = 0;
+                this.web_rlink.length = 0;
+                this.related_web.length = 0;
+                this.doAllGet();
+                this.equipchange = 0;
+                this.suoyindayschange = 2;
+                this.suoyinChange = 0;
+                this.fromchange = 0;
+                this.related_net = 0;
+                setTimeout(() => {
+                    this.bus.$emit("loading", false);
+                }, 1500);
+            },
+            // 点击热门搜索
+            searchHot(data) {
+                let storage = window.sessionStorage;
+                storage.setItem("searchContent", data);
+                this.content = storage.searchContent;
+            },
+            // 点击底部最近搜索
+            getNearly(msg) {
+                let storage = window.sessionStorage;
+                storage.setItem("searchContent", msg);
+                this.content = storage.searchContent;
+                window.scrollTo(0, 0);
+            },
+            //请求数据
+            selChange(wd,zs,id){
+                //效果
+                return this.$http
+                    .get("/Api/seo/selChange", {
+                        params: {
+                            domain: this.content,
+                            wd:wd,
+                            zs:zs,
+                            id:id,
+                        }
+                    })
+                    .then(res => {
+                        console.log(res)
+                    })
+                    .catch(res => {
+                        console.log(res.msg);
+                    });
+            },
+
+            // google 权重
+            getPrGoogle() {
+                return this.$http
+                    .get("/Api/seo/pr_google", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        this.weightcontent.google.weight = res.data.pr ? res.data.pr : "-";
+                    })
+                    .catch(res => {
+                        console.log(res.msg);
+                    });
+            },
+            getPrSogou() {
+                return this.$http
+                    .get("/Api/seo/pr_sogou", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        this.weightcontent.sougou.weight = res.data.pr ? res.data.pr : "-";
+                    })
+                    .catch(res => {
+                        console.log(res.msg);
+                    });
+            },
+            getBaiduRank() {
+                return this.$http
+                    .get("/Api/seo/baidurank", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        if (res.data.min_ip && res.data.max_ip) {
+                            this.baidulailu =
+                                this.toThousands(res.data.min_ip) +
+                                " ~ " +
+                                this.toThousands(res.data.max_ip);
+                        } else {
+                            this.baidulailu = "-";
+                        }
+                        if (res.data.m_min_ip && res.data.m_max_ip) {
+                            this.m_baidulailu =
+                                this.toThousands(res.data.m_min_ip) +
+                                " ~ " +
+                                this.toThousands(res.data.m_max_ip);
+                        } else {
+                            this.m_baidulailu = "-";
+                        }
+                        this.weightcontent.aizhan.weight = res.data.br ? res.data.br : "-";
+                        this.weightcontent.yidong.weight = res.data.m_br
+                            ? res.data.m_br
+                            : "-";
+                        this.pc_cishu = res.data.pc_sum ? res.data.pc_sum : "-";
+                        this.yidong_cishu = res.data.m_sum ? res.data.m_sum : "-";
+                    })
+                    .catch(res => {
+                        console.log(res.msg);
+                    });
+            },
+            getIcp() {
+                return this.$http
+                    .get("/Api/seo/icp", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        this.icp = res.data.icp ? res.data.icp : "-";
+                        this.icp_type = res.data.type ? res.data.type : "-";
+                        this.company = res.data.company ? res.data.company : "-";
+                        if (res.data.icp_time) {
+                            var date = new Date(res.data.icp_time * 1000);
+                            this.icp_createtime =
+                                date.getFullYear() +
+                                "-" +
+                                (date.getUTCMonth() + 1) +
+                                "-" +
+                                date.getUTCDate();
+                        } else {
+                            this.icp_createtime = "-";
+                        }
+                    })
+                    .catch(res => {
+                        console.log(res.msg);
+                    });
+            },
+            getWhois() {
+                return this.$http
+                    .get("/Api/seo/whois", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        this.email_code = res.data.emailCode ? res.data.emailCode : "-";
+                        this.whios_created = res.data.created
+                            ? this.timeDiff(res.data.created)
+                            : "-";
+                        this.whios_created2 = res.data.created
+                            ? "创建于" +
+                            res.data.created.replace("-", "年").replace("-", "月") +
+                            "日"
+                            : "-";
+                    })
+                    .catch(res => {
+                        console.log(res.msg);
+                    });
+            },
+            getAlexa() {
+                return this.$http
+                    .get("/Api/seo/alexa", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        console.log(res.data);
+                        this.alexa_ip = res.data.ip ? res.data.ip : "-";
+                        this.alexa_pv = res.data.pv ? res.data.pv : "-";
+                        this.alexa_rank = res.data.rank ? res.data.rank : "-";
+                        this.alexa_3month = res.data.alexaUsageStatistic.alexa_3months.value;
+                        this.alexa_1month = res.data.alexaUsageStatistic.alexa_1months.value;
+                        this.alexa_7day = res.data.alexaUsageStatistic.alexa_7days.value;
+                        this.alexa_1day = res.data.alexaUsageStatistic.alexa_1days.value;
+                    })
+                    .catch(res => {
+                        console.log(res.msg);
+                    });
+            },
+            getSubdomains() {
+                return this.$http
+                    .get("/Api/seo/subdomains", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        if (res.data.sum > 0) {
+                            this.subdomain_sums[0] = res.data.sum;
+                            this.subdomain_sum = res.data.sum;
+                            for (var t in res.data.domains) {
+                                if (t > 20) break;
+                                this.related_web.push(res.data.domains[t].site);
+                            }
+                        }
+                    })
+                    .catch(res => {
+                        console.log(res.msg);
+                    });
+            },
+            getSpeed() {
+                return this.$http
+                    .get("/Api/seo/speed", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        this.speed = res.data.telecom
+                            ? "电信:" + res.data.telecom
+                            : "测速失败";
+                    })
+                    .catch(res => {
+                        console.log(res.msg);
+                    });
+            },
+            getDns() {
+                return this.$http
+                    .get("/Api/seo/dns", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        if (res.data.num > 0) {
+                            this.subdomain_sums[1] = res.data.num;
+                            for (var t in res.data.domains) {
+                                if (t > 20) break;
+                                this.same_ip.push(res.data.domains[t]);
+                            }
+                        }
+                        this.ip = res.data.ip ? res.data.ip : "-";
+                        this.address = res.data.address ? res.data.address : "-";
+                    })
+                    .catch(res => {
+                        console.log(res.msg);
+                    });
+            },
+            getLink() {
+                return this.$http
+                    .get("/Api/seo/link", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        if (res.data.count > 0) {
+                            this.subdomain_sums[2] = res.data.count;
+                            for (var t in res.data.items) {
+                                if (t > 20) break;
+                                this.web_rlink.push(res.data.items[t].url);
+                            }
+                        }
+                    })
+                    .catch(res => {
+                        console.log(res.msg);
+                    });
+            },
+            getShoulu1() {
+                return this.$http
+                    .get("/Api/seo/shoulu1", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        this.baiduindex = res.data.baiduindex ? res.data.baiduindex : "-";
+                        this.shoulu_google = res.data.google ? res.data.google : "-";
+                        this.shoulu_sougou = res.data.sogou ? res.data.sogou : "-";
+                        this.shoulu_360 = res.data[360]
+                            ? res.data[360]
+                            : res.data.s_360
+                                ? res.data.s_360
+                                : "-";
+                        this.shoulu_baidu = res.data.baidu ? res.data.baidu : "-";
+                    })
+                    .catch(res => {
+                        console.log(res.msg);
+                    });
+            },
+            getShoulu2() {
+                return this.$http
+                    .get("/Api/seo/shoulu2", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        this.fanlian_google = res.data.google_r ? res.data.google_r : "-";
+                        this.fanlian_sougou = res.data.sogou_r ? res.data.sogou_r : "-";
+                        this.fanlian_360 = res.data["360_r"]
+                            ? res.data["360_r"]
+                            : res.data.f_360
+                                ? res.data.f_360
+                                : "-";
+                        this.fanlian_baidu = res.data.baidu_r ? res.data.baidu_r : "-";
+                    })
+                    .catch(res => {
+                        console.log(res.msg);
+                    });
+            },
+            getShoulu3() {
+                return this.$http
+                    .get("/Api/seo/shoulu3", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        this.shoulu_1day = res.data.baidu_1days ? res.data.baidu_1days : "-";
+                        this.shoulu_7day = res.data.baidu_7days ? res.data.baidu_7days : "-";
+                        this.shoulu_30day = res.data.baidu_30days
+                            ? res.data.baidu_30days
+                            : "-";
+                    })
+                    .catch(res => {
+                        console.log(res.msg);
+                    });
+            },
+            getWebpage() {
+                return this.$http
+                    .get("/Api/seo/webpage", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        this.server_type = res.data.header.Server
+                            ? res.data.header.Server
+                            : "-";
+                        this.page_type = res.data.header.ContentType
+                            ? res.data.header.ContentType
+                            : "-";
+                        this.xieyi_type = res.data.header.Protocol
+                            ? res.data.header.Protocol
+                            : "-";
+                        this.site_title = res.data.html.title ? res.data.html.title : "-";
+                        this.update_time = res.data.header.Date ? res.data.header.Date : "-";
+
+                        this.footballdata[0].content = res.data.html.title
+                            ? res.data.html.title
+                            : "-";
+                        this.footballdata[0].num = res.data.html.title_len
+                            ? res.data.html.title_len
+                            : "-";
+                        this.footballdata[1].content = res.data.html.keywords
+                            ? res.data.html.keywords
+                            : "-";
+                        this.footballdata[1].num = res.data.html.keywords_len
+                            ? res.data.html.keywords_len
+                            : "-";
+                        this.footballdata[2].content = res.data.html.description
+                            ? res.data.html.description
+                            : "-";
+                        this.footballdata[2].num = res.data.html.description_len
+                            ? res.data.html.description_len
+                            : "-";
+                        this.cz_link = res.data.html.link_o ? res.data.html.link_o : '-'
+                        this.sy_link = res.data.html.link_i ? res.data.html.link_i : '-'
+                        this.baidu_keywords = res.data.keywords;
+                    })
+                    .catch(res => {
+                        console.log(res.msg);
+                    });
+            },
+            getBaidurankKeywords() {
+                return this.$http
+                    .get("/Api/seo/baidurankKeywords", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        this.qushi = res.data.data;
+                        this.qushi_total[0] = res.data.data;
+                    })
+                    .catch(res => {
+                        console.log(res.msg);
+                    });
+            },
+            getBaidurankKeywords_m() {
+                return this.$http
+                    .get("/Api/seo/baidurankKeywords_m", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        this.qushi_total[1] = res.data.data;
+                    })
+                    .catch(res => {
+                        console.log(res.msg);
+                    });
+            },
+            wordlocation() {
+                return this.$http
+                    .get("/Api/seo/wordlocation", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        var i = res.data;
+                        for (let n = 0; n < 5; n++) {
+                            let l = i["pc_sum_" + (n + 1)];
+                            let m = i["m_sum_" + (n + 1)];
+                            this.word_localtion.push(l);
+                            this.word_localtion.push(m);
+                        }
+                        this.word_localtion_local = this.word_localtion.slice(0, 5);
+                    })
+                    .catch(res => {
+                        console.log(res.msg);
+                    });
+            },
+            baiduTrend_m() {
+                return this.$http
+                    .get("/Api/seo/baiduTrend_m", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        this.xdataRes_m = res.data.date.reverse();
+                        for (let i = 0; i < 5; i++) {
+                            this.seriesRes_m[i].data = res.data["t" + (i + 1)].reverse();
+                        }
+                    })
+                    .catch(res => {
+                        console.log(res.msg);
+                    });
+            },
+            baiduTrend_pc() {
+                return this.$http
+                    .get("/Api/seo/baiduTrend_pc", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        this.xdataRes = res.data.date.reverse();
+                        this.xdata = this.xdataRes;
+                        for (let i = 0; i < 5; i++) {
+                            this.seriesRes[i].data = res.data["t" + (i + 1)].reverse();
+                        }
+                        this.series = this.seriesRes;
+                    })
+                    .catch(res => {
+                        console.log(res.msg);
+                    });
+            },
+            getSuoyin() {
+                return this.$http
+                    .get("/Api/seo/shoulu_thrend", {
+                        params: {
+                            domain: this.content
+                        }
+                    })
+                    .then(res => {
+                        this.shouluNum = res.data.shoulu;
+                        this.suoyinNum = res.data.index;
+                        this.shouluRecent = res.data.recent10;
+                        this.xdataShoulu = res.data.chartData.shoulu.period.reverse();
+                        this.seriesShoulu[0].data = res.data.chartData.shoulu.data.reverse();
+                        this.xdataSuoyin = res.data.chartData.index.period.reverse();
+                        this.seriesSuoyin[0].data = res.data.chartData.index.data.reverse();
+                        this.xdata2 = this.xdataShoulu;
+                        this.series2 = this.seriesShoulu;
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            },
+            toThousands(t) {
+                return (t || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, "$1,");
+            },
+            timeDiff(t) {
+                var e = new Date(),
+                    a = new Date(t),
+                    i = (e = e.valueOf()) - (a = a.valueOf());
+                return (
+                    (i = new Date(i)).getFullYear() -
+                    1970 +
+                    "年" +
+                    i.getMonth() +
+                    "月" +
+                    (i.getDate() - 1) +
+                    "日"
+                );
+            },
+            transfPage(v) {
+                var i = v % 10;
+                var j = (v - i) / 10 + 1;
+                return "第" + i + "页第" + j + "位";
+            },
+            doAllGet() {
+                this.bus.$emit("loading", true);
+                this.$http
+                    .all([
+                        this.getBaiduRank(),
+                        this.getPrSogou(),
+                        this.getPrGoogle(),
+                        this.getIcp(),
+                        this.getWhois(),
+                        this.getWebpage(),
+                        this.getAlexa()
+                    ])
+                    .then(
+                        this.$http.spread((acct, perms) => {
+                            this.bus.$emit("loading", false);
+                            this.$http.all([
+                                this.getSubdomains(),
+                                this.getSpeed(),
+                                this.getDns(),
+                                this.getLink(),
+                                this.getShoulu1(),
+                                this.getShoulu2(),
+                                this.getShoulu3(),
+                                this.getBaidurankKeywords(),
+                                this.wordlocation(),
+                                this.baiduTrend_pc(),
+                                this.baiduTrend_m(),
+                                this.getSuoyin(),
+                                this.getBaidurankKeywords_m()
+                            ]);
+                        })
+                    );
+            }
         },
-        {
-          title: "网站简介",
-          content: "",
-          num: "",
-          xz: "200"
+        filters: {
+            // 限制头部表格网址字符个数
+            ellipsis(value) {
+                if (!value) return "";
+                if (value.length > 18) {
+                    return value.slice(0, 18) + "...";
+                }
+                return value;
+            },
+            NumFormat(value) {
+                if (!value) return "-";
+                var intPartFormat = value
+                    .toString()
+                    .replace(/(\d)(?=(?:\d{3})+$)/g, "$1,");
+                return intPartFormat;
+            }
+        },
+        mounted() {
+            let storage = window.sessionStorage;
+            storage.setItem("navIndex", "1");
+            this.content = storage.searchContent;
+            if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+                this.doAllGet();
+            }
+            setTimeout(() => {
+                this.bus.$emit("loading", false);
+            }, 2000);
         }
-      ],
-      // 传入echarts中的数据
-      xdata: [],
-      xdata2: [],
-      series: [],
-      series2: [],
-      xdataRes: [],
-      xdataRes_m: [],
-      xdataShoulu: [],
-      xdataSuoyin: [],
-      seriesRes: [
-        {
-          name: "前10",
-          type: "line",
-          symbol: "none",
-          data: []
-        },
-        {
-          name: "前20号",
-          type: "line",
-          symbol: "none",
-          data: []
-        },
-        {
-          name: "前30",
-          type: "line",
-          symbol: "none",
-          data: []
-        },
-        {
-          name: "前40",
-          type: "line",
-          symbol: "none",
-          data: []
-        },
-        {
-          name: "前50",
-          type: "line",
-          symbol: "none",
-          data: []
-        }
-      ],
-      seriesRes_m: [
-        {
-          name: "前10",
-          type: "line",
-          symbol: "none",
-          data: []
-        },
-        {
-          name: "前20号",
-          type: "line",
-          symbol: "none",
-          data: []
-        },
-        {
-          name: "前30",
-          type: "line",
-          symbol: "none",
-          data: []
-        },
-        {
-          name: "前40",
-          type: "line",
-          symbol: "none",
-          data: []
-        },
-        {
-          name: "前50",
-          type: "line",
-          symbol: "none",
-          data: []
-        }
-      ],
-      seriesShoulu: [
-        {
-          name: "收录",
-          type: "line",
-          symbol: "none",
-          data: [],
-          areaStyle: { normal: { color: "#e2f4ff" } }
-        }
-      ],
-      seriesSuoyin: [
-        {
-          name: "索引",
-          type: "line",
-          symbol: "none",
-          data: [],
-          areaStyle: { normal: { color: "#e2f4ff" } }
-        }
-      ],
-      // 模拟图片数据
-      advpic: ["adv1", "adv3", "adv2"],
-      // 模拟权重处数据
-      weightcontent: {
-        aizhan: {
-          name: "爱站权重",
-          weight: "0",
-          img: "az_wt"
-        },
-        zhanzhang: {
-          name: "站长权重",
-          weight: "0",
-          img: "zz_wt"
-        },
-        yidong: {
-          name: "移动权重",
-          weight: "0",
-          img: "bd_wt"
-        },
-        sougou: {
-          name: "搜狗PR",
-          weight: "0",
-          img: "sg_wt"
-        },
-        google: {
-          name: "谷歌PR",
-          weight: "0",
-          img: "gg_wt"
-        }
-      },
-      //收录索引图表
-      suoyinChange: "0",
-      suoyindayschange: "2",
-      shouluNum: [],
-      suoyinNum: [],
-      shouluRecent: []
     };
-  },
-  methods: {
-    // 几个标签选择切换
-    ChangeEquip(equip) {
-      if (equip == "0") {
-        this.word_localtion_local = this.word_localtion.slice(0, 5);
-      } else {
-        this.word_localtion_local = this.word_localtion.slice(-5);
-      }
-      this.equipchange = equip;
-      this.ChangeChartDays(2);
-    },
-    //来路关键词切换
-    ChangeFrom(fromnum) {
-      this.fromchange = fromnum;
-      this.qushi = this.qushi_total[fromnum];
-    },
-    //收录索引图表切换
-    ChangeSuoyin(suoyin) {
-      this.suoyinChange = suoyin;
-      this.ChangeSuoyinDays(2);
-    },
-    ChangeSuoyinDays(days) {
-      this.suoyindayschange = days;
-      var seriesType = this.seriesShoulu;
-      var xdataType = this.xdataShoulu;
-      var echartsData = [];
-      var chartXdata = [];
-      if (this.suoyinChange == "1") {
-        seriesType = this.seriesSuoyin;
-        xdataType = this.xdataSuoyin;
-      }
-      echartsData = JSON.parse(JSON.stringify(seriesType));
-      chartXdata = JSON.parse(JSON.stringify(xdataType));
-      if (this.suoyindayschange == "0") {
-        echartsData[0].data = seriesType[0].data.slice(-7);
-
-        chartXdata = xdataType.slice(-7);
-        this.series2 = echartsData;
-        this.xdata2 = chartXdata;
-      }
-      if (this.suoyindayschange == "1") {
-        echartsData[0].data = seriesType[0].data.slice(-30);
-
-        chartXdata = xdataType.slice(-30);
-        this.series2 = echartsData;
-        this.xdata2 = chartXdata;
-      }
-      if (this.suoyindayschange == "2") {
-        this.series2 = seriesType;
-        this.xdata2 = xdataType;
-      }
-    },
-    // 百度关键词echarts图标切换
-    ChangeChartDays(days) {
-      this.chartdayschange = days;
-      var seriesType = this.seriesRes_m;
-      var xdataType = this.xdataRes_m;
-      var echartsData = [];
-      var chartXdata = [];
-      if (this.equipchange == "0") {
-        seriesType = this.seriesRes;
-        xdataType = this.xdataRes;
-      }
-      echartsData = JSON.parse(JSON.stringify(seriesType));
-      chartXdata = JSON.parse(JSON.stringify(xdataType));
-      if (this.chartdayschange == "0") {
-        for (let i in echartsData) {
-          echartsData[i].data = seriesType[i].data.slice(-7);
-        }
-        chartXdata = xdataType.slice(-7);
-        this.series = echartsData;
-        this.xdata = chartXdata;
-      }
-      if (this.chartdayschange == "1") {
-        for (let i in echartsData) {
-          echartsData[i].data = seriesType[i].data.slice(-30);
-        }
-        chartXdata = xdataType.slice(-30);
-        this.series = echartsData;
-        this.xdata = chartXdata;
-      }
-      if (this.chartdayschange == "2") {
-        this.series = seriesType;
-        this.xdata = xdataType;
-      }
-    },
-    //切换ip标签
-    ChangeNet(net) {
-      this.related_net = net;
-      this.subdomain_sum = this.subdomain_sums[net];
-    },
-    // 搜索框点击事件
-    getMsg(data) {
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
-      this.word_localtion_local.length = 0;
-      this.word_localtion.length = 0;
-      this.same_ip.length = 0;
-      this.web_rlink.length = 0;
-      this.related_web.length = 0;
-      this.doAllGet();
-      this.equipchange = 0;
-      this.suoyindayschange = 2;
-      this.suoyinChange = 0;
-      this.fromchange = 0;
-      this.related_net = 0;
-      setTimeout(() => {
-        this.bus.$emit("loading", false);
-      }, 1500);
-    },
-    // 点击热门搜索
-    searchHot(data) {
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
-    },
-    // 点击底部最近搜索
-    getNearly(msg) {
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", msg);
-      this.content = storage.searchContent;
-      window.scrollTo(0, 0);
-    },
-    //请求数据
-    // google 权重
-    getPrGoogle() {
-      return this.$http
-        .get("/Api/seo/pr_google", {
-          params: {
-            domain: this.content
-          }
-        })
-        .then(res => {
-          this.weightcontent.google.weight = res.data.pr ? res.data.pr : "-";
-        })
-        .catch(res => {
-          console.log(res.msg);
-        });
-    },
-    getPrSogou() {
-      return this.$http
-        .get("/Api/seo/pr_sogou", {
-          params: {
-            domain: this.content
-          }
-        })
-        .then(res => {
-          this.weightcontent.sougou.weight = res.data.pr ? res.data.pr : "-";
-        })
-        .catch(res => {
-          console.log(res.msg);
-        });
-    },
-    getBaiduRank() {
-      return this.$http
-        .get("/Api/seo/baidurank", {
-          params: {
-            domain: this.content
-          }
-        })
-        .then(res => {
-          if (res.data.min_ip && res.data.max_ip) {
-            this.baidulailu =
-              this.toThousands(res.data.min_ip) +
-              " ~ " +
-              this.toThousands(res.data.max_ip);
-          } else {
-            this.baidulailu = "-";
-          }
-          if (res.data.m_min_ip && res.data.m_max_ip) {
-            this.m_baidulailu =
-              this.toThousands(res.data.m_min_ip) +
-              " ~ " +
-              this.toThousands(res.data.m_max_ip);
-          } else {
-            this.m_baidulailu = "-";
-          }
-          this.weightcontent.aizhan.weight = res.data.br ? res.data.br : "-";
-          this.weightcontent.yidong.weight = res.data.m_br
-            ? res.data.m_br
-            : "-";
-          this.pc_cishu = res.data.pc_sum ? res.data.pc_sum : "-";
-          this.yidong_cishu = res.data.m_sum ? res.data.m_sum : "-";
-        })
-        .catch(res => {
-          console.log(res.msg);
-        });
-    },
-    getIcp() {
-      return this.$http
-        .get("/Api/seo/icp", {
-          params: {
-            domain: this.content
-          }
-        })
-        .then(res => {
-          this.icp = res.data.icp ? res.data.icp : "-";
-          this.icp_type = res.data.type ? res.data.type : "-";
-          this.company = res.data.company ? res.data.company : "-";
-          if (res.data.icp_time) {
-            var date = new Date(res.data.icp_time * 1000);
-            this.icp_createtime =
-              date.getFullYear() +
-              "-" +
-              (date.getUTCMonth() + 1) +
-              "-" +
-              date.getUTCDate();
-          } else {
-            this.icp_createtime = "-";
-          }
-        })
-        .catch(res => {
-          console.log(res.msg);
-        });
-    },
-    getWhois() {
-      return this.$http
-        .get("/Api/seo/whois", {
-          params: {
-            domain: this.content
-          }
-        })
-        .then(res => {
-          this.email_code = res.data.emailCode ? res.data.emailCode : "-";
-          this.whios_created = res.data.created
-            ? this.timeDiff(res.data.created)
-            : "-";
-          this.whios_created2 = res.data.created
-            ? "创建于" +
-              res.data.created.replace("-", "年").replace("-", "月") +
-              "日"
-            : "-";
-        })
-        .catch(res => {
-          console.log(res.msg);
-        });
-    },
-    getAlexa() {
-      return this.$http
-        .get("/Api/seo/alexa", {
-          params: {
-            domain: this.content
-          }
-        })
-        .then(res => {
-          console.log(res.data);
-          this.alexa_ip = res.data.ip ? res.data.ip : "-";
-          this.alexa_pv = res.data.pv ? res.data.pv : "-";
-          this.alexa_rank = res.data.rank ? res.data.rank : "-";
-          this.alexa_3month = res.data.alexaUsageStatistic.alexa_3months.value;
-          this.alexa_1month = res.data.alexaUsageStatistic.alexa_1months.value;
-          this.alexa_7day = res.data.alexaUsageStatistic.alexa_7days.value;
-          this.alexa_1day = res.data.alexaUsageStatistic.alexa_1days.value;
-        })
-        .catch(res => {
-          console.log(res.msg);
-        });
-    },
-    getSubdomains() {
-      return this.$http
-        .get("/Api/seo/subdomains", {
-          params: {
-            domain: this.content
-          }
-        })
-        .then(res => {
-          if (res.data.sum > 0) {
-            this.subdomain_sums[0] = res.data.sum;
-            this.subdomain_sum = res.data.sum;
-            for (var t in res.data.domains) {
-              if (t > 20) break;
-              this.related_web.push(res.data.domains[t].site);
-            }
-          }
-        })
-        .catch(res => {
-          console.log(res.msg);
-        });
-    },
-    getSpeed() {
-      return this.$http
-        .get("/Api/seo/speed", {
-          params: {
-            domain: this.content
-          }
-        })
-        .then(res => {
-          this.speed = res.data.telecom
-            ? "电信:" + res.data.telecom
-            : "测速失败";
-        })
-        .catch(res => {
-          console.log(res.msg);
-        });
-    },
-    getDns() {
-      return this.$http
-        .get("/Api/seo/dns", {
-          params: {
-            domain: this.content
-          }
-        })
-        .then(res => {
-          if (res.data.num > 0) {
-            this.subdomain_sums[1] = res.data.num;
-            for (var t in res.data.domains) {
-              if (t > 20) break;
-              this.same_ip.push(res.data.domains[t]);
-            }
-          }
-          this.ip = res.data.ip ? res.data.ip : "-";
-          this.address = res.data.address ? res.data.address : "-";
-        })
-        .catch(res => {
-          console.log(res.msg);
-        });
-    },
-    getLink() {
-      return this.$http
-        .get("/Api/seo/link", {
-          params: {
-            domain: this.content
-          }
-        })
-        .then(res => {
-          if (res.data.count > 0) {
-            this.subdomain_sums[2] = res.data.count;
-            for (var t in res.data.items) {
-              if (t > 20) break;
-              this.web_rlink.push(res.data.items[t].url);
-            }
-          }
-        })
-        .catch(res => {
-          console.log(res.msg);
-        });
-    },
-    getShoulu1() {
-      return this.$http
-        .get("/Api/seo/shoulu1", {
-          params: {
-            domain: this.content
-          }
-        })
-        .then(res => {
-          this.baiduindex = res.data.baiduindex ? res.data.baiduindex : "-";
-          this.shoulu_google = res.data.google ? res.data.google : "-";
-          this.shoulu_sougou = res.data.sogou ? res.data.sogou : "-";
-          this.shoulu_360 = res.data[360]
-            ? res.data[360]
-            : res.data.s_360
-            ? res.data.s_360
-            : "-";
-          this.shoulu_baidu = res.data.baidu ? res.data.baidu : "-";
-        })
-        .catch(res => {
-          console.log(res.msg);
-        });
-    },
-    getShoulu2() {
-      return this.$http
-        .get("/Api/seo/shoulu2", {
-          params: {
-            domain: this.content
-          }
-        })
-        .then(res => {
-          this.fanlian_google = res.data.google_r ? res.data.google_r : "-";
-          this.fanlian_sougou = res.data.sogou_r ? res.data.sogou_r : "-";
-          this.fanlian_360 = res.data["360_r"]
-            ? res.data["360_r"]
-            : res.data.f_360
-            ? res.data.f_360
-            : "-";
-          this.fanlian_baidu = res.data.baidu_r ? res.data.baidu_r : "-";
-        })
-        .catch(res => {
-          console.log(res.msg);
-        });
-    },
-    getShoulu3() {
-      return this.$http
-        .get("/Api/seo/shoulu3", {
-          params: {
-            domain: this.content
-          }
-        })
-        .then(res => {
-          this.shoulu_1day = res.data.baidu_1days ? res.data.baidu_1days : "-";
-          this.shoulu_7day = res.data.baidu_7days ? res.data.baidu_7days : "-";
-          this.shoulu_30day = res.data.baidu_30days
-            ? res.data.baidu_30days
-            : "-";
-        })
-        .catch(res => {
-          console.log(res.msg);
-        });
-    },
-    getWebpage() {
-      return this.$http
-        .get("/Api/seo/webpage", {
-          params: {
-            domain: this.content
-          }
-        })
-        .then(res => {
-          this.server_type = res.data.header.Server
-            ? res.data.header.Server
-            : "-";
-          this.page_type = res.data.header.ContentType
-            ? res.data.header.ContentType
-            : "-";
-          this.xieyi_type = res.data.header.Protocol
-            ? res.data.header.Protocol
-            : "-";
-          this.site_title = res.data.html.title ? res.data.html.title : "-";
-          this.update_time = res.data.header.Date ? res.data.header.Date : "-";
-
-          this.footballdata[0].content = res.data.html.title
-            ? res.data.html.title
-            : "-";
-          this.footballdata[0].num = res.data.html.title_len
-            ? res.data.html.title_len
-            : "-";
-          this.footballdata[1].content = res.data.html.keywords
-            ? res.data.html.keywords
-            : "-";
-          this.footballdata[1].num = res.data.html.keywords_len
-            ? res.data.html.keywords_len
-            : "-";
-          this.footballdata[2].content = res.data.html.description
-            ? res.data.html.description
-            : "-";
-          this.footballdata[2].num = res.data.html.description_len
-            ? res.data.html.description_len
-            : "-";
-
-          this.baidu_keywords = res.data.keywords;
-        })
-        .catch(res => {
-          console.log(res.msg);
-        });
-    },
-    getBaidurankKeywords() {
-      return this.$http
-        .get("/Api/seo/baidurankKeywords", {
-          params: {
-            domain: this.content
-          }
-        })
-        .then(res => {
-          this.qushi = res.data.data;
-          this.qushi_total[0] = res.data.data;
-        })
-        .catch(res => {
-          console.log(res.msg);
-        });
-    },
-    getBaidurankKeywords_m() {
-      return this.$http
-        .get("/Api/seo/baidurankKeywords_m", {
-          params: {
-            domain: this.content
-          }
-        })
-        .then(res => {
-          this.qushi_total[1] = res.data.data;
-        })
-        .catch(res => {
-          console.log(res.msg);
-        });
-    },
-    wordlocation() {
-      return this.$http
-        .get("/Api/seo/wordlocation", {
-          params: {
-            domain: this.content
-          }
-        })
-        .then(res => {
-          var i = res.data;
-          for (let n = 0; n < 5; n++) {
-            let l = i["pc_sum_" + (n + 1)];
-            let m = i["m_sum_" + (n + 1)];
-            this.word_localtion.push(l);
-            this.word_localtion.push(m);
-          }
-          this.word_localtion_local = this.word_localtion.slice(0, 5);
-        })
-        .catch(res => {
-          console.log(res.msg);
-        });
-    },
-    baiduTrend_m() {
-      return this.$http
-        .get("/Api/seo/baiduTrend_m", {
-          params: {
-            domain: this.content
-          }
-        })
-        .then(res => {
-          this.xdataRes_m = res.data.date.reverse();
-          for (let i = 0; i < 5; i++) {
-            this.seriesRes_m[i].data = res.data["t" + (i + 1)].reverse();
-          }
-        })
-        .catch(res => {
-          console.log(res.msg);
-        });
-    },
-    baiduTrend_pc() {
-      return this.$http
-        .get("/Api/seo/baiduTrend_pc", {
-          params: {
-            domain: this.content
-          }
-        })
-        .then(res => {
-          this.xdataRes = res.data.date.reverse();
-          this.xdata = this.xdataRes;
-          for (let i = 0; i < 5; i++) {
-            this.seriesRes[i].data = res.data["t" + (i + 1)].reverse();
-          }
-          this.series = this.seriesRes;
-        })
-        .catch(res => {
-          console.log(res.msg);
-        });
-    },
-    getSuoyin() {
-      return this.$http
-        .get("/Api/seo/shoulu_thrend", {
-          params: {
-            domain: this.content
-          }
-        })
-        .then(res => {
-          this.shouluNum = res.data.shoulu;
-          this.suoyinNum = res.data.index;
-          this.shouluRecent = res.data.recent10;
-          this.xdataShoulu = res.data.chartData.shoulu.period.reverse();
-          this.seriesShoulu[0].data = res.data.chartData.shoulu.data.reverse();
-          this.xdataSuoyin = res.data.chartData.index.period.reverse();
-          this.seriesSuoyin[0].data = res.data.chartData.index.data.reverse();
-          this.xdata2 = this.xdataShoulu;
-          this.series2 = this.seriesShoulu;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    toThousands(t) {
-      return (t || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, "$1,");
-    },
-    timeDiff(t) {
-      var e = new Date(),
-        a = new Date(t),
-        i = (e = e.valueOf()) - (a = a.valueOf());
-      return (
-        (i = new Date(i)).getFullYear() -
-        1970 +
-        "年" +
-        i.getMonth() +
-        "月" +
-        (i.getDate() - 1) +
-        "日"
-      );
-    },
-    transfPage(v) {
-      var i = v % 10;
-      var j = (v - i) / 10 + 1;
-      return "第" + i + "页第" + j + "位";
-    },
-    doAllGet() {
-      this.bus.$emit("loading", true);
-      this.$http
-        .all([
-          this.getBaiduRank(),
-          this.getPrSogou(),
-          this.getPrGoogle(),
-          this.getIcp(),
-          this.getWhois(),
-          this.getWebpage(),
-          this.getAlexa()
-        ])
-        .then(
-          this.$http.spread((acct, perms) => {
-            this.bus.$emit("loading", false);
-            this.$http.all([
-              this.getSubdomains(),
-              this.getSpeed(),
-              this.getDns(),
-              this.getLink(),
-              this.getShoulu1(),
-              this.getShoulu2(),
-              this.getShoulu3(),
-              this.getBaidurankKeywords(),
-              this.wordlocation(),
-              this.baiduTrend_pc(),
-              this.baiduTrend_m(),
-              this.getSuoyin(),
-              this.getBaidurankKeywords_m()
-            ]);
-          })
-        );
-    }
-  },
-  filters: {
-    // 限制头部表格网址字符个数
-    ellipsis(value) {
-      if (!value) return "";
-      if (value.length > 18) {
-        return value.slice(0, 18) + "...";
-      }
-      return value;
-    },
-    NumFormat(value) {
-      if (!value) return "-";
-      var intPartFormat = value
-        .toString()
-        .replace(/(\d)(?=(?:\d{3})+$)/g, "$1,");
-      return intPartFormat;
-    }
-  },
-  mounted() {
-    let storage = window.sessionStorage;
-    storage.setItem("navIndex", "1");
-    this.content = storage.searchContent;
-    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
-      this.doAllGet();
-    }
-    setTimeout(() => {
-      this.bus.$emit("loading", false);
-    }, 2000);
-  }
-};
 </script>
 
 <style lang="less" scoped>
-.bg_gray {
-  background: #fafafa;
-  color: #808080;
-}
-
-.seo_main_content {
-  width: 1200px;
-  background: #fff;
-  margin: 0 auto;
-  margin-top: 60px;
-  font-size: 16px;
-}
-
-.t_title {
-  font-size: 24px;
-  line-height: 32px;
-  height: 26px;
-  color: #333;
-}
-
-.t_time {
-  line-height: 32px;
-  height: 16px;
-  color: #999;
-}
-
-.t_history {
-  line-height: 32px;
-  height: 16px;
-  margin-right: 20px;
-  color: #2b99ff;
-}
-
-.weight_content {
-  margin: 28px 0 20px 0;
-  color: #999;
-  font-size: 14px;
-}
-
-.weight_content {
-  .weight_details {
-    float: left;
-    width: 199px;
-    height: 100px;
-    text-align: center;
-    border: 1px solid #ebebeb;
-    border-right: none;
-    margin: 0;
-    padding: 0;
-  }
-}
-
-.weight_content {
-  .weight_details:last-child {
-    border-right: 1px solid #ebebeb;
-    width: 198px;
-  }
-}
-
-.weight_net {
-  font-size: 18px;
-  color: #333;
-  margin-top: 20px;
-  position: relative;
-
-  span {
-    position: absolute;
-    top: -4px;
-    left: 108px;
-    color: #fff;
-  }
-}
-
-.weight_net:first-child {
-  line-height: 30px;
-}
-
-.weight_name {
-  display: block;
-  margin-top: 10px;
-}
-
-.t_history img {
-  vertical-align: -6px;
-  margin-right: 6px;
-}
-
-.weight_details_p1 {
-  margin-bottom: 20px;
-}
-
-.weight_details_p1 > li {
-  width: 1198px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  font-size: 16px;
-  color: #808080;
-  border: 1px solid #ebebeb;
-  border-bottom: none;
-}
-
-.weight_details_p1 > li:last-child {
-  border-bottom: 1px solid #ebebeb;
-}
-
-.weight_details_p1 span.red {
-  color: #ff3a3a;
-  margin-right: 5px;
-}
-
-.weight_details_p1 span.black {
-  color: #333;
-  margin-right: 5px;
-}
-
-.weight_details_p1 span.blue {
-  color: #00a0db;
-  margin-right: 5px;
-}
-
-.weight_details_msg {
-  width: 220px;
-  background: #fafafa;
-  height: 60px;
-  line-height: 60px;
-  padding-left: 40px;
-}
-
-.msg_details {
-  margin-left: 30px;
-}
-
-.table_content_1st {
-  margin-bottom: 20px;
-}
-
-.table_content_1st table,
-.table_content_2nd table,
-.echarts_main table {
-  border-right: 1px solid #ebebeb;
-  border-bottom: 1px solid #ebebeb;
-}
-
-.table_content_1st table td,
-.table_content_2nd table td,
-.echarts_main table td {
-  border-left: 1px solid #ebebeb;
-  border-top: 1px solid #ebebeb;
-  text-align: center;
-  vertical-align: middle;
-  width: 169px;
-  height: 60px;
-}
-
-.echarts_main table {
-  .bn_top {
-    border-top: none;
-  }
-
-  .bn_left {
-    border-left: none;
-  }
-}
-
-.table_content_2nd table td,
-.echarts_main table td {
-  width: 239px;
-  height: 60px;
-}
-
-.advertise_box {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.bottom_adv {
-  margin-bottom: 60px;
-}
-
-.echarts_title {
-  padding: 10px 0 20px 0;
-  border-bottom: 1px solid #ebebeb;
-  margin-bottom: 20px;
-}
-
-.echarts_title span {
-  cursor: pointer;
-}
-
-.echarts_title_name {
-  font-size: 24px;
-  margin-right: 40px;
-}
-
-.echarts_title_first {
-  margin-right: 30px;
-}
-
-.echarts_title_second {
-  margin-right: 680px;
-}
-
-.echarts_title_3rd {
-  margin-right: 698px;
-}
-
-.echarts_days {
-  display: inline-block;
-  width: 56px;
-  height: 28px;
-  line-height: 28px;
-  text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-  margin-left: 5px;
-}
-
-.days_blue {
-  color: #fff;
-  background: #008abd;
-  border-color: #008abd;
-}
-
-.echarts_container {
-  margin-bottom: 20px;
-}
-
-.echarts_main {
-  width: 1200px;
-  height: auto;
-  border: 1px solid #ebebeb;
-  padding-bottom: 20px;
-
-  .bn_right {
-    border-right: none;
-  }
-}
-
-.echarts_main table td span {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border-radius: 2px;
-  margin-right: 8px;
-  vertical-align: -2px;
-}
-
-.e_blue {
-  background: @echartsBlue;
-}
-
-.e_green {
-  background: @echartsGreen;
-}
-
-.e_yellow {
-  background: @echartsYellow;
-}
-
-.e_lblue {
-  background: @echartsLblue;
-}
-
-.e_purple {
-  background: @echartsPurple;
-}
-
-.keyword_title_2nd {
-  border: none;
-  margin-bottom: 10px;
-}
-
-.keyword_container_2nd {
-  border: none;
-  height: auto;
-
-  table {
-    tr {
-      td:first-child {
-        width: 18%;
-      }
-    }
-  }
-}
-
-.keyword_container_4th {
-  border: none;
-  padding-bottom: 0;
-
-  table {
-    tr {
-      td {
-        text-align: left;
-        padding: 0 3% 0 3%;
-        line-height: 32px;
-      }
-
-      td:first-child {
-        width: 20%;
-        border-right: none;
-      }
-
-      td:nth-child(2) {
-        border-left: none;
-      }
-
-      td:last-child {
-        width: 20%;
-        padding-right: 1%;
+    .bg_gray {
+        background: #fafafa;
         color: #808080;
-
-        i {
-          color: #ec1f37;
-        }
-      }
     }
-  }
-}
 
-.keyword_container_5th {
-  border: none;
-  padding-bottom: 0;
+    .seo_main_content {
+        width: 1200px;
+        background: #fff;
+        margin: 0 auto;
+        margin-top: 60px;
+        font-size: 16px;
+    }
 
-  table {
-    tr {
-      td {
-        text-align: left;
-        padding: 0 3% 0 3%;
+    .t_title {
+        font-size: 24px;
         line-height: 32px;
+        height: 26px;
+        color: #333;
+    }
 
-        i {
-          color: #ec1f37;
-        }
+    .t_time {
+        line-height: 32px;
+        height: 16px;
+        color: #999;
+    }
 
-        ul {
-          padding: 20px 0;
+    .t_history {
+        line-height: 32px;
+        height: 16px;
+        margin-right: 20px;
+        color: #2b99ff;
+    }
 
-          li {
+    .weight_content {
+        margin: 28px 0 20px 0;
+        color: #999;
+        font-size: 14px;
+    }
+
+    .weight_content {
+        .weight_details {
             float: left;
-            margin-right: 20px;
-
-            a {
-              cursor: pointer;
-              color: #666;
-            }
-
-            a:hover {
-              color: #007bb7;
-            }
-          }
+            width: 199px;
+            height: 100px;
+            text-align: center;
+            border: 1px solid #ebebeb;
+            border-right: none;
+            margin: 0;
+            padding: 0;
         }
-      }
     }
-  }
-}
 
-.keyword_container_6th {
-  border: none;
-  padding-bottom: 0;
-
-  table {
-    tr {
-      td {
-        text-align: left;
-        padding: 0 3% 0 3%;
-        line-height: 32px;
-      }
-
-      td:first-child {
-        width: 20%;
-        border-right: none;
-      }
-
-      td:nth-child(2) {
-        width: 30%;
-        border-left: none;
-      }
-
-      td:nth-child(3) {
-        width: 20%;
-        border-left: none;
-      }
-
-      td:last-child {
-        border-left: none;
-      }
+    .weight_content {
+        .weight_details:last-child {
+            border-right: 1px solid #ebebeb;
+            width: 198px;
+        }
     }
-  }
-}
 
-.keyword_container_3rd {
-  border: none;
-  height: auto;
-  padding-bottom: 0;
+    .weight_net {
+        font-size: 18px;
+        color: #333;
+        margin-top: 20px;
+        position: relative;
 
-  table {
-    tr {
-      td:first-child {
-        width: 30%;
-      }
+        span {
+            position: absolute;
+            top: -4px;
+            left: 108px;
+            color: #fff;
+        }
     }
-  }
-}
 
-.keyword_3rd_orange {
-  color: #fb9747;
-}
+    .weight_net:first-child {
+        line-height: 30px;
+    }
 
-.search_table {
-  border-right: 1px solid #ebebeb;
-  border-bottom: 1px solid #ebebeb;
-  margin-bottom: 20px;
+    .weight_name {
+        display: block;
+        margin-top: 10px;
+    }
 
-  td {
-    border-left: 1px solid #ebebeb;
-    border-top: 1px solid #ebebeb;
-    text-align: center;
-    vertical-align: middle;
-    width: 169px;
-    height: 60px;
-  }
-}
+    .t_history img {
+        vertical-align: -6px;
+        margin-right: 6px;
+    }
 
-.alexa_pic_content {
-  margin-top: 50px;
+    .weight_details_p1 {
+        margin-bottom: 20px;
+    }
 
-  p {
-    margin-bottom: 30px;
-  }
+    .weight_details_p1 > li {
+        width: 1198px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        color: #808080;
+        border: 1px solid #ebebeb;
+        border-bottom: none;
+    }
 
-  div {
-    float: left;
-    width: 46%;
-    margin-left: 4%;
-  }
-}
+    .weight_details_p1 > li:last-child {
+        border-bottom: 1px solid #ebebeb;
+    }
+
+    .weight_details_p1 span.red {
+        color: #ff3a3a;
+        margin-right: 5px;
+    }
+
+    .weight_details_p1 span.black {
+        color: #333;
+        margin-right: 5px;
+    }
+
+    .weight_details_p1 span.blue {
+        color: #00a0db;
+        margin-right: 5px;
+    }
+
+    .weight_details_msg {
+        width: 220px;
+        background: #fafafa;
+        height: 60px;
+        line-height: 60px;
+        padding-left: 40px;
+    }
+
+    .msg_details {
+        margin-left: 30px;
+    }
+
+    .table_content_1st {
+        margin-bottom: 20px;
+    }
+
+    .table_content_1st table,
+    .table_content_2nd table,
+    .echarts_main table {
+        border-right: 1px solid #ebebeb;
+        border-bottom: 1px solid #ebebeb;
+    }
+
+    .table_content_1st table td,
+    .table_content_2nd table td,
+    .echarts_main table td {
+        border-left: 1px solid #ebebeb;
+        border-top: 1px solid #ebebeb;
+        text-align: center;
+        vertical-align: middle;
+        width: 169px;
+        height: 60px;
+    }
+
+    .echarts_main table {
+        .bn_top {
+            border-top: none;
+        }
+
+        .bn_left {
+            border-left: none;
+        }
+    }
+
+    .table_content_2nd table td,
+    .echarts_main table td {
+        width: 239px;
+        height: 60px;
+    }
+
+    .advertise_box {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .bottom_adv {
+        margin-bottom: 60px;
+    }
+
+    .echarts_title {
+        padding: 10px 0 20px 0;
+        border-bottom: 1px solid #ebebeb;
+        margin-bottom: 20px;
+    }
+
+    .echarts_title span {
+        cursor: pointer;
+    }
+
+    .echarts_title_name {
+        font-size: 24px;
+        margin-right: 40px;
+    }
+
+    .echarts_title_first {
+        margin-right: 30px;
+    }
+
+    .echarts_title_second {
+        margin-right: 680px;
+    }
+
+    .echarts_title_3rd {
+        margin-right: 698px;
+    }
+
+    .echarts_days {
+        display: inline-block;
+        width: 56px;
+        height: 28px;
+        line-height: 28px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        margin-left: 5px;
+    }
+
+    .days_blue {
+        color: #fff;
+        background: #008abd;
+        border-color: #008abd;
+    }
+
+    .echarts_container {
+        margin-bottom: 20px;
+    }
+
+    .echarts_main {
+        width: 1200px;
+        height: auto;
+        border: 1px solid #ebebeb;
+        padding-bottom: 20px;
+
+        .bn_right {
+            border-right: none;
+        }
+    }
+
+    .echarts_main table td span {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border-radius: 2px;
+        margin-right: 8px;
+        vertical-align: -2px;
+    }
+
+    .e_blue {
+        background: @echartsBlue;
+    }
+
+    .e_green {
+        background: @echartsGreen;
+    }
+
+    .e_yellow {
+        background: @echartsYellow;
+    }
+
+    .e_lblue {
+        background: @echartsLblue;
+    }
+
+    .e_purple {
+        background: @echartsPurple;
+    }
+
+    .keyword_title_2nd {
+        border: none;
+        margin-bottom: 10px;
+    }
+
+    .keyword_container_2nd {
+        border: none;
+        height: auto;
+
+        table {
+            tr {
+                td:first-child {
+                    width: 18%;
+                }
+            }
+        }
+    }
+
+    .keyword_container_4th {
+        border: none;
+        padding-bottom: 0;
+
+        table {
+            tr {
+                td {
+                    text-align: left;
+                    padding: 0 3% 0 3%;
+                    line-height: 32px;
+                }
+
+                td:first-child {
+                    width: 20%;
+                    border-right: none;
+                }
+
+                td:nth-child(2) {
+                    border-left: none;
+                }
+
+                td:last-child {
+                    width: 20%;
+                    padding-right: 1%;
+                    color: #808080;
+
+                    i {
+                        color: #ec1f37;
+                    }
+                }
+            }
+        }
+    }
+
+    .keyword_container_5th {
+        border: none;
+        padding-bottom: 0;
+
+        table {
+            tr {
+                td {
+                    text-align: left;
+                    padding: 0 3% 0 3%;
+                    line-height: 32px;
+
+                    i {
+                        color: #ec1f37;
+                    }
+
+                    ul {
+                        padding: 20px 0;
+
+                        li {
+                            float: left;
+                            margin-right: 20px;
+
+                            a {
+                                cursor: pointer;
+                                color: #666;
+                            }
+
+                            a:hover {
+                                color: #007bb7;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .keyword_container_6th {
+        border: none;
+        padding-bottom: 0;
+
+        table {
+            tr {
+                td {
+                    text-align: left;
+                    padding: 0 3% 0 3%;
+                    line-height: 32px;
+                }
+
+                td:first-child {
+                    width: 20%;
+                    border-right: none;
+                }
+
+                td:nth-child(2) {
+                    width: 30%;
+                    border-left: none;
+                }
+
+                td:nth-child(3) {
+                    width: 20%;
+                    border-left: none;
+                }
+
+                td:last-child {
+                    border-left: none;
+                }
+            }
+        }
+    }
+
+    .keyword_container_3rd {
+        border: none;
+        height: auto;
+        padding-bottom: 0;
+
+        table {
+            tr {
+                td:first-child {
+                    width: 30%;
+                }
+            }
+        }
+    }
+
+    .keyword_3rd_orange {
+        color: #fb9747;
+    }
+
+    .search_table {
+        border-right: 1px solid #ebebeb;
+        border-bottom: 1px solid #ebebeb;
+        margin-bottom: 20px;
+
+        td {
+            border-left: 1px solid #ebebeb;
+            border-top: 1px solid #ebebeb;
+            text-align: center;
+            vertical-align: middle;
+            width: 169px;
+            height: 60px;
+        }
+    }
+
+    .alexa_pic_content {
+        margin-top: 50px;
+
+        p {
+            margin-bottom: 30px;
+        }
+
+        div {
+            float: left;
+            width: 46%;
+            margin-left: 4%;
+        }
+    }
 </style>

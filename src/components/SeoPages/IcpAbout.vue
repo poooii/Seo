@@ -125,7 +125,9 @@
             this.content = storage.searchContent;
             storage.setItem("navIndex", "1");
             window.scrollTo(0, 0);
-            this.getIcp();
+            if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+            this.getIcp()
+            }
             setTimeout(() => {
                 this.bus.$emit("loading", false);
             }, 2000);

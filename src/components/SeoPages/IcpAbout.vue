@@ -55,7 +55,7 @@
         },
         data() {
             return {
-                title: "",
+                title: "ICP备案查询",
                 content: "",
                 qiye: "",
                 site: "",
@@ -71,6 +71,10 @@
                 let storage = window.sessionStorage;
                 storage.setItem("searchContent", data);
                 this.content = storage.searchContent;
+                this.getIcp()
+                setTimeout(() => {
+                    this.bus.$emit("loading", false);
+                }, 2000);
             },
             searchHot(data) {
                 let storage = window.sessionStorage;
@@ -84,6 +88,7 @@
                 window.scrollTo(0, 0);
             },
             getIcp() {
+                this.bus.$emit("loading", true);
                 return this.$http
                     .get("/Api/seo/icp", {
                         params: {
@@ -97,7 +102,6 @@
                         this.beian = res.data.icp_main ? res.data.icp_main : "-";
                         this.domain = res.data.domains ? res.data.domains : "-";
                         this.site = res.data.homes ? res.data.homes : "-";
-                        this.title = res.data.name ? res.data.name : "-";
                         if (res.data.icp_time) {
                           var date = new Date(res.data.icp_time * 1000);
                           this.create_time =
@@ -109,6 +113,7 @@
                         } else {
                           this.create_time = "-";
                         }
+                        this.bus.$emit("loading", false);
                     })
                     .catch(res => {
                         console.log(res.msg);
@@ -121,6 +126,9 @@
             storage.setItem("navIndex", "1");
             window.scrollTo(0, 0);
             this.getIcp();
+            setTimeout(() => {
+                this.bus.$emit("loading", false);
+            }, 2000);
         }
     };
 </script>

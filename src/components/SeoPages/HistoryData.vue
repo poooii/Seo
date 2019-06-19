@@ -544,7 +544,7 @@
                         }
                     })
                     .then(res => {
-                            if(res.data===null) {
+                            if(res.data===null||res.data===false) {
                                 this.foundNull=false
                                 this.bus.$emit("loading", false)
                             }else{

@@ -15,7 +15,7 @@
                                     Aleax排名历史
                                 </li>
                                 <li :class="{show:searchIdx==2||searchIdx==undefined}" @click="changeSearch('2')">
-                                    收录/反链历史
+                                    收录/反链历史 
                                 </li>
                             </ul>
                             <i></i>
@@ -74,8 +74,10 @@
                     </div>
                 </div>
             </div>
+            <!-- 搜索超时 -->
+            <div class="cha_default" v-show="!foundNull">未查询到数据，请稍候再试</div>
             <!-- SEO搜索结果 -->
-            <div v-if="showViews=='0'">
+            <div v-if="showViews=='0'" v-show="foundNull">
                 <div class="chart_container">
                     <div class="title_container">
                         <span :class="{color_line_blue:seoresult=='0'}" @click="changeSeoresult('0')">PC词量</span>
@@ -87,9 +89,9 @@
                         <span :class="{color_line_blue:seoresult=='6'}" @click="changeSeoresult('6')">移动权重</span>
                     </div>
                     <LineCharts
-                            :xdata="xdata2"
+                            :xdata="xdata"
                             :showxis="showxis"
-                            :option="series2"
+                            :option="series"
                             :styl="{width: '1140px', height: '360px'}"
                             id="paimingChart"
                     ></LineCharts>
@@ -106,128 +108,31 @@
                             <td>百度移动来路</td>
                             <td>总预计来路</td>
                         </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
+                        <tr v-for="(list,index) in seoList.data">
+                            <td>{{seoList.data[index]}}</td>
+                            <td>{{seoList.BR[index]}}</td>
+                            <td>{{seoList.mBR[index]}}</td>
+                            <td>{{seoList.pcSum[index]|NumFormat}}</td>
+                            <td>{{seoList.mSum[index]|NumFormat}}</td>
+                            <td>{{seoList.pcIP[index]|NumFormat}}</td>
+                            <td>{{seoList.mIP[index]|NumFormat}}</td>
+                            <td>{{seoList.IP[index]|NumFormat}}</td>
                         </tr>
                         <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>308</td>
-                            <td>1,734,121</td>
-                            <td>13286~18848</td>
-                            <td>13286~18848</td>
-                            <td>132086~180848</td>
+                            <td>平均值</td>
+                            <td>{{seoList.BrAvg}}</td>
+                            <td>{{seoList.mBrAvg}}</td>
+                            <td>{{seoList.pcSumAvg}}</td>
+                            <td>{{seoList.mSumAvg}}</td>
+                            <td>{{seoList.pcIPAvg}}</td>
+                            <td>{{seoList.mIPAvg}}</td>
+                            <td>{{seoList.IPAvg}}</td>
                         </tr>
                     </table>
-                    <div class="page_box">
-                        <span><</span>
-                        <span v-for="num in 10">{{num}}</span>
-                        <span>...</span>
-                        <span class="color_blue">50</span>
-                        <span>></span>
-                    </div>
                 </div>
             </div>
             <!-- ALEAX搜索结果 -->
-            <div v-if="showViews=='1'">
+            <div v-if="showViews=='1'" v-show="foundNull">
                 <div class="chart_container">
                     <div class="title_container">
                         <span :class="{color_line_blue:aleaxresult=='0'}" @click="changeAleaxresult('0')">今日排名</span>
@@ -236,9 +141,9 @@
                         <span :class="{color_line_blue:aleaxresult=='3'}" @click="changeAleaxresult('3')">三月平均排名</span>
                     </div>
                     <LineCharts
-                            :xdata="xdata2"
+                            :xdata="xdata"
                             :showxis="showxis"
-                            :option="series2"
+                            :option="series"
                             :styl="{width: '1140px', height: '360px'}"
                             id="paimingChart"
                     ></LineCharts>
@@ -252,88 +157,25 @@
                             <td>一月平均排名</td>
                             <td>三月平均排名</td>
                         </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span></td>
+                        <tr v-for="(list,index) in aleaxList.data">
+                            <td>{{aleaxList.data[index]}}</td>
+                            <td>{{aleaxList.alexa_1days_value[index]|changeEmpty}}<span :class="aleaxList.alexa_1days_value[index]-aleaxList.alexa_1days_value[index+1]>=0?'upper':'lower'"><i></i>{{aleaxList.alexa_1days_value[index]-aleaxList.alexa_1days_value[index+1]|aleaxSort(aleaxList.alexa_1days_value[index])}}</span></td>
+                            <td>{{aleaxList.alexa_7days_value[index]|changeEmpty}}<span :class="aleaxList.alexa_7days_value[index]-aleaxList.alexa_7days_value[index+1]>=0?'upper':'lower'"><i></i>{{aleaxList.alexa_7days_value[index]-aleaxList.alexa_7days_value[index+1]|aleaxSort(aleaxList.alexa_7days_value[index])}}</span></td>
+                            <td>{{aleaxList.alexa_1months_value[index]|changeEmpty}}<span :class="aleaxList.alexa_1months_value[index]-aleaxList.alexa_1months_value[index+1]>=0?'upper':'lower'"><i></i>{{aleaxList.alexa_1months_value[index]-aleaxList.alexa_1months_value[index+1]|aleaxSort(aleaxList.alexa_1months_value[index])}}</span></td>
+                            <td>{{aleaxList.alexa_3months_value[index]|changeEmpty}}<span :class="aleaxList.alexa_3months_value[index]-aleaxList.alexa_3months_value[index+1]>=0?'upper':'lower'"><i></i>{{aleaxList.alexa_3months_value[index]-aleaxList.alexa_3months_value[index+1]|aleaxSort(aleaxList.alexa_1months_value[index])}}</span></td>
                         </tr>
                         <tr>
-                            <td>2019-04-09</td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span></td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span></td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span></td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span></td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span></td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span></td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span></td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span></td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="lower"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span></td>
-                            <td>2,387 <span class="upper"><i></i>37</span></td>
+                           <td>平均数</td>
+                           <td>{{aleaxList.alexa_1days_avg}}</td>
+                           <td>{{aleaxList.alexa_7days_avg}}</td>
+                           <td>{{aleaxList.alexa_1months_avg}}</td>
+                           <td>{{aleaxList.alexa_1months_avg}}</td>
                         </tr>
                     </table>
-                    <div class="page_box">
-                        <span><</span>
-                        <span v-for="num in 10">{{num}}</span>
-                        <span>...</span>
-                        <span class="color_blue">50</span>
-                        <span>></span>
-                    </div>
                 </div>
             </div>
             <!-- 收录/反链搜索结果 -->
-            <div v-if="showViews=='2'">
+            <div v-if="showViews=='2'" v-show="foundNull">
                 <div class="chart_container">
                     <div class="title_container">
                         <span :class="{color_line_blue:shouluresult=='0'}" @click="changeShouluresult('0')">百度收录</span>
@@ -345,9 +187,9 @@
                         <span :class="{color_line_blue:shouluresult=='6'}" @click="changeShouluresult('6')">360反链</span>
                     </div>
                     <LineCharts
-                            :xdata="xdata2"
+                            :xdata="xdata"
                             :showxis="showxis"
-                            :option="series2"
+                            :option="series"
                             :styl="{width: '1140px', height: '360px'}"
                             id="paimingChart"
                     ></LineCharts>
@@ -364,124 +206,27 @@
                             <td>360收录</td>
                             <td>360反链</td>
                         </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
+                        <tr v-for="(list,index) in shouluList.data">
+                            <td>{{shouluList.data[index]}}</td>
+                            <td>{{shouluList.baidu[index]|changeEmpty}}</td>
+                            <td>{{shouluList.baiduindex[index]|changeEmpty}}</td>
+                            <td>{{shouluList.baidu_r[index]|changeEmpty}}</td>
+                            <td>{{shouluList.sogou[index]|changeEmpty}}</td>
+                            <td>{{shouluList.sogou_r[index]|changeEmpty}}</td>
+                            <td>{{shouluList['360'][index]|changeEmpty}}</td>
+                            <td>{{shouluList['360_r'][index]|changeEmpty}}</td>
                         </tr>
                         <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
-                        </tr>
-                        <tr>
-                            <td>2019-04-09</td>
-                            <td>1,220,000</td>
-                            <td>1,734,121</td>
-                            <td>90</td>
-                            <td>1,382,374</td>
-                            <td>387</td>
-                            <td>539,000</td>
-                            <td>1,560,000</td>
+                            <td>平均数</td>
+                            <td>{{shouluList.baiduAvg}}</td>
+                            <td>{{shouluList.baiduindexAvg}}</td>
+                            <td>{{shouluList.baidu_rAvg}}</td>
+                            <td>{{shouluList.sogouAvg}}</td>
+                            <td>{{shouluList.sogou_rAvg}}</td>
+                            <td>{{shouluList.Avg360}}</td>
+                            <td>{{shouluList.Avg360_r}}</td>
                         </tr>
                     </table>
-                    <div class="page_box">
-                        <span><</span>
-                        <span v-for="num in 10">{{num}}</span>
-                        <span>...</span>
-                        <span class="color_blue">50</span>
-                        <span>></span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -518,6 +263,13 @@
                 // 时间选择器年份
                 prevyear: G.Y - 1,
                 nextyear: G.Y,
+
+                // 搜索内容
+                search:'seo',
+
+                //图标显示控制
+
+                foundNull:true,
                 // 时间选择器时间范围
                 range: '1',
                 // 搜索框三个分类
@@ -541,30 +293,205 @@
                 // 初始选中的月份
                 // 初始选中的带小箭头的月份
                 // 折线图测试数据
-                xdata2: [
-                    "04-02",
-                    "04-03",
-                    "-04-04",
-                    "04-05",
-                    "04-06",
-                    "04-07",
-                    "04-08",
-                    "04-09"
-                ],
+                xdata:[],
                 //结束时间
                 e: '',
                 //开始时间
                 s: '',
                 // 折线图测试数据
-                series2: [
-                    {
-                        name: "前10",
-                        type: "line",
-                        symbol: "none",
-                        data: [22000, 20000, 21000, 21000, 21000, 22000, 21000, 20000],
-                        areaStyle: {normal: {color: "#e2f4ff"}}
-                    }
-                ],
+                series:[],
+                //折线图下方表格数据
+                seoList:"",
+                aleaxList:"",
+                shouluList:"",
+                shouluXdata:{
+                    0:[],
+                    1:[],
+                    2:[],
+                    3:[],
+                    4:[],
+                    5:[],
+                    6:[],
+                },
+                seoRes:{
+                    0:[
+                        {
+                            name:"PC词量",
+                            type:"line",
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ],
+                    1:[
+                        {
+                            name:"移动词量",
+                            type:"line",
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ],
+                    2:[
+                        {
+                            name:"百度PC来路",
+                            type:"line",
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ],
+                    3:[
+                        {
+                            name:"百度移动来路",
+                            type:"line",
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ],
+                    4:[
+                        {
+                            name:"总预计来路",
+                            type:"line",
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ],
+                    5:[
+                        {
+                            name:"PC权重",
+                            type:"line",
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ],
+                    6:[
+                        {
+                            name:"移动权重",
+                            type:"line",
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ]
+                },
+                aleaxRes:{
+                    0:[
+                        {
+                            name:"今日排行",
+                            type:"line",
+                            smooth:true,
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ],
+                    1:[
+                        {
+                            name:"一周平均排名",
+                            type:"line",
+                            smooth:true,
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ],
+                    2:[
+                        {
+                            name:"一月平均排名",
+                            type:"line",
+                            smooth:true,
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ],
+                    3:[
+                        {
+                            name:"三月平均排名",
+                            type:"line",
+                            smooth:true,
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ]
+                },
+                shouluRes:{
+                    0:[
+                        {
+                            name:"百度收录",
+                            type:"line",
+                            smooth:true,
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ],
+                    1:[
+                        {
+                            name:"百度索引",
+                            type:"line",
+                            smooth:true,
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ],
+                    2:[
+                        {
+                            name:"百度反链",
+                            type:"line",
+                            smooth:true,
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ],
+                    3:[
+                        {
+                            name:"搜狗收录",
+                            type:"line",
+                            smooth:true,
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ],
+                    4:[
+                        {
+                            name:"搜狗反链",
+                            type:"line",
+                            smooth:true,
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ],
+                    5:[
+                        {
+                            name:"360收录",
+                            type:"line",
+                            smooth:true,
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ],
+                    6:[
+                        {
+                            name:"360反链",
+                            type:"line",
+                            smooth:true,
+                            symbol:"none",
+                            data:[],
+                            areaStyle: {normal: {color: "#e2f4ff"}}
+                        }
+                    ]
+                },
             }
         },
         methods: {
@@ -583,7 +510,13 @@
                 this.months = a
                 this.e = this.getEDate(this.sel_y, this.sel_m)
                 this.s = this.getSDate(this.sel_y, this.sel_m, this.range)
-                this.getHiswave2()
+                this.seoresult=0
+                this.aleaxresult=0
+                this.shouluresult=0
+                if (this.searchIdx == '0') this.getHiswave2()
+                if (this.searchIdx == '2') this.getHiswave()
+                if (this.searchIdx == '1') this.getHiswave3()
+                
             },
             getWebpage() {
                 return this.$http
@@ -599,8 +532,99 @@
                         console.log(res.msg);
                     });
             },
+            getHiswave() {
+                // 反链
+                 this.bus.$emit("loading", true)
+                return this.$http
+                    .get("/Api/BaiduRank/hiswave", {
+                        params: {
+                            domain: this.content,
+                            begintime: this.s,
+                            endtime: this.e
+                        }
+                    })
+                    .then(res => {
+                            if(res.data===null) {
+                                this.foundNull=false
+                                this.bus.$emit("loading", false)
+                            }else{
+                                this.foundNull=true
+                                var msg=JSON.parse(JSON.stringify(res.data))
+                                this.shouluXdata[0]=msg.date.baidu.reverse()
+                                this.shouluXdata[1]=msg.date.baiduindex.reverse()
+                                this.shouluXdata[2]=msg.date.baidu_r.reverse()
+                                this.shouluXdata[3]=msg.date.sogou.reverse()
+                                this.shouluXdata[4]=msg.date.sogou_r.reverse()
+                                this.shouluXdata[5]=msg.date['360'].reverse()
+                                this.shouluXdata[6]=msg.date['360_r'].reverse()
+                                this.shouluRes[0][0].data=msg.series.baidu.reverse()
+                                this.shouluRes[1][0].data=msg.series.baiduindex.reverse()
+                                this.shouluRes[2][0].data=msg.series.baidu_r.reverse()
+                                this.shouluRes[3][0].data=msg.series.sogou.reverse()
+                                this.shouluRes[4][0].data=msg.series.sogou_r.reverse()
+                                this.shouluRes[5][0].data=msg.series['360'].reverse()
+                                this.shouluRes[6][0].data=msg.series['360_r'].reverse()
+                                this.xdata=this.shouluXdata[0]
+                                this.series=this.shouluRes[0]
+                                this.shouluList=res.data.series
+                                this.shouluList.data=res.data.date.baidu
+                                this.shouluList.baiduAvg=this.avg(msg.series.baidu)
+                                this.shouluList.baiduindexAvg=this.avg(msg.series.baiduindex)
+                                this.shouluList.baidu_rAvg=this.avg(msg.series.baidu_r)
+                                this.shouluList.sogouAvg=this.avg(msg.series.sogou)
+                                this.shouluList.sogou_rAvg=this.avg(msg.series.sogou_r)
+                                this.shouluList.Avg360=this.avg(msg.series['360'])
+                                this.shouluList.Avg360_r=this.avg(msg.series['360_r'])
+                                this.bus.$emit("loading", false)
+                            }
+                        })
+                     .catch(res => {
+                        console.log(res.msg);
+                        this.foundNull=false
+                         this.bus.$emit("loading", false)
+                    });
+            },
+            getHiswave3() {
+                // aleax
+                 this.bus.$emit("loading", true)
+                return this.$http
+                    .get("/Api/BaiduRank/hiswave3", {
+                        params: {
+                            domain: this.content,
+                            begintime: this.s,
+                            endtime: this.e
+                        }
+                    })
+                    .then(res => {
+                        if(res.data===null||res.data===false) {
+                            this.foundNull=false
+                            this.bus.$emit("loading", false)
+                        }else{
+                            this.foundNull=true
+                            var msg=JSON.parse(JSON.stringify(res.data))
+                            this.xdata=msg.date.alexa_1days_value.reverse()
+                            this.aleaxRes[0][0].data=msg.series.alexa_1days_value.reverse()
+                            this.aleaxRes[1][0].data=msg.series.alexa_7days_value.reverse()
+                            this.aleaxRes[2][0].data=msg.series.alexa_1months_value.reverse()
+                            this.aleaxRes[3][0].data=msg.series.alexa_3months_value.reverse()
+                            this.series=this.aleaxRes[0]
+                            this.aleaxList=res.data.series
+                            this.aleaxList.data=res.data.date.alexa_1days_value
+                            this.aleaxList.alexa_1days_avg=this.avg(msg.series.alexa_1days_value)
+                            this.aleaxList.alexa_7days_avg=this.avg(msg.series.alexa_7days_value)
+                            this.aleaxList.alexa_1months_avg=this.avg(msg.series.alexa_1months_value)
+                            this.aleaxList.alexa_3months_avg=this.avg(msg.series.alexa_3months_value)
+                            this.bus.$emit("loading", false)
+                        }
+                    })
+                     .catch(res => {
+                        console.log(res.msg);
+                         this.bus.$emit("loading", false)
+                    });
+            },
             getHiswave2() {
-                // 总关键词 预计来路 权重
+                // seo历史
+                 this.bus.$emit("loading", true)
                 return this.$http
                     .get("/Api/BaiduRank/hiswave2", {
                         params: {
@@ -610,34 +634,36 @@
                         }
                     })
                     .then(res => {
-                        console.log(res)
-                        // var msum = res.data.series.mSum.reverse();
-                        // var pcsum = res.data.series.pcSum.reverse();
-                        // var ip = res.data.series.IP.reverse();
-                        // var mip = res.data.series.mIP.reverse();
-                        // this.keySumRes[0].data = msum;
-                        // this.keySumRes[1].data = pcsum;
-                        // this.ipRes[0].data = mip;
-                        // this.ipRes[1].data = ip;
-                        // this.rankRes[0].data = res.data.series.mBR.reverse();
-                        // this.rankRes[1].data = res.data.series.BR;
-                        // var total = msum.map((value, index) => {
-                        //     return value * 1 + pcsum[index] * 1;
-                        // });
-                        // var ipSum = mip.map((value, index) => {
-                        //     return value * 1 + ip[index] * 1;
-                        // });
-                        // this.keySumRes[2].data = total;
-                        // this.ipRes[2].data = ipSum;
-                        // this.series = this.keySumRes;
-                        // var xdatares = res.data.date.BR.reverse();
-                        // for (let i in xdatares) {
-                        //     xdatares[i] = xdatares[i].slice(5);
-                        // }
-                        // this.xdata = xdatares;
+                        if(res.data===null||res.data===false) {
+                            this.foundNull=false
+                            this.bus.$emit("loading", false)
+                        }else{
+                            this.foundNull=true
+                            var msg=JSON.parse(JSON.stringify(res.data))
+                            this.xdata=msg.date.pcSum.reverse();
+                            this.seoRes[0][0].data=msg.series.pcSum.reverse();
+                            this.seoRes[1][0].data=msg.series.mSum.reverse();
+                            this.seoRes[2][0].data=msg.series.pcIP.reverse();
+                            this.seoRes[3][0].data=msg.series.mIP.reverse();
+                            this.seoRes[4][0].data=msg.series.IP.reverse();
+                            this.seoRes[5][0].data=msg.series.BR.reverse();
+                            this.seoRes[6][0].data=msg.series.mBR.reverse();
+                            this.series=this.seoRes[0]
+                            this.seoList=res.data.series
+                            this.seoList.data=res.data.date.pcSum
+                            this.seoList.BrAvg=this.avg(msg.series.BR)
+                            this.seoList.mBrAvg=this.avg(msg.series.mBR)
+                            this.seoList.pcSumAvg=this.avg(msg.series.pcSum)
+                            this.seoList.mSumAvg=this.avg(msg.series.mSum)
+                            this.seoList.pcIPAvg=this.avg(msg.series.pcIP)
+                            this.seoList.mIPAvg=this.avg(msg.series.mIP)
+                            this.seoList.IPAvg=this.avg(msg.series.IP)
+                            this.bus.$emit("loading", false)
+                        }
                     })
                     .catch(res => {
                         console.log(res.msg);
+                         this.bus.$emit("loading", false)
                     });
             },
             // 改变搜索分类
@@ -661,8 +687,15 @@
             },
             // 改变年份的两个
             changeYear(b) {
+                var  nowDate=new Date
+                var nowyear=nowDate.getFullYear()
+                var nextYear=this.months[this.months.length-1].y
                 for (var i in this.months) {
-                    b ? this.months[i].y++ : this.months[i].y--;
+                    if(b && nextYear<nowyear){
+                        this.months[i].y++
+                    }else if(!b){
+                        this.months[i].y--
+                    }
                     if (this.months[i].y == this.sel_y && this.months[i].m == this.sel_m) {
                         for (var j = this.range - 1; j >= 0; j--) {
                             this.months[parseInt(i) - parseInt(j)].s = 1
@@ -698,14 +731,18 @@
             //切换seoresult图表
             changeSeoresult(idx) {
                 this.seoresult = idx
+                this.series=this.seoRes[idx]
             },
             //切换aleax图表
             changeAleaxresult(idx) {
                 this.aleaxresult = idx
+                this.series=this.aleaxRes[idx]
             },
             //切换收录反链图表
             changeShouluresult(idx) {
                 this.shouluresult = idx
+                this.xdata=this.shouluXdata[idx]
+                this.series=this.shouluRes[idx]
             },
             // 热门搜索
             searchHot(data) {
@@ -724,12 +761,58 @@
                 this.showViews = 0
                 window.scrollTo(0, 0);
             },
+            //数组求平均
+            avg(array) {
+                var len = array.length;
+                var sum = 0;
+                for(var i = 0; i < len ; i++){
+                    sum += array[i]*1;
+                }
+                return (sum/len).toFixed(0);
+            },
             // 搜索框搜索
             getList() {
                 this.content = this.SeoContent
                 this.showViews = this.searchIdx
                 let storage = window.sessionStorage;
                 storage.setItem("searchContent", this.content);
+                this.getAll()
+                setTimeout(() => {
+                    this.bus.$emit("loading", false);
+                }, 2000);
+            },
+            getAll() {
+                this.bus.$emit("loading", true);
+                this.$http
+                    .all([
+                    this.getMonthsBym(G.Y, G.M),
+                    this.getWebpage()
+                ])
+                .then(
+                    this.$http.spread((acct, perms) => {
+                    this.bus.$emit("loading", false);
+                    })
+                );
+            }
+        },
+        filters: {
+            NumFormat(value) {
+                if (!value) return "-";
+                var intPartFormat = value
+                    .toString()
+                    .replace(/(\d)(?=(?:\d{3})+$)/g, "$1,");
+                return intPartFormat;
+                },
+            aleaxSort(val,val2) {
+                 var result=val2
+                if(val<0)result=-val
+                if(val>=0)result=val
+                return result
+            },
+            changeEmpty(val) {
+                var result=val
+                if(!val) result='-'
+                return result
             }
         },
         mounted() {
@@ -738,8 +821,12 @@
             this.SeoContent = storage.searchContent;
             storage.setItem("navIndex", '1');
             window.scrollTo(0, 0);
-            this.getMonthsBym(G.Y, G.M)
-            this.getWebpage()
+            if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+            this.getAll()
+            }
+            setTimeout(() => {
+            this.bus.$emit("loading", false);
+            }, 2000);
         }
     }
 </script>
@@ -823,7 +910,7 @@
 
     .y {
         position: absolute;
-        top: -25px;
+        top: -30px;
         left: -1px;
         padding-left: 5px;
         border-left: 1px solid #ebebeb;
@@ -912,7 +999,7 @@
 
             .prev {
                 position: absolute;
-                left: 0;
+                left: -18px;
                 z-index: 3;
                 top: -25px;
                 width: 24px;
@@ -929,7 +1016,7 @@
 
             .next {
                 position: absolute;
-                right: 0;
+                right: 32px;
                 z-index: 3;
                 top: -25px;
                 width: 24px;
@@ -1055,13 +1142,11 @@
             }
         }
     }
-
     .paiming_table_container {
         color: #666;
         margin-top: 20px;
         height: auto;
-        border-bottom: 1px solid #ebebeb;
-
+        margin-bottom: 60px;
         table {
             border-right: 1px solid #ebebeb;
             border-bottom: 1px solid #ebebeb;
@@ -1072,7 +1157,7 @@
                     border-top: 1px solid #ebebeb;
                     text-align: center;
                     vertical-align: middle;
-                    height: 60px;
+                    height: 50px;
                     font-size: 16px;
 
                     .lower {
@@ -1112,23 +1197,12 @@
                     background: #fafafa;
                 }
             }
-        }
-    }
-
-    .page_box {
-        width: 100%;
-        height: 60px;
-        text-align: right;
-        border-left: 1px solid #ebebeb;
-        border-right: 1px solid #ebebeb;
-
-        span {
-            display: inline-block;
-            height: 60px;
-            line-height: 60px;
-            margin-right: 24px;
-            cursor: pointer;
-            font-size: 16px;
+            tr:last-child {
+                td {
+                    color:#2097db;
+                    background: #f0f8ff;
+                }
+            }
         }
     }
 </style>

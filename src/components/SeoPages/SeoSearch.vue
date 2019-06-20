@@ -252,9 +252,20 @@
               <td>{{item.r}}</td>
               <td>{{item.z}}</td>
               <td>{{item.z360}}</td>
-              <td @click="selChange(item.c,item.z,idx+1)">{{item.cx}}</td>
-              <td>-</td>
-              <td class="color_blue">{{item.wz}}</td>
+              <td :class="{loading:item.loading}">
+                <a
+                  class="color_blue"
+                  @click="selChange(item.c,item.z,idx+1)"
+                  href="javacript:void(0)"
+                >{{item.cx}}</a>
+                {{item.cxjg}}
+                <i></i>
+              </td>
+              <td :class="{lower:item.tag<0,upper:item.tag>0}">
+                <i></i>
+                {{item.tag}}
+              </td>
+              <td class="color_blue">{{item.wz}} IP</td>
             </tr>
           </table>
         </div>
@@ -907,6 +918,9 @@ export default {
     //请求数据
     selChange(wd, zs, id) {
       //效果
+      this.baidu_keywords[id - 1].loading = true;
+      let newKeyword = JSON.parse(JSON.stringify(this.baidu_keywords));
+      this.baidu_keywords = newKeyword;
       this.$http
         .get("/Api/seo/selChange", {
           params: {
@@ -918,8 +932,17 @@ export default {
         })
         .then(res => {
           console.log(res);
-          this.baidu_keywords[id - 1].cx = res.data.content;
-          this.baidu_keywords[id - 1].wz = res.data.baiduIp;
+          this.baidu_keywords[id - 1].loading = false;
+          if (res.data.content.match("<a.*?>.*?</a>")) {
+            this.baidu_keywords[id - 1].cx = "重试";
+            this.baidu_keywords[id - 1].cxjg = "";
+          } else {
+            this.baidu_keywords[id - 1].cx = "";
+            this.baidu_keywords[id - 1].cxjg = res.data.content;
+            this.baidu_keywords[id - 1].wz = res.data.baiduIp;
+            this.baidu_keywords[id - 1].tag =
+              res.data.tag == 0 ? "-" : res.data.tag;
+          }
           var newKeywords = JSON.parse(JSON.stringify(this.baidu_keywords));
           this.baidu_keywords = newKeywords;
         })
@@ -1246,6 +1269,9 @@ export default {
           for (let i in this.baidu_keywords) {
             this.baidu_keywords[i].cx = "查询";
             this.baidu_keywords[i].wz = "未知";
+            this.baidu_keywords[i].cxjg = "";
+            this.baidu_keywords[i].tag = "-";
+            this.baidu_keywords[i].loading = false;
           }
         })
         .catch(res => {
@@ -1726,11 +1752,54 @@ export default {
 .keyword_container_2nd {
   border: none;
   height: auto;
-
+  a:hover {
+    text-decoration: underline;
+  }
+  i {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: url(../../assets/loading.gif) no-repeat center center;
+  }
   table {
     tr {
       td:first-child {
         width: 18%;
+      }
+      .loading {
+        i {
+          display: block;
+        }
+        a {
+          display: none;
+        }
+      }
+      .lower {
+        color: #00b35d;
+        i {
+          width: 0;
+          height: 0;
+          top: -2px;
+          border-width: 5px 5px 0;
+          border-style: solid;
+          border-color: #00b35d transparent transparent;
+          position: relative;
+          display: inline-block;
+        }
+      }
+      .upper {
+        color: #ec1f37;
+        i {
+          width: 0;
+          height: 0;
+          border-width: 0 5px 5px;
+          border-style: solid;
+          border-color: transparent transparent #ec1f37;
+          position: relative;
+          margin-right: 5px;
+          bottom: 4px;
+          display: inline-block;
+        }
       }
     }
   }

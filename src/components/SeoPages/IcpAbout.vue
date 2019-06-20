@@ -3,7 +3,8 @@
     <!-- 头部搜索框 -->
     <SearchBox :title="title" :content="content" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
     <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
-    <div class="main_content" v-if="!content==''">
+    <div class="cha_default" v-show="!foundNull">未查询到结果</div>
+    <div class="main_content" v-if="!content==''" v-show="foundNull">
       <div class="content_title">备案信息</div>
       <table width="1200px" class="icptable">
         <tr>
@@ -56,7 +57,7 @@ export default {
   data() {
     return {
       title: "ICP备案查询",
-      name:"",
+      name: "",
       content: "",
       qiye: "",
       site: "",
@@ -64,6 +65,7 @@ export default {
       create_time: "",
       beian: "",
       company: "",
+      foundNull: true,
       advpic: ["adv1", "adv3", "adv2"]
     };
   },
@@ -97,27 +99,34 @@ export default {
           }
         })
         .then(res => {
-          console.log(res);
-          this.company = res.data.company ? res.data.company : "-";
-          this.qiye = res.data.type ? res.data.type : "-";
-          this.beian = res.data.icp_main ? res.data.icp_main : "-";
-          this.domain = res.data.domains ? res.data.domains : "-";
-          this.site = res.data.homes ? res.data.homes : "-";
-          this.name = res.data.name ? res.data.name : "-";
-          if (res.data.icp_time) {
-            var date = new Date(res.data.icp_time * 1000);
-            this.create_time =
-              date.getFullYear() +
-              "-" +
-              (date.getUTCMonth() + 1) +
-              "-" +
-              date.getUTCDate();
+          if (res.data === null || res.data === false) {
+            this.foundNull = false;
+            this.bus.$emit("loading", false);
           } else {
-            this.create_time = "-";
+            this.foundNull = true;
+            this.company = res.data.company ? res.data.company : "-";
+            this.qiye = res.data.type ? res.data.type : "-";
+            this.beian = res.data.icp_main ? res.data.icp_main : "-";
+            this.domain = res.data.domains ? res.data.domains : "-";
+            this.site = res.data.homes ? res.data.homes : "-";
+            this.name = res.data.name ? res.data.name : "-";
+            if (res.data.icp_time) {
+              var date = new Date(res.data.icp_time * 1000);
+              this.create_time =
+                date.getFullYear() +
+                "-" +
+                (date.getUTCMonth() + 1) +
+                "-" +
+                date.getUTCDate();
+            } else {
+              this.create_time = "-";
+            }
+            this.bus.$emit("loading", false);
           }
-          this.bus.$emit("loading", false);
         })
         .catch(res => {
+          this.foundNull = false;
+          this.bus.$emit("loading", false)
           console.log(res.msg);
         });
     }

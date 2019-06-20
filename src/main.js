@@ -5,7 +5,9 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import echarts from 'echarts'
+import MetaInfo from 'vue-meta-info'
 
+Vue.use(MetaInfo)
 
 Vue.config.productionTip = false
 
@@ -28,5 +30,8 @@ new Vue({
   el: '#app',
   router,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  mounted() {
+    document.dispatchEvent(new Event('render-event'))
+  }
 })

@@ -9,7 +9,7 @@
       <div class="content_title clearfix">
         <span class="t_title fl">{{site_title}}</span>
         <span class="t_time fr">更新时间：{{update_time}}</span>
-        <span class="t_history fr">
+        <span class="t_history fr" @click="toHistory">
           <img src="../../assets/dataupdate.png">历史数据
         </span>
       </div>
@@ -915,6 +915,13 @@ export default {
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
     },
+    //跳转到历史数据页
+    toHistory() {
+      this.$router.push({
+        name: "HistoryData",
+        params: { shcontent: this.content }
+      });
+    },
     //请求数据
     selChange(wd, zs, id) {
       //效果
@@ -1505,6 +1512,7 @@ export default {
   height: 16px;
   margin-right: 20px;
   color: #2b99ff;
+  cursor: pointer;
 }
 
 .weight_content {

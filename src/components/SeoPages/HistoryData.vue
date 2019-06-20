@@ -823,6 +823,10 @@
             window.scrollTo(0, 0);
             if (storage.searchContent !== "" && storage.searchContent !== undefined) {
             this.getAll()
+            }else{
+                this.content=this.$route.params.shcontent
+                this.SeoContent=this.$route.params.shcontent
+                this.getAll()
             }
             setTimeout(() => {
             this.bus.$emit("loading", false);

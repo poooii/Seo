@@ -159,10 +159,10 @@
                         </tr>
                         <tr v-for="(list,index) in aleaxList.data">
                             <td>{{aleaxList.data[index]}}</td>
-                            <td>{{aleaxList.alexa_1days_value[index]|changeEmpty}}<span :class="aleaxList.alexa_1days_value[index]-aleaxList.alexa_1days_value[index+1]>=0?'upper':'lower'"><i></i>{{aleaxList.alexa_1days_value[index]-aleaxList.alexa_1days_value[index+1]|aleaxSort(aleaxList.alexa_1days_value[index])}}</span></td>
-                            <td>{{aleaxList.alexa_7days_value[index]|changeEmpty}}<span :class="aleaxList.alexa_7days_value[index]-aleaxList.alexa_7days_value[index+1]>=0?'upper':'lower'"><i></i>{{aleaxList.alexa_7days_value[index]-aleaxList.alexa_7days_value[index+1]|aleaxSort(aleaxList.alexa_7days_value[index])}}</span></td>
-                            <td>{{aleaxList.alexa_1months_value[index]|changeEmpty}}<span :class="aleaxList.alexa_1months_value[index]-aleaxList.alexa_1months_value[index+1]>=0?'upper':'lower'"><i></i>{{aleaxList.alexa_1months_value[index]-aleaxList.alexa_1months_value[index+1]|aleaxSort(aleaxList.alexa_1months_value[index])}}</span></td>
-                            <td>{{aleaxList.alexa_3months_value[index]|changeEmpty}}<span :class="aleaxList.alexa_3months_value[index]-aleaxList.alexa_3months_value[index+1]>=0?'upper':'lower'"><i></i>{{aleaxList.alexa_3months_value[index]-aleaxList.alexa_3months_value[index+1]|aleaxSort(aleaxList.alexa_1months_value[index])}}</span></td>
+                            <td>{{aleaxList.alexa_1days_value[index]|changeEmpty}}<span :class="aleaxList.alexa_1days_value[index]-aleaxList.alexa_1days_value[index+1]>0?'upper':'lower'"><i></i>{{aleaxList.alexa_1days_value[index]-aleaxList.alexa_1days_value[index+1]|aleaxSort}}</span></td>
+                            <td>{{aleaxList.alexa_7days_value[index]|changeEmpty}}<span :class="aleaxList.alexa_7days_value[index]-aleaxList.alexa_7days_value[index+1]>0?'upper':'lower'"><i></i>{{aleaxList.alexa_7days_value[index]-aleaxList.alexa_7days_value[index+1]|aleaxSort}}</span></td>
+                            <td>{{aleaxList.alexa_1months_value[index]|changeEmpty}}<span :class="aleaxList.alexa_1months_value[index]-aleaxList.alexa_1months_value[index+1]>0?'upper':'lower'"><i></i>{{aleaxList.alexa_1months_value[index]-aleaxList.alexa_1months_value[index+1]|aleaxSort}}</span></td>
+                            <td>{{aleaxList.alexa_3months_value[index]|changeEmpty}}<span :class="aleaxList.alexa_3months_value[index]-aleaxList.alexa_3months_value[index+1]>0?'upper':'lower'"><i></i>{{aleaxList.alexa_3months_value[index]-aleaxList.alexa_3months_value[index+1]|aleaxSort}}</span></td>
                         </tr>
                         <tr>
                            <td>平均数</td>
@@ -803,10 +803,10 @@
                     .replace(/(\d)(?=(?:\d{3})+$)/g, "$1,");
                 return intPartFormat;
                 },
-            aleaxSort(val,val2) {
-                 var result=val2
-                if(val<0)result=-val
-                if(val>=0)result=val
+            aleaxSort(val) {
+                 var result=val
+                if(val<0)result=val
+                if(val>0)result="+"+val
                 return result
             },
             changeEmpty(val) {
@@ -816,6 +816,7 @@
             }
         },
         mounted() {
+            console.log(this.$route.params.shcontent)
             let storage = window.sessionStorage;
             this.content = storage.searchContent;
             this.SeoContent = storage.searchContent;
@@ -824,9 +825,11 @@
             if (storage.searchContent !== "" && storage.searchContent !== undefined) {
             this.getAll()
             }else{
-                this.content=this.$route.params.shcontent
+                if(this.$route.params.shcontent!==undefined&&this.$route.params.shcontent!==""){
+                     this.content=this.$route.params.shcontent
                 this.SeoContent=this.$route.params.shcontent
                 this.getAll()
+                }
             }
             setTimeout(() => {
             this.bus.$emit("loading", false);
@@ -1206,6 +1209,9 @@
                     color:#2097db;
                     background: #f0f8ff;
                 }
+            }
+            tr:nth-last-child(2){
+                span{display: none;}
             }
         }
     }

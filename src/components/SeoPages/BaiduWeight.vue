@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 头部搜索框 -->
-    <SearchBox :content="content" :title="title" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
+    <SearchBox :content="content" :title="title1" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
     <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
     <div class="baidu_main_content" v-if="!content==''">
       <div class="content_title">
@@ -144,7 +144,7 @@
               {{item.pc}}
               <span :class="{upper:item.value>0,lower:item.value<0,equal:item.value==0}">
                 <i></i>
-                <b>{{item.value}}</b>
+                <b>{{item.value|sortKeyNum}}</b>
                 （{{(item.pc/seriesRes[4].data[seriesRes[4].data.length-1]*100).toFixed(2)+"%"}}）
               </span>
             </td>
@@ -154,7 +154,7 @@
                 :class="{upper:item.value_m>0,lower:item.value_m<0,equal:item.value_m==0}"
               >
                 <i></i>
-                <b>{{item.value_m}}</b>
+                <b>{{item.value_m|sortKeyNum}}</b>
                 （{{(item.mb/seriesRes[4].data[seriesRes[4].data.length-1]*100).toFixed(2)+"%"}}）
               </span>
             </td>
@@ -273,7 +273,7 @@ export default {
     return {
       // 折线图坐标轴显示
       showxis: true,
-      title: "百度权重",
+      title1: "百度权重",
       content: "",
       SeoContent: "",
       br: "",
@@ -999,6 +999,13 @@ export default {
             this.bus.$emit("loading", false);
           })
         );
+    }
+  },
+  filters: {
+    sortKeyNum(val) {
+      var result=val
+      if(val>0)result="+"+val
+      return result
     }
   },
   mounted() {

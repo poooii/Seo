@@ -938,7 +938,6 @@ export default {
           }
         })
         .then(res => {
-          console.log(res);
           this.baidu_keywords[id - 1].loading = false;
           if (res.data.content.match("<a.*?>.*?</a>")) {
             this.baidu_keywords[id - 1].cx = "重试";
@@ -947,8 +946,14 @@ export default {
             this.baidu_keywords[id - 1].cx = "";
             this.baidu_keywords[id - 1].cxjg = res.data.content;
             this.baidu_keywords[id - 1].wz = res.data.baiduIp;
-            this.baidu_keywords[id - 1].tag =
-              res.data.tag == 0 ? "-" : res.data.tag;
+            var ftag = res.data.tag;
+            if (res.data.tag == 0) {
+              ftag = "-";
+            }
+            if (ftag > 0) {
+              ftag = "+" + res.data.tag;
+            }
+            this.baidu_keywords[id - 1].tag = ftag;
           }
           var newKeywords = JSON.parse(JSON.stringify(this.baidu_keywords));
           this.baidu_keywords = newKeywords;
@@ -1804,7 +1809,6 @@ export default {
           border-style: solid;
           border-color: transparent transparent #ec1f37;
           position: relative;
-          margin-right: 5px;
           bottom: 4px;
           display: inline-block;
         }

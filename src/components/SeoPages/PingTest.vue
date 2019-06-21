@@ -2,46 +2,47 @@
   <div @click="hideSearchBox">
     <!-- 头部搜索框 -->
     <div class="websiteValue_banner">
-        <div class="websiteValue_banner_contain">
-          <p class="websiteValue_banner_title2">PING检测</p>
-          <div class="websiteValue_banner_input">
-            <form @submit.prevent>
-              <div class="search_downlist" @click.stop>
-                <ul>
-                  <!-- <li :class="{show:searchIdx==0||searchIdx==undefined}" @click="changeSearch('0')">
-                      超级PING
-                  </li>
-                  <li :class="{show:searchIdx==1||searchIdx==undefined}" @click="changeSearch('1')">
-                      网页HTTP
-                  </li> -->
-                  <li :class="{show:searchIdx==idx||searchIdx==undefined}" v-for="(item,idx) in downList" @click="changeSearch(idx)">{{item.name}}</li>
-                </ul>
-                <i></i>
-              </div>
-              <input
-                @keyup.enter="getList"
-                v-model="SeoContent"
-                type="text"
-                placeholder="输入想要查询价格的域名"
-                class="websiteValue_banner_input1"
-                name="yuming"
-              >
-              <input type="button">
-              <img @click="getList" src="../../assets/websiteValue-search.png" alt
-                  class="websiteValue-search">
-              </input>
-            </form>
-          </div>
-          <!-- 热门搜索 -->
-          <div class="clearfix websiteValue_banner_ul1">
-              <span class="websiteValue_banner_ul_title">热门搜索：</span>
-              <ul class="websiteValue_banner_ul clearfix">
-                  <li v-for="items in hotsearch">
-                      <a @click="searchHot(items)">{{items}}</a>
-                  </li>
+      <div class="websiteValue_banner_contain">
+        <p class="websiteValue_banner_title2">PING检测</p>
+        <div class="websiteValue_banner_input">
+          <form @submit.prevent>
+            <div class="search_downlist" @click.stop>
+              <ul>
+                <li
+                  :class="{show:searchIdx==idx||searchIdx==undefined}"
+                  v-for="(item,idx) in downList"
+                  @click="changeSearch(idx)"
+                >{{item.name}}</li>
               </ul>
-          </div>
+              <i></i>
+            </div>
+            <input
+              @keyup.enter="getList"
+              v-model="SeoContent"
+              type="text"
+              placeholder="输入想要查询价格的域名"
+              class="websiteValue_banner_input1"
+              name="yuming"
+            >
+            <input type="button">
+            <img
+              @click="getList"
+              src="../../assets/websiteValue-search.png"
+              alt
+              class="websiteValue-search"
+            >
+          </form>
         </div>
+        <!-- 热门搜索 -->
+        <div class="clearfix websiteValue_banner_ul1">
+          <span class="websiteValue_banner_ul_title">热门搜索：</span>
+          <ul class="websiteValue_banner_ul clearfix">
+            <li v-for="items in hotsearch">
+              <a @click="searchHot(items)">{{items}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
     <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
     <div class="main_content" v-if="!content==''">
@@ -168,15 +169,15 @@ export default {
     return {
       title: "超级PING检测",
       content: "",
-      searchIdx: '0',
+      searchIdx: "0",
       downList: [
         {
-          name:'超级PING',
-          idx:'0'
+          name: "超级PING",
+          idx: "0"
         },
         {
-          name:'网页HTTP',
-          idx:'1'
+          name: "网页HTTP",
+          idx: "1"
         }
       ],
       SeoContent: "",
@@ -196,21 +197,21 @@ export default {
   methods: {
     //搜索
     getList() {
-      this.content = this.SeoContent
-      this.showViews = this.downList[0].idx
+      this.content = this.SeoContent;
+      this.showViews = this.downList[0].idx;
       let storage = window.sessionStorage;
       storage.setItem("searchContent", this.content);
     },
     hideSearchBox() {
       if (this.searchIdx == undefined) {
-        this.searchIdx = 0
+        this.searchIdx = 0;
       }
     },
     changeSearch(index) {
       if (this.searchIdx == index) {
         this.searchIdx = undefined;
       } else {
-        let str=this.downList.splice(index,1)
+        let str = this.downList.splice(index, 1);
         this.downList.unshift(str[0]);
         this.searchIdx = 0;
       }
@@ -239,113 +240,113 @@ export default {
 
 <style lang="less" scoped>
 .websiteValue_banner {
-    background: #f5f6f9;
-    height: 220px;
-    width: 100%;
+  background: #f5f6f9;
+  height: 220px;
+  width: 100%;
 }
 
 .websiteValue_banner_contain {
-    width: 840px;
-    margin: 0 auto;
-    text-align: center;
-    color: #666;
+  width: 840px;
+  margin: 0 auto;
+  text-align: center;
+  color: #666;
 }
 
 .websiteValue_banner_title {
-    font-size: 48px;
-    padding-top: 105px;
+  font-size: 48px;
+  padding-top: 105px;
 }
 
 .websiteValue_banner_title2 {
-    font-size: 26px;
-    padding-top: 42px;
-    color: #333;
+  font-size: 26px;
+  padding-top: 42px;
+  color: #333;
 }
 
 .websiteValue_banner_input1 {
-    width: 80%;
-    height: 50px;
-    border-radius: 4px;
-    border: none;
-    outline: none;
-    text-indent: 20px;
-    margin-left: 150px;
+  width: 80%;
+  height: 50px;
+  border-radius: 4px;
+  border: none;
+  outline: none;
+  text-indent: 20px;
+  margin-left: 150px;
 }
 
 .websiteValue_banner_input {
-    position: relative;
-    margin-top: 28px;
-    height: 70px;
+  position: relative;
+  margin-top: 28px;
+  height: 70px;
 }
 
 .websiteValue_banner_input form {
-    border: 1px solid #ebebeb;
-    background: #fff;
+  border: 1px solid #ebebeb;
+  background: #fff;
 }
 
 .websiteValue-search {
-    position: absolute;
-    right: 0;
-    width: 30px;
-    height: 30px;
-    top: 0;
-    margin: 10px 0;
-    border-left: 1px solid #f5f5f5;
-    padding: 0 20px;
-    cursor: pointer;
+  position: absolute;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  top: 0;
+  margin: 10px 0;
+  border-left: 1px solid #f5f5f5;
+  padding: 0 20px;
+  cursor: pointer;
 }
 
 .websiteValue_banner_ul li {
-    float: left;
-    padding-left: 16px;
+  float: left;
+  padding-left: 16px;
 }
 
 .websiteValue_banner_ul li a {
-    color: #666;
-    font-size: 14px;
-    cursor: pointer;
+  color: #666;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 .websiteValue_banner_ul_title {
-    float: left;
+  float: left;
 }
 
 .websiteValue_banner_ul a:hover {
-    color: #007bb7;
+  color: #007bb7;
 }
 .search_downlist {
-    width: 150px;
-    height: 50px;
-    background: #f3f3f3;
+  width: 150px;
+  height: 50px;
+  background: #f3f3f3;
+  position: absolute;
+
+  i {
+    background-image: url(../../assets/icon_arrowdown.png);
     position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 15px;
+    right: 10px;
+  }
 
-    i {
-        background-image: url(../../assets/icon_arrowdown.png);
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        top: 15px;
-        right: 10px;
+  ul {
+    li {
+      font-size: 14px;
+      color: #666;
+      height: 50px;
+      line-height: 50px;
+      cursor: pointer;
+      text-align: left;
+      padding-left: 20px;
+      background: #f3f3f3;
+      border-bottom: 1px solid #ebebeb;
+      display: none;
     }
 
-    ul {
-        li {
-            font-size: 14px;
-            color: #666;
-            height: 50px;
-            line-height: 50px;
-            cursor: pointer;
-            text-align: left;
-            padding-left: 20px;
-            background: #f3f3f3;
-            border-bottom: 1px solid #ebebeb;
-            display: none;
-        }
-
-        .show {
-            display: block;
-        }
+    .show {
+      display: block;
     }
+  }
 }
 .main_content {
   width: 1200px;
@@ -374,7 +375,7 @@ export default {
       border-bottom: 1px solid #ebebeb;
       min-width: 110px;
     }
-    .run{
+    .run {
       color: #3fc73c;
     }
   }

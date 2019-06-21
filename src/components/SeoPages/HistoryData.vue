@@ -1184,6 +1184,7 @@
                             border-color: #00b35d transparent transparent;
                             position: relative;
                             margin-right: 5px;
+                            margin-left: 5px;
                         }
                     }
 
@@ -1199,6 +1200,7 @@
                             position: relative;
                             margin-right: 5px;
                             bottom: 12px;
+                            margin-left: 5px;
                         }
                     }
                 }

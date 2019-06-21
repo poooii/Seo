@@ -8,15 +8,7 @@
                     <form @submit.prevent>
                         <div class="search_downlist" @click.stop>
                             <ul>
-                                <li :class="{show:searchIdx==0||searchIdx==undefined}" @click="changeSearch('0')">
-                                    百度SEO历史
-                                </li>
-                                <li :class="{show:searchIdx==1||searchIdx==undefined}" @click="changeSearch('1')">
-                                    Aleax排名历史
-                                </li>
-                                <li :class="{show:searchIdx==2||searchIdx==undefined}" @click="changeSearch('2')">
-                                    收录/反链历史 
-                                </li>
+                                <li :class="{show:searchIdx==idx||searchIdx==undefined}" v-for="(item,idx) in downList" @click="changeSearch(idx)">{{item.name}}</li>
                             </ul>
                             <i></i>
                         </div>
@@ -252,6 +244,20 @@
 
                 // 控制不同分类的搜索结果显示
                 showViews: '0',
+                downList: [
+                    {
+                    name:'百度SEO历史',
+                    idx:'0'
+                    },
+                    {
+                    name:'Aleax排名历史',
+                    idx:'1'
+                    },
+                    {
+                    name:'收录/反链历史',
+                    idx:'2'
+                    }
+                ],
                 //seo搜索结果图表
                 seoresult: '0',
                 //aleax搜索图表
@@ -513,9 +519,9 @@
                 this.seoresult=0
                 this.aleaxresult=0
                 this.shouluresult=0
-                if (this.searchIdx == '0') this.getHiswave2()
-                if (this.searchIdx == '2') this.getHiswave()
-                if (this.searchIdx == '1') this.getHiswave3()
+                if (this.showViews == '0') this.getHiswave2()
+                if (this.showViews == '2') this.getHiswave()
+                if (this.showViews == '1') this.getHiswave3()
                 
             },
             getWebpage() {
@@ -671,7 +677,9 @@
                 if (this.searchIdx == index) {
                     this.searchIdx = undefined;
                 } else {
-                    this.searchIdx = index;
+                    let str=this.downList.splice(index,1)
+                    this.downList.unshift(str[0]);
+                    this.searchIdx = 0;
                 }
             },
             // 隐藏搜索框不用管
@@ -757,8 +765,6 @@
                 storage.setItem("searchContent", msg)
                 this.content = storage.searchContent
                 this.SeoContent = storage.searchContent
-                this.searchIdx = 0
-                this.showViews = 0
                 window.scrollTo(0, 0);
             },
             //数组求平均
@@ -773,7 +779,7 @@
             // 搜索框搜索
             getList() {
                 this.content = this.SeoContent
-                this.showViews = this.searchIdx
+                this.showViews = this.downList[0].idx
                 let storage = window.sessionStorage;
                 storage.setItem("searchContent", this.content);
                 this.getAll()
@@ -816,7 +822,6 @@
             }
         },
         mounted() {
-            console.log(this.$route.params.shcontent)
             let storage = window.sessionStorage;
             this.content = storage.searchContent;
             this.SeoContent = storage.searchContent;

@@ -10,7 +10,7 @@
         <span class="t_title fl">{{site_title}}</span>
         <span class="t_time fr">更新时间：{{update_time}}</span>
         <span class="t_history fr" @click="toHistory">
-          <img src="../../assets/dataupdate.png">历史数据
+          <img src="../../assets/dataupdate.png" />历史数据
         </span>
       </div>
       <div>
@@ -23,7 +23,7 @@
           <li class="weight_details" v-for="weights in weightcontent">
             <div class="weight_net">
               <!-- 循环权重图片 -->
-              <img :src="require(`../../assets/${weights.img}.png`)">
+              <img :src="require(`../../assets/${weights.img}.png`)" />
               <span>{{weights.weight}}</span>
             </div>
             <!-- 循环名称 -->
@@ -123,7 +123,7 @@
           <tr>
             <td>{{pc_cishu}}</td>
             <td>{{yidong_cishu}}</td>
-            <td>-</td>
+            <td>{{baiduposition}}</td>
             <td>{{baiduindex}}</td>
             <td>{{shoulu_1day}}</td>
             <td>{{shoulu_7day}}</td>
@@ -133,7 +133,7 @@
       </div>
       <!-- 第一块广告位 -->
       <div class="advertise_box">
-        <img v-for="advs in advpic" :src="require(`../../assets/${advs}.png`)">
+        <img v-for="advs in advpic" :src="require(`../../assets/${advs}.png`)" />
       </div>
       <!-- 第二表格 -->
       <div class="table_content_2nd">
@@ -272,7 +272,7 @@
       </div>
       <!-- 第二块广告位 -->
       <div class="advertise_box">
-        <img v-for="advs in advpic" :src="require(`../../assets/${advs}.png`)">
+        <img v-for="advs in advpic" :src="require(`../../assets/${advs}.png`)" />
       </div>
       <!-- 来路关键词 -->
       <div class="echarts_container">
@@ -431,14 +431,14 @@
               <img
                 :src="`https://traffic.alexa.com/graph?w=700&h=280&r=6m&y=t&u=${this.content}`"
                 alt
-              >
+              />
             </div>
             <div class="alexa_pic_right">
               <p>ALEXA搜索流量占比</p>
               <img
                 :src="`https://traffic.alexa.com/graph?w=700&h=280&r=6m&y=q&u=${this.content}`"
                 alt
-              >
+              />
             </div>
           </div>
         </div>
@@ -528,7 +528,7 @@
       </div>
       <!-- 底部广告位 -->
       <div class="advertise_box bottom_adv">
-        <img v-for="advs in advpic" :src="require(`../../assets/${advs}.png`)">
+        <img v-for="advs in advpic" :src="require(`../../assets/${advs}.png`)" />
       </div>
     </div>
     <NearlySearch @msgNearlysearch="getNearly"></NearlySearch>
@@ -615,6 +615,7 @@ export default {
       //ip框
       //索引 收录1
       baiduindex: "",
+      baiduposition: "",
       shoulu_baidu: "",
       shoulu_google: "",
       shoulu_sougou: "",
@@ -1185,6 +1186,7 @@ export default {
         })
         .then(res => {
           this.baiduindex = res.data.baiduindex ? res.data.baiduindex : "-";
+          this.baiduposition = res.data.baiduposition ? res.data.baiduposition : "-";
           this.shoulu_google = res.data.google ? res.data.google : "-";
           this.shoulu_sougou = res.data.sogou ? res.data.sogou : "-";
           this.shoulu_360 = res.data[360]

@@ -21,7 +21,7 @@
       </table>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -50,6 +50,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getWhois();
     },
     searchHot(data) {
       let storage = window.sessionStorage;
@@ -61,6 +62,29 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
+    },
+    getWhois() {
+      this.$http
+        .get("/Api/seo/whois", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(res => {
+          console.log(res.msg);
+        });
+    },
+    DateDiff(sDate1, sDate2) {
+      var aDate, oDate1, oDate2, iDays;
+      aDate = sDate1.split("-");
+      oDate1 = new Date(aDate[1] + "-" + aDate[2] + "-" + aDate[0]);
+      aDate = sDate2.split("-");
+      oDate2 = new Date(aDate[1] + "-" + aDate[2] + "-" + aDate[0]);
+      iDays = parseInt(Math.abs(oDate1 - oDate2) / 1000 / 60 / 60 / 24);
+      return iDays;
     }
   },
   mounted() {
@@ -68,6 +92,7 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
+    this.getWhois();
   }
 };
 </script>

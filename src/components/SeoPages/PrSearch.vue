@@ -15,19 +15,21 @@
         <tr>
           <td>1</td>
           <td>
-            <a href="http://www.baidu.com">www.baidu.com</a>
+            <a :href="content|addHttp" target="_blank">{{content}}</a>
           </td>
           <td>
-            <img src="../../assets/sg_wt.png" alt>
+            <img src="../../assets/sg_wt.png" alt />
+            <span>{{sg}}</span>
           </td>
           <td>
-            <img src="../../assets/sg_wt.png" alt>
+            <img src="../../assets/gg_wt.png" alt />
+            <span>{{gg}}</span>
           </td>
         </tr>
       </table>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -48,7 +50,9 @@ export default {
     return {
       title: "PR查询",
       content: "",
-      advpic: ["adv1", "adv3", "adv2"]
+      advpic: ["adv1", "adv3", "adv2"],
+      sg: "",
+      gg: ""
     };
   },
   methods: {
@@ -56,6 +60,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getAll();
     },
     searchHot(data) {
       let storage = window.sessionStorage;
@@ -67,6 +72,47 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
+    },
+    getPrGoogle() {
+      return this.$http
+        .get("/Api/seo/pr_google", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          this.gg = res.data.pr ? res.data.pr : 0;
+        })
+        .catch(res => {
+          console.log(res.msg);
+        });
+    },
+    getPrSogou() {
+      return this.$http
+        .get("/Api/seo/pr_sogou", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          this.sg = res.data.pr ? res.data.pr : 0;
+        })
+        .catch(res => {
+          console.log(res.msg);
+        });
+    },
+    getAll() {
+      this.bus.$emit("loading", true);
+      this.$http.all([this.getPrSogou(), this.getPrGoogle()]).then(
+        this.$http.spread((acct, perms) => {
+          this.bus.$emit("loading", false);
+        })
+      );
+    }
+  },
+  filters: {
+    addHttp(val) {
+      return "http://" + val;
     }
   },
   mounted() {
@@ -74,6 +120,12 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.getAll();
+    }
+    setTimeout(() => {
+      this.bus.$emit("loading", false);
+    }, 2000);
   }
 };
 </script>
@@ -98,11 +150,17 @@ export default {
       height: 60px;
       font-size: 16px;
       text-align: center;
+      position: relative;
       a {
         width: 100%;
         height: 100%;
         line-height: 60px;
         color: #007bb7;
+      }
+      span {
+        position: absolute;
+        left: 166px;
+        color: #fff;
       }
     }
     td:first-child {

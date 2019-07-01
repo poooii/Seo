@@ -14,14 +14,14 @@
         <tr>
           <td>1</td>
           <td>
-            <a href="http://www.baidu.com">www.baidu.com</a>
+            <a :href="content|addHttp" target="_blank">{{content}}</a>
           </td>
-          <td>7天收录：80513</td>
+          <td>7天收录：{{shoulu_7day}}</td>
         </tr>
       </table>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -42,7 +42,8 @@ export default {
     return {
       title: "百度7天收录查询",
       content: "",
-      advpic: ["adv1", "adv3", "adv2"]
+      advpic: ["adv1", "adv3", "adv2"],
+      shoulu_7day: ""
     };
   },
   methods: {
@@ -50,6 +51,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getShoulu3();
     },
     searchHot(data) {
       let storage = window.sessionStorage;
@@ -61,6 +63,27 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
+    },
+    getShoulu3() {
+      this.bus.$emit("loading", true);
+      this.$http
+        .get("/Api/seo/shoulu3", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          this.bus.$emit("loading", false);
+          this.shoulu_7day = res.data.baidu_7days ? res.data.baidu_7days : "-";
+        })
+        .catch(res => {
+          console.log(res.msg);
+        });
+    }
+  },
+  filters: {
+    addHttp(val) {
+      return "http://" + val;
     }
   },
   mounted() {
@@ -68,6 +91,12 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.getShoulu3();
+    }
+    setTimeout(() => {
+      this.bus.$emit("loading", false);
+    }, 2000);
   }
 };
 </script>

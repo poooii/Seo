@@ -16,7 +16,7 @@
           <td>
             <a href="http://www.baidu.com">www.baidu.com</a>
           </td>
-          <td>建站：7345天</td>
+          <td>建站：{{days}}天</td>
         </tr>
       </table>
       <div class="adv_box">
@@ -42,7 +42,8 @@ export default {
     return {
       title: "建站时间查询",
       content: "",
-      advpic: ["adv1", "adv3", "adv2"]
+      advpic: ["adv1", "adv3", "adv2"],
+      days: ""
     };
   },
   methods: {
@@ -64,6 +65,7 @@ export default {
       window.scrollTo(0, 0);
     },
     getWhois() {
+      this.bus.$emit("loading", true);
       this.$http
         .get("/Api/seo/whois", {
           params: {
@@ -71,10 +73,23 @@ export default {
           }
         })
         .then(res => {
-          console.log(res);
+          var date = new Date();
+          var year = date.getFullYear();
+          var month = date.getMonth() + 1;
+          var day = date.getDate();
+          if (month < 10) {
+            month = "0" + month;
+          }
+          if (day < 10) {
+            day = "0" + day;
+          }
+          var nowDate = year + "-" + month + "-" + day;
+          this.days = this.DateDiff(nowDate, res.data.created);
+          this.bus.$emit("loading", false);
         })
         .catch(res => {
           console.log(res.msg);
+          this.bus.$emit("loading", false);
         });
     },
     DateDiff(sDate1, sDate2) {
@@ -92,7 +107,12 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
-    this.getWhois();
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.getWhois();
+    }
+    setTimeout(() => {
+      this.bus.$emit("loading", false);
+    }, 2000);
   }
 };
 </script>

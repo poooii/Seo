@@ -8,24 +8,26 @@
       <table class="title_table" width="1200px">
         <tr>
           <td>百度收录：</td>
-          <td class="color_red">2,520,000</td>
+          <td class="color_red">{{indexData.baidu}}</td>
           <td>百度索引</td>
-          <td class="color_red">2,520,000</td>
+          <td class="color_red">{{indexData.baiduindex}}</td>
         </tr>
         <tr>
-          <td>首页未知：</td>
-          <td></td>
+          <td>首页位置：</td>
+          <td>{{indexData.baiduposition}}</td>
           <td>PR输出值：</td>
-          <td>0.49</td>
+          <td>{{prValue}}</td>
         </tr>
         <tr>
           <td>百度权重</td>
           <td>
-            <img src="../../assets/bd_wt.png" alt>
+            <img src="../../assets/bd_wt.png" alt />
+            <span>{{baiduRank}}</span>
           </td>
           <td>PR：</td>
           <td>
-            <img src="../../assets/sg_wt.png" alt>
+            <img src="../../assets/gg_wt.png" alt />
+            <span>{{ggPr}}</span>
           </td>
         </tr>
       </table>
@@ -166,7 +168,7 @@
       </table>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -187,7 +189,11 @@ export default {
     return {
       title: "友链检测",
       content: "",
-      advpic: ["adv1", "adv3", "adv2"]
+      advpic: ["adv1", "adv3", "adv2"],
+      indexData: "",
+      prValue: "-",
+      ggPr: "",
+      baiduRank: ""
     };
   },
   methods: {
@@ -195,6 +201,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getAll();
     },
     searchHot(data) {
       let storage = window.sessionStorage;
@@ -206,6 +213,59 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
+    },
+    getSuoyin() {
+      return this.$http
+        .get("/Api/seo/shoulu1", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          this.indexData = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getPrGoogle() {
+      return this.$http
+        .get("/Api/seo/pr_google", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          this.ggPr = res.data.pr;
+          this.prValue = res.data.value;
+        })
+        .catch(res => {
+          console.log(res.msg);
+        });
+    },
+    getBaiduRank() {
+      return this.$http
+        .get("/Api/seo/baidurank", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          this.baiduRank = res.data.baiduRank;
+        })
+        .catch(res => {
+          console.log(res.msg);
+        });
+    },
+    getAll() {
+      this.bus.$emit("loading", true);
+      this.$http
+        .all([this.getSuoyin(), this.getBaiduRank(), this.getPrGoogle()])
+        .then(
+          this.$http.spread((acct, perms) => {
+            this.bus.$emit("loading", false);
+          })
+        );
     }
   },
   mounted() {
@@ -213,6 +273,12 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.getAll();
+    }
+    setTimeout(() => {
+      this.bus.$emit("loading", false);
+    }, 2000);
   }
 };
 </script>
@@ -243,6 +309,12 @@ export default {
       border-left: 1px solid #ebebeb;
       border-top: 1px solid #ebebeb;
       padding-left: 40px;
+      position: relative;
+      span {
+        color: #fff;
+        position: absolute;
+        left: 76px;
+      }
     }
     td:first-child,
     td:nth-child(3) {

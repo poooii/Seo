@@ -8,31 +8,32 @@
       <table class="http_table" width="1200px" v-if="content!=='nores'">
         <tr>
           <td>返回状态码：</td>
-          <td class="found">302 FOUND</td>
+          <td class="found">{{Protocol}}</td>
         </tr>
         <tr>
           <td>网页返回HEAD信息：</td>
           <td>
-            CONNECTION: KEEP-ALIVE
-            <br>CONTENT-LENGTH: 225
-            <br>CONTENT-TYPE: TEXT/HTML
-            <br>DATE: FRI, 01 MAR 2019 02:39:13 GMT
-            <br>LOCATION: HTTPS://WWW.BAIDU.COM/
-            <br>P3P: CP=" OTI DSP COR IVA OUR IND COM "
-            <br>SERVER: BWS/1.1
-            <br>SET-COOKIE: BAIDUID=45583FAAD4DF8C8EB3FCA77BE2AFF6C9:FG=1; EXPIRES=THU, 31-DEC-37 23:55:55 GMT
-            <br>; MAX-AGE=2147483647; PATH=/; DOMAIN=.BAIDU.COM
-            <br>SET-COOKIE: BIDUPSID=45583FAAD4DF8C8EB3FCA77BE2AFF6C9; EXPIRES=THU, 31-DEC-37 23:55:55 GMT;
-            <br>
+            Connection: keep-alive
+            <br />Content-Type:
+            <span>{{ContentType}}</span>
+            <br />Date:
+            <span>{{Dates}}</span>
+            <br />Location:
+            <span>{{site}}</span>
+            <br />
+            <span>{{Protocol}}</span>
+            <br />Server:
+            <span>{{Server}}</span>
+            <br />
           </td>
         </tr>
       </table>
       <div class="no_res" v-if="content=='nores'">
-        <img src="../../assets/no_res.png" alt>
+        <img src="../../assets/no_res.png" alt />
       </div>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -53,7 +54,12 @@ export default {
     return {
       title: "HTTP状态查询",
       content: "",
-      advpic: ["adv1", "adv3", "adv2"]
+      advpic: ["adv1", "adv3", "adv2"],
+      ContentType: "",
+      Protocol: "",
+      Dates: "",
+      site: "",
+      Server: ""
     };
   },
   methods: {
@@ -61,6 +67,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getWebpage();
     },
     searchHot(data) {
       let storage = window.sessionStorage;
@@ -72,6 +79,31 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
+    },
+    getWebpage() {
+      this.bus.$emit("loading", true);
+      this.$http
+        .get("/Api/seo/webpage", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          this.Protocol = res.data.header.Protocol
+            ? res.data.header.Protocol
+            : "-";
+          this.ContentType = res.data.header.ContentType
+            ? res.data.header.ContentType
+            : "-";
+          this.Dates = res.data.header.Date ? res.data.header.Date : "-";
+          this.site = res.data.html.site ? res.data.html.site : "-";
+          this.Server = res.data.header.Server ? res.data.header.Server : "-";
+          this.bus.$emit("loading", false);
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.bus.$emit("loading", false);
+        });
     }
   },
   mounted() {
@@ -79,6 +111,12 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "2");
     window.scrollTo(0, 0);
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.getWebpage();
+    }
+    setTimeout(() => {
+      this.bus.$emit("loading", false);
+    }, 2000);
   }
 };
 </script>
@@ -113,6 +151,7 @@ export default {
   tr:last-child {
     td {
       padding: 20px 0 20px 30px;
+      line-height: 36px;
     }
     td:first-child {
       vertical-align: top;

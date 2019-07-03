@@ -6,6 +6,11 @@ import router from './router'
 import axios from 'axios'
 import echarts from 'echarts'
 import MetaInfo from 'vue-meta-info'
+import VueClipboard from 'vue-clipboard2'
+
+VueClipboard.config.autoSetContainer = true
+
+Vue.use(VueClipboard)
 
 Vue.use(MetaInfo)
 

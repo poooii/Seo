@@ -23,14 +23,14 @@
               placeholder="输入想要查询价格的域名"
               class="websiteValue_banner_input1"
               name="yuming"
-            >
-            <input type="button">
+            />
+            <input type="button" />
             <img
               @click="getList"
               src="../../assets/websiteValue-search.png"
               alt
               class="websiteValue-search"
-            >
+            />
           </form>
         </div>
         <!-- 热门搜索 -->
@@ -48,11 +48,11 @@
     <div class="main_content" v-if="!content==''">
       <div class="content_title">
         查询结果
-        <span>
+        <!-- <span>
           本功能由
           <a target="_blank" href="http://www.baidu.com">云智慧</a>
           <a target="_blank" href="http://www.baidu.com">监控宝</a> 赞助提供
-        </span>
+        </span>-->
       </div>
       <table class="ping_table" width="1200px" v-if="showViews=='0'">
         <tr>
@@ -65,65 +65,15 @@
           <td>平均响应时间</td>
           <td>赞助商</td>
         </tr>
-        <tr>
-          <td>陕西西安电</td>
-          <td>117.34.8.50</td>
-          <td>PING OK</td>
-          <td class="run">可用</td>
-          <td>0.517MS</td>
-          <td>0.517MS</td>
-          <td>0.84MS</td>
-          <td>联系QQ：12250028 赞助提供广告位</td>
-        </tr>
-        <tr>
-          <td>陕西西安电信</td>
-          <td>117.34.8.50</td>
-          <td>PING OK</td>
-          <td class="run">可用</td>
-          <td>0.517MS</td>
-          <td>0.517MS</td>
-          <td>0.84MS</td>
-          <td>联系QQ：12250028 赞助提供广告位</td>
-        </tr>
-        <tr>
-          <td>陕西西安电信</td>
-          <td>117.34.8.50</td>
-          <td>PING OK</td>
-          <td class="run">可用</td>
-          <td>0.517MS</td>
-          <td>0.517MS</td>
-          <td>0.84MS</td>
-          <td>联系QQ：12250028 赞助提供广告位</td>
-        </tr>
-        <tr>
-          <td>陕西西安电信</td>
-          <td>117.34.8.50</td>
-          <td>PING OK</td>
-          <td class="run">可用</td>
-          <td>0.517MS</td>
-          <td>0.517MS</td>
-          <td>0.84MS</td>
-          <td>联系QQ：12250028 赞助提供广告位</td>
-        </tr>
-        <tr>
-          <td>陕西西安电信</td>
-          <td>117.34.8.50</td>
-          <td>PING OK</td>
-          <td class="run">可用</td>
-          <td>0.517MS</td>
-          <td>0.517MS</td>
-          <td>0.84MS</td>
-          <td>联系QQ：12250028 赞助提供广告位</td>
-        </tr>
-        <tr>
-          <td>陕西西安电信</td>
-          <td>117.34.8.50</td>
-          <td>PING OK</td>
-          <td class="run">可用</td>
-          <td>0.517MS</td>
-          <td>0.517MS</td>
-          <td>0.84MS</td>
-          <td>联系QQ：12250028 赞助提供广告位</td>
+        <tr v-for="item in pingData">
+          <td>{{item.monitor_name}}</td>
+          <td>{{item.ip}}</td>
+          <td>{{item.resp_status}}</td>
+          <td class="run">{{item.resp_result_str}}</td>
+          <td>{{item.min}}</td>
+          <td>{{item.max}}</td>
+          <td>{{item.avg}}</td>
+          <td>联系QQ：3001263800 赞助提供广告位</td>
         </tr>
       </table>
       <table class="ping_table" width="1200px" v-if="showViews=='1'">
@@ -136,19 +86,19 @@
           <td>下载字节数</td>
           <td>赞助商</td>
         </tr>
-        <tr>
-          <td>陕西西安电信</td>
-          <td>117.34.8.50</td>
-          <td>PING OK</td>
-          <td class="run">可用</td>
-          <td>41.7kb</td>
-          <td>0.517MS</td>
-          <td>联系QQ：12250028 赞助提供广告位</td>
+        <tr v-for="item in httpData">
+          <td>{{item.monitor_name}}</td>
+          <td>{{item.ip}}</td>
+          <td>{{item.resp_status}}</td>
+          <td class="run">{{item.resp_result}}</td>
+          <td>{{item.resp_time}}</td>
+          <td>{{item.size_download}}</td>
+          <td>联系QQ：3001263800 赞助提供广告位</td>
         </tr>
       </table>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -191,7 +141,9 @@ export default {
         "caoping6s.cn",
         "014121.cn"
       ],
-      advpic: ["adv1", "adv3", "adv2"]
+      advpic: ["adv1", "adv3", "adv2"],
+      pingData: "",
+      httpData: ""
     };
   },
   methods: {
@@ -201,6 +153,7 @@ export default {
       this.showViews = this.downList[0].idx;
       let storage = window.sessionStorage;
       storage.setItem("searchContent", this.content);
+      this.getAll();
     },
     hideSearchBox() {
       if (this.searchIdx == undefined) {
@@ -226,6 +179,43 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
+    },
+    getPing() {
+      this.$http
+        .get("/Api/Postcurl/getPing", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          this.pingData = res.data;
+          this.bus.$emit("loading", false);
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.bus.$emit("loading", false);
+        });
+    },
+    getHttp() {
+      this.$http
+        .get("/Api/Postcurl/getHttp", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          this.httpData = res.data;
+          this.bus.$emit("loading", false);
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.bus.$emit("loading", false);
+        });
+    },
+    getAll() {
+      this.bus.$emit("loading", true);
+      if (this.showViews == "0") this.getPing();
+      if (this.showViews == "1") this.getHttp();
     }
   },
   mounted() {
@@ -234,6 +224,12 @@ export default {
     this.SeoContent = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.getAll();
+    }
+    setTimeout(() => {
+      this.bus.$emit("loading", false);
+    }, 2000);
   }
 };
 </script>

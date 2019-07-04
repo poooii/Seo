@@ -3,7 +3,7 @@
     <!-- 头部搜索框 -->
     <SearchBox :title="title" :content="content" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
     <div class="cha_default" v-if="content==''||content==undefined">
-      <img src="../../assets/no_data.png" alt>
+      <img src="../../assets/no_data.png" alt />
       <p>请输入查询的网站</p>
       <div class="bottom_tips">
         <p class="title">
@@ -11,12 +11,12 @@
         </p>
         <p>
           历史数据功能可以通过用户输入域名后，查询该域名的百度SEO历史、Aleax排行历史、收录/反链历史。
-          <br>根据该功能可以自定义日期查询网站历史，自定义查询最大支持的范围为半年。
+          <br />根据该功能可以自定义日期查询网站历史，自定义查询最大支持的范围为半年。
         </p>
       </div>
       <div class="adv_box_before">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -26,19 +26,19 @@
         <tr>
           <td>序号</td>
           <td>网址</td>
-          <td>建站时间</td>
+          <td>网站标题</td>
         </tr>
         <tr>
           <td>1</td>
           <td>
-            <a href="http://www.baidu.com">www.baidu.com</a>
+            <a :href="content|addHttp" target="_blank">{{content}}</a>
           </td>
-          <td>建站：7345天</td>
+          <td>{{site_title}}</td>
         </tr>
       </table>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -57,9 +57,10 @@ export default {
   },
   data() {
     return {
-      title: "网站标题批量查询",
+      title: "网站标题查询",
       content: "",
-      advpic: ["adv1", "adv3", "adv2"]
+      advpic: ["adv1", "adv3", "adv2"],
+      site_title: ""
     };
   },
   methods: {
@@ -67,6 +68,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getWebpage();
     },
     searchHot(data) {
       let storage = window.sessionStorage;
@@ -78,6 +80,29 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
+    },
+    getWebpage() {
+      this.bus.$emit("loading", true);
+      return this.$http
+        .get("/Api/seo/webpage", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          console.log(res);
+          this.site_title = res.data.html.title ? res.data.html.title : "-";
+          this.bus.$emit("loading", false);
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.bus.$emit("loading", false);
+        });
+    }
+  },
+  filters: {
+    addHttp(val) {
+      return "http://" + val;
     }
   },
   mounted() {
@@ -85,6 +110,12 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.getWebpage();
+    }
+    setTimeout(() => {
+      this.bus.$emit("loading", false);
+    }, 2000);
   }
 };
 </script>
@@ -145,9 +176,6 @@ export default {
     td:first-child {
       border-left: 1px solid #ebebeb;
       width: 100px;
-    }
-    td:nth-child(2) {
-      width: 350px;
     }
   }
   tr:first-child {

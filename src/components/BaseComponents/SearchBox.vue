@@ -2,7 +2,7 @@
     <!-- 头部 -->
     <div class="websiteValue_banner">
         <div class="websiteValue_banner_contain">
-        <p class="websiteValue_banner_title2">{{title}}</p>
+        <h1 class="websiteValue_banner_title2">{{title}}</h1>
         <div class="websiteValue_banner_input">
             <form @submit.prevent>
             <input
@@ -81,7 +81,7 @@ export default {
     .websiteValue_banner{background:#f5f6f9;height: 220px;width: 100%;}
     .websiteValue_banner_contain{width: 840px;margin: 0 auto;text-align: center;color: #666;}
     .websiteValue_banner_title{font-size: 48px;padding-top: 105px;}
-    .websiteValue_banner_title2{font-size: 26px;padding-top: 42px;color:#333;}
+    .websiteValue_banner_title2{font-size: 26px;padding-top: 42px;color:#333;font-weight: normal;}
     .websiteValue_banner_input1{width: 100%;height: 50px;border-radius: 4px;border: none;outline: none;text-indent: 20px;}
     .websiteValue_banner_input{position: relative;margin-top: 28px;}
     .websiteValue-search{position: absolute;right: 0;width: 30px;height: 30px;top: 0;margin: 10px 0;border-left: 1px solid #f5f5f5;padding: 0 20px;cursor: pointer;}

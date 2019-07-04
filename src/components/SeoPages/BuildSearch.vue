@@ -16,12 +16,12 @@
           <td>
             <a href="http://www.baidu.com">www.baidu.com</a>
           </td>
-          <td>建站：7345天</td>
+          <td>建站：{{days}}天</td>
         </tr>
       </table>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -42,7 +42,8 @@ export default {
     return {
       title: "建站时间查询",
       content: "",
-      advpic: ["adv1", "adv3", "adv2"]
+      advpic: ["adv1", "adv3", "adv2"],
+      days: ""
     };
   },
   methods: {
@@ -50,6 +51,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getWhois();
     },
     searchHot(data) {
       let storage = window.sessionStorage;
@@ -61,6 +63,43 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
+    },
+    getWhois() {
+      this.bus.$emit("loading", true);
+      this.$http
+        .get("/Api/seo/whois", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          var date = new Date();
+          var year = date.getFullYear();
+          var month = date.getMonth() + 1;
+          var day = date.getDate();
+          if (month < 10) {
+            month = "0" + month;
+          }
+          if (day < 10) {
+            day = "0" + day;
+          }
+          var nowDate = year + "-" + month + "-" + day;
+          this.days = this.DateDiff(nowDate, res.data.created);
+          this.bus.$emit("loading", false);
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.bus.$emit("loading", false);
+        });
+    },
+    DateDiff(sDate1, sDate2) {
+      var aDate, oDate1, oDate2, iDays;
+      aDate = sDate1.split("-");
+      oDate1 = new Date(aDate[1] + "-" + aDate[2] + "-" + aDate[0]);
+      aDate = sDate2.split("-");
+      oDate2 = new Date(aDate[1] + "-" + aDate[2] + "-" + aDate[0]);
+      iDays = parseInt(Math.abs(oDate1 - oDate2) / 1000 / 60 / 60 / 24);
+      return iDays;
     }
   },
   mounted() {
@@ -68,6 +107,12 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.getWhois();
+    }
+    setTimeout(() => {
+      this.bus.$emit("loading", false);
+    }, 2000);
   }
 };
 </script>

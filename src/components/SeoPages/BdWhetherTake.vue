@@ -15,15 +15,15 @@
         <tr>
           <td>1</td>
           <td>
-            <a href="http://www.baidu.com">www.baidu.com</a>
+            <a :href="content|addHttp" target="_blank">{{content}}</a>
           </td>
-          <td>已经收录</td>
-          <td>已经收录</td>
+          <td>{{pcSl?'已经收录':'未收录'}}</td>
+          <td>{{mSl?'已经收录':'未收录'}}</td>
         </tr>
       </table>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -44,7 +44,9 @@ export default {
     return {
       title: "百度是否收录查询",
       content: "",
-      advpic: ["adv1", "adv3", "adv2"]
+      advpic: ["adv1", "adv3", "adv2"],
+      pcSl: true,
+      mSl: true
     };
   },
   methods: {
@@ -52,6 +54,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getAll();
     },
     searchHot(data) {
       let storage = window.sessionStorage;
@@ -63,6 +66,57 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
+    },
+    getBaidurankKeywords() {
+      return this.$http
+        .get("/Api/seo/baidurankKeywords", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          if (res.data.data.length !== 0 && res.data.data !== undefined) {
+            this.pcSl = true;
+          } else {
+            this.pcSl = false;
+          }
+        })
+        .catch(res => {
+          console.log(res.msg);
+        });
+    },
+    getBaidurankKeywords_m() {
+      return this.$http
+        .get("/Api/seo/baidurankKeywords_m", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          if (res.data.data.length !== 0 && res.data.data !== undefined) {
+            this.mSl = true;
+          } else {
+            this.mSl = false;
+          }
+        })
+        .catch(res => {
+          console.log(res.msg);
+        });
+    },
+    getAll() {
+      this.bus.$emit("loading", true);
+      this.$http
+        .all([this.getBaidurankKeywords(), this.getBaidurankKeywords_m()])
+        .then(
+          this.$http.spread((acct, perms) => {
+            this.bus.$emit("loading", false);
+          })
+        );
+    }
+  },
+  filters: {
+    addHttp(val) {
+      return "http://" + val;
     }
   },
   mounted() {
@@ -70,6 +124,12 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.getAll();
+    }
+    setTimeout(() => {
+      this.bus.$emit("loading", false);
+    }, 2000);
   }
 };
 </script>

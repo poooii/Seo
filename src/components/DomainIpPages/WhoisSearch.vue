@@ -8,33 +8,27 @@
       <table width="1200px" class="whois_table">
         <tr>
           <td>域名：</td>
-          <td>www.baidu.com</td>
+          <td>{{content}}</td>
           <td>注册商：</td>
-          <td>ENAME TECHNOLOGY CO</td>
+          <td>-</td>
         </tr>
         <tr>
           <td>参照页：</td>
-          <td></td>
+          <td>-</td>
           <td>域名持有人：</td>
-          <td>CN</td>
+          <td>{{registrant}}</td>
         </tr>
         <tr>
           <td>域名持有邮箱：</td>
-          <td>1111@qq.com</td>
+          <td>{{emailCode}}</td>
           <td>创建时间：</td>
-          <td>2003-05-29</td>
+          <td>{{created}}</td>
         </tr>
         <tr>
           <td>更新时间：</td>
-          <td>2003-05-29</td>
+          <td>{{changed}}</td>
           <td>过期时间：</td>
-          <td>2003-05-29</td>
-        </tr>
-        <tr>
-          <td>域名持有邮箱：</td>
-          <td>1111@qq.com</td>
-          <td>创建时间：</td>
-          <td>2003-05-29</td>
+          <td>{{expires}}</td>
         </tr>
       </table>
       <div class="content_title">详细信息</div>
@@ -49,7 +43,7 @@
       </div>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -72,6 +66,11 @@ export default {
       content: "",
       advpic: ["adv1", "adv3", "adv2"],
       show_all: true,
+      registrant: "",
+      changed: "",
+      created: "",
+      expires: "",
+      emailCode: "",
       detailMsg: [
         {
           name: "Domain Name:",
@@ -114,6 +113,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getAll();
     },
     searchHot(data) {
       let storage = window.sessionStorage;
@@ -128,6 +128,35 @@ export default {
     },
     changeShowAll() {
       this.show_all = !this.show_all;
+    },
+    getWhois() {
+      return this.$http
+        .get("/Api/seo/whois", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          console.log(res);
+          this.registrant = res.data.registrant ? res.data.registrant : "-";
+          this.created = res.data.created ? res.data.created : "-";
+          this.changed = res.data.changed ? res.data.changed : "-";
+          this.expires = res.data.expires ? res.data.expires : "-";
+          this.emailCode = res.data.emailCode
+            ? res.data.emailCode.slice(0, 20)+"..."
+            : "-";
+        })
+        .catch(res => {
+          console.log(res.msg);
+        });
+    },
+    getAll() {
+      this.bus.$emit("loading", true);
+      this.$http.all([this.getWhois()]).then(
+        this.$http.spread((acct, perms) => {
+          this.bus.$emit("loading", false);
+        })
+      );
     }
   },
   computed: {
@@ -145,7 +174,7 @@ export default {
           return newArr;
         }
         return this.detailMsg;
-      },
+      }
     }
   },
   mounted() {
@@ -153,6 +182,12 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "3");
     window.scrollTo(0, 0);
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.getAll();
+    }
+    setTimeout(() => {
+      this.bus.$emit("loading", false);
+    }, 2000);
   }
 };
 </script>

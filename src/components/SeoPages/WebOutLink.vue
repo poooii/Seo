@@ -14,14 +14,14 @@
         <tr>
           <td>1</td>
           <td>
-            <a href="http://www.baidu.com">www.baidu.com</a>
+            <a :href="content|addHttp" target="_blank">{{content}}</a>
           </td>
-          <td>链接数：18</td>
+          <td>链接数：{{cz_link}}</td>
         </tr>
       </table>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -42,7 +42,8 @@ export default {
     return {
       title: "网站导出链接数量查询",
       content: "",
-      advpic: ["adv1", "adv3", "adv2"]
+      advpic: ["adv1", "adv3", "adv2"],
+      cz_link: ""
     };
   },
   methods: {
@@ -50,6 +51,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getWebpage();
     },
     searchHot(data) {
       let storage = window.sessionStorage;
@@ -61,6 +63,29 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
+    },
+    getWebpage() {
+      this.bus.$emit("loading", true);
+      this.$http
+        .get("/Api/seo/webpage", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          console.log(res)
+          this.cz_link = res.data.html.link_o ? res.data.html.link_o : "-";
+          this.bus.$emit("loading", false);
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.bus.$emit("loading", false);
+        });
+    }
+  },
+  filters: {
+    addHttp(val) {
+      return "http://" + val;
     }
   },
   mounted() {
@@ -68,6 +93,12 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.getWebpage();
+    }
+    setTimeout(() => {
+      this.bus.$emit("loading", false);
+    }, 2000);
   }
 };
 </script>

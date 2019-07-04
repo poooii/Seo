@@ -21,15 +21,15 @@
 
           <td class="weight_details" v-for="weights in weightcontent">
             <!-- 循环权重图片 -->
-            <img :src="require(`../../assets/${weights.img}.png`)">
-            <span>{{weights.weight}}</span>
+            <img :src="require(`../../assets/${weights.img}.png`)" />
+            <span>{{weights.weight|toZero}}</span>
             <!-- 循环名称 -->
           </td>
         </tr>
       </table>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -97,13 +97,22 @@ export default {
         .then(res => {
           this.weightcontent.przh.weight = res.data.br;
           this.weightcontent.prpc.weight = res.data.br;
-          this.weightcontent.prm.weight = res.data.br - 1;
+          this.weightcontent.prm.weight = res.data.br ? res.data.br - 1 : "0";
           this.bus.$emit("loading", false);
         })
         .catch(res => {
           console.log(res.msg);
           this.bus.$emit("loading", false);
         });
+    }
+  },
+  filters: {
+    toZero(val) {
+      if (val < 0) {
+        return 0;
+      } else {
+        return val;
+      }
     }
   },
   mounted() {

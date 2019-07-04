@@ -161,6 +161,9 @@ export default {
         }
         this.changeContent = ` 文字长度${len}个字`;
       }
+      if (idx == 7) {
+        this.changeContent = "已复制";
+      }
       if (idx == 8) {
         this.prevContent = "";
         this.content = "";

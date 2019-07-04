@@ -217,6 +217,7 @@ export default {
       if (this.showViews == "0") this.getPing();
       if (this.showViews == "1") this.getHttp();
     }
+
   },
   mounted() {
     let storage = window.sessionStorage;

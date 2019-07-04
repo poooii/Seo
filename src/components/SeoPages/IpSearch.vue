@@ -6,19 +6,20 @@
     <div class="main_content" v-if="!content==''">
       <table class="title_table" width="1200px">
         <tr>
-          <td>域名</td>
+          <td v-show="type==2">域名</td>
           <td>IP地址</td>
           <td>地区</td>
         </tr>
         <tr>
-          <td>
-            <a href="http://www.pc6.com" target="_blank">www.pc6.com</a>
+          <td v-show="type==2">
+            <a :href="content|addHttp" target="_blank">{{content}}</a>
           </td>
-          <td>123.206.112.44</td>
-          <td>北京市</td>
+          <td v-show="type==1">{{content}}</td>
+          <td v-show="type==2">{{ip}}</td>
+          <td>{{info}}</td>
         </tr>
       </table>
-      <table class="ip_main_table" width="1200px">
+      <table class="ip_main_table" width="1200px" v-show="!nothing">
         <tr>
           <td>序号</td>
           <td>域名</td>
@@ -26,108 +27,27 @@
           <td>BR</td>
           <td>PR</td>
         </tr>
-        <tr>
-          <td>1</td>
+        <tr v-for="(item,index) in urls">
+          <td>{{index+1}}</td>
           <td>
-            <a href="http://www.pc6.com" target="_blank">www.pc6.com</a>
+            <a :href="item|addHttp" target="_blank">{{item.value}}</a>
           </td>
-          <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
-          <td>
-            <img src="../../assets/bd_wt.png" alt>
-          </td>
-          <td>
-            <img src="../../assets/zz_wt.png" alt>
-          </td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>
-            <a href="http://www.pc6.com" target="_blank">www.pc6.com</a>
-          </td>
-          <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
-          <td>
-            <img src="../../assets/bd_wt.png" alt>
+          <td :class="{loading:item.loading}">
+            <span class="color_red" @click="selChange(item.value,index)">{{item.cx}}</span>
+            {{item.cxjg}}
+            <i></i>
           </td>
           <td>
-            <img src="../../assets/zz_wt.png" alt>
-          </td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>
-            <a href="http://www.pc6.com" target="_blank">www.pc6.com</a>
-          </td>
-          <td class="fail">查询失败</td>
-          <td>
-            <img src alt>
+            <img src="../../assets/bd_wt.png" alt />
+            <b>{{item.br}}</b>
           </td>
           <td>
-            <img src="../../assets/zz_wt.png" alt>
-          </td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>
-            <a href="http://www.pc6.com" target="_blank">www.pc6.com</a>
-          </td>
-          <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
-          <td>
-            <img src="../../assets/bd_wt.png" alt>
-          </td>
-          <td>
-            <img src="../../assets/zz_wt.png" alt>
-          </td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td>
-            <a href="http://www.pc6.com" target="_blank">www.pc6.com</a>
-          </td>
-          <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
-          <td>
-            <img src="../../assets/bd_wt.png" alt>
-          </td>
-          <td>
-            <img src="../../assets/zz_wt.png" alt>
-          </td>
-        </tr>
-        <tr>
-          <td>6</td>
-          <td>
-            <a href="http://www.pc6.com" target="_blank">www.pc6.com</a>
-          </td>
-          <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
-          <td>
-            <img src="../../assets/bd_wt.png" alt>
-          </td>
-          <td>
-            <img src="../../assets/zz_wt.png" alt>
-          </td>
-        </tr>
-        <tr>
-          <td>7</td>
-          <td>
-            <a href="http://www.pc6.com" target="_blank">www.pc6.com</a>
-          </td>
-          <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
-          <td>
-            <img src="../../assets/bd_wt.png" alt>
-          </td>
-          <td>
-            <img src="../../assets/zz_wt.png" alt>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="5">
-            <span><</span>
-            <span v-for="num in 10">{{num}}</span>
-            <span>...</span>
-            <span class="color_blue">50</span>
-            <span>></span>
+            <img src="../../assets/gg_wt.png" alt />
+            <b>{{item.pr}}</b>
           </td>
         </tr>
       </table>
-      <table class="ip_main_table" width="1200px">
+      <table class="ip_main_table" width="1200px" v-show="nothing">
         <tr>
           <td>序号</td>
           <td>域名</td>
@@ -137,13 +57,13 @@
         </tr>
         <tr>
           <td colspan="5">
-            <img src="../../assets/no_ipdata.png" alt>
+            <img src="../../assets/no_ipdata.png" alt />
           </td>
         </tr>
       </table>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -164,7 +84,12 @@ export default {
     return {
       title: "IP反查域名",
       content: "",
-      advpic: ["adv1", "adv3", "adv2"]
+      advpic: ["adv1", "adv3", "adv2"],
+      type: "1",
+      info: "",
+      ip: "",
+      urls: "",
+      nothing: false
     };
   },
   methods: {
@@ -172,6 +97,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getIp();
     },
     searchHot(data) {
       let storage = window.sessionStorage;
@@ -183,6 +109,125 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
+    },
+    getIp() {
+      this.bus.$emit("loading", true);
+      var re = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
+      if (re.test(this.content)) {
+        this.type = "1";
+      } else {
+        this.type = "2";
+      }
+      this.$http
+        .get("/Api/Pageinfo/getIpInfo", {
+          params: {
+            ip: this.content,
+            type: this.type
+          }
+        })
+        .then(res => {
+          console.log(res);
+          this.info = res.data.info ? res.data.info : "-";
+          this.ip = res.data.ip ? res.data.ip : "-";
+          let arr = res.data.urls;
+          let newArr = arr.map(item => ({ value: item }));
+          for (let i in newArr) {
+            newArr[i].loading = false;
+            newArr[i].cxjg = "";
+            newArr[i].cx = "重试";
+            newArr[i].br = "0";
+            newArr[i].pr = "0";
+          }
+          this.urls = newArr;
+          if (res.data == null || res.data.urls == "" || res.data.urls == []) {
+            this.nothing = true;
+          }
+          this.bus.$emit("loading", false);
+          return res;
+        })
+        .then(res => {
+          for (let i = 0; i < res.data.urls.length; i++) {
+            
+          }
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.bus.$emit("loading", false);
+        });
+    },
+    selChange(val, idx) {
+      this.urls[idx].loading = true;
+      // let newUrls = JSON.parse(JSON.stringify(this.urls));
+      // this.urls = newUrls;
+      this.getDetails(val, idx);
+    },
+    getDetails(val, idx) {
+      this.$http
+        .all([
+          this.getPrGoogle(val, idx),
+          this.getBaiduRank(val, idx),
+          this.getWebpage(val, idx)
+        ])
+        .then(
+          this.$http.spread((acct, perms) => {
+            this.urls[idx].loading = false;
+            let newUrls = JSON.parse(JSON.stringify(this.urls));
+            this.urls = newUrls;
+          })
+        );
+    },
+    getPrGoogle(domain, idx) {
+      return this.$http
+        .get("/Api/seo/pr_google", {
+          params: {
+            domain: domain
+          }
+        })
+        .then(res => {
+          this.urls[idx].pr = res.data.pr;
+        })
+        .catch(res => {
+          console.log(res.msg);
+        });
+    },
+    getBaiduRank(domain, idx) {
+      return this.$http
+        .get("/Api/seo/baidurank", {
+          params: {
+            domain: domain
+          }
+        })
+        .then(res => {
+          this.urls[idx].br = res.data.BR;
+        })
+        .catch(res => {
+          console.log(res.msg);
+        });
+    },
+    getWebpage(domain, idx) {
+      return this.$http
+        .get("/Api/seo/webpage", {
+          params: {
+            domain: domain
+          }
+        })
+        .then(res => {
+          console.log(res);
+          if (res.data == null || res.data.html == [] || !res.data.html.title) {
+            this.urls[idx].cx = "重试";
+          } else {
+            this.urls[idx].cx = "";
+            this.urls[idx].cxjg = res.data.html.title;
+          }
+        })
+        .catch(res => {
+          console.log(res.msg);
+        });
+    }
+  },
+  filters: {
+    addHttp(val) {
+      return "http://" + val;
     }
   },
   mounted() {
@@ -190,6 +235,12 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.getIp();
+    }
+    setTimeout(() => {
+      this.bus.$emit("loading", false);
+    }, 2000);
   }
 };
 </script>
@@ -231,6 +282,16 @@ export default {
   border: 1px solid #ebebeb;
   margin-top: 20px;
   border-bottom: none;
+  .color_red {
+    color: #f11;
+    cursor: pointer;
+  }
+  i {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: url(../../assets/loading.gif) no-repeat center left;
+  }
   tr {
     td {
       width: 220px;
@@ -243,14 +304,30 @@ export default {
         line-height: 60px;
         color: #007bb7;
       }
+      b {
+        font-weight: normal;
+        position: relative;
+        top: -4px;
+        left: -26px;
+        color: #fff;
+      }
+    }
+    .loading {
+      i {
+        display: block;
+      }
+      span {
+        display: none;
+      }
     }
     td:first-child,
     td:last-child {
       width: 100px;
     }
     td:nth-child(3) {
-      width: 560px;
+      width: 540px;
       text-align: left;
+      padding-left: 20px;
     }
     .fail {
       color: #ff3838;
@@ -263,19 +340,6 @@ export default {
     td {
       background: #fafafa;
       color: #666;
-    }
-  }
-  tr:last-child {
-    td {
-      text-align: right;
-    }
-    span {
-      display: inline-block;
-      height: 60px;
-      line-height: 60px;
-      margin-right: 24px;
-      cursor: pointer;
-      font-size: 16px;
     }
   }
 }

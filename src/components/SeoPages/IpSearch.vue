@@ -46,8 +46,14 @@
             <b>{{item.pr}}</b>
           </td>
         </tr>
+        <tr>
+          <td colspan="5">
+            <span class="fl" @click="prevPage"><上一页</span>
+            <span class="fr" @click="nextPage">下一页></span>
+          </td>
+        </tr>
       </table>
-      <table class="ip_main_table" width="1200px" v-show="nothing">
+      <table class="ip_main_table ip_main_table2" width="1200px" v-show="nothing">
         <tr>
           <td>序号</td>
           <td>域名</td>
@@ -58,6 +64,11 @@
         <tr>
           <td colspan="5">
             <img src="../../assets/no_ipdata.png" alt />
+          </td>
+        </tr>
+        <tr>
+          <td colspan="5">
+            <span @click="prevPage"><上一页</span>
           </td>
         </tr>
       </table>
@@ -89,7 +100,8 @@ export default {
       info: "",
       ip: "",
       urls: "",
-      nothing: false
+      nothing: false,
+      page: "4"
     };
   },
   methods: {
@@ -97,6 +109,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.page = "1";
       this.getIp();
     },
     searchHot(data) {
@@ -110,6 +123,16 @@ export default {
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
     },
+    nextPage() {
+      this.page++;
+      this.getIp();
+    },
+    prevPage() {
+      if (this.page > 1) {
+        this.page--;
+        this.getIp();
+      }
+    },
     getIp() {
       this.bus.$emit("loading", true);
       var re = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
@@ -121,7 +144,7 @@ export default {
       this.$http
         .get("/Api/Pageinfo/getIpInfo", {
           params: {
-            ip: this.content,
+            ip: this.content + "/" + this.page,
             type: this.type
           }
         })
@@ -140,6 +163,8 @@ export default {
           this.urls = newArr;
           if (res.data == null || res.data.urls == "" || res.data.urls == []) {
             this.nothing = true;
+          } else {
+            this.nothing = false;
           }
           this.bus.$emit("loading", false);
           return res;
@@ -333,6 +358,24 @@ export default {
     td {
       background: #fafafa;
       color: #666;
+    }
+  }
+  tr:last-child {
+    td {
+      padding: 0 182px;
+      span {
+        cursor: pointer;
+      }
+      span:hover {
+        color: #007bb7;
+      }
+    }
+  }
+}
+.ip_main_table2 {
+  tr:last-child {
+    td {
+      padding: 0;
     }
   }
 }

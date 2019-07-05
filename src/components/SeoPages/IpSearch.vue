@@ -12,7 +12,7 @@
         </tr>
         <tr>
           <td v-show="type==2">
-            <a :href="content|addHttp" target="_blank">{{content}}</a>
+            <a target="_blank" :href="'http://'+content">{{content}}</a>
           </td>
           <td v-show="type==1">{{content}}</td>
           <td v-show="type==2">{{ip}}</td>
@@ -30,7 +30,7 @@
         <tr v-for="(item,index) in urls">
           <td>{{index+1}}</td>
           <td>
-            <a :href="item|addHttp" target="_blank">{{item.value}}</a>
+            <a :href="'http://'+item.value" target="_blank">{{item.value}}</a>
           </td>
           <td :class="{loading:item.loading}">
             <span class="color_red" @click="selChange(item.value,index)">{{item.cx}}</span>
@@ -126,7 +126,6 @@ export default {
           }
         })
         .then(res => {
-          console.log(res);
           this.info = res.data.info ? res.data.info : "-";
           this.ip = res.data.ip ? res.data.ip : "-";
           let arr = res.data.urls;
@@ -134,7 +133,7 @@ export default {
           for (let i in newArr) {
             newArr[i].loading = false;
             newArr[i].cxjg = "";
-            newArr[i].cx = "重试";
+            newArr[i].cx = "查询";
             newArr[i].br = "0";
             newArr[i].pr = "0";
           }
@@ -145,11 +144,11 @@ export default {
           this.bus.$emit("loading", false);
           return res;
         })
-        .then(res => {
-          for (let i = 0; i < res.data.urls.length; i++) {
-            
-          }
-        })
+        // .then(res => {
+        //   for (let i = 0; i < res.data.urls.length; i++) {
+        //     this.selChange(res.data.urls[i], i);
+        //   }
+        // })
         .catch(res => {
           console.log(res.msg);
           this.bus.$emit("loading", false);
@@ -157,8 +156,6 @@ export default {
     },
     selChange(val, idx) {
       this.urls[idx].loading = true;
-      // let newUrls = JSON.parse(JSON.stringify(this.urls));
-      // this.urls = newUrls;
       this.getDetails(val, idx);
     },
     getDetails(val, idx) {
@@ -221,15 +218,12 @@ export default {
           }
         })
         .catch(res => {
+          this.urls[idx].cx = "重试";
           console.log(res.msg);
         });
     }
   },
-  filters: {
-    addHttp(val) {
-      return "http://" + val;
-    }
-  },
+
   mounted() {
     let storage = window.sessionStorage;
     this.content = storage.searchContent;
@@ -283,7 +277,7 @@ export default {
   margin-top: 20px;
   border-bottom: none;
   .color_red {
-    color: #f11;
+    color: #00a0db;
     cursor: pointer;
   }
   i {

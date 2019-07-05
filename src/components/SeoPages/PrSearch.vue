@@ -15,7 +15,7 @@
         <tr>
           <td>1</td>
           <td>
-            <a :href="content|addHttp" target="_blank">{{content}}</a>
+            <a target="_blank" :href="'http://'+content">{{content}}</a>
           </td>
           <td>
             <img src="../../assets/sg_wt.png" alt />
@@ -108,11 +108,6 @@ export default {
           this.bus.$emit("loading", false);
         })
       );
-    }
-  },
-  filters: {
-    addHttp(val) {
-      return "http://" + val;
     }
   },
   mounted() {

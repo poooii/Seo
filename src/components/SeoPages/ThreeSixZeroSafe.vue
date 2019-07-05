@@ -14,7 +14,7 @@
         <tr>
           <td>1</td>
           <td>
-            <a href="http://www.baidu.com">www.baidu.com</a>
+            <a target="_blank" :href="'http://'+content">{{content}}</a>
           </td>
           <td class="stop">已停用</td>
         </tr>

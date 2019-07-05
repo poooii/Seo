@@ -14,14 +14,17 @@
         <tr>
           <td>1</td>
           <td>
-            <a href="http://www.baidu.com">www.baidu.com</a>
+            <a target="_blank" :href="'http://'+content">{{content}}</a>
           </td>
-          <td class="safe">安全</td>
+          <td :class="safe==1?'safe':'danger'">
+            {{is_safe}}
+            <i v-show="loading"></i>
+          </td>
         </tr>
       </table>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -42,7 +45,10 @@ export default {
     return {
       title: "百度网站安全检测",
       content: "",
-      advpic: ["adv1", "adv3", "adv2"]
+      advpic: ["adv1", "adv3", "adv2"],
+      safe: "0",
+      is_safe: "",
+      loading: false
     };
   },
   methods: {
@@ -50,6 +56,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getSafe();
     },
     searchHot(data) {
       let storage = window.sessionStorage;
@@ -61,6 +68,30 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
+    },
+    getSafe() {
+      this.loading = true;
+      this.is_safe = "";
+      this.$http
+        .get("/Api/baidupost/getsafe", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          this.safe = res.data.is_safe;
+          if (res.data.is_safe == "0") {
+            this.is_safe = "不安全";
+          }
+          if (res.data.is_safe == "1") {
+            this.is_safe = "安全";
+          }
+          this.loading = false;
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.loading = false;
+        });
     }
   },
   mounted() {
@@ -68,6 +99,9 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.getSafe();
+    }
   }
 };
 </script>
@@ -98,6 +132,12 @@ export default {
         line-height: 60px;
         color: #007bb7;
       }
+      i {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: url(../../assets/loading.gif) no-repeat center center;
+      }
     }
     td:first-child {
       border-left: 1px solid #ebebeb;
@@ -113,8 +153,11 @@ export default {
       color: #666;
     }
   }
-  .safe{
-      color: #00b35d;
+  .safe {
+    color: #00b35d;
+  }
+  .danger {
+    color: #f11;
   }
 }
 .adv_box {

@@ -22,7 +22,7 @@
         <tr>
           <td>网站首页网址：</td>
           <td>
-            <a :href="site|addHttp" target="_blank">{{site}}</a>
+            <a target="_blank" :href="'http://'+site">{{site}}</a>
           </td>
           <td>网站域名：</td>
           <td>{{domain}}</td>
@@ -129,11 +129,6 @@ export default {
           this.bus.$emit("loading", false)
           console.log(res.msg);
         });
-    }
-  },
-  filters: {
-    addHttp(val) {
-      return "http://" + val;
     }
   },
   mounted() {

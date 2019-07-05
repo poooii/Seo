@@ -14,7 +14,7 @@
         <tr>
           <td>1</td>
           <td>
-            <a :href="content|addHttp" target="_blank">{{content}}</a>
+            <a target="_blank" :href="'http://'+content">{{content}}</a>
           </td>
           <td>7天收录：{{shoulu_7day}}</td>
         </tr>
@@ -65,6 +65,7 @@ export default {
       window.scrollTo(0, 0);
     },
     getShoulu3() {
+      this.shoulu_7day = "";
       this.bus.$emit("loading", true);
       this.$http
         .get("/Api/seo/shoulu3", {
@@ -79,11 +80,6 @@ export default {
         .catch(res => {
           console.log(res.msg);
         });
-    }
-  },
-  filters: {
-    addHttp(val) {
-      return "http://" + val;
     }
   },
   mounted() {

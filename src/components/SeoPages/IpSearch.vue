@@ -144,11 +144,11 @@ export default {
           this.bus.$emit("loading", false);
           return res;
         })
-        // .then(res => {
-        //   for (let i = 0; i < res.data.urls.length; i++) {
-        //     this.selChange(res.data.urls[i], i);
-        //   }
-        // })
+        .then(res => {
+          for (let i = 0; i < res.data.urls.length; i++) {
+            this.selChange(res.data.urls[i], i);
+          }
+        })
         .catch(res => {
           console.log(res.msg);
           this.bus.$emit("loading", false);
@@ -209,7 +209,6 @@ export default {
           }
         })
         .then(res => {
-          console.log(res);
           if (res.data == null || res.data.html == [] || !res.data.html.title) {
             this.urls[idx].cx = "重试";
           } else {
@@ -277,7 +276,7 @@ export default {
   margin-top: 20px;
   border-bottom: none;
   .color_red {
-    color: #00a0db;
+    color: #f11;
     cursor: pointer;
   }
   i {

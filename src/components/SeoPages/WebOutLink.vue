@@ -14,7 +14,7 @@
         <tr>
           <td>1</td>
           <td>
-            <a :href="content|addHttp" target="_blank">{{content}}</a>
+            <a target="_blank" :href="'http://'+content">{{content}}</a>
           </td>
           <td>链接数：{{cz_link}}</td>
         </tr>
@@ -65,6 +65,7 @@ export default {
       window.scrollTo(0, 0);
     },
     getWebpage() {
+      this.cz_link = "";
       this.bus.$emit("loading", true);
       this.$http
         .get("/Api/seo/webpage", {
@@ -73,7 +74,6 @@ export default {
           }
         })
         .then(res => {
-          console.log(res)
           this.cz_link = res.data.html.link_o ? res.data.html.link_o : "-";
           this.bus.$emit("loading", false);
         })
@@ -81,11 +81,6 @@ export default {
           console.log(res.msg);
           this.bus.$emit("loading", false);
         });
-    }
-  },
-  filters: {
-    addHttp(val) {
-      return "http://" + val;
     }
   },
   mounted() {

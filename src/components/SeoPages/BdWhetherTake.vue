@@ -15,7 +15,7 @@
         <tr>
           <td>1</td>
           <td>
-            <a :href="content|addHttp" target="_blank">{{content}}</a>
+            <a target="_blank" :href="'http://'+content">{{content}}</a>
           </td>
           <td>{{pcSl?'已经收录':'未收录'}}</td>
           <td>{{mSl?'已经收录':'未收录'}}</td>
@@ -112,11 +112,6 @@ export default {
             this.bus.$emit("loading", false);
           })
         );
-    }
-  },
-  filters: {
-    addHttp(val) {
-      return "http://" + val;
     }
   },
   mounted() {

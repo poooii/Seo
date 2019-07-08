@@ -69,6 +69,8 @@ export default {
       window.scrollTo(0, 0);
     },
     getShoulu1() {
+      this.baiduindex = "";
+      this.baiduposition = "";
       this.bus.$emit("loading", true);
       this.$http
         .get("/Api/seo/shoulu1", {

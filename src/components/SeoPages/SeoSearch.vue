@@ -961,6 +961,8 @@ export default {
         })
         .catch(res => {
           console.log(res.msg);
+          this.baidu_keywords[id - 1].loading = false;
+          this.baidu_keywords[id - 1].cx = "重试";
         });
     },
 

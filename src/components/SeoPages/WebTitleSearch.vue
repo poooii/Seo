@@ -31,7 +31,7 @@
         <tr>
           <td>1</td>
           <td>
-            <a :href="content|addHttp" target="_blank">{{content}}</a>
+            <a target="_blank" :href="'http://'+content">{{content}}</a>
           </td>
           <td>{{site_title}}</td>
         </tr>
@@ -82,6 +82,7 @@ export default {
       window.scrollTo(0, 0);
     },
     getWebpage() {
+      this.site_title = "";
       this.bus.$emit("loading", true);
       return this.$http
         .get("/Api/seo/webpage", {
@@ -90,7 +91,6 @@ export default {
           }
         })
         .then(res => {
-          console.log(res);
           this.site_title = res.data.html.title ? res.data.html.title : "-";
           this.bus.$emit("loading", false);
         })
@@ -98,11 +98,6 @@ export default {
           console.log(res.msg);
           this.bus.$emit("loading", false);
         });
-    }
-  },
-  filters: {
-    addHttp(val) {
-      return "http://" + val;
     }
   },
   mounted() {

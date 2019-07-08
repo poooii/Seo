@@ -16,9 +16,8 @@
         <tr>
           <td>1</td>
           <td>
-            <a target="_blank" :href="'http://'+content">{{content}}</a>
+            <a target="_blank" :href="content">{{content}}</a>
           </td>
-
           <td class="weight_details" v-for="weights in weightcontent">
             <!-- 循环权重图片 -->
             <img :src="require(`../../assets/${weights.img}.png`)" />

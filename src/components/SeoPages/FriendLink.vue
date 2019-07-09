@@ -8,13 +8,13 @@
       <table class="title_table" width="1200px">
         <tr>
           <td>百度收录：</td>
-          <td class="color_red">{{indexData.baidu}}</td>
+          <td class="color_red">{{baiduSl}}</td>
           <td>百度索引</td>
-          <td class="color_red">{{indexData.baiduindex}}</td>
+          <td class="color_red">{{baiduSy}}</td>
         </tr>
         <tr>
           <td>首页位置：</td>
-          <td>{{indexData.baiduposition}}</td>
+          <td>{{baiduposition}}</td>
           <td>PR输出值：</td>
           <td>{{prValue}}</td>
         </tr>
@@ -108,61 +108,34 @@
             </span> 位置/外链数： 9/34
           </td>
         </tr>
-        <tr>
-          <td>3</td>
+        <tr v-for="(item,index) in list">
+          <td>{{index+1}}</td>
           <td>
-            <p>信用中国</p>
-            <p>www.creditchina.gov.cn</p>
+            <p>{{item.title}}</p>
+            <p>{{item.domain}}</p>
           </td>
-          <td>40,500</td>
-          <td>9285 / 5</td>
-          <td>0 / 0.15</td>
-          <td>
-            <span>
-              链接：
-              <a target="_blank" href="http://www.baidu.com">图片链接</a>
-            </span> 位置/外链数： 9/34
+          <td :class="{loading1:item.loading1}">
+            <span @click="getSuoyinDetail(item.domain,index)">{{item.cx1}}</span>
+            {{item.cxjg1}}
+            <i></i>
           </td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>
-            <p>信用中国</p>
-            <p>www.creditchina.gov.cn</p>
+          <td :class="{loading2:item.loading2}">
+            <span @click="getBaiduRankDetail(item.domain,index)">{{item.cx2}}</span>
+            {{item.cxjg2}}
+            <b>{{item.cxjgN2}}</b>
+            <i></i>
           </td>
-          <td>40,500</td>
-          <td>9285 / 5</td>
-          <td>0 / 0.15</td>
-          <td>
-            <span>
-              链接：
-              <a target="_blank" href="http://www.baidu.com">图片链接</a>
-            </span> 位置/外链数： 9/34
+          <td :class="{loading3:item.loading3}">
+            <span @click="getPrGoogleDetail(item.domain,index)">{{item.cx3}}</span>
+            {{item.cxjg3}}
+            <b>{{item.cxjgN3}}</b>
+            <i></i>
           </td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td>
-            <p>信用中国</p>
-            <p>www.creditchina.gov.cn</p>
-          </td>
-          <td>40,500</td>
-          <td>9285 / 5</td>
-          <td>0 / 0.15</td>
-          <td>
-            <span>
-              链接：
-              <a target="_blank" href="http://www.baidu.com">图片链接</a>
-            </span> 位置/外链数： 9/34
-          </td>
-        </tr>
-        <tr>
-          <td colspan="6">
-            <span><</span>
-            <span v-for="num in 10">{{num}}</span>
-            <span>...</span>
-            <span class="color_blue">50</span>
-            <span>></span>
+          <td :class="{loading4:item.loading4}">
+            <span @click="getBackLink(item.url,index)">{{item.cx4}}</span>
+            <b>{{item.noLink}}</b>
+            {{item.cxjg4}}
+            <i></i>
           </td>
         </tr>
       </table>
@@ -190,10 +163,13 @@ export default {
       title: "友链检测",
       content: "",
       advpic: ["adv1", "adv3", "adv2"],
-      indexData: "",
+      baiduSl: "",
+      baiduSy: "",
+      baiduposition: "",
       prValue: "-",
       ggPr: "",
-      baiduRank: ""
+      baiduRank: "",
+      list: ""
     };
   },
   methods: {
@@ -222,7 +198,11 @@ export default {
           }
         })
         .then(res => {
-          this.indexData = res.data;
+          this.baiduSl = res.data.baidu ? res.data.baidu : "-";
+          this.baiduSy = res.data.baiduindex ? res.data.baiduindex : "-";
+          this.baiduposition = res.data.baiduposition
+            ? res.data.baiduposition
+            : "-";
         })
         .catch(err => {
           console.log(err);
@@ -257,13 +237,153 @@ export default {
           console.log(res.msg);
         });
     },
+    getSuoyinDetail(domain, idx) {
+      this.list[idx].loading1 = true;
+      return this.$http
+        .get("/Api/seo/shoulu1", {
+          params: {
+            domain: domain
+          }
+        })
+        .then(res => {
+          if (!res.data.baidu) {
+            this.list[idx].cx1 = "重测";
+          } else {
+            this.list[idx].cx1 = "";
+            this.list[idx].cxjg1 = res.data.baidu;
+          }
+          this.list[idx].loading1 = false;
+          let newList = JSON.parse(JSON.stringify(this.list));
+          this.list = newList;
+        })
+        .catch(err => {
+          console.log(err);
+          this.list[idx].loading1 = false;
+        });
+    },
+    getBaiduRankDetail(domain, idx) {
+      this.list[idx].loading2 = true;
+      return this.$http
+        .get("/Api/seo/baidurank", {
+          params: {
+            domain: domain
+          }
+        })
+        .then(res => {
+          if (!res.data.avg_ip) {
+            this.list[idx].cx2 = "重测";
+          } else {
+            this.list[idx].cx2 = "";
+            this.list[idx].cxjg2 = res.data.avg_ip;
+            this.list[idx].cxjgN2 = "/" + res.data.BR;
+          }
+          this.list[idx].loading2 = false;
+          let newList = JSON.parse(JSON.stringify(this.list));
+          this.list = newList;
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.list[idx].loading2 = false;
+        });
+    },
+    getPrGoogleDetail(domain, idx) {
+      this.list[idx].loading3 = true;
+      return this.$http
+        .get("/Api/seo/pr_google", {
+          params: {
+            domain: domain
+          }
+        })
+        .then(res => {
+          if (!res.data.value) {
+            this.list[idx].cx3 = "重测";
+          } else {
+            this.list[idx].cx3 = "";
+            this.list[idx].cxjg3 = res.data.pr;
+            this.list[idx].cxjgN3 = "/" + res.data.value;
+          }
+          this.list[idx].loading3 = false;
+          let newList = JSON.parse(JSON.stringify(this.list));
+          this.list = newList;
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.list[idx].loading3 = false;
+        });
+    },
+    getBackLink(url, idx) {
+      this.list[idx].loading4 = true;
+      return this.$http
+        .get("/Api/seo/backlink", {
+          params: {
+            domain: this.content,
+            url: url
+          }
+        })
+        .then(res => {
+          console.log(res);
+          if (!res.data.mapLink && !res.data.linkOther && res.data.sum) {
+            this.list[idx].cx4 = "";
+            this.list[idx].noLink = "首页无本站链接";
+            this.list[idx].cxjg4 = "外链数:"+res.data.sum;
+          }
+          this.list[idx].loading4 = false;
+          let newList = JSON.parse(JSON.stringify(this.list));
+          this.list = newList;
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.list[idx].loading4 = false;
+        });
+    },
+    getLinkInfo() {
+      return this.$http
+        .get("/Api/pageinfo/getLinkInfo", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          let Res = JSON.parse(JSON.stringify(res));
+          this.list = res.data.list;
+          for (let i in this.list) {
+            this.list[i].url = encodeURIComponent(this.list[i].url);
+            this.list[i].cx1 = "重测";
+            this.list[i].cx2 = "重测";
+            this.list[i].cx3 = "重测";
+            this.list[i].cx4 = "重测";
+            this.list[i].cxjg1 = "";
+            this.list[i].cxjg2 = "";
+            this.list[i].cxjg3 = "";
+            this.list[i].cxjg4 = "";
+            this.list[i].cxjgN2 = "";
+            this.list[i].cxjgN3 = "";
+            this.list[i].loading1 = false;
+            this.list[i].loading2 = false;
+            this.list[i].loading3 = false;
+            this.list[i].loading4 = false;
+            this.list[i].noLink = "";
+          }
+          return Res;
+        })
+        .catch(res => {
+          console.log(res.msg);
+        });
+    },
     getAll() {
       this.bus.$emit("loading", true);
       this.$http
         .all([this.getSuoyin(), this.getBaiduRank(), this.getPrGoogle()])
         .then(
           this.$http.spread((acct, perms) => {
-            this.bus.$emit("loading", false);
+            this.getLinkInfo().then(res => {
+              this.bus.$emit("loading", false);
+              for (let i = 0; i < res.data.list.length; i++) {
+                this.getSuoyinDetail(res.data.list[i].domain, i);
+                this.getBaiduRankDetail(res.data.list[i].domain, i);
+                this.getPrGoogleDetail(res.data.list[i].domain, i);
+              }
+            });
           })
         );
     }
@@ -359,12 +479,47 @@ export default {
   border: 1px solid #ebebeb;
   margin-top: 20px;
   border-bottom: none;
+  i {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: url(../../assets/loading.gif) no-repeat center center;
+  }
   tr {
     td {
       height: 60px;
       text-align: center;
       border-bottom: 1px solid #ebebeb;
       padding-right: 10px;
+      span {
+        color: #ff9e40;
+        cursor: pointer;
+        a {
+          color: #ff9e40;
+        }
+      }
+      b {
+        font-weight: normal;
+      }
+    }
+    .loading1,
+    .loading2,
+    .loading3 {
+      i {
+        display: block;
+      }
+      span {
+        display: none;
+      }
+    }
+    .loading4 {
+      i {
+        display: block;
+        background-position: center left;
+      }
+      span {
+        display: none;
+      }
     }
     td:first-child {
       width: 100px;
@@ -379,12 +534,6 @@ export default {
       b {
         color: #f05955;
         font-weight: normal;
-      }
-      span {
-        color: #ff9e40;
-        a {
-          color: #ff9e40;
-        }
       }
     }
   }
@@ -408,20 +557,6 @@ export default {
       }
       .red_up {
         background-image: url(../../assets/red_up.png);
-      }
-    }
-  }
-  tr:last-child {
-    td {
-      text-align: right;
-      span {
-        display: inline-block;
-        height: 60px;
-        line-height: 60px;
-        margin-right: 24px;
-        cursor: pointer;
-        font-size: 16px;
-        color: #333;
       }
     }
   }

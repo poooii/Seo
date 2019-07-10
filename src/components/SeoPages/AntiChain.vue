@@ -21,7 +21,7 @@
           </td>
           <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
           <td>
-            <img src="../../assets/bd_wt.png" alt>
+            <img src="../../assets/bd_wt.png" alt />
           </td>
           <td>≈13</td>
           <td>PC6安卓网</td>
@@ -33,7 +33,7 @@
           </td>
           <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
           <td>
-            <img src="../../assets/bd_wt.png" alt>
+            <img src="../../assets/bd_wt.png" alt />
           </td>
           <td>≈13</td>
           <td>PC6安卓网</td>
@@ -45,7 +45,7 @@
           </td>
           <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
           <td>
-            <img src="../../assets/bd_wt.png" alt>
+            <img src="../../assets/bd_wt.png" alt />
           </td>
           <td>≈13</td>
           <td>PC6安卓网</td>
@@ -57,7 +57,7 @@
           </td>
           <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
           <td>
-            <img src="../../assets/bd_wt.png" alt>
+            <img src="../../assets/bd_wt.png" alt />
           </td>
           <td>≈13</td>
           <td>PC6安卓网</td>
@@ -69,7 +69,7 @@
           </td>
           <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
           <td>
-            <img src="../../assets/bd_wt.png" alt>
+            <img src="../../assets/bd_wt.png" alt />
           </td>
           <td>≈13</td>
           <td>PC6安卓网</td>
@@ -81,7 +81,7 @@
           </td>
           <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
           <td>
-            <img src="../../assets/bd_wt.png" alt>
+            <img src="../../assets/bd_wt.png" alt />
           </td>
           <td>≈13</td>
           <td>PC6安卓网</td>
@@ -93,7 +93,7 @@
           </td>
           <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
           <td>
-            <img src="../../assets/bd_wt.png" alt>
+            <img src="../../assets/bd_wt.png" alt />
           </td>
           <td>≈13</td>
           <td>PC6安卓网</td>
@@ -110,7 +110,7 @@
       </table>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -139,6 +139,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getFlinkInfo();
     },
     searchHot(data) {
       let storage = window.sessionStorage;
@@ -150,6 +151,23 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
+    },
+    getFlinkInfo() {
+      this.bus.$emit("loading", true);
+      this.$http
+        .get("/Api/pageinfo/getFlinkinfo", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          console.log(res);
+          this.bus.$emit("loading", false);
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.bus.$emit("loading", false);
+        });
     }
   },
   mounted() {
@@ -157,6 +175,12 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.getFlinkInfo();
+    }
+    setTimeout(() => {
+      this.bus.$emit("loading", false);
+    }, 2000);
   }
 };
 </script>

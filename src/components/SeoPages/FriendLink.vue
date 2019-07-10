@@ -53,27 +53,28 @@
         <span>
           出站链接中有
           <i>{{ourLink}}个</i> 没有本站链接
+          <img v-show="!finish" src="../../assets/loading_detail.gif" alt />
         </span>
       </div>
       <table class="ip_main_table" width="1200px">
         <tr>
           <td>序号</td>
           <td>站点</td>
-          <td>
+          <td class="pt" @click="changedirection('0')">
             百度收录
-            <i></i>
+            <i :class="{blue_down:Sdirection==0,red_up:Sdirection==1}"></i>
           </td>
-          <td>
+          <td class="pt" @click="changedirection('1')">
             百度预计流量/权重
-            <i class="blue_down"></i>
+            <i :class="{blue_down:Rdirection==0,red_up:Rdirection==1}"></i>
           </td>
-          <td>
+          <td class="pt" @click="changedirection('2')">
             PR/输出值
-            <i class="red_up"></i>
+            <i :class="{blue_down:Pdirection==0,red_up:Pdirection==1}"></i>
           </td>
-          <td>
+          <td class="pt">
             对方友链情况
-            <i></i>
+            <i class="nothing"></i>
           </td>
         </tr>
         <tr v-for="(item,index) in list">
@@ -147,7 +148,12 @@ export default {
       ourLink: 0,
       deserveLink: 0,
       picLink: 0,
-      wordLink: 0
+      wordLink: 0,
+      finish: false,
+      Sdirection: 3,
+      Rdirection: 3,
+      Pdirection: 3,
+      Fdirection: 3
     };
   },
   methods: {
@@ -156,6 +162,10 @@ export default {
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
       this.getAll();
+      (this.Sdirection = 3),
+        (this.Rdirection = 3),
+        (this.Pdirection = 3),
+        (this.Fdirection = 3);
     },
     searchHot(data) {
       let storage = window.sessionStorage;
@@ -167,6 +177,62 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
+    },
+    sortKey(array, key) {
+      return array.sort((a, b) => {
+        var x = a[key].replace(/,/g, "") * 1;
+        var y = b[key].replace(/,/g, "") * 1;
+        return x < y ? -1 : x > y ? 1 : 0;
+      });
+    },
+    sortKey2(array, key) {
+      return array.sort((a, b) => {
+        var reg = /([/][^/]+)$/;
+        var x = a[key].replace(reg, "") * 1;
+        var y = b[key].replace(reg, "") * 1;
+        return x < y ? -1 : x > y ? 1 : 0;
+      });
+    },
+    changedirection(idx) {
+      if (!this.finish) {
+        alert("数据未加载完全，请稍候！");
+      } else {
+        var arr = JSON.parse(JSON.stringify(this.list));
+        if (idx == "0") {
+          this.Pdirection = 3;
+          this.Rdirection = 3;
+          if (this.Sdirection == 0) {
+            this.Sdirection = 1;
+            this.sortKey(arr, "cxjg1");
+          } else {
+            this.Sdirection = 0;
+            this.sortKey(arr, "cxjg1").reverse();
+          }
+        }
+        if (idx == "1") {
+          this.Sdirection = 3;
+          this.Pdirection = 3;
+          if (this.Rdirection == 0) {
+            this.Rdirection = 1;
+            this.sortKey2(arr, "cxjg2");
+          } else {
+            this.Rdirection = 0;
+            this.sortKey2(arr, "cxjg2").reverse();
+          }
+        }
+        if (idx == "2") {
+          this.Sdirection = 3;
+          this.Rdirection = 3;
+          if (this.Pdirection == 0) {
+            this.Pdirection = 1;
+            this.sortKey2(arr, "cxjg3");
+          } else {
+            this.Pdirection = 0;
+            this.sortKey2(arr, "cxjg3").reverse();
+          }
+        }
+        this.list = arr;
+      }
     },
     getSuoyin() {
       return this.$http
@@ -297,7 +363,6 @@ export default {
           }
         })
         .then(res => {
-          console.log(res);
           if (!res.data.mapLink && !res.data.linkOther && !res.data.error) {
             this.list[idx].cx4 = "";
             this.list[idx].noLink = "首页无本站链接!";
@@ -340,6 +405,14 @@ export default {
           this.list[idx].loading4 = false;
           let newList = JSON.parse(JSON.stringify(this.list));
           this.list = newList;
+          var result = this.list.some(item => {
+            if (item.loading4 == true) {
+              return true;
+            }
+          });
+          if (!result) {
+            this.finish = true;
+          }
         })
         .catch(res => {
           console.log(res.msg);
@@ -370,10 +443,10 @@ export default {
             this.list[i].cxjg2 = "";
             this.list[i].cxjg3 = "";
             this.list[i].cxjg4 = "";
-            this.list[i].loading1 = false;
-            this.list[i].loading2 = false;
-            this.list[i].loading3 = false;
-            this.list[i].loading4 = false;
+            this.list[i].loading1 = true;
+            this.list[i].loading2 = true;
+            this.list[i].loading3 = true;
+            this.list[i].loading4 = true;
             this.list[i].noLink = "";
             this.list[i].hasLink = "";
             this.list[i].links = "";
@@ -432,6 +505,9 @@ export default {
     i {
       color: #ff3838;
     }
+  }
+  img {
+    width: 50px;
   }
 }
 .title_table {
@@ -524,6 +600,12 @@ export default {
         font-weight: normal;
       }
     }
+    .pt {
+      cursor: pointer;
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+    }
     .loading1,
     .loading2,
     .loading3 {
@@ -580,6 +662,9 @@ export default {
       }
       .red_up {
         background-image: url(../../assets/red_up.png);
+      }
+      .nothing {
+        display: none;
       }
     }
   }

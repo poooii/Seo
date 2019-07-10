@@ -36,26 +36,23 @@
           <td>出站/反向链接</td>
           <td>图片链接</td>
           <td>文字链接</td>
-          <td>带nofollow链接</td>
         </tr>
         <tr>
           <td>出站链接：20</td>
           <td>8</td>
           <td>12</td>
-          <td>1</td>
         </tr>
         <tr>
-          <td>反向链接：3</td>
-          <td>1</td>
-          <td>2</td>
-          <td>0</td>
+          <td>反向链接：{{deserveLink}}</td>
+          <td>{{picLink}}</td>
+          <td>{{wordLink}}</td>
         </tr>
       </table>
       <div class="content_title">
         检测结果：
         <span>
           出站链接中有
-          <i>17个</i> 没有本站链接
+          <i>{{ourLink}}个</i> 没有本站链接
         </span>
       </div>
       <table class="ip_main_table" width="1200px">
@@ -79,35 +76,6 @@
             <i></i>
           </td>
         </tr>
-        <tr>
-          <td>1</td>
-          <td>
-            <p>信用中国</p>
-            <p>www.creditchina.gov.cn</p>
-          </td>
-          <td>40,500</td>
-          <td>9285 / 5</td>
-          <td>0 / 0.15</td>
-          <td>
-            <b>首页无本站链接!</b> 外链数：123
-          </td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>
-            <p>信用中国</p>
-            <p>www.creditchina.gov.cn</p>
-          </td>
-          <td>40,500</td>
-          <td>9285 / 5</td>
-          <td>0 / 0.15</td>
-          <td>
-            <span>
-              链接：
-              <a target="_blank" href="http://www.baidu.com">图片链接</a>
-            </span> 位置/外链数： 9/34
-          </td>
-        </tr>
         <tr v-for="(item,index) in list">
           <td>{{index+1}}</td>
           <td>
@@ -122,18 +90,24 @@
           <td :class="{loading2:item.loading2}">
             <span @click="getBaiduRankDetail(item.domain,index)">{{item.cx2}}</span>
             {{item.cxjg2}}
-            <b>{{item.cxjgN2}}</b>
             <i></i>
           </td>
           <td :class="{loading3:item.loading3}">
             <span @click="getPrGoogleDetail(item.domain,index)">{{item.cx3}}</span>
             {{item.cxjg3}}
-            <b>{{item.cxjgN3}}</b>
             <i></i>
           </td>
           <td :class="{loading4:item.loading4}">
             <span @click="getBackLink(item.url,index)">{{item.cx4}}</span>
             <b>{{item.noLink}}</b>
+            <span class="no_cursor">
+              {{item.hasLink}}
+              <a
+                v-for="link in item.links"
+                target="_blank"
+                :href="link.link"
+              >{{link.linkTitle}}</a>
+            </span>
             {{item.cxjg4}}
             <i></i>
           </td>
@@ -169,7 +143,11 @@ export default {
       prValue: "-",
       ggPr: "",
       baiduRank: "",
-      list: ""
+      list: "",
+      ourLink: 0,
+      deserveLink: 0,
+      picLink: 0,
+      wordLink: 0
     };
   },
   methods: {
@@ -274,8 +252,7 @@ export default {
             this.list[idx].cx2 = "重测";
           } else {
             this.list[idx].cx2 = "";
-            this.list[idx].cxjg2 = res.data.avg_ip;
-            this.list[idx].cxjgN2 = "/" + res.data.BR;
+            this.list[idx].cxjg2 = res.data.avg_ip + "/" + res.data.BR;
           }
           this.list[idx].loading2 = false;
           let newList = JSON.parse(JSON.stringify(this.list));
@@ -299,8 +276,7 @@ export default {
             this.list[idx].cx3 = "重测";
           } else {
             this.list[idx].cx3 = "";
-            this.list[idx].cxjg3 = res.data.pr;
-            this.list[idx].cxjgN3 = "/" + res.data.value;
+            this.list[idx].cxjg3 = res.data.pr + "/" + res.data.value;
           }
           this.list[idx].loading3 = false;
           let newList = JSON.parse(JSON.stringify(this.list));
@@ -322,10 +298,44 @@ export default {
         })
         .then(res => {
           console.log(res);
-          if (!res.data.mapLink && !res.data.linkOther && res.data.sum) {
+          if (!res.data.mapLink && !res.data.linkOther && !res.data.error) {
             this.list[idx].cx4 = "";
-            this.list[idx].noLink = "首页无本站链接";
-            this.list[idx].cxjg4 = "外链数:"+res.data.sum;
+            this.list[idx].noLink = "首页无本站链接!";
+            this.list[idx].cxjg4 = "外链数:" + res.data.sum;
+            this.ourLink++;
+          }
+          if (res.data.mapLink && res.data.position && !res.data.linkOther) {
+            this.list[idx].cx4 = "";
+            this.list[idx].cxjg4 =
+              "位置/外链数：" + res.data.position + "/" + res.data.sum;
+            this.list[idx].hasLink = "链接：";
+            this.list[idx].link = res.data.mapLink;
+            this.list[idx].linkTitle = res.data.mapVal;
+            this.deserveLink++;
+          }
+          if (!res.data.mapLink && !res.data.position && res.data.linkOther) {
+            this.list[idx].cx4 = "";
+            this.list[idx].cxjg4 = "外链数：" + res.data.sum;
+            this.list[idx].hasLink = "非首页链接：";
+            this.list[idx].links = [];
+            for (let i in res.data.linkOther) {
+              this.list[idx].links.push(res.data.linkOther[i]);
+            }
+            this.list[idx].links = this.list[idx].links.map(item => ({
+              link: item
+            }));
+            for (let i in this.list[idx].links) {
+              this.list[idx].links[i].linkTitle = res.data.linkOtherVal[i];
+              if (res.data.linkOtherVal[i] == "图片链接") {
+                this.picLink++;
+              } else {
+                this.wordLink++;
+              }
+            }
+            this.deserveLink++;
+          }
+          if (res.data.error) {
+            this.list[idx].cx4 = "重测";
           }
           this.list[idx].loading4 = false;
           let newList = JSON.parse(JSON.stringify(this.list));
@@ -346,6 +356,10 @@ export default {
         .then(res => {
           let Res = JSON.parse(JSON.stringify(res));
           this.list = res.data.list;
+          this.deserveLink = 0;
+          this.ourLink = 0;
+          this.picLink = 0;
+          this.wordLink = 0;
           for (let i in this.list) {
             this.list[i].url = encodeURIComponent(this.list[i].url);
             this.list[i].cx1 = "重测";
@@ -356,13 +370,13 @@ export default {
             this.list[i].cxjg2 = "";
             this.list[i].cxjg3 = "";
             this.list[i].cxjg4 = "";
-            this.list[i].cxjgN2 = "";
-            this.list[i].cxjgN3 = "";
             this.list[i].loading1 = false;
             this.list[i].loading2 = false;
             this.list[i].loading3 = false;
             this.list[i].loading4 = false;
             this.list[i].noLink = "";
+            this.list[i].hasLink = "";
+            this.list[i].links = "";
           }
           return Res;
         })
@@ -382,6 +396,7 @@ export default {
                 this.getSuoyinDetail(res.data.list[i].domain, i);
                 this.getBaiduRankDetail(res.data.list[i].domain, i);
                 this.getPrGoogleDetail(res.data.list[i].domain, i);
+                this.getBackLink(encodeURIComponent(res.data.list[i].url), i);
               }
             });
           })
@@ -496,7 +511,14 @@ export default {
         cursor: pointer;
         a {
           color: #ff9e40;
+          margin-right: 8px;
         }
+        a:hover {
+          text-decoration: underline;
+        }
+      }
+      .no_cursor {
+        cursor: auto;
       }
       b {
         font-weight: normal;
@@ -527,6 +549,7 @@ export default {
     td:last-child,
     :nth-child(2) {
       text-align: left;
+      max-width: 300px;
       p:last-child {
         font-size: 12px;
         color: #999;

@@ -8,13 +8,13 @@
       <table class="title_table" width="1200px">
         <tr>
           <td>百度收录：</td>
-          <td class="color_red">{{indexData.baidu}}</td>
+          <td class="color_red">{{baiduSl}}</td>
           <td>百度索引</td>
-          <td class="color_red">{{indexData.baiduindex}}</td>
+          <td class="color_red">{{baiduSy}}</td>
         </tr>
         <tr>
           <td>首页位置：</td>
-          <td>{{indexData.baiduposition}}</td>
+          <td>{{baiduposition}}</td>
           <td>PR输出值：</td>
           <td>{{prValue}}</td>
         </tr>
@@ -36,133 +36,81 @@
           <td>出站/反向链接</td>
           <td>图片链接</td>
           <td>文字链接</td>
-          <td>带nofollow链接</td>
         </tr>
         <tr>
           <td>出站链接：20</td>
           <td>8</td>
           <td>12</td>
-          <td>1</td>
         </tr>
         <tr>
-          <td>反向链接：3</td>
-          <td>1</td>
-          <td>2</td>
-          <td>0</td>
+          <td>反向链接：{{deserveLink}}</td>
+          <td>{{picLink}}</td>
+          <td>{{wordLink}}</td>
         </tr>
       </table>
       <div class="content_title">
         检测结果：
         <span>
           出站链接中有
-          <i>17个</i> 没有本站链接
+          <i>{{ourLink}}个</i> 没有本站链接
+          <img v-show="!finish" src="../../assets/loading_detail.gif" alt />
         </span>
       </div>
       <table class="ip_main_table" width="1200px">
         <tr>
           <td>序号</td>
           <td>站点</td>
-          <td>
+          <td class="pt" @click="changedirection('0')">
             百度收录
-            <i></i>
+            <i :class="{blue_down:Sdirection==0,red_up:Sdirection==1}"></i>
           </td>
-          <td>
+          <td class="pt" @click="changedirection('1')">
             百度预计流量/权重
-            <i class="blue_down"></i>
+            <i :class="{blue_down:Rdirection==0,red_up:Rdirection==1}"></i>
           </td>
-          <td>
+          <td class="pt" @click="changedirection('2')">
             PR/输出值
-            <i class="red_up"></i>
+            <i :class="{blue_down:Pdirection==0,red_up:Pdirection==1}"></i>
           </td>
-          <td>
+          <td class="pt">
             对方友链情况
+            <i class="nothing"></i>
+          </td>
+        </tr>
+        <tr v-for="(item,index) in list">
+          <td>{{index+1}}</td>
+          <td>
+            <p>{{item.title}}</p>
+            <p>{{item.domain}}</p>
+          </td>
+          <td :class="{loading1:item.loading1}">
+            <span @click="getSuoyinDetail(item.domain,index)">{{item.cx1}}</span>
+            {{item.cxjg1}}
             <i></i>
           </td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>
-            <p>信用中国</p>
-            <p>www.creditchina.gov.cn</p>
+          <td :class="{loading2:item.loading2}">
+            <span @click="getBaiduRankDetail(item.domain,index)">{{item.cx2}}</span>
+            {{item.cxjg2}}
+            <i></i>
           </td>
-          <td>40,500</td>
-          <td>9285 / 5</td>
-          <td>0 / 0.15</td>
-          <td>
-            <b>首页无本站链接!</b> 外链数：123
+          <td :class="{loading3:item.loading3}">
+            <span @click="getPrGoogleDetail(item.domain,index)">{{item.cx3}}</span>
+            {{item.cxjg3}}
+            <i></i>
           </td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>
-            <p>信用中国</p>
-            <p>www.creditchina.gov.cn</p>
-          </td>
-          <td>40,500</td>
-          <td>9285 / 5</td>
-          <td>0 / 0.15</td>
-          <td>
-            <span>
-              链接：
-              <a target="_blank" href="http://www.baidu.com">图片链接</a>
-            </span> 位置/外链数： 9/34
-          </td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>
-            <p>信用中国</p>
-            <p>www.creditchina.gov.cn</p>
-          </td>
-          <td>40,500</td>
-          <td>9285 / 5</td>
-          <td>0 / 0.15</td>
-          <td>
-            <span>
-              链接：
-              <a target="_blank" href="http://www.baidu.com">图片链接</a>
-            </span> 位置/外链数： 9/34
-          </td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>
-            <p>信用中国</p>
-            <p>www.creditchina.gov.cn</p>
-          </td>
-          <td>40,500</td>
-          <td>9285 / 5</td>
-          <td>0 / 0.15</td>
-          <td>
-            <span>
-              链接：
-              <a target="_blank" href="http://www.baidu.com">图片链接</a>
-            </span> 位置/外链数： 9/34
-          </td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td>
-            <p>信用中国</p>
-            <p>www.creditchina.gov.cn</p>
-          </td>
-          <td>40,500</td>
-          <td>9285 / 5</td>
-          <td>0 / 0.15</td>
-          <td>
-            <span>
-              链接：
-              <a target="_blank" href="http://www.baidu.com">图片链接</a>
-            </span> 位置/外链数： 9/34
-          </td>
-        </tr>
-        <tr>
-          <td colspan="6">
-            <span><</span>
-            <span v-for="num in 10">{{num}}</span>
-            <span>...</span>
-            <span class="color_blue">50</span>
-            <span>></span>
+          <td :class="{loading4:item.loading4}">
+            <span @click="getBackLink(item.url,index)">{{item.cx4}}</span>
+            <b>{{item.noLink}}</b>
+            <span class="no_cursor">
+              {{item.hasLink}}
+              <a
+                v-for="link in item.links"
+                target="_blank"
+                :href="link.link"
+              >{{link.linkTitle}}</a>
+            </span>
+            {{item.cxjg4}}
+            <i></i>
           </td>
         </tr>
       </table>
@@ -190,10 +138,22 @@ export default {
       title: "友链检测",
       content: "",
       advpic: ["adv1", "adv3", "adv2"],
-      indexData: "",
+      baiduSl: "",
+      baiduSy: "",
+      baiduposition: "",
       prValue: "-",
       ggPr: "",
-      baiduRank: ""
+      baiduRank: "",
+      list: "",
+      ourLink: 0,
+      deserveLink: 0,
+      picLink: 0,
+      wordLink: 0,
+      finish: false,
+      Sdirection: 3,
+      Rdirection: 3,
+      Pdirection: 3,
+      Fdirection: 3
     };
   },
   methods: {
@@ -202,6 +162,10 @@ export default {
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
       this.getAll();
+      (this.Sdirection = 3),
+        (this.Rdirection = 3),
+        (this.Pdirection = 3),
+        (this.Fdirection = 3);
     },
     searchHot(data) {
       let storage = window.sessionStorage;
@@ -214,6 +178,62 @@ export default {
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
     },
+    sortKey(array, key) {
+      return array.sort((a, b) => {
+        var x = a[key].replace(/,/g, "") * 1;
+        var y = b[key].replace(/,/g, "") * 1;
+        return x < y ? -1 : x > y ? 1 : 0;
+      });
+    },
+    sortKey2(array, key) {
+      return array.sort((a, b) => {
+        var reg = /([/][^/]+)$/;
+        var x = a[key].replace(reg, "") * 1;
+        var y = b[key].replace(reg, "") * 1;
+        return x < y ? -1 : x > y ? 1 : 0;
+      });
+    },
+    changedirection(idx) {
+      if (!this.finish) {
+        alert("数据未加载完全，请稍候！");
+      } else {
+        var arr = JSON.parse(JSON.stringify(this.list));
+        if (idx == "0") {
+          this.Pdirection = 3;
+          this.Rdirection = 3;
+          if (this.Sdirection == 0) {
+            this.Sdirection = 1;
+            this.sortKey(arr, "cxjg1");
+          } else {
+            this.Sdirection = 0;
+            this.sortKey(arr, "cxjg1").reverse();
+          }
+        }
+        if (idx == "1") {
+          this.Sdirection = 3;
+          this.Pdirection = 3;
+          if (this.Rdirection == 0) {
+            this.Rdirection = 1;
+            this.sortKey2(arr, "cxjg2");
+          } else {
+            this.Rdirection = 0;
+            this.sortKey2(arr, "cxjg2").reverse();
+          }
+        }
+        if (idx == "2") {
+          this.Sdirection = 3;
+          this.Rdirection = 3;
+          if (this.Pdirection == 0) {
+            this.Pdirection = 1;
+            this.sortKey2(arr, "cxjg3");
+          } else {
+            this.Pdirection = 0;
+            this.sortKey2(arr, "cxjg3").reverse();
+          }
+        }
+        this.list = arr;
+      }
+    },
     getSuoyin() {
       return this.$http
         .get("/Api/seo/shoulu1", {
@@ -222,7 +242,11 @@ export default {
           }
         })
         .then(res => {
-          this.indexData = res.data;
+          this.baiduSl = res.data.baidu ? res.data.baidu : "-";
+          this.baiduSy = res.data.baiduindex ? res.data.baiduindex : "-";
+          this.baiduposition = res.data.baiduposition
+            ? res.data.baiduposition
+            : "-";
         })
         .catch(err => {
           console.log(err);
@@ -257,13 +281,197 @@ export default {
           console.log(res.msg);
         });
     },
+    getSuoyinDetail(domain, idx) {
+      this.list[idx].loading1 = true;
+      return this.$http
+        .get("/Api/seo/shoulu1", {
+          params: {
+            domain: domain
+          }
+        })
+        .then(res => {
+          if (!res.data.baidu) {
+            this.list[idx].cx1 = "重测";
+          } else {
+            this.list[idx].cx1 = "";
+            this.list[idx].cxjg1 = res.data.baidu;
+          }
+          this.list[idx].loading1 = false;
+          let newList = JSON.parse(JSON.stringify(this.list));
+          this.list = newList;
+        })
+        .catch(err => {
+          console.log(err);
+          this.list[idx].loading1 = false;
+        });
+    },
+    getBaiduRankDetail(domain, idx) {
+      this.list[idx].loading2 = true;
+      return this.$http
+        .get("/Api/seo/baidurank", {
+          params: {
+            domain: domain
+          }
+        })
+        .then(res => {
+          if (!res.data.avg_ip) {
+            this.list[idx].cx2 = "重测";
+          } else {
+            this.list[idx].cx2 = "";
+            this.list[idx].cxjg2 = res.data.avg_ip + "/" + res.data.BR;
+          }
+          this.list[idx].loading2 = false;
+          let newList = JSON.parse(JSON.stringify(this.list));
+          this.list = newList;
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.list[idx].loading2 = false;
+        });
+    },
+    getPrGoogleDetail(domain, idx) {
+      this.list[idx].loading3 = true;
+      return this.$http
+        .get("/Api/seo/pr_google", {
+          params: {
+            domain: domain
+          }
+        })
+        .then(res => {
+          if (!res.data.value) {
+            this.list[idx].cx3 = "重测";
+          } else {
+            this.list[idx].cx3 = "";
+            this.list[idx].cxjg3 = res.data.pr + "/" + res.data.value;
+          }
+          this.list[idx].loading3 = false;
+          let newList = JSON.parse(JSON.stringify(this.list));
+          this.list = newList;
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.list[idx].loading3 = false;
+        });
+    },
+    getBackLink(url, idx) {
+      this.list[idx].loading4 = true;
+      return this.$http
+        .get("/Api/seo/backlink", {
+          params: {
+            domain: this.content,
+            url: url
+          }
+        })
+        .then(res => {
+          if (!res.data.mapLink && !res.data.linkOther && !res.data.error) {
+            this.list[idx].cx4 = "";
+            this.list[idx].noLink = "首页无本站链接!";
+            this.list[idx].cxjg4 = "外链数:" + res.data.sum;
+            this.ourLink++;
+          }
+          if (res.data.mapLink && res.data.position && !res.data.linkOther) {
+            this.list[idx].cx4 = "";
+            this.list[idx].cxjg4 =
+              "位置/外链数：" + res.data.position + "/" + res.data.sum;
+            this.list[idx].hasLink = "链接：";
+            this.list[idx].link = res.data.mapLink;
+            this.list[idx].linkTitle = res.data.mapVal;
+            this.deserveLink++;
+          }
+          if (!res.data.mapLink && !res.data.position && res.data.linkOther) {
+            this.list[idx].cx4 = "";
+            this.list[idx].cxjg4 = "外链数：" + res.data.sum;
+            this.list[idx].hasLink = "非首页链接：";
+            this.list[idx].links = [];
+            for (let i in res.data.linkOther) {
+              this.list[idx].links.push(res.data.linkOther[i]);
+            }
+            this.list[idx].links = this.list[idx].links.map(item => ({
+              link: item
+            }));
+            for (let i in this.list[idx].links) {
+              this.list[idx].links[i].linkTitle = res.data.linkOtherVal[i];
+              if (res.data.linkOtherVal[i] == "图片链接") {
+                this.picLink++;
+              } else {
+                this.wordLink++;
+              }
+            }
+            this.deserveLink++;
+          }
+          if (res.data.error) {
+            this.list[idx].cx4 = "重测";
+          }
+          this.list[idx].loading4 = false;
+          let newList = JSON.parse(JSON.stringify(this.list));
+          this.list = newList;
+          var result = this.list.some(item => {
+            if (item.loading4 == true) {
+              return true;
+            }
+          });
+          if (!result) {
+            this.finish = true;
+          }
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.list[idx].loading4 = false;
+        });
+    },
+    getLinkInfo() {
+      return this.$http
+        .get("/Api/pageinfo/getLinkInfo", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          let Res = JSON.parse(JSON.stringify(res));
+          this.list = res.data.list;
+          this.deserveLink = 0;
+          this.ourLink = 0;
+          this.picLink = 0;
+          this.wordLink = 0;
+          for (let i in this.list) {
+            this.list[i].url = encodeURIComponent(this.list[i].url);
+            this.list[i].cx1 = "重测";
+            this.list[i].cx2 = "重测";
+            this.list[i].cx3 = "重测";
+            this.list[i].cx4 = "重测";
+            this.list[i].cxjg1 = "";
+            this.list[i].cxjg2 = "";
+            this.list[i].cxjg3 = "";
+            this.list[i].cxjg4 = "";
+            this.list[i].loading1 = true;
+            this.list[i].loading2 = true;
+            this.list[i].loading3 = true;
+            this.list[i].loading4 = true;
+            this.list[i].noLink = "";
+            this.list[i].hasLink = "";
+            this.list[i].links = "";
+          }
+          return Res;
+        })
+        .catch(res => {
+          console.log(res.msg);
+        });
+    },
     getAll() {
       this.bus.$emit("loading", true);
       this.$http
         .all([this.getSuoyin(), this.getBaiduRank(), this.getPrGoogle()])
         .then(
           this.$http.spread((acct, perms) => {
-            this.bus.$emit("loading", false);
+            this.getLinkInfo().then(res => {
+              this.bus.$emit("loading", false);
+              for (let i = 0; i < res.data.list.length; i++) {
+                this.getSuoyinDetail(res.data.list[i].domain, i);
+                this.getBaiduRankDetail(res.data.list[i].domain, i);
+                this.getPrGoogleDetail(res.data.list[i].domain, i);
+                this.getBackLink(encodeURIComponent(res.data.list[i].url), i);
+              }
+            });
           })
         );
     }
@@ -297,6 +505,9 @@ export default {
     i {
       color: #ff3838;
     }
+  }
+  img {
+    width: 50px;
   }
 }
 .title_table {
@@ -359,12 +570,60 @@ export default {
   border: 1px solid #ebebeb;
   margin-top: 20px;
   border-bottom: none;
+  i {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: url(../../assets/loading.gif) no-repeat center center;
+  }
   tr {
     td {
       height: 60px;
       text-align: center;
       border-bottom: 1px solid #ebebeb;
       padding-right: 10px;
+      span {
+        color: #ff9e40;
+        cursor: pointer;
+        a {
+          color: #ff9e40;
+          margin-right: 8px;
+        }
+        a:hover {
+          text-decoration: underline;
+        }
+      }
+      .no_cursor {
+        cursor: auto;
+      }
+      b {
+        font-weight: normal;
+      }
+    }
+    .pt {
+      cursor: pointer;
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+    }
+    .loading1,
+    .loading2,
+    .loading3 {
+      i {
+        display: block;
+      }
+      span {
+        display: none;
+      }
+    }
+    .loading4 {
+      i {
+        display: block;
+        background-position: center left;
+      }
+      span {
+        display: none;
+      }
     }
     td:first-child {
       width: 100px;
@@ -372,6 +631,7 @@ export default {
     td:last-child,
     :nth-child(2) {
       text-align: left;
+      max-width: 300px;
       p:last-child {
         font-size: 12px;
         color: #999;
@@ -379,12 +639,6 @@ export default {
       b {
         color: #f05955;
         font-weight: normal;
-      }
-      span {
-        color: #ff9e40;
-        a {
-          color: #ff9e40;
-        }
       }
     }
   }
@@ -409,19 +663,8 @@ export default {
       .red_up {
         background-image: url(../../assets/red_up.png);
       }
-    }
-  }
-  tr:last-child {
-    td {
-      text-align: right;
-      span {
-        display: inline-block;
-        height: 60px;
-        line-height: 60px;
-        margin-right: 24px;
-        cursor: pointer;
-        font-size: 16px;
-        color: #333;
+      .nothing {
+        display: none;
       }
     }
   }

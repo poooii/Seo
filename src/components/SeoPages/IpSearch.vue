@@ -101,7 +101,8 @@ export default {
       ip: "",
       urls: "",
       nothing: false,
-      page: "4"
+      page: "4",
+      finish: false
     };
   },
   methods: {
@@ -124,16 +125,25 @@ export default {
       window.scrollTo(0, 0);
     },
     nextPage() {
-      this.page++;
-      this.getIp();
-    },
-    prevPage() {
-      if (this.page > 1) {
-        this.page--;
+      if (this.finish) {
+        alert("请等待加载完毕");
+      } else {
+        this.page++;
         this.getIp();
       }
     },
+    prevPage() {
+      if (this.finish) {
+        alert("请等待加载完毕");
+      } else {
+        if (this.page > 1) {
+          this.page--;
+          this.getIp();
+        }
+      }
+    },
     getIp() {
+      this.finish = true;
       this.bus.$emit("loading", true);
       var re = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
       if (re.test(this.content)) {
@@ -195,6 +205,14 @@ export default {
             this.urls[idx].loading = false;
             let newUrls = JSON.parse(JSON.stringify(this.urls));
             this.urls = newUrls;
+            var result = this.urls.some(item => {
+              if (item.loading == true) {
+                return true;
+              }
+            });
+            if (!result) {
+              this.finish = false;
+            }
           })
         );
     },

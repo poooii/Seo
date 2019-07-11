@@ -10,7 +10,7 @@
           <td>域名：</td>
           <td>{{content}}</td>
           <td>注册商：</td>
-          <td>-</td>
+          <td>{{name}}</td>
         </tr>
         <tr>
           <td>参照页：</td>
@@ -30,16 +30,27 @@
           <td>过期时间：</td>
           <td>{{expires}}</td>
         </tr>
+        <tr v-for="item in servers">
+          <td colspan="2">域名服务器：</td>
+          <td colspan="2">{{item.server}}</td>
+        </tr>
+        <tr v-for="(item,key,index) in nserver">
+          <td colspan="2">DNS务器：</td>
+          <td colspan="2">
+            {{key}}
+            <span>-{{item}}</span>
+          </td>
+        </tr>
+        <tr v-for="item in status">
+          <td colspan="2">域名状态：</td>
+          <td colspan="2">{{item}}</td>
+        </tr>
       </table>
       <div class="content_title">详细信息</div>
-      <div class="details_box">
-        <p v-for="items in showdetailList">
-          <span>{{items.name}}</span>
-          {{items.details}}
-        </p>
-        <p v-if="detailMsg.length > 6" @click="changeShowAll">
+      <div class="details_box" v-html="rawdataHtml">
+        <!-- <p v-if="detailMsg.length > 6" @click="changeShowAll">
           <span class="show_all">{{show_all?'展开全部':'收起'}}</span>
-        </p>
+        </p>-->
       </div>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
@@ -71,41 +82,12 @@ export default {
       created: "",
       expires: "",
       emailCode: "",
-      detailMsg: [
-        {
-          name: "Domain Name:",
-          details: "www.baidu.com"
-        },
-        {
-          name: "Registry Domain ID:",
-          details: "1181110_DOMAIN_COM-VRSN"
-        },
-        {
-          name: "Registrar:",
-          details: "2019-01-24T20:00:51-0800"
-        },
-        {
-          name: "Domain Name:",
-          details: "www.baidu.com"
-        },
-        {
-          name: "Registry Domain ID:",
-          details: "1181110_DOMAIN_COM-VRSN"
-        },
-        {
-          name: "Registrar:",
-          details:
-            "1181110_DOMAIN_COM-1181110_DOMAIN_COM-VRSN1181110_DOMAIN_COM-VRSN1181110_DOMAIN_COM-VRSN1181110_DOMAIN_COM-VRSN1181110_DOMAIN_COM-VRSN1181110_DOMAIN_COM-VRSN1181110_DOMAIN_COM-VRSN1181110_DOMAIN_COM-V"
-        },
-        {
-          name: "Domain Name:",
-          details: "www.baidu.com"
-        },
-        {
-          name: "Registry Domain ID:",
-          details: "1181110_DOMAIN_COM-VRSN"
-        }
-      ]
+      detailMsg: "",
+      rawdataHtml: "",
+      name: "",
+      servers: "",
+      nserver: "",
+      status: ""
     };
   },
   methods: {
@@ -131,20 +113,41 @@ export default {
     },
     getWhois() {
       return this.$http
-        .get("/Api/seo/whois", {
+        .get("/Api/seo/whois_info", {
           params: {
             domain: this.content
           }
         })
         .then(res => {
           console.log(res);
-          this.registrant = res.data.registrant ? res.data.registrant : "-";
-          this.created = res.data.created ? res.data.created : "-";
-          this.changed = res.data.changed ? res.data.changed : "-";
-          this.expires = res.data.expires ? res.data.expires : "-";
-          this.emailCode = res.data.emailCode
-            ? res.data.emailCode.slice(0, 20)+"..."
+          this.rawdataHtml = res.data.rawdataHtml ? res.data.rawdataHtml : "";
+          this.registrant = res.data.regrinfo.name
+            ? res.data.regrinfo.name
             : "-";
+          this.name = res.data.regyinfo.registrar
+            ? res.data.regyinfo.registrar
+            : "-";
+          this.created = res.data.regrinfo.domain.created
+            ? res.data.regrinfo.domain.created
+            : "-";
+          this.changed = res.data.regrinfo.domain.changed
+            ? res.data.regrinfo.domain.changed
+            : "-";
+          this.expires = res.data.regrinfo.domain.expires
+            ? res.data.regrinfo.domain.expires
+            : "-";
+          this.emailCode = res.data.regrinfo.emailCode
+            ? res.data.regrinfo.emailCode.slice(0, 20) + "..."
+            : "-";
+          this.servers = res.data.regyinfo.servers
+            ? res.data.regyinfo.servers
+            : "";
+          this.nserver = res.data.regrinfo.domain.nserver
+            ? res.data.regrinfo.domain.nserver
+            : "";
+          this.status = res.data.regrinfo.domain.status
+            ? res.data.regrinfo.domain.status
+            : "";
         })
         .catch(res => {
           console.log(res.msg);
@@ -159,24 +162,24 @@ export default {
       );
     }
   },
-  computed: {
-    showdetailList: {
-      get() {
-        if (this.show_all) {
-          if (this.detailMsg.length < 7) {
-            return this.detailMsg;
-          }
-          let newArr = [];
-          for (var i = 0; i < 6; i++) {
-            let item = this.detailMsg[i];
-            newArr.push(item);
-          }
-          return newArr;
-        }
-        return this.detailMsg;
-      }
-    }
-  },
+  // computed: {
+  //   showdetailList: {
+  //     get() {
+  //       if (this.show_all) {
+  //         if (this.detailMsg.length < 7) {
+  //           return this.detailMsg;
+  //         }
+  //         let newArr = [];
+  //         for (var i = 0; i < 6; i++) {
+  //           let item = this.detailMsg[i];
+  //           newArr.push(item);
+  //         }
+  //         return newArr;
+  //       }
+  //       return this.detailMsg;
+  //     }
+  //   }
+  // },
   mounted() {
     let storage = window.sessionStorage;
     this.content = storage.searchContent;
@@ -224,15 +227,8 @@ export default {
   background: #fafafa;
   border: 1px solid #ebebeb;
   padding: 40px 40px;
-  p {
-    display: block;
-    font-size: 14px;
-    line-height: 28px;
-    span {
-      color: #333;
-      font-weight: bold;
-    }
-  }
+  font-size: 14px;
+  line-height: 28px;
   .show_all {
     color: #007bb7;
     cursor: pointer;

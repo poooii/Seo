@@ -31,27 +31,29 @@
           <td>{{expires}}</td>
         </tr>
         <tr v-for="item in servers">
-          <td colspan="2">域名服务器：</td>
-          <td colspan="2">{{item.server}}</td>
+          <td>域名服务器：</td>
+          <td colspan="3">{{item.server}}</td>
         </tr>
         <tr v-for="(item,key,index) in nserver">
-          <td colspan="2">DNS务器：</td>
-          <td colspan="2">
+          <td>DNS务器：</td>
+          <td colspan="3">
             {{key}}
             <span>-{{item}}</span>
           </td>
         </tr>
         <tr v-for="item in status">
-          <td colspan="2">域名状态：</td>
-          <td colspan="2">{{item}}</td>
+          <td>域名状态：</td>
+          <td colspan="3">{{item}}</td>
         </tr>
       </table>
       <div class="content_title">详细信息</div>
-      <div class="details_box" v-html="rawdataHtml">
-        <!-- <p v-if="detailMsg.length > 6" @click="changeShowAll">
-          <span class="show_all">{{show_all?'展开全部':'收起'}}</span>
-        </p>-->
+      <div class="details_box">
+        <div :class="show_all?'hide_detail':'show_detail'" v-html="rawdataHtml"></div>
+        <p v-show="see_more">
+          <span class="show_all" @click="changeShowAll">{{show_all?'展开全部>':'收起>'}}</span>
+        </p>
       </div>
+
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
           <img :src="require(`../../assets/${advs}.png`)" />
@@ -77,6 +79,7 @@ export default {
       content: "",
       advpic: ["adv1", "adv3", "adv2"],
       show_all: true,
+      see_more: false,
       registrant: "",
       changed: "",
       created: "",
@@ -148,12 +151,18 @@ export default {
           this.status = res.data.regrinfo.domain.status
             ? res.data.regrinfo.domain.status
             : "";
+          if (res.data.rawdata.length > 14) {
+            this.see_more = true;
+          } else {
+            this.see_more = false;
+          }
         })
         .catch(res => {
           console.log(res.msg);
         });
     },
     getAll() {
+      this.show_all = true;
       this.bus.$emit("loading", true);
       this.$http.all([this.getWhois()]).then(
         this.$http.spread((acct, perms) => {
@@ -162,24 +171,6 @@ export default {
       );
     }
   },
-  // computed: {
-  //   showdetailList: {
-  //     get() {
-  //       if (this.show_all) {
-  //         if (this.detailMsg.length < 7) {
-  //           return this.detailMsg;
-  //         }
-  //         let newArr = [];
-  //         for (var i = 0; i < 6; i++) {
-  //           let item = this.detailMsg[i];
-  //           newArr.push(item);
-  //         }
-  //         return newArr;
-  //       }
-  //       return this.detailMsg;
-  //     }
-  //   }
-  // },
   mounted() {
     let storage = window.sessionStorage;
     this.content = storage.searchContent;
@@ -190,7 +181,7 @@ export default {
     }
     setTimeout(() => {
       this.bus.$emit("loading", false);
-    }, 2000);
+    }, 3500);
   }
 };
 </script>
@@ -229,6 +220,13 @@ export default {
   padding: 40px 40px;
   font-size: 14px;
   line-height: 28px;
+  .hide_detail {
+    height: 362px;
+    overflow: hidden;
+  }
+  .show_detail {
+    height: auto;
+  }
   .show_all {
     color: #007bb7;
     cursor: pointer;

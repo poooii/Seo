@@ -33,6 +33,9 @@ body {
   font-size: 13px;
   color: #333;
 }
+span {
+  user-select: none;
+}
 input,
 select {
   font-family: "微软雅黑";

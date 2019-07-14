@@ -160,6 +160,13 @@ export default {
       window.scrollTo(0, 0);
     },
     getList() {
+      let netReg =
+        "^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$";
+      let netRe = new RegExp(netReg);
+      if (!netRe.test(this.SeoContent)) {
+        alert("请输入正确域名,域名不包括(http://以及https://)");
+        return false;
+      }
       this.content = this.SeoContent;
       this.showViews = this.downList[0].idx;
       let storage = window.sessionStorage;

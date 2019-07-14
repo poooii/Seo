@@ -57,7 +57,7 @@ export default {
             let netReg = "^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$"
             let netRe = new RegExp(netReg)
             if (!netRe.test(this.SeoContent)) {
-                alert("请输入正确网址")
+                alert("请输入正确域名,域名不包括(http://以及https://)")
                 return false
             }
             this.$emit("msgToSearch",this.SeoContent)

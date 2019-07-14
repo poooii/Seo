@@ -37,9 +37,17 @@
             {{item.cxjg}}
             <i></i>
           </td>
-          <td>
-            <img src="../../assets/bd_wt.png" alt />
-            <b>{{item.br}}</b>
+          <td :class="{loading1:item.loading1}">
+            <span v-show="item.brResult">
+              <img src="../../assets/bd_wt.png" alt />
+              <b>{{item.br}}</b>
+            </span>
+            <span
+              @click="getBaiduRank(item.value,index)"
+              class="color_red"
+              v-show="!item.brResult"
+            >重试</span>
+            <i></i>
           </td>
           <td>
             <img src="../../assets/gg_wt.png" alt />
@@ -85,6 +93,7 @@
 <script>
 import SearchBox from "../BaseComponents/SearchBox";
 import NearlySearch from "../BaseComponents/NearlySearch";
+import { fail } from "assert";
 export default {
   name: "IpSearch",
   components: {
@@ -157,6 +166,8 @@ export default {
           let newArr = arr.map(item => ({ value: item }));
           for (let i in newArr) {
             newArr[i].loading = true;
+            newArr[i].loading1 = true;
+            newArr[i].brResult = false;
             newArr[i].cxjg = "";
             newArr[i].cx = "查询";
             newArr[i].br = "0";
@@ -239,6 +250,7 @@ export default {
         });
     },
     getBaiduRank(domain, idx) {
+      this.urls[idx].loading1 = true;
       return this.$http
         .get("/Api/seo/baidurank", {
           params: {
@@ -246,10 +258,18 @@ export default {
           }
         })
         .then(res => {
-          this.urls[idx].br = res.data.BR;
+          if (res.data == null || res.data == [] || res.data == undefined) {
+            this.urls[idx].brResult = false;
+          } else {
+            this.urls[idx].brResult = true;
+            this.urls[idx].br = res.data.BR;
+          }
+          this.urls[idx].loading1 = false;
         })
         .catch(res => {
           console.log(res.msg);
+          this.urls[idx].loading1 = false;
+          this.urls[idx].brResult = false;
         });
     },
     getWebpage(domain, idx) {
@@ -356,12 +376,18 @@ export default {
         color: #fff;
       }
     }
-    .loading {
+    .loading,
+    .loading1 {
       i {
         display: block;
       }
       span {
         display: none;
+      }
+    }
+    .loading1 {
+      i {
+        background: url(../../assets/loading.gif) no-repeat center center;
       }
     }
     td:first-child,

@@ -8,24 +8,11 @@
       <table class="http_table" width="1200px" v-if="content!=='nores'">
         <tr>
           <td>返回状态码：</td>
-          <td class="found">{{Protocol}}</td>
+          <td class="found">{{contentType}}</td>
         </tr>
         <tr>
           <td>网页返回HEAD信息：</td>
-          <td>
-            Connection: keep-alive
-            <br />Content-Type:
-            <span>{{ContentType}}</span>
-            <br />Date:
-            <span>{{Dates}}</span>
-            <br />Location:
-            <span>{{site}}</span>
-            <br />
-            <span>{{Protocol}}</span>
-            <br />Server:
-            <span>{{Server}}</span>
-            <br />
-          </td>
+          <td v-html="mainContent"></td>
         </tr>
       </table>
       <div class="no_res" v-if="content=='nores'">
@@ -55,11 +42,8 @@ export default {
       title: "HTTP状态查询",
       content: "",
       advpic: ["adv1", "adv3", "adv2"],
-      ContentType: "",
-      Protocol: "",
-      Dates: "",
-      site: "",
-      Server: ""
+      contentType: "",
+      mainContent: ""
     };
   },
   methods: {
@@ -67,7 +51,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
-      this.getWebpage();
+      this.getHttpInfo();
     },
     searchHot(data) {
       let storage = window.sessionStorage;
@@ -80,24 +64,24 @@ export default {
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
     },
-    getWebpage() {
+    encode_unicode_param(t) {
+      for (var e = "", a = 0; a < t.length; a++) {
+        var i = t.charCodeAt(a).toString(16);
+        2 == i.length ? (e += "n" + i) : (e += i);
+      }
+      return e;
+    },
+    getHttpInfo() {
       this.bus.$emit("loading", true);
       this.$http
-        .get("/Api/seo/webpage", {
+        .get("/Api/pageinfo/getHttpInfo", {
           params: {
-            domain: this.content
+            domain: this.encode_unicode_param(this.content)
           }
         })
         .then(res => {
-          this.Protocol = res.data.header.Protocol
-            ? res.data.header.Protocol
-            : "-";
-          this.ContentType = res.data.header.ContentType
-            ? res.data.header.ContentType
-            : "-";
-          this.Dates = res.data.header.Date ? res.data.header.Date : "-";
-          this.site = res.data.html.site ? res.data.html.site : "-";
-          this.Server = res.data.header.Server ? res.data.header.Server : "-";
+          this.contentType = res.data[0].thead ? res.data[0].thead : "-";
+          this.mainContent = res.data[0].content ? res.data[0].content : "";
           this.bus.$emit("loading", false);
         })
         .catch(res => {
@@ -112,7 +96,7 @@ export default {
     storage.setItem("navIndex", "2");
     window.scrollTo(0, 0);
     if (storage.searchContent !== "" && storage.searchContent !== undefined) {
-      this.getWebpage();
+      this.getHttpInfo();
     }
     setTimeout(() => {
       this.bus.$emit("loading", false);
@@ -151,7 +135,7 @@ export default {
   tr:last-child {
     td {
       padding: 20px 0 20px 30px;
-      line-height: 36px;
+      line-height: 32px;
     }
     td:first-child {
       vertical-align: top;

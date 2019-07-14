@@ -21,7 +21,7 @@
           </td>
           <td>{{item.title}}</td>
           <td>
-            <img :src="item.br_img" alt="">
+            <img :src="item.br_img" alt />
           </td>
           <td>{{item.f_links}}</td>
           <td>{{item.link_title}}</td>
@@ -101,10 +101,12 @@ export default {
       window.scrollTo(0, 0);
     },
     nextPage() {
+      window.scrollTo(0, 0);
       this.page++;
       this.getFlinkInfo();
     },
     prevPage() {
+      window.scrollTo(0, 0);
       if (this.page > 1) {
         this.page--;
         this.getFlinkInfo();

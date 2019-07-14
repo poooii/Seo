@@ -101,8 +101,7 @@ export default {
       ip: "",
       urls: "",
       nothing: false,
-      page: "4",
-      finish: false
+      page: "1"
     };
   },
   methods: {
@@ -125,25 +124,18 @@ export default {
       window.scrollTo(0, 0);
     },
     nextPage() {
-      if (this.finish) {
-        alert("请等待加载完毕");
-      } else {
-        this.page++;
+      window.scrollTo(0, 0);
+      this.page++;
+      this.getIp();
+    },
+    prevPage() {
+      window.scrollTo(0, 0);
+      if (this.page > 1) {
+        this.page--;
         this.getIp();
       }
     },
-    prevPage() {
-      if (this.finish) {
-        alert("请等待加载完毕");
-      } else {
-        if (this.page > 1) {
-          this.page--;
-          this.getIp();
-        }
-      }
-    },
     getIp() {
-      this.finish = true;
       this.bus.$emit("loading", true);
       var re = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
       if (re.test(this.content)) {
@@ -164,7 +156,7 @@ export default {
           let arr = res.data.urls;
           let newArr = arr.map(item => ({ value: item }));
           for (let i in newArr) {
-            newArr[i].loading = false;
+            newArr[i].loading = true;
             newArr[i].cxjg = "";
             newArr[i].cx = "查询";
             newArr[i].br = "0";
@@ -180,9 +172,8 @@ export default {
           return res;
         })
         .then(res => {
-          for (let i = 0; i < res.data.urls.length; i++) {
-            this.selChange(res.data.urls[i], i);
-          }
+          let curIndex = res.data.urls.length ? res.data.urls.length : 0;
+          this.getDetails2(curIndex, 0);
         })
         .catch(res => {
           console.log(res.msg);
@@ -205,16 +196,33 @@ export default {
             this.urls[idx].loading = false;
             let newUrls = JSON.parse(JSON.stringify(this.urls));
             this.urls = newUrls;
-            var result = this.urls.some(item => {
-              if (item.loading == true) {
-                return true;
-              }
-            });
-            if (!result) {
-              this.finish = false;
-            }
           })
         );
+    },
+    getDetails2(cur, i) {
+      if (cur <= i) {
+        return;
+      }
+      this.$http
+        .all([
+          this.getPrGoogle(this.urls[i].value, i),
+          this.getBaiduRank(this.urls[i].value, i),
+          this.getWebpage(this.urls[i].value, i)
+        ])
+        .then(
+          this.$http.spread((acct, perms) => {
+            this.urls[i].loading = false;
+            let newUrls = JSON.parse(JSON.stringify(this.urls));
+            this.urls = newUrls;
+            i++;
+            this.getDetails2(cur, i);
+          })
+        )
+        .catch(res => {
+          console.log(res.msg);
+          i++;
+          this.getDetails2(cur, i);
+        });
     },
     getPrGoogle(domain, idx) {
       return this.$http

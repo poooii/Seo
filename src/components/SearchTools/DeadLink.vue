@@ -52,7 +52,8 @@
         <span>
           共有链接
           <i class="alive">{{d_len}}</i> 个；死链接
-          <i class="dead">{{deadLink}}</i> 个 检测完成
+          <i class="dead">{{deadLink}}</i> 个
+          <img v-show="finish" src="../../assets/loading_detail.gif" />
         </span>
       </div>
       <table class="link_table" width="1200px">
@@ -65,7 +66,7 @@
         <tr v-for="(item,index) in list">
           <td>{{index+1}}</td>
           <td>
-            <a :href="item.url">{{item.url}}</a>
+            <a target="_blank" :href="item.url">{{item.url}}</a>
           </td>
           <td>{{item.tilte}}</td>
           <td :class="{loading:item.loading,alive:true}">
@@ -100,6 +101,7 @@ export default {
       content: "",
       showViews: "0",
       noLink: false,
+      finish: false,
       deadLink: 0,
       list: "",
       d_len: 0,
@@ -174,6 +176,7 @@ export default {
     },
     getDLinkInfo() {
       this.bus.$emit("loading", true);
+      this.finish = true;
       return this.$http
         .get("/Api/pageinfo/getDLinkInfo", {
           params: {
@@ -198,7 +201,7 @@ export default {
             this.list[i].loading = true;
           }
           this.bus.$emit("loading", false);
-          let curIndex = this.list.length;
+          let curIndex = this.list.length ? this.list.length : 0;
           this.getStatus2(curIndex, 0);
         })
         .catch(res => {
@@ -217,16 +220,12 @@ export default {
           }
         })
         .then(res => {
-          console.log(res);
           if (res.data.linkbad == "0") {
             this.list[idx].cx = "";
             this.list[idx].cxjg = "正常";
           } else {
             this.list[idx].cx = "重查";
             this.list[idx].cxjg = "";
-          }
-          if (res.data.linkbad == "1") {
-            this.deadLink++;
           }
           this.list[idx].loading = false;
           let newList = JSON.parse(JSON.stringify(this.list));
@@ -238,6 +237,7 @@ export default {
     },
     getStatus2(cur, i) {
       if (cur <= i) {
+        this.finish = false;
         return;
       }
       this.$http
@@ -247,7 +247,6 @@ export default {
           }
         })
         .then(res => {
-          console.log(res);
           if (res.data.linkbad == "0") {
             this.list[i].cx = "";
             this.list[i].cxjg = "正常";
@@ -262,11 +261,12 @@ export default {
           let newList = JSON.parse(JSON.stringify(this.list));
           this.list = newList;
           i++;
-          console.log(i);
           this.getStatus2(cur, i);
         })
         .catch(res => {
           console.log(res.msg);
+          i++;
+          this.getStatus2(cur, i);
         });
     }
   },
@@ -389,6 +389,9 @@ export default {
     font-size: 24px;
     color: #333;
     margin: 60px 0 35px 0;
+    img {
+      width: 60px;
+    }
     span {
       font-size: 18px;
       color: #666;

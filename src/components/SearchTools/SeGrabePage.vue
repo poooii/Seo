@@ -119,6 +119,7 @@ export default {
       window.scrollTo(0, 0);
     },
     changeShowAll() {
+      window.scrollTo(0, 0);
       this.show_all = !this.show_all;
     },
     encode_unicode_param(t) {

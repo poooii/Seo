@@ -172,10 +172,19 @@ export default {
     window.scrollTo(0, 0);
     if (storage.searchContent !== "" && storage.searchContent !== undefined) {
       this.getWhois();
+    } else {
+      if (
+        this.$route.params.shcontent !== undefined &&
+        this.$route.params.shcontent !== ""
+      ) {
+        this.content = this.$route.params.shcontent;
+        this.SeoContent = this.$route.params.shcontent;
+        this.getWhois();
+      }
     }
     setTimeout(() => {
       this.bus.$emit("loading", false);
-    }, 3500);
+    }, 5000);
   }
 };
 </script>

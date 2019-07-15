@@ -87,6 +87,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.page = 1;
       this.getFlinkInfo();
     },
     searchHot(data) {
@@ -110,6 +111,8 @@ export default {
       if (this.page > 1) {
         this.page--;
         this.getFlinkInfo();
+      } else {
+        alert("已经是最前页");
       }
     },
     getFlinkInfo() {
@@ -144,6 +147,15 @@ export default {
     window.scrollTo(0, 0);
     if (storage.searchContent !== "" && storage.searchContent !== undefined) {
       this.getFlinkInfo();
+    } else {
+      if (
+        this.$route.params.shcontent !== undefined &&
+        this.$route.params.shcontent !== ""
+      ) {
+        this.content = this.$route.params.shcontent;
+        this.SeoContent = this.$route.params.shcontent;
+        this.getFlinkInfo();
+      }
     }
     setTimeout(() => {
       this.bus.$emit("loading", false);

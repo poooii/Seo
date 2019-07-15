@@ -20,8 +20,8 @@
             <div class="weight_net">{{content | ellipsis}}</div>
             <span class="weight_name">域名</span>
           </li>
-          <li class="weight_details" v-for="weights in weightcontent">
-            <div class="weight_net">
+          <li class="weight_details" v-for="(weights,key,i) in weightcontent">
+            <div class="weight_net" @click="i==3||i==4?toPr():toWeight()">
               <!-- 循环权重图片 -->
               <img :src="require(`../../assets/${weights.img}.png`)" />
               <span>{{weights.weight}}</span>
@@ -75,7 +75,7 @@
             <span class="weight_details_msg">备案信息：</span>
             <span class="msg_details">
               备案号：
-              <span class="blue">{{icp}}</span>
+              <span @click="toIcp" class="blue">{{icp}}</span>
             </span>
             <span class="msg_details">
               性质：
@@ -480,17 +480,17 @@
               <td>
                 <ul class="clearfix" v-show="related_net=='0'">
                   <li v-for="items in related_web">
-                    <a>{{items}}</a>
+                    <a @click="toWeight(items)">{{items}}</a>
                   </li>
                 </ul>
                 <ul class="clearfix" v-show="related_net=='1'">
                   <li v-for="items in same_ip">
-                    <a>{{items}}</a>
+                    <a @click="toIpSearch(items)">{{items}}</a>
                   </li>
                 </ul>
                 <ul class="clearfix" v-show="related_net=='2'">
                   <li v-for="items in web_rlink">
-                    <a>{{items}}</a>
+                    <a @click="toAntiChain(items)">{{items}}</a>
                   </li>
                 </ul>
               </td>
@@ -915,12 +915,50 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
+      this.doAllGet();
     },
-    //跳转到历史数据页
+    //跳转到页面
     toHistory() {
       this.$router.push({
         name: "HistoryData",
         params: { shcontent: this.content }
+      });
+    },
+    toWeight(val) {
+      if (!val) {
+        this.$router.push({
+          name: "BaiduWeight",
+          params: { shcontent: this.content }
+        });
+      } else {
+        this.$router.push({
+          name: "BaiduWeight",
+          params: { shcontent: val }
+        });
+      }
+    },
+    toPr() {
+      this.$router.push({
+        name: "PrSearch",
+        params: { shcontent: this.content }
+      });
+    },
+    toIcp() {
+      this.$router.push({
+        name: "IcpAbout",
+        params: { shcontent: this.content }
+      });
+    },
+    toIpSearch(val) {
+      this.$router.push({
+        name: "IpSearch",
+        params: { shcontent: val }
+      });
+    },
+    toAntiChain(val) {
+      this.$router.push({
+        name: "AntiChain",
+        params: { shcontent: val }
       });
     },
     //请求数据
@@ -1188,7 +1226,9 @@ export default {
         })
         .then(res => {
           this.baiduindex = res.data.baiduindex ? res.data.baiduindex : "-";
-          this.baiduposition = res.data.baiduposition ? res.data.baiduposition : "-";
+          this.baiduposition = res.data.baiduposition
+            ? res.data.baiduposition
+            : "-";
           this.shoulu_google = res.data.google ? res.data.google : "-";
           this.shoulu_sougou = res.data.sogou ? res.data.sogou : "-";
           this.shoulu_360 = res.data[360]
@@ -1555,11 +1595,12 @@ export default {
   color: #333;
   margin-top: 20px;
   position: relative;
+  cursor: pointer;
 
   span {
     position: absolute;
     top: -4px;
-    left: 108px;
+    left: 104px;
     color: #fff;
   }
 }
@@ -1622,6 +1663,9 @@ export default {
 
 .msg_details {
   margin-left: 30px;
+  .blue {
+    cursor: pointer;
+  }
 }
 
 .table_content_1st {

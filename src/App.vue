@@ -33,7 +33,7 @@ body {
   font-size: 13px;
   color: #333;
 }
-span {
+table span {
   user-select: none;
 }
 input,

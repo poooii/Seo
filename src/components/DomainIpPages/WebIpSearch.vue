@@ -79,6 +79,7 @@ export default {
         .catch(err => {
           console.log(err);
           this.bus.$emit("loading", false);
+          this.noAnswer = true;
         });
     },
     searchHot(data) {

@@ -41,9 +41,9 @@
         <p v-if="this.isSame == true" class="no_same">相同域名不能比较！</p>
         <p v-if="!this.isSame == true" class="same" v-show="!noResult">
           相同部分大概为
-          <span>{{like}}</span>
+          <span>{{like}}%</span>
         </p>
-        <p v-if="!this.isSame" v-show="noResult" class="no_same">未查询到结果</p>
+        <p v-if="!this.isSame" v-show="noResult" class="no_same">{{errMsg}}</p>
       </div>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
@@ -70,6 +70,7 @@ export default {
       SeoContent: "",
       S_SeoContent: "",
       like: "",
+      errMsg: "",
       noResult: false,
       advpic: ["adv1", "adv3", "adv2"]
     };
@@ -114,17 +115,20 @@ export default {
       this.$http
         .get("/Api/pageinfo/getPageLikeInfo", {
           params: {
-            domain1: this.encode_unicode_param(this.S_SeoContent),
-            domain2: this.encode_unicode_param(this.SeoContent)
+            c_domain1: this.encode_unicode_param(this.S_SeoContent),
+            c_domain2: this.encode_unicode_param(this.SeoContent),
+            domain1: this.S_SeoContent,
+            domain2: this.SeoContent
           }
         })
         .then(res => {
           console.log(res);
-          if (res.data == null || res.data.length == 0) {
+          if (!res.data.error_message == "") {
             this.noResult = true;
+            this.errMsg = res.data.error_message;
           } else {
             this.noResult = false;
-            this.like = res.data[0].like;
+            this.like = res.data.result;
           }
           this.bus.$emit("loading", false);
         })
@@ -146,7 +150,7 @@ export default {
     }
     setTimeout(() => {
       this.bus.$emit("loading", false);
-    }, 2000);
+    }, 4000);
   }
 };
 </script>

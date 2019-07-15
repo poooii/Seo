@@ -55,12 +55,7 @@
         </tr>
         <tr>
           <td>1</td>
-          <td>http://news.sohu.com/s2018/guoqing69/index.shtml</td>
-          <td class="sealed">域名被封</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>http://www.baidu.com</td>
+          <td>{{content}}</td>
           <td class="normal">域名正常</td>
         </tr>
       </table>
@@ -153,6 +148,13 @@ export default {
       this.showViews = this.downList[0].idx;
       let storage = window.sessionStorage;
       storage.setItem("searchContent", this.content);
+      this.doGet();
+    },
+    doGet() {
+      this.bus.$emit("loading", true);
+      setTimeout(() => {
+        this.bus.$emit("loading", false);
+      }, 1500);
     }
   },
   mounted() {
@@ -161,6 +163,9 @@ export default {
     this.SeoContent = storage.searchContent;
     storage.setItem("navIndex", "3");
     window.scrollTo(0, 0);
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.doGet();
+    }
   }
 };
 </script>

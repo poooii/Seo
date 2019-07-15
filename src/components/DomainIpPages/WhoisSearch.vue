@@ -98,7 +98,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
-      this.getAll();
+      this.getWhois();
     },
     searchHot(data) {
       let storage = window.sessionStorage;
@@ -115,14 +115,15 @@ export default {
       this.show_all = !this.show_all;
     },
     getWhois() {
-      return this.$http
+      this.show_all = true;
+      this.bus.$emit("loading", true);
+      this.$http
         .get("/Api/seo/whois_info", {
           params: {
             domain: this.content
           }
         })
         .then(res => {
-          console.log(res);
           this.rawdataHtml = res.data.rawdataHtml ? res.data.rawdataHtml : "";
           this.registrant = res.data.regrinfo.name
             ? res.data.regrinfo.name
@@ -156,19 +157,12 @@ export default {
           } else {
             this.see_more = false;
           }
+          this.bus.$emit("loading", false);
         })
         .catch(res => {
           console.log(res.msg);
-        });
-    },
-    getAll() {
-      this.show_all = true;
-      this.bus.$emit("loading", true);
-      this.$http.all([this.getWhois()]).then(
-        this.$http.spread((acct, perms) => {
           this.bus.$emit("loading", false);
-        })
-      );
+        });
     }
   },
   mounted() {
@@ -177,7 +171,7 @@ export default {
     storage.setItem("navIndex", "3");
     window.scrollTo(0, 0);
     if (storage.searchContent !== "" && storage.searchContent !== undefined) {
-      this.getAll();
+      this.getWhois();
     }
     setTimeout(() => {
       this.bus.$emit("loading", false);

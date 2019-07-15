@@ -272,6 +272,7 @@ export default {
         })
         .catch(res => {
           console.log(res.msg);
+          this.list[i].loading = false;
           i++;
           this.getStatus2(cur, i);
         });

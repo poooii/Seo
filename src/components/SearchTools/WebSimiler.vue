@@ -7,6 +7,7 @@
         <div class="websiteValue_banner_input">
           <form @submit.prevent>
             <input
+              @keyup.enter="getList"
               v-model="S_SeoContent"
               type="text"
               placeholder="请输入网址"
@@ -38,10 +39,11 @@
       <div class="no_similar">
         <img src="../../assets/no_same.png" />
         <p v-if="this.isSame == true" class="no_same">相同域名不能比较！</p>
-        <p v-if="!this.isSame == true" class="same">
+        <p v-if="!this.isSame == true" class="same" v-show="!noResult">
           相同部分大概为
-          <span>1.55%</span>
+          <span>{{like}}</span>
         </p>
+        <p v-if="!this.isSame" v-show="noResult" class="no_same">未查询到结果</p>
       </div>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
@@ -67,6 +69,8 @@ export default {
       content: "",
       SeoContent: "",
       S_SeoContent: "",
+      like: "",
+      noResult: false,
       advpic: ["adv1", "adv3", "adv2"]
     };
   },
@@ -105,16 +109,23 @@ export default {
       return e;
     },
     getPageLikeInfo() {
+      this.like = "";
       this.bus.$emit("loading", true);
       this.$http
         .get("/Api/pageinfo/getPageLikeInfo", {
           params: {
-            site: this.encode_unicode_param(this.content),
-            newsite: this.encode_unicode_param(this.S_SeoContent)
+            domain1: this.encode_unicode_param(this.S_SeoContent),
+            domain2: this.encode_unicode_param(this.SeoContent)
           }
         })
         .then(res => {
           console.log(res);
+          if (res.data == null || res.data.length == 0) {
+            this.noResult = true;
+          } else {
+            this.noResult = false;
+            this.like = res.data[0].like;
+          }
           this.bus.$emit("loading", false);
         })
         .catch(res => {

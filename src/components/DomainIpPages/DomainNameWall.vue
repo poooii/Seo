@@ -15,10 +15,12 @@
           <td>1</td>
           <td>{{content}}</td>
           <td
-            v-show="disgfw.indexOf(content)<0"
+            v-show="disgfw.indexOf(content)<0&&!noResult"
             :class="nogfw.indexOf(content)>=0?'normal':'sealed'"
           >{{nogfw.indexOf(content)>=0?'正常':'被墙'}}</td>
-          <td v-show="disgfw.indexOf(content)>=0">重测</td>
+          <td v-show="disgfw.indexOf(content)>=0||noResult">
+            <a @click="checkWallInfo">重测</a>
+          </td>
         </tr>
       </table>
       <div class="adv_box">
@@ -46,6 +48,7 @@ export default {
       content: "",
       nogfw: "",
       disgfw: "",
+      noResult: false,
       advpic: ["adv1", "adv3", "adv2"]
     };
   },
@@ -77,12 +80,14 @@ export default {
         })
         .then(res => {
           console.log(res);
+          this.noResult = false;
           this.nogfw = res.data.data.nogfw;
           this.disgfw = res.data.data.disgfw;
           this.bus.$emit("loading", false);
         })
         .catch(res => {
           console.log(res.msg);
+          this.noResult = true;
           this.bus.$emit("loading", false);
         });
     }
@@ -95,9 +100,6 @@ export default {
     if (storage.searchContent !== "" && storage.searchContent !== undefined) {
       this.checkWallInfo();
     }
-    setTimeout(() => {
-      this.bus.$emit("loading", false);
-    }, 2000);
   }
 };
 </script>
@@ -122,6 +124,10 @@ export default {
       font-size: 16px;
       border-bottom: 1px solid #ebebeb;
       position: relative;
+      a {
+        color: #028ecd;
+        cursor: pointer;
+      }
     }
     td:nth-child(2) {
       text-align: left;

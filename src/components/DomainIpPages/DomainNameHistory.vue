@@ -141,6 +141,8 @@ export default {
       font-size: 16px;
       border-bottom: 1px solid #ebebeb;
       padding-right: 6px;
+      max-width: 190px;
+      overflow: hidden;
       a {
         color: #29b3ed;
       }

@@ -37,9 +37,17 @@
             {{item.cxjg}}
             <i></i>
           </td>
-          <td>
-            <img src="../../assets/bd_wt.png" alt />
-            <b>{{item.br}}</b>
+          <td :class="{loading1:item.loading1}">
+            <span v-show="item.brResult">
+              <img src="../../assets/bd_wt.png" alt />
+              <b>{{item.br}}</b>
+            </span>
+            <span
+              @click="getBaiduRank(item.value,index)"
+              class="color_red"
+              v-show="!item.brResult"
+            >重试</span>
+            <i></i>
           </td>
           <td>
             <img src="../../assets/gg_wt.png" alt />
@@ -85,6 +93,7 @@
 <script>
 import SearchBox from "../BaseComponents/SearchBox";
 import NearlySearch from "../BaseComponents/NearlySearch";
+import { fail } from "assert";
 export default {
   name: "IpSearch",
   components: {
@@ -101,7 +110,7 @@ export default {
       ip: "",
       urls: "",
       nothing: false,
-      page: "4"
+      page: "1"
     };
   },
   methods: {
@@ -124,10 +133,12 @@ export default {
       window.scrollTo(0, 0);
     },
     nextPage() {
+      window.scrollTo(0, 0);
       this.page++;
       this.getIp();
     },
     prevPage() {
+      window.scrollTo(0, 0);
       if (this.page > 1) {
         this.page--;
         this.getIp();
@@ -154,7 +165,9 @@ export default {
           let arr = res.data.urls;
           let newArr = arr.map(item => ({ value: item }));
           for (let i in newArr) {
-            newArr[i].loading = false;
+            newArr[i].loading = true;
+            newArr[i].loading1 = true;
+            newArr[i].brResult = false;
             newArr[i].cxjg = "";
             newArr[i].cx = "查询";
             newArr[i].br = "0";
@@ -170,9 +183,8 @@ export default {
           return res;
         })
         .then(res => {
-          for (let i = 0; i < res.data.urls.length; i++) {
-            this.selChange(res.data.urls[i], i);
-          }
+          let curIndex = res.data.urls.length ? res.data.urls.length : 0;
+          this.getDetails2(curIndex, 0);
         })
         .catch(res => {
           console.log(res.msg);
@@ -198,6 +210,31 @@ export default {
           })
         );
     },
+    getDetails2(cur, i) {
+      if (cur <= i) {
+        return;
+      }
+      this.$http
+        .all([
+          this.getPrGoogle(this.urls[i].value, i),
+          this.getBaiduRank(this.urls[i].value, i),
+          this.getWebpage(this.urls[i].value, i)
+        ])
+        .then(
+          this.$http.spread((acct, perms) => {
+            this.urls[i].loading = false;
+            let newUrls = JSON.parse(JSON.stringify(this.urls));
+            this.urls = newUrls;
+            i++;
+            this.getDetails2(cur, i);
+          })
+        )
+        .catch(res => {
+          console.log(res.msg);
+          i++;
+          this.getDetails2(cur, i);
+        });
+    },
     getPrGoogle(domain, idx) {
       return this.$http
         .get("/Api/seo/pr_google", {
@@ -213,6 +250,7 @@ export default {
         });
     },
     getBaiduRank(domain, idx) {
+      this.urls[idx].loading1 = true;
       return this.$http
         .get("/Api/seo/baidurank", {
           params: {
@@ -220,10 +258,18 @@ export default {
           }
         })
         .then(res => {
-          this.urls[idx].br = res.data.BR;
+          if (res.data == null || res.data == [] || res.data == undefined) {
+            this.urls[idx].brResult = false;
+          } else {
+            this.urls[idx].brResult = true;
+            this.urls[idx].br = res.data.BR;
+          }
+          this.urls[idx].loading1 = false;
         })
         .catch(res => {
           console.log(res.msg);
+          this.urls[idx].loading1 = false;
+          this.urls[idx].brResult = false;
         });
     },
     getWebpage(domain, idx) {
@@ -255,6 +301,15 @@ export default {
     window.scrollTo(0, 0);
     if (storage.searchContent !== "" && storage.searchContent !== undefined) {
       this.getIp();
+    } else {
+      if (
+        this.$route.params.shcontent !== undefined &&
+        this.$route.params.shcontent !== ""
+      ) {
+        this.content = this.$route.params.shcontent;
+        this.SeoContent = this.$route.params.shcontent;
+        this.getIp();
+      }
     }
     setTimeout(() => {
       this.bus.$emit("loading", false);
@@ -330,12 +385,18 @@ export default {
         color: #fff;
       }
     }
-    .loading {
+    .loading,
+    .loading1 {
       i {
         display: block;
       }
       span {
         display: none;
+      }
+    }
+    .loading1 {
+      i {
+        background: url(../../assets/loading.gif) no-repeat center center;
       }
     }
     td:first-child,

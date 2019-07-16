@@ -9,9 +9,10 @@
         <tr>
           <td>信息内容：</td>
           <td>
-            看足球比分，首选亚博体育！体育足球比分频道提供最快最准最全的足球即时比分，体育足球比分频道提供最快最准最全，
-            比分直播、足球比分直播与比赛现场同步，更有赛事数据统计、现场分析等。亚博更有赛事数据统计、现场分析等。亚博
-            体育官网为您提供更全面的足球资讯-看足球来这里就对了。。
+            <div :class="show_all?'hide_detail':'show_detail'">{{msg}}</div>
+            <p>
+              <span class="show_all" @click="changeShowAll">{{show_all?'展开全部>':'收起>'}}</span>
+            </p>
           </td>
         </tr>
       </table>
@@ -19,27 +20,23 @@
       <table class="web_table" width="1200px">
         <tr>
           <td>网站标题：</td>
-          <td>足球比分预测足球在线交流-亚博体育官方论坛 - POWERED BY DISCUZ!0</td>
+          <td>{{wtitle}}</td>
           <td>
-            <i>30</i> 个字符（一般不超过80）
+            <i>{{title_len}}</i> 个字符（一般不超过80）
           </td>
         </tr>
         <tr>
           <td>网站关键字：</td>
-          <td>亚博体育 足球交流 足球比分</td>
+          <td>{{keywords}}</td>
           <td>
-            <i>9</i> 个字符（一般不超过80）
+            <i>{{keywords_len}}</i> 个字符（一般不超过80）
           </td>
         </tr>
         <tr>
           <td>网站简介：</td>
+          <td>{{description}}</td>
           <td>
-            看足球比分，首选亚博体育！体育足球比分频道提供最快最准最全的足球即时比分，
-            比分直播、足球比分直播与比赛现场同步，更有赛事数据统计、现场分析等。亚博
-            体育官网为您提供更全面的足球资讯-看足球来这里就对了。。
-          </td>
-          <td>
-            <i>180</i> 个字符（一般不超过80）
+            <i>{{description_len}}</i> 个字符（一般不超过80）
           </td>
         </tr>
       </table>
@@ -47,26 +44,26 @@
       <table class="server_table" width="1200px">
         <tr>
           <td>IP：</td>
-          <td>220.181.56.216</td>
-          <td>经度：</td>
-          <td>116.3883</td>
+          <td>{{ip}}</td>
+          <td>协议类型：</td>
+          <td>{{Protocol}}</td>
         </tr>
         <tr>
-          <td>纬度：</td>
-          <td>39.9289</td>
-          <td>托管地址：</td>
-          <td>China Beijing</td>
+          <td>服务器类型：</td>
+          <td>{{Server}}</td>
+          <td>页面类型：</td>
+          <td>{{ContentType}}</td>
         </tr>
         <tr>
           <td>所在地址：</td>
-          <td>北京市电信</td>
+          <td>{{address}}</td>
           <td></td>
           <td></td>
         </tr>
       </table>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -87,6 +84,19 @@ export default {
     return {
       title: "搜索引擎模拟抓取页面",
       content: "",
+      ip: "",
+      msg: "",
+      ContentType: "",
+      Protocol: "",
+      Server: "",
+      address: "",
+      title_len: "",
+      keywords_len: "",
+      description_len: "",
+      wtitle: "",
+      keywords: "",
+      description: "",
+      show_all: true,
       advpic: ["adv1", "adv3", "adv2"]
     };
   },
@@ -95,6 +105,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getAll();
     },
     searchHot(data) {
       let storage = window.sessionStorage;
@@ -106,6 +117,88 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
+    },
+    changeShowAll() {
+      window.scrollTo(0, 0);
+      this.show_all = !this.show_all;
+    },
+    encode_unicode_param(t) {
+      for (var e = "", a = 0; a < t.length; a++) {
+        var i = t.charCodeAt(a).toString(16);
+        2 == i.length ? (e += "n" + i) : (e += i);
+      }
+      return e;
+    },
+    getWebpage() {
+      return this.$http
+        .get("/Api/seo/webpage", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          this.ContentType = res.data.header.ContentType
+            ? res.data.header.ContentType
+            : "-";
+          this.Protocol = res.data.header.Protocol
+            ? res.data.header.Protocol
+            : "-";
+          this.Server = res.data.header.Server ? res.data.header.Server : "-";
+          this.title_len = res.data.html.title_len
+            ? res.data.html.title_len
+            : "-";
+          this.keywords_len = res.data.html.keywords_len
+            ? res.data.html.keywords_len
+            : "-";
+          this.description_len = res.data.html.description_len
+            ? res.data.html.description_len
+            : "-";
+          this.wtitle = res.data.html.title ? res.data.html.title : "-";
+          this.keywords = res.data.html.keywords ? res.data.html.keywords : "-";
+          this.description = res.data.html.description
+            ? res.data.html.description
+            : "-";
+        })
+        .catch(res => {
+          console.log(res.msg);
+        });
+    },
+    getPage() {
+      return this.$http
+        .get("/Api/pageinfo/getPageInfo", {
+          params: {
+            domain: this.encode_unicode_param(this.content)
+          }
+        })
+        .then(res => {
+          this.msg = res.data[0].content;
+        })
+        .catch(res => {
+          console.log(res.msg);
+        });
+    },
+    getIp() {
+      return this.$http
+        .get("/Api/seo/dns", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          this.ip = res.data.ip ? res.data.ip : "-";
+          this.address = res.data.address ? res.data.address : "-";
+        })
+        .catch(res => {
+          console.log(res.msg);
+        });
+    },
+    getAll() {
+      this.bus.$emit("loading", true);
+      this.$http.all([this.getPage(), this.getWebpage(), this.getIp()]).then(
+        this.$http.spread((acct, perms) => {
+          this.bus.$emit("loading", false);
+        })
+      );
     }
   },
   mounted() {
@@ -113,6 +206,12 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "2");
     window.scrollTo(0, 0);
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.getAll();
+    }
+    setTimeout(() => {
+      this.bus.$emit("loading", false);
+    }, 2000);
   }
 };
 </script>
@@ -139,6 +238,18 @@ export default {
       text-align: left;
       font-size: 16px;
       line-height: 32px;
+      .hide_detail {
+        height: 320px;
+        overflow: hidden;
+      }
+      .show_detail {
+        height: auto;
+      }
+      .show_all {
+        color: #007bb7;
+        cursor: pointer;
+        font-size: 15px;
+      }
     }
     td:first-child {
       color: #808080;

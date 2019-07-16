@@ -23,14 +23,14 @@
               placeholder="输入想要查询价格的域名"
               class="websiteValue_banner_input1"
               name="yuming"
-            >
-            <input type="button">
+            />
+            <input type="button" />
             <img
               @click="getList"
               src="../../assets/websiteValue-search.png"
               alt
               class="websiteValue-search"
-            >
+            />
           </form>
         </div>
         <!-- 热门搜索 -->
@@ -55,18 +55,13 @@
         </tr>
         <tr>
           <td>1</td>
-          <td>http://news.sohu.com/s2018/guoqing69/index.shtml</td>
-          <td class="sealed">域名被封</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>http://www.baidu.com</td>
+          <td>{{content}}</td>
           <td class="normal">域名正常</td>
         </tr>
       </table>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -142,10 +137,24 @@ export default {
       window.scrollTo(0, 0);
     },
     getList() {
+      let netReg =
+        "^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$";
+      let netRe = new RegExp(netReg);
+      if (!netRe.test(this.SeoContent)) {
+        alert("请输入正确域名,域名不包括(http://以及https://)");
+        return false;
+      }
       this.content = this.SeoContent;
       this.showViews = this.downList[0].idx;
       let storage = window.sessionStorage;
       storage.setItem("searchContent", this.content);
+      this.doGet();
+    },
+    doGet() {
+      this.bus.$emit("loading", true);
+      setTimeout(() => {
+        this.bus.$emit("loading", false);
+      }, 1500);
     }
   },
   mounted() {
@@ -154,6 +163,9 @@ export default {
     this.SeoContent = storage.searchContent;
     storage.setItem("navIndex", "3");
     window.scrollTo(0, 0);
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.doGet();
+    }
   }
 };
 </script>

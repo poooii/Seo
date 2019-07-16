@@ -282,7 +282,6 @@ export default {
         });
     },
     getSuoyinDetail(domain, idx) {
-      this.list[idx].loading1 = true;
       return this.$http
         .get("/Api/seo/shoulu1", {
           params: {
@@ -303,6 +302,36 @@ export default {
         .catch(err => {
           console.log(err);
           this.list[idx].loading1 = false;
+        });
+    },
+    getSuoyinDetail2(cur, i) {
+      if (cur <= i) {
+        return;
+      }
+      this.$http
+        .get("/Api/seo/shoulu1", {
+          params: {
+            domain: this.list[i].domain
+          }
+        })
+        .then(res => {
+          if (!res.data.baidu) {
+            this.list[i].cx1 = "重测";
+          } else {
+            this.list[i].cx1 = "";
+            this.list[i].cxjg1 = res.data.baidu;
+          }
+          this.list[i].loading1 = false;
+          let newList = JSON.parse(JSON.stringify(this.list));
+          this.list = newList;
+          i++;
+          this.getSuoyinDetail2(cur, i);
+        })
+        .catch(err => {
+          console.log(err);
+          this.list[i].loading1 = false;
+          i++;
+          this.getSuoyinDetail2(cur, i);
         });
     },
     getBaiduRankDetail(domain, idx) {
@@ -329,6 +358,36 @@ export default {
           this.list[idx].loading2 = false;
         });
     },
+    getBaiduRankDetail2(cur, i) {
+      if (cur <= i) {
+        return;
+      }
+      this.$http
+        .get("/Api/seo/baidurank", {
+          params: {
+            domain: this.list[i].domain
+          }
+        })
+        .then(res => {
+          if (!res.data.avg_ip) {
+            this.list[i].cx2 = "重测";
+          } else {
+            this.list[i].cx2 = "";
+            this.list[i].cxjg2 = res.data.avg_ip + "/" + res.data.BR;
+          }
+          this.list[i].loading2 = false;
+          let newList = JSON.parse(JSON.stringify(this.list));
+          this.list = newList;
+          i++;
+          this.getBaiduRankDetail2(cur, i);
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.list[i].loading2 = false;
+          i++;
+          this.getBaiduRankDetail2(cur, i);
+        });
+    },
     getPrGoogleDetail(domain, idx) {
       this.list[idx].loading3 = true;
       return this.$http
@@ -351,6 +410,36 @@ export default {
         .catch(res => {
           console.log(res.msg);
           this.list[idx].loading3 = false;
+        });
+    },
+    getPrGoogleDetail2(cur, i) {
+      if (cur <= i) {
+        return;
+      }
+      this.$http
+        .get("/Api/seo/pr_google", {
+          params: {
+            domain: this.list[i].domain
+          }
+        })
+        .then(res => {
+          if (!res.data.value) {
+            this.list[i].cx3 = "重测";
+          } else {
+            this.list[i].cx3 = "";
+            this.list[i].cxjg3 = res.data.pr + "/" + res.data.value;
+          }
+          this.list[i].loading3 = false;
+          let newList = JSON.parse(JSON.stringify(this.list));
+          this.list = newList;
+          i++;
+          this.getPrGoogleDetail2(cur, i);
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.list[i].loading3 = false;
+          i++;
+          this.getPrGoogleDetail2(cur, i);
         });
     },
     getBackLink(url, idx) {
@@ -419,6 +508,78 @@ export default {
           this.list[idx].loading4 = false;
         });
     },
+    getBackLink2(cur, idx) {
+      if (cur <= idx) {
+        return;
+      }
+      this.$http
+        .get("/Api/seo/backlink", {
+          params: {
+            domain: this.content,
+            url: encodeURIComponent(this.list[idx].url)
+          }
+        })
+        .then(res => {
+          if (!res.data.mapLink && !res.data.linkOther && !res.data.error) {
+            this.list[idx].cx4 = "";
+            this.list[idx].noLink = "首页无本站链接!";
+            this.list[idx].cxjg4 = "外链数:" + res.data.sum;
+            this.ourLink++;
+          }
+          if (res.data.mapLink && res.data.position && !res.data.linkOther) {
+            this.list[idx].cx4 = "";
+            this.list[idx].cxjg4 =
+              "位置/外链数：" + res.data.position + "/" + res.data.sum;
+            this.list[idx].hasLink = "链接：";
+            this.list[idx].link = res.data.mapLink;
+            this.list[idx].linkTitle = res.data.mapVal;
+            this.deserveLink++;
+          }
+          if (!res.data.mapLink && !res.data.position && res.data.linkOther) {
+            this.list[idx].cx4 = "";
+            this.list[idx].cxjg4 = "外链数：" + res.data.sum;
+            this.list[idx].hasLink = "非首页链接：";
+            this.list[idx].links = [];
+            for (let i in res.data.linkOther) {
+              this.list[idx].links.push(res.data.linkOther[i]);
+            }
+            this.list[idx].links = this.list[idx].links.map(item => ({
+              link: item
+            }));
+            for (let i in this.list[idx].links) {
+              this.list[idx].links[i].linkTitle = res.data.linkOtherVal[i];
+              if (res.data.linkOtherVal[i] == "图片链接") {
+                this.picLink++;
+              } else {
+                this.wordLink++;
+              }
+            }
+            this.deserveLink++;
+          }
+          if (res.data.error) {
+            this.list[idx].cx4 = "重测";
+          }
+          this.list[idx].loading4 = false;
+          let newList = JSON.parse(JSON.stringify(this.list));
+          this.list = newList;
+          var result = this.list.some(item => {
+            if (item.loading4 == true) {
+              return true;
+            }
+          });
+          if (!result) {
+            this.finish = true;
+          }
+          idx++;
+          this.getBackLink2(cur, idx);
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.list[idx].loading4 = false;
+          idx++;
+          this.getBackLink2(cur, idx);
+        });
+    },
     getLinkInfo() {
       return this.$http
         .get("/Api/pageinfo/getLinkInfo", {
@@ -465,12 +626,11 @@ export default {
           this.$http.spread((acct, perms) => {
             this.getLinkInfo().then(res => {
               this.bus.$emit("loading", false);
-              for (let i = 0; i < res.data.list.length; i++) {
-                this.getSuoyinDetail(res.data.list[i].domain, i);
-                this.getBaiduRankDetail(res.data.list[i].domain, i);
-                this.getPrGoogleDetail(res.data.list[i].domain, i);
-                this.getBackLink(encodeURIComponent(res.data.list[i].url), i);
-              }
+              let curIndex = res.data.list.length;
+              this.getSuoyinDetail2(curIndex, 0);
+              this.getBaiduRankDetail2(curIndex, 0);
+              this.getPrGoogleDetail2(curIndex, 0);
+              this.getBackLink2(curIndex, 0);
             });
           })
         );

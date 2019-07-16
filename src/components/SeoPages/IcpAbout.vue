@@ -36,7 +36,7 @@
       </table>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -126,7 +126,7 @@ export default {
         })
         .catch(res => {
           this.foundNull = false;
-          this.bus.$emit("loading", false)
+          this.bus.$emit("loading", false);
           console.log(res.msg);
         });
     }
@@ -138,6 +138,15 @@ export default {
     window.scrollTo(0, 0);
     if (storage.searchContent !== "" && storage.searchContent !== undefined) {
       this.getIcp();
+    } else {
+      if (
+        this.$route.params.shcontent !== undefined &&
+        this.$route.params.shcontent !== ""
+      ) {
+        this.content = this.$route.params.shcontent;
+        this.SeoContent = this.$route.params.shcontent;
+        this.getIcp();
+      }
     }
     setTimeout(() => {
       this.bus.$emit("loading", false);

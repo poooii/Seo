@@ -3,7 +3,8 @@
     <!-- 头部搜索框 -->
     <SearchBox :title="title" :content="content" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
     <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
-    <div class="main_content" v-if="!content==''">
+    <div class="cha_default" v-show="noResult">未查询到结果</div>
+    <div class="main_content" v-if="!content==''" v-show="!noResult">
       <div class="content_title">
         查询结果：
         <span>文件状态良好，请查看下面具体报告</span>
@@ -14,20 +15,15 @@
           <td>解释</td>
           <td>有效</td>
         </tr>
-        <tr>
-          <td>Disallow: /*?*</td>
-          <td>禁止Baiduspider访问任何带参数的页面</td>
-          <td class="right">正确</td>
-        </tr>
-        <tr>
-          <td>User-agent: Baiduspider</td>
-          <td>开始配置：Baiduspider</td>
-          <td class="right">正确</td>
+        <tr v-for="item in list">
+          <td>{{item.rule}}</td>
+          <td v-html="item.content"></td>
+          <td :class="item.status">有效</td>
         </tr>
       </table>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -48,7 +44,9 @@ export default {
     return {
       title: "Robots检测",
       content: "",
-      advpic: ["adv1", "adv3", "adv2"]
+      advpic: ["adv1", "adv3", "adv2"],
+      list: "",
+      noResult: false
     };
   },
   methods: {
@@ -56,6 +54,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getRobotsInfo();
     },
     searchHot(data) {
       let storage = window.sessionStorage;
@@ -67,6 +66,32 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
+    },
+    getRobotsInfo() {
+      this.bus.$emit("loading", true);
+      this.$http
+        .get("/Api/pageinfo/getRobotsInfo", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          if (
+            res.data == null ||
+            res.data == undefined ||
+            res.data.length == 0
+          ) {
+            this.noResult = true;
+          } else {
+            this.noResult = false;
+            this.list = res.data;
+          }
+          this.bus.$emit("loading", false);
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.bus.$emit("loading", false);
+        });
     }
   },
   mounted() {
@@ -74,6 +99,12 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "2");
     window.scrollTo(0, 0);
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.getRobotsInfo();
+    }
+    setTimeout(() => {
+      this.bus.$emit("loading", false);
+    }, 2000);
   }
 };
 </script>
@@ -106,7 +137,7 @@ export default {
       border-left: 1px solid #ebebeb;
       color: #999;
     }
-    .right {
+    .ico-correct {
       color: #00b35d;
     }
   }

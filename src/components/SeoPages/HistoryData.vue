@@ -23,14 +23,14 @@
               placeholder="输入想要查询价格的域名"
               class="websiteValue_banner_input1"
               name="yuming"
-            >
-            <input type="button">
+            />
+            <input type="button" />
             <img
               @click="getList"
               src="../../assets/websiteValue-search.png"
               alt
               class="websiteValue-search"
-            >
+            />
           </form>
         </div>
         <!-- 热门搜索 -->
@@ -840,6 +840,13 @@ export default {
     },
     // 搜索框搜索
     getList() {
+      let netReg =
+        "^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$";
+      let netRe = new RegExp(netReg);
+      if (!netRe.test(this.SeoContent)) {
+        alert("请输入正确域名,域名不包括(http://以及https://)");
+        return false;
+      }
       this.content = this.SeoContent;
       this.showViews = this.downList[0].idx;
       let storage = window.sessionStorage;

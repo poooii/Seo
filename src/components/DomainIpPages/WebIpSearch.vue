@@ -3,11 +3,9 @@
     <!-- 头部搜索框 -->
     <SearchBox :title="title" :content="content" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
     <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
+    <div class="cha_default" v-show="noAnswer">未查询到该网站IP</div>
     <div class="main_content" v-if="!content==''">
-      <div class="content_title">
-        查询结果：
-        <span>文件状态良好，请查看下面具体报告</span>
-      </div>
+      <div class="content_title">查询结果：</div>
       <table width="1200px" class="tsz_table">
         <tr>
           <td>序号</td>
@@ -17,21 +15,17 @@
         <tr>
           <td>1</td>
           <td>
-            <a target="_blank" href="http://www.souhu.com">www.sohu.com</a>
+            <a target="_blank" :href="'http://'+content">{{content}}</a>
           </td>
-          <td>101.227.172.11 上海市 北京搜狐互联网信息服务有限公司电信节点</td>
-        </tr>
-        <tr>
-          <td>2</td>
           <td>
-            <a target="_blank" href="http://www.souhu.com">www.sohu.com</a>
+            {{ip}}
+            <span>{{info}}</span>
           </td>
-          <td>101.227.172.11 上海市 北京搜狐互联网信息服务有限公司电信节点</td>
         </tr>
       </table>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -52,7 +46,10 @@ export default {
     return {
       title: "网站IP查询",
       content: "",
-      advpic: ["adv1", "adv3", "adv2"]
+      advpic: ["adv1", "adv3", "adv2"],
+      ip: "",
+      info: "",
+      noAnswer: false
     };
   },
   methods: {
@@ -60,39 +57,29 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
-      this.getAll();
+      this.getIpInfo();
     },
-    getAll() {
+    getIpInfo() {
       this.bus.$emit("loading", true);
-      this.$http.all([this.getBd1(), this.getBd2()]).then(
-        this.$http.spread((acct, perms) => {
-          this.bus.$emit("loading", false)
-        })
-      );
-    },
-    getBd1() {
       return this.$http
-        .get("/Api/OnlineZhongJi", {
+        .get("/Api/Pageinfo/getIpInfo", {
           params: {
-            cc: 1,
-            rn: 1
+            ip: this.content,
+            type: 2
           }
         })
         .then(res => {
-          console.log(res);
+          this.ip = res.data.ip;
+          this.info = res.data.info;
+          this.bus.$emit("loading", false);
+          if (res.data == null || !res.data.ip) {
+            this.noAnswer = true;
+          }
         })
         .catch(err => {
           console.log(err);
-        });
-    },
-    getBd2() {
-      return this.$http
-        .get("/Api/OnlineZhongJie")
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
+          this.bus.$emit("loading", false);
+          this.noAnswer = true;
         });
     },
     searchHot(data) {
@@ -111,11 +98,13 @@ export default {
     let storage = window.sessionStorage;
     if (storage.searchContent !== "" && storage.searchContent !== undefined) {
       this.content = storage.searchContent;
-      this.getAll();
+      this.getIpInfo();
     }
-
     storage.setItem("navIndex", "3");
     window.scrollTo(0, 0);
+    setTimeout(() => {
+      this.bus.$emit("loading", false);
+    }, 2000);
   }
 };
 </script>

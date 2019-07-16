@@ -13,23 +13,19 @@
         </tr>
         <tr>
           <td>1</td>
-          <td>http://news.sohu.com/s2018/guoqing69/index.shtml</td>
-          <td class="sealed">被墙</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>http://www.baidu.com</td>
-          <td class="normal">正常</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>http://www.baidu.com</td>
-          <td class="retest">重测</td>
+          <td>{{content}}</td>
+          <td
+            v-show="disgfw.indexOf(content)<0&&!noResult"
+            :class="nogfw.indexOf(content)>=0?'normal':'sealed'"
+          >{{nogfw.indexOf(content)>=0?'正常':'被墙'}}</td>
+          <td v-show="disgfw.indexOf(content)>=0||noResult">
+            <a @click="checkWallInfo">重测</a>
+          </td>
         </tr>
       </table>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -50,6 +46,9 @@ export default {
     return {
       title: "域名被墙",
       content: "",
+      nogfw: "",
+      disgfw: "",
+      noResult: false,
       advpic: ["adv1", "adv3", "adv2"]
     };
   },
@@ -58,6 +57,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.checkWallInfo();
     },
     searchHot(data) {
       let storage = window.sessionStorage;
@@ -69,6 +69,27 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
+    },
+    checkWallInfo() {
+      this.bus.$emit("loading", true);
+      this.$http
+        .get("/Api/Pageinfo/checkWallInfo", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          console.log(res);
+          this.noResult = false;
+          this.nogfw = res.data.data.nogfw;
+          this.disgfw = res.data.data.disgfw;
+          this.bus.$emit("loading", false);
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.noResult = true;
+          this.bus.$emit("loading", false);
+        });
     }
   },
   mounted() {
@@ -76,6 +97,9 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "3");
     window.scrollTo(0, 0);
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.checkWallInfo();
+    }
   }
 };
 </script>
@@ -100,6 +124,10 @@ export default {
       font-size: 16px;
       border-bottom: 1px solid #ebebeb;
       position: relative;
+      a {
+        color: #028ecd;
+        cursor: pointer;
+      }
     }
     td:nth-child(2) {
       text-align: left;
@@ -114,9 +142,9 @@ export default {
     .normal {
       color: #63c85e;
     }
-    .retest{
-        color: #028ecd;
-        cursor: pointer;
+    .retest {
+      color: #028ecd;
+      cursor: pointer;
     }
   }
   tr:first-child {

@@ -23,14 +23,14 @@
               placeholder="输入想要查询价格的域名"
               class="websiteValue_banner_input1"
               name="yuming"
-            >
-            <input type="button">
+            />
+            <input type="button" />
             <img
               @click="getList"
               src="../../assets/websiteValue-search.png"
               alt
               class="websiteValue-search"
-            >
+            />
           </form>
         </div>
         <!-- 热门搜索 -->
@@ -45,13 +45,15 @@
       </div>
     </div>
     <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
-    <div class="main_content" v-if="!content==''">
+    <div class="cha_default" v-show="noLink">未检测到友链</div>
+    <div class="main_content" v-if="!content==''" v-show="!noLink">
       <div class="content_title">
         查询结果：
         <span>
           共有链接
-          <i class="alive">498</i> 个；死链接
-          <i class="dead">214</i> 个 检测完成
+          <i class="alive">{{d_len}}</i> 个；死链接
+          <i class="dead">{{deadLink}}</i> 个
+          <img v-show="finish" src="../../assets/loading_detail.gif" />
         </span>
       </div>
       <table class="link_table" width="1200px">
@@ -61,67 +63,22 @@
           <td>网站标题</td>
           <td>状态</td>
         </tr>
-        <tr>
-          <td>1</td>
+        <tr v-for="(item,index) in list">
+          <td>{{index+1}}</td>
           <td>
-            <a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a>
+            <a target="_blank" :href="item.url">{{item.url}}</a>
           </td>
-          <td>搜狐号</td>
-          <td class="alive">正常</td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>
-            <a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a>
-          </td>
-          <td>搜狐号</td>
-          <td class="alive">正常</td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>
-            <a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a>
-          </td>
-          <td>搜狐号</td>
-          <td class="alive">正常</td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>
-            <a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a>
-          </td>
-          <td>搜狐号</td>
-          <td class="dead">死链接</td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>
-            <a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a>
-          </td>
-          <td>搜狐号</td>
-          <td class="alive">正常</td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>
-            <a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a>
-          </td>
-          <td>搜狐号</td>
-          <td class="alive">正常</td>
-        </tr>
-        <tr>
-          <td colspan="4">
-            <span><</span>
-            <span v-for="num in 10">{{num}}</span>
-            <span>...</span>
-            <span class="color_blue">50</span>
-            <span>></span>
+          <td>{{item.tilte}}</td>
+          <td :class="{loading:item.loading,alive:true}">
+            <span @click="getStatus(item.url,index)">{{item.cx}}</span>
+            {{item.cxjg}}
+            <i></i>
           </td>
         </tr>
       </table>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -142,6 +99,12 @@ export default {
       SeoContent: "",
       advpic: ["adv1", "adv3", "adv2"],
       content: "",
+      showViews: "0",
+      noLink: false,
+      finish: false,
+      deadLink: 0,
+      list: "",
+      d_len: 0,
       downList: [
         {
           name: "所有链接",
@@ -193,14 +156,126 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       this.SeoContent = storage.searchContent;
-      this.searchIdx = 0;
+      this.showViews = 0;
       window.scrollTo(0, 0);
     },
     getList() {
+      let netReg =
+        "^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$";
+      let netRe = new RegExp(netReg);
+      if (!netRe.test(this.SeoContent)) {
+        alert("请输入正确域名,域名不包括(http://以及https://)");
+        return false;
+      }
       this.content = this.SeoContent;
       this.showViews = this.downList[0].idx;
       let storage = window.sessionStorage;
       storage.setItem("searchContent", this.content);
+      this.deadLink = 0;
+      this.getDLinkInfo();
+    },
+    encode_unicode_param(t) {
+      for (var e = "", a = 0; a < t.length; a++) {
+        var i = t.charCodeAt(a).toString(16);
+        2 == i.length ? (e += "n" + i) : (e += i);
+      }
+      return e;
+    },
+    getDLinkInfo() {
+      this.bus.$emit("loading", true);
+      this.finish = true;
+      return this.$http
+        .get("/Api/pageinfo/getDLinkInfo", {
+          params: {
+            domain:
+              this.encode_unicode_param(this.content) +
+              "_" +
+              this.showViews +
+              "_1"
+          }
+        })
+        .then(res => {
+          if (res.data == null || res.data.length == 0) {
+            this.noLink = true;
+          } else {
+            this.noLink = false;
+            this.list = res.data;
+            this.d_len = this.list.length ? this.list.length : 0;
+          }
+          for (let i in this.list) {
+            this.list[i].cx = "重查";
+            this.list[i].cxjg = "";
+            this.list[i].loading = true;
+          }
+          this.bus.$emit("loading", false);
+          let curIndex = this.list.length ? this.list.length : 0;
+          this.getStatus2(curIndex, 0);
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.bus.$emit("loading", false);
+        });
+    },
+    getStatus(domain, idx) {
+      this.list[idx].loading = true;
+      let newList = JSON.parse(JSON.stringify(this.list));
+      this.list = newList;
+      return this.$http
+        .get("/Api/pageinfo/getDLinkStatus", {
+          params: {
+            domain: domain
+          }
+        })
+        .then(res => {
+          if (res.data.linkbad == "0") {
+            this.list[idx].cx = "";
+            this.list[idx].cxjg = "正常";
+          } else {
+            this.list[idx].cx = "重查";
+            this.list[idx].cxjg = "";
+          }
+          this.list[idx].loading = false;
+          let newList = JSON.parse(JSON.stringify(this.list));
+          this.list = newList;
+        })
+        .catch(res => {
+          console.log(res.msg);
+        });
+    },
+    getStatus2(cur, i) {
+      if (cur <= i) {
+        this.finish = false;
+        return;
+      }
+      this.$http
+        .get("/Api/pageinfo/getDLinkStatus", {
+          params: {
+            domain: this.list[i].url
+          }
+        })
+        .then(res => {
+          if (res.data.linkbad == "0") {
+            this.list[i].cx = "";
+            this.list[i].cxjg = "正常";
+          } else {
+            this.list[i].cx = "重查";
+            this.list[i].cxjg = "";
+          }
+          if (res.data.linkbad == "1") {
+            this.deadLink++;
+          }
+          this.list[i].loading = false;
+          let newList = JSON.parse(JSON.stringify(this.list));
+          this.list = newList;
+          i++;
+          this.getStatus2(cur, i);
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.list[i].loading = false;
+          i++;
+          this.getStatus2(cur, i);
+        });
     }
   },
   mounted() {
@@ -209,6 +284,12 @@ export default {
     this.SeoContent = storage.searchContent;
     storage.setItem("navIndex", "2");
     window.scrollTo(0, 0);
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.getDLinkInfo();
+    }
+    setTimeout(() => {
+      this.bus.$emit("loading", false);
+    }, 2000);
   }
 };
 </script>
@@ -316,6 +397,9 @@ export default {
     font-size: 24px;
     color: #333;
     margin: 60px 0 35px 0;
+    img {
+      width: 60px;
+    }
     span {
       font-size: 18px;
       color: #666;
@@ -331,6 +415,12 @@ export default {
 .link_table {
   border: 1px solid #ebebeb;
   border-bottom: none;
+  i {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: url(../../assets/loading.gif) no-repeat center center;
+  }
   tr {
     td {
       min-width: 100px;
@@ -341,12 +431,21 @@ export default {
       a {
         color: #007bb7;
       }
+      span {
+        color: #ff3838;
+        cursor: pointer;
+      }
+    }
+    .loading {
+      i {
+        display: block;
+      }
+      span {
+        display: none;
+      }
     }
     .alive {
       color: #00b35d;
-    }
-    .dead {
-      color: #ff3838;
     }
     td:nth-child(2) {
       text-align: left;
@@ -359,23 +458,6 @@ export default {
   tr:first-child {
     background: #fafafa;
     color: #666;
-  }
-  tr:last-child {
-    td {
-      text-align: right;
-      span {
-        display: inline-block;
-        height: 60px;
-        line-height: 60px;
-        margin-right: 24px;
-        cursor: pointer;
-        font-size: 16px;
-        color: #333;
-      }
-      span:hover {
-        color: #007bb7;
-      }
-    }
   }
 }
 .adv_box {

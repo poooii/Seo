@@ -5,7 +5,35 @@
     <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
     <div class="main_content" v-if="!content==''">
       <div class="content_title">查询结果</div>
-      <table class="ip_main_table" width="1200px">
+      <table class="ip_main_table" width="1200px" v-show="!nothing">
+        <tr>
+          <td>序号</td>
+          <td>域名</td>
+          <td>标题</td>
+          <td>BR</td>
+          <td>反链数</td>
+          <td>链接名称</td>
+        </tr>
+        <tr v-for="(item,index) in list">
+          <td>{{index+1}}</td>
+          <td>
+            <a :href="'http://'+item.site" target="_blank">{{item.site}}</a>
+          </td>
+          <td>{{item.title}}</td>
+          <td>
+            <img :src="item.br_img" alt />
+          </td>
+          <td>{{item.f_links}}</td>
+          <td>{{item.link_title}}</td>
+        </tr>
+        <tr>
+          <td colspan="6">
+            <span class="fl" @click="prevPage"><上一页</span>
+            <span class="fr" @click="nextPage">下一页></span>
+          </td>
+        </tr>
+      </table>
+      <table class="ip_main_table ip_main_table2" width="1200px" v-show="nothing">
         <tr>
           <td>序号</td>
           <td>域名</td>
@@ -15,96 +43,13 @@
           <td>链接名称</td>
         </tr>
         <tr>
-          <td>0</td>
-          <td>
-            <a href="http://www.pc6.com" target="_blank">www.pc6.com</a>
+          <td colspan="6">
+            <img src="../../assets/no_ipdata.png" alt />
           </td>
-          <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
-          <td>
-            <img src="../../assets/bd_wt.png" alt />
-          </td>
-          <td>≈13</td>
-          <td>PC6安卓网</td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>
-            <a href="http://www.pc6.com" target="_blank">www.pc6.com</a>
-          </td>
-          <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
-          <td>
-            <img src="../../assets/bd_wt.png" alt />
-          </td>
-          <td>≈13</td>
-          <td>PC6安卓网</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>
-            <a href="http://www.pc6.com" target="_blank">www.pc6.com</a>
-          </td>
-          <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
-          <td>
-            <img src="../../assets/bd_wt.png" alt />
-          </td>
-          <td>≈13</td>
-          <td>PC6安卓网</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>
-            <a href="http://www.pc6.com" target="_blank">www.pc6.com</a>
-          </td>
-          <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
-          <td>
-            <img src="../../assets/bd_wt.png" alt />
-          </td>
-          <td>≈13</td>
-          <td>PC6安卓网</td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>
-            <a href="http://www.pc6.com" target="_blank">www.pc6.com</a>
-          </td>
-          <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
-          <td>
-            <img src="../../assets/bd_wt.png" alt />
-          </td>
-          <td>≈13</td>
-          <td>PC6安卓网</td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td>
-            <a href="http://www.pc6.com" target="_blank">www.pc6.com</a>
-          </td>
-          <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
-          <td>
-            <img src="../../assets/bd_wt.png" alt />
-          </td>
-          <td>≈13</td>
-          <td>PC6安卓网</td>
-        </tr>
-        <tr>
-          <td>6</td>
-          <td>
-            <a href="http://www.pc6.com" target="_blank">www.pc6.com</a>
-          </td>
-          <td>pc6下载站 _ 官方软件下载基地_安全的软件官方下载网站！</td>
-          <td>
-            <img src="../../assets/bd_wt.png" alt />
-          </td>
-          <td>≈13</td>
-          <td>PC6安卓网</td>
         </tr>
         <tr>
           <td colspan="6">
-            <span><</span>
-            <span v-for="num in 10">{{num}}</span>
-            <span>...</span>
-            <span class="color_blue">50</span>
-            <span>></span>
+            <span @click="prevPage"><上一页</span>
           </td>
         </tr>
       </table>
@@ -131,7 +76,10 @@ export default {
     return {
       title: "反链查询-首页反链",
       content: "",
-      advpic: ["adv1", "adv3", "adv2"]
+      advpic: ["adv1", "adv3", "adv2"],
+      nothing: false,
+      page: 1,
+      list: ""
     };
   },
   methods: {
@@ -139,6 +87,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.page = 1;
       this.getFlinkInfo();
     },
     searchHot(data) {
@@ -152,16 +101,37 @@ export default {
       this.content = storage.searchContent;
       window.scrollTo(0, 0);
     },
+    nextPage() {
+      window.scrollTo(0, 0);
+      this.page++;
+      this.getFlinkInfo();
+    },
+    prevPage() {
+      window.scrollTo(0, 0);
+      if (this.page > 1) {
+        this.page--;
+        this.getFlinkInfo();
+      } else {
+        alert("已经是最前页");
+      }
+    },
     getFlinkInfo() {
       this.bus.$emit("loading", true);
       this.$http
         .get("/Api/pageinfo/getFlinkinfo", {
           params: {
-            domain: this.content
+            domain: this.content,
+            page: this.page
           }
         })
         .then(res => {
           console.log(res);
+          if (res.data == null || res.data.length == 0) {
+            this.nothing = true;
+          } else {
+            this.nothing = false;
+            this.list = res.data;
+          }
           this.bus.$emit("loading", false);
         })
         .catch(res => {
@@ -177,6 +147,15 @@ export default {
     window.scrollTo(0, 0);
     if (storage.searchContent !== "" && storage.searchContent !== undefined) {
       this.getFlinkInfo();
+    } else {
+      if (
+        this.$route.params.shcontent !== undefined &&
+        this.$route.params.shcontent !== ""
+      ) {
+        this.content = this.$route.params.shcontent;
+        this.SeoContent = this.$route.params.shcontent;
+        this.getFlinkInfo();
+      }
     }
     setTimeout(() => {
       this.bus.$emit("loading", false);
@@ -231,15 +210,13 @@ export default {
   }
   tr:last-child {
     td {
-      text-align: right;
-    }
-    span {
-      display: inline-block;
-      height: 60px;
-      line-height: 60px;
-      margin-right: 24px;
-      cursor: pointer;
-      font-size: 16px;
+      padding: 0 182px;
+      span {
+        cursor: pointer;
+      }
+      span:hover {
+        color: #007bb7;
+      }
     }
   }
 }

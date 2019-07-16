@@ -10,7 +10,7 @@
       <div>
         <ul class="weight_content clearfix">
           <li class="weight_details">
-            <img class="baidu_tags" src="../../assets/weight_01.png" alt>
+            <img class="baidu_tags" src="../../assets/weight_01.png" alt />
             <ol>
               <li>
                 预计来路：
@@ -18,7 +18,7 @@
               </li>
               <li>
                 权重：
-                <img src="../../assets/bd_wt.png" alt>
+                <img src="../../assets/bd_wt.png" alt />
                 <i>{{br}}</i>
               </li>
               <li>
@@ -31,7 +31,7 @@
             </ol>
           </li>
           <li class="weight_details">
-            <img class="baidu_tags" src="../../assets/weight_02.png" alt>
+            <img class="baidu_tags" src="../../assets/weight_02.png" alt />
             <ol>
               <li>
                 预计来路：
@@ -39,7 +39,7 @@
               </li>
               <li>
                 权重：
-                <img src="../../assets/bd_wt.png" alt>
+                <img src="../../assets/bd_wt.png" alt />
                 <i>{{br_m}}</i>
               </li>
               <li>
@@ -52,7 +52,7 @@
             </ol>
           </li>
           <li class="weight_details">
-            <img class="baidu_tags" src="../../assets/weight_03.png" alt>
+            <img class="baidu_tags" src="../../assets/weight_03.png" alt />
             <ol>
               <li>
                 总来路：
@@ -122,7 +122,7 @@
       <!-- 广告位 -->
       <div class="advertise_box">
         <a v-for="advs in advpic" href>
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
       <!-- 广告位下表格 -->
@@ -1003,9 +1003,9 @@ export default {
   },
   filters: {
     sortKeyNum(val) {
-      var result=val
-      if(val>0)result="+"+val
-      return result
+      var result = val;
+      if (val > 0) result = "+" + val;
+      return result;
     }
   },
   mounted() {
@@ -1015,6 +1015,15 @@ export default {
     window.scrollTo(0, 0);
     if (storage.searchContent !== "" && storage.searchContent !== undefined) {
       this.getAll();
+    } else {
+      if (
+        this.$route.params.shcontent !== undefined &&
+        this.$route.params.shcontent !== ""
+      ) {
+        this.content = this.$route.params.shcontent;
+        this.SeoContent = this.$route.params.shcontent;
+        this.getAll();
+      }
     }
     setTimeout(() => {
       this.bus.$emit("loading", false);

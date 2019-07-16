@@ -36,15 +36,9 @@
       </div>
     </div>
     <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
-    <div class="main_content" v-if="!content==''">
-      <div class="content_title">
-        查询结果：
-        <span>
-          共有链接
-          <i class="alive">498</i> 个；死链接
-          <i class="dead">214</i> 个 检测完成
-        </span>
-      </div>
+    <div class="cha_default" v-show="noResult">未查询到结果</div>
+    <div class="main_content" v-if="!content==''" v-show="!noResult">
+      <div class="content_title">查询结果：</div>
       <table class="link_table" width="1200px">
         <tr>
           <td>序号</td>
@@ -54,76 +48,26 @@
           <td>BR</td>
           <td>PR</td>
         </tr>
-        <tr>
-          <td>1</td>
+        <tr v-for="(item,index) in list">
+          <td>{{index+1}}</td>
           <td>
-            <a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a>
+            <a :href="'http://'+item.site">{{item.site}}</a>
           </td>
-          <td>马云</td>
+          <td>{{item.phone}}</td>
           <td>
-            <a href="javascript:void(0);">sjjh@163.com</a>
+            <img :src="item.email" alt />
           </td>
-          <td>
-            <img src="../../assets/bd_wt.png" alt />
-            <span>0</span>
+          <td :class="{loading1:item.loading1}">
+            <img v-show="!item.noBrResult" src="../../assets/bd_wt.png" alt />
+            <span v-show="!item.noBrResult">{{item.cxjg1}}</span>
+            <a @click="getBaiduRankDetail(list.length,index,false)" v-show="item.noBrResult">重测</a>
+            <i></i>
           </td>
-          <td>
-            <img src="../../assets/gg_wt.png" alt />
-            <span>0</span>
-          </td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>
-            <a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a>
-          </td>
-          <td>马云</td>
-          <td>
-            <a href="javascript:void(0);">sjjh@163.com</a>
-          </td>
-          <td>
-            <img src="../../assets/bd_wt.png" alt />
-            <span>0</span>
-          </td>
-          <td>
-            <img src="../../assets/gg_wt.png" alt />
-            <span>0</span>
-          </td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>
-            <a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a>
-          </td>
-          <td>马云</td>
-          <td>
-            <a href="javascript:void(0);">sjjh@163.com</a>
-          </td>
-          <td>
-            <img src="../../assets/bd_wt.png" alt />
-            <span>0</span>
-          </td>
-          <td>
-            <img src="../../assets/gg_wt.png" alt />
-            <span>0</span>
-          </td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>
-            <a href="http://www.baidu.com">http://news.sohu.com/s2018/guoqing69/index.shtml</a>
-          </td>
-          <td>马云</td>
-          <td>
-            <a href="javascript:void(0);">sjjh@163.com</a>
-          </td>
-          <td>
-            <img src="../../assets/bd_wt.png" alt />
-            <span>0</span>
-          </td>
-          <td>
-            <img src="../../assets/gg_wt.png" alt />
-            <span>0</span>
+          <td :class="{loading2:item.loading2}">
+            <img v-show="!item.noPrResult" src="../../assets/gg_wt.png" alt />
+            <span v-show="!item.noPrResult">{{item.cxjg2}}</span>
+            <a @click="getPrGoogleDetail(list.length,index,false)" v-show="item.noPrResult">重测</a>
+            <i></i>
           </td>
         </tr>
       </table>
@@ -148,15 +92,18 @@ export default {
     return {
       searchIdx: "0",
       SeoContent: "",
+      showViews: "0",
+      list: "",
+      noResult: false,
       downList: [
         {
           name: "通过注册人",
           idx: "0"
-        },
-        {
-          name: "通过邮箱",
-          idx: "1"
         }
+        // {
+        //   name: "通过邮箱",
+        //   idx: "1"
+        // }
       ],
       advpic: ["adv1", "adv3", "adv2"],
       content: ""
@@ -186,17 +133,117 @@ export default {
       window.scrollTo(0, 0);
     },
     getList() {
-      let netReg =
-        "^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$";
-      let netRe = new RegExp(netReg);
-      if (!netRe.test(this.SeoContent)) {
-        alert("请输入正确域名,域名不包括(http://以及https://)");
-        return false;
-      }
       this.content = this.SeoContent;
       this.showViews = this.downList[0].idx;
       let storage = window.sessionStorage;
       storage.setItem("searchContent", this.content);
+      if (this.showViews == "0") {
+        this.getRWhois();
+      }
+    },
+    getRWhois() {
+      this.$http
+        .get("/Api/pageinfo/getRWhoisInfo", {
+          params: {
+            t: "registrant",
+            q: this.content
+          }
+        })
+        .then(res => {
+          if (res.data.length == 0 || res.data == null) {
+            this.noResult = true;
+          } else {
+            this.list = res.data;
+            for (let i in this.list) {
+              this.list[i].loading1 = true;
+              this.list[i].loading2 = true;
+              this.list[i].cxjg1 = "";
+              this.list[i].cxjg2 = "";
+            }
+            this.noResult = false;
+          }
+          let curIndex = res.data.length;
+          this.getBaiduRankDetail(curIndex, 0, true);
+          this.getPrGoogleDetail(curIndex, 0, true);
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.noResult = true;
+        });
+    },
+    getBaiduRankDetail(cur, i, goOn) {
+      if (cur <= i) {
+        return;
+      }
+      this.list[i].loading1 = true;
+      let newList1 = JSON.parse(JSON.stringify(this.list));
+      this.list = newList1;
+      this.$http
+        .get("/Api/seo/baidurank", {
+          params: {
+            domain: this.list[i].site
+          }
+        })
+        .then(res => {
+          if (res.data == null || res.data.length == 0) {
+            this.list[i].noBrResult = true;
+          } else {
+            this.list[i].noBrResult = false;
+            this.list[i].cxjg1 = res.data.BR;
+          }
+          this.list[i].loading1 = false;
+          let newList = JSON.parse(JSON.stringify(this.list));
+          this.list = newList;
+          if (goOn) {
+            i++;
+            this.getBaiduRankDetail(cur, i, goOn);
+          }
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.list[i].loading1 = false;
+          if (goOn) {
+            i++;
+            this.getBaiduRankDetail(cur, i, goOn);
+          }
+        });
+    },
+    getPrGoogleDetail(cur, i, goOn) {
+      if (cur <= i) {
+        return;
+      }
+      this.list[i].loading2 = true;
+      let newList1 = JSON.parse(JSON.stringify(this.list));
+      this.list = newList1;
+      this.$http
+        .get("/Api/seo/pr_google", {
+          params: {
+            domain: this.list[i].site
+          }
+        })
+        .then(res => {
+          if (res.data == null || res.data.length == 0) {
+            this.list[i].noPrResult = true;
+          } else {
+            this.list[i].noPrResult = false;
+            this.list[i].cxjg2 = res.data.pr;
+          }
+          this.list[i].loading2 = false;
+          let newList = JSON.parse(JSON.stringify(this.list));
+          this.list = newList;
+          if (goOn) {
+            i++;
+            this.getPrGoogleDetail(cur, i, goOn);
+          }
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.list[i].loading2 = false;
+          if (goOn) {
+            i++;
+            this.getPrGoogleDetail(cur, i, goOn);
+          }
+        });
     }
   },
   mounted() {
@@ -205,6 +252,12 @@ export default {
     this.SeoContent = storage.searchContent;
     storage.setItem("navIndex", "3");
     window.scrollTo(0, 0);
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.getRWhois();
+    }
+    setTimeout(() => {
+      this.bus.$emit("loading", false);
+    }, 2000);
   }
 };
 </script>
@@ -327,6 +380,12 @@ export default {
 .link_table {
   border: 1px solid #ebebeb;
   border-bottom: none;
+  i {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: url(../../assets/loading.gif) no-repeat center center;
+  }
   tr {
     td {
       min-width: 100px;
@@ -337,11 +396,12 @@ export default {
       position: relative;
       a {
         color: #007bb7;
+        cursor: pointer;
       }
       span {
         position: absolute;
         top: 17px;
-        left: 63px;
+        left: 74px;
         color: #fff;
       }
     }
@@ -353,6 +413,21 @@ export default {
     }
     td:first-child {
       width: 100px;
+    }
+    .loading1,
+    .loading2 {
+      i {
+        display: block;
+      }
+      span {
+        display: none;
+      }
+      img {
+        display: none;
+      }
+      a {
+        display: none;
+      }
     }
   }
   tr:first-child {

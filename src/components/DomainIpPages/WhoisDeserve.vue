@@ -142,6 +142,7 @@ export default {
       }
     },
     getRWhois() {
+      this.bus.$emit("loading", true);
       this.$http
         .get("/Api/pageinfo/getRWhoisInfo", {
           params: {
@@ -165,10 +166,12 @@ export default {
           let curIndex = res.data.length;
           this.getBaiduRankDetail(curIndex, 0, true);
           this.getPrGoogleDetail(curIndex, 0, true);
+          this.bus.$emit("loading", false);
         })
         .catch(res => {
           console.log(res.msg);
           this.noResult = true;
+          this.bus.$emit("loading", false);
         });
     },
     getBaiduRankDetail(cur, i, goOn) {
@@ -410,6 +413,10 @@ export default {
       text-align: left;
       min-width: 200px;
       padding-left: 60px;
+    }
+    td:nth-child(5),
+    td:nth-child(6) {
+      min-width: 132px;
     }
     td:first-child {
       width: 100px;

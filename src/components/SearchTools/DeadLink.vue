@@ -20,7 +20,7 @@
               @keyup.enter="getList"
               v-model="SeoContent"
               type="text"
-              placeholder="输入想要查询价格的域名"
+              placeholder="输入想要查询的域名"
               class="websiteValue_banner_input1"
               name="yuming"
             />

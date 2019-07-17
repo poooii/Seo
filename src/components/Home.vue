@@ -7,7 +7,7 @@
               <p class="websiteValue_banner_title2">致力服务每一位站长！</p>
               <div class="websiteValue_banner_input">
                   <form>
-                      <input v-model="content" type="text" placeholder="输入想要查询价格的域名" class="websiteValue_banner_input1" name="yuming">
+                      <input v-model="content" type="text" placeholder="输入想要查询的域名" class="websiteValue_banner_input1" name="yuming">
                       <button @click="tosearch">
                           <img src="../assets/websiteValue-search.png" alt="" class="websiteValue-search">
                       </button>

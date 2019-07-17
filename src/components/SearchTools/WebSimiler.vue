@@ -128,7 +128,7 @@ export default {
             this.errMsg = res.data.error_message;
           } else {
             this.noResult = false;
-            this.like = res.data.result;
+            this.like = res.data[0].result;
           }
           this.bus.$emit("loading", false);
         })

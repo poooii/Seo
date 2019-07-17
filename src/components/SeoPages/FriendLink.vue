@@ -38,9 +38,9 @@
           <td>文字链接</td>
         </tr>
         <tr>
-          <td>出站链接：20</td>
-          <td>8</td>
-          <td>12</td>
+          <td>出站链接：{{out}}</td>
+          <td>{{img}}</td>
+          <td>{{text}}</td>
         </tr>
         <tr>
           <td>反向链接：{{deserveLink}}</td>
@@ -153,7 +153,10 @@ export default {
       Sdirection: 3,
       Rdirection: 3,
       Pdirection: 3,
-      Fdirection: 3
+      Fdirection: 3,
+      out:'',
+      img:'',
+      text:'',
     };
   },
   methods: {
@@ -590,6 +593,9 @@ export default {
         .then(res => {
           let Res = JSON.parse(JSON.stringify(res));
           this.list = res.data.list;
+          this.out = res.data.url.out ? res.data.url.out : '-'
+          this.img = res.data.url.img ? res.data.url.img : '-'
+          this.text = res.data.url.text ? res.data.url.text : '-'
           this.deserveLink = 0;
           this.ourLink = 0;
           this.picLink = 0;

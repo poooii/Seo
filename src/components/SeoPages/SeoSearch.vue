@@ -1019,6 +1019,20 @@ export default {
           console.log(res.msg);
         });
     },
+    getPrzhangz(){
+      return this.$http
+              .get("/Api/seo/getZPr", {
+                params: {
+                  domain: this.content
+                }
+              })
+              .then(res => {
+                this.weightcontent.zhanzhang.weight = res.Result.Br ? res.Result.Br : "-";
+              })
+              .catch(res => {
+                console.log(res.msg);
+              });
+    },
     getPrSogou() {
       return this.$http
         .get("/Api/seo/pr_sogou", {
@@ -1474,7 +1488,8 @@ export default {
           this.getIcp(),
           this.getWhois(),
           this.getWebpage(),
-          this.getAlexa()
+          this.getAlexa(),
+          this.getPrzhangz()
         ])
         .then(
           this.$http.spread((acct, perms) => {

@@ -104,11 +104,13 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getWhois();
     },
     getNearly(msg) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
+      this.getWhois();
       window.scrollTo(0, 0);
     },
     changeShowAll() {

@@ -14,14 +14,14 @@
         <tr>
           <td>1</td>
           <td>
-            <a target="_blank" :href="'http://'+content">{{content}}</a>
+            <a rel="nofollow" target="_blank" :href="'http://'+content">{{content}}</a>
           </td>
           <td class="stop">已停用</td>
         </tr>
       </table>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>

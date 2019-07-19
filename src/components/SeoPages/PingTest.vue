@@ -20,7 +20,7 @@
               @keyup.enter="getList"
               v-model="SeoContent"
               type="text"
-              placeholder="输入想要查询价格的域名"
+              placeholder="请输入需要查询的内容"
               class="websiteValue_banner_input1"
               name="yuming"
             />
@@ -179,12 +179,18 @@ export default {
     searchHot(data) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
+      this.SeoContent = storage.searchContent;
       this.content = storage.searchContent;
+      this.showViews = this.downList[0].idx;
+      this.getAll();
     },
     getNearly(msg) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
+      this.SeoContent = storage.searchContent;
+      this.showViews = this.downList[0].idx;
+      this.getAll();
       window.scrollTo(0, 0);
     },
     getPing() {

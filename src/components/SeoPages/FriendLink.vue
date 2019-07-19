@@ -4,7 +4,7 @@
     <SearchBox :title="title" :content="content" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
     <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
     <div class="main_content" v-if="!content==''">
-      <div class="content_title">手机游戏_手机软件 - PC6手机站</div>
+      <div class="content_title"></div>
       <table class="title_table" width="1200px">
         <tr>
           <td>百度收录：</td>
@@ -154,9 +154,9 @@ export default {
       Rdirection: 3,
       Pdirection: 3,
       Fdirection: 3,
-      out:'',
-      img:'',
-      text:'',
+      out: "",
+      img: "",
+      text: ""
     };
   },
   methods: {
@@ -174,11 +174,13 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getAll();
     },
     getNearly(msg) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
+      this.getAll();
       window.scrollTo(0, 0);
     },
     sortKey(array, key) {
@@ -593,9 +595,9 @@ export default {
         .then(res => {
           let Res = JSON.parse(JSON.stringify(res));
           this.list = res.data.list;
-          this.out = res.data.url.out ? res.data.url.out : '-'
-          this.img = res.data.url.img ? res.data.url.img : '-'
-          this.text = res.data.url.text ? res.data.url.text : '-'
+          this.out = res.data.url.out ? res.data.url.out : "-";
+          this.img = res.data.url.img ? res.data.url.img : "-";
+          this.text = res.data.url.text ? res.data.url.text : "-";
           this.deserveLink = 0;
           this.ourLink = 0;
           this.picLink = 0;

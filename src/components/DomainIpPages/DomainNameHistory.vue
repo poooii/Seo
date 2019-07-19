@@ -71,11 +71,13 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getHistory();
     },
     getNearly(msg) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
+      this.getHistory();
       window.scrollTo(0, 0);
     },
     getHistory() {
@@ -92,8 +94,8 @@ export default {
           } else {
             this.list = res.data;
             this.noResult = false;
-            this.bus.$emit("loading", false);
           }
+          this.bus.$emit("loading", false);
         })
         .catch(res => {
           console.log(res.msg);

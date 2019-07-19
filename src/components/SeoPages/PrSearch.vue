@@ -15,7 +15,7 @@
         <tr>
           <td>1</td>
           <td>
-            <a target="_blank" :href="'http://'+content">{{content}}</a>
+            <a rel="nofollow" target="_blank" :href="'http://'+content">{{content}}</a>
           </td>
           <td>
             <img src="../../assets/sg_wt.png" alt />
@@ -66,11 +66,13 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getAll();
     },
     getNearly(msg) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
+      this.getAll();
       window.scrollTo(0, 0);
     },
     getPrGoogle() {

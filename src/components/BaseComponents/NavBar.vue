@@ -22,7 +22,7 @@
           </ul>
         </li>
         <li class="websiteValue_top_nostyle">
-          <a href="javascript:void(0);">帮助中心</a>
+          <a href="javascript:void(0);">关于我们</a>
         </li>
       </ul>
       <ul class="websiteValue_top_ul2 clearfix">

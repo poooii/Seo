@@ -127,6 +127,7 @@ export default {
       storage.setItem("searchContent", data);
       this.SeoContent = storage.searchContent;
       this.content = storage.searchContent;
+      this.doGet();
     },
     getNearly(msg) {
       let storage = window.sessionStorage;
@@ -134,6 +135,7 @@ export default {
       this.content = storage.searchContent;
       this.SeoContent = storage.searchContent;
       this.searchIdx = 0;
+      this.doGet();
       window.scrollTo(0, 0);
     },
     getList() {
@@ -154,7 +156,7 @@ export default {
       this.bus.$emit("loading", true);
       setTimeout(() => {
         this.bus.$emit("loading", false);
-      }, 1500);
+      }, 1000);
     }
   },
   mounted() {

@@ -14,7 +14,7 @@
         <tr>
           <td>1</td>
           <td>
-            <a target="_blank" :href="'http://'+content">{{content}}</a>
+            <a rel="nofollow" target="_blank" :href="'http://'+content">{{content}}</a>
           </td>
           <td :class="safe==1?'safe':'danger'">
             {{is_safe}}
@@ -62,14 +62,20 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getSafe();
     },
     getNearly(msg) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
+      this.getSafe();
       window.scrollTo(0, 0);
     },
     getSafe() {
+      this.bus.$emit("loading", true);
+      setTimeout(() => {
+        this.bus.$emit("loading", false);
+      }, 1000);
       this.loading = true;
       this.is_safe = "";
       this.$http

@@ -20,7 +20,7 @@
               @keyup.enter="getList"
               v-model="SeoContent"
               type="text"
-              placeholder="输入想要查询的域名"
+              placeholder="请输入需要查询的内容"
               class="websiteValue_banner_input1"
               name="yuming"
             />
@@ -820,6 +820,8 @@ export default {
       storage.setItem("searchContent", data);
       this.SeoContent = storage.searchContent;
       this.content = storage.searchContent;
+      this.showViews = this.downList[0].idx;
+      this.getAll();
     },
     // 最近搜索
     getNearly(msg) {
@@ -827,6 +829,8 @@ export default {
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       this.SeoContent = storage.searchContent;
+      this.showViews = this.downList[0].idx;
+      this.getAll();
       window.scrollTo(0, 0);
     },
     //数组求平均

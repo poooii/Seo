@@ -9,7 +9,7 @@
                 @keyup.enter="getlist"
                 v-model="SeoContent"
                 type="text"
-                placeholder="输入想要查询的域名"
+                placeholder="请输入需要查询的内容"
                 class="websiteValue_banner_input1"
                 name="yuming"
             >

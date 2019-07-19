@@ -12,7 +12,7 @@
         </tr>
         <tr>
           <td v-show="type==2">
-            <a target="_blank" :href="'http://'+content">{{content}}</a>
+            <a rel="nofollow" target="_blank" :href="'http://'+content">{{content}}</a>
           </td>
           <td v-show="type==1">{{content}}</td>
           <td v-show="type==2">{{ip}}</td>
@@ -30,7 +30,7 @@
         <tr v-for="(item,index) in urls">
           <td>{{index+1}}</td>
           <td>
-            <a :href="'http://'+item.value" target="_blank">{{item.value}}</a>
+            <a rel="nofollow" :href="'http://'+item.value" target="_blank">{{item.value}}</a>
           </td>
           <td :class="{loading:item.loading}">
             <span class="color_red" @click="selChange(item.value,index)">{{item.cx}}</span>
@@ -125,11 +125,13 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getIp();
     },
     getNearly(msg) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
+      this.getIp();
       window.scrollTo(0, 0);
     },
     nextPage() {

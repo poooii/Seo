@@ -14,7 +14,7 @@
         <tr>
           <td>1</td>
           <td>
-            <a target="_blank" :href="'http://'+content">{{content}}</a>
+            <a rel="nofollow" target="_blank" :href="'http://'+content">{{content}}</a>
           </td>
           <td>链接数：{{cz_link}}</td>
         </tr>
@@ -57,11 +57,13 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getWebpage();
     },
     getNearly(msg) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
+      this.getWebpage();
       window.scrollTo(0, 0);
     },
     getWebpage() {
@@ -79,6 +81,7 @@ export default {
         })
         .catch(res => {
           console.log(res.msg);
+          this.cz_link = "-";
           this.bus.$emit("loading", false);
         });
     }

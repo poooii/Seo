@@ -55,17 +55,12 @@
         </a>
       </div>
     </div>
-    <NearlySearch @msgNearlysearch="getNearly"></NearlySearch>
   </div>
 </template>
 
 <script>
-import NearlySearch from "../BaseComponents/NearlySearch";
 export default {
   name: "IpMultipleSearch",
-  components: {
-    NearlySearch
-  },
   data() {
     return {
       title: "IP地址批量查询工具",
@@ -83,6 +78,10 @@ export default {
       window.scrollTo(0, 0);
     },
     getlist() {
+      this.bus.$emit("loading", true);
+      setTimeout(() => {
+        this.bus.$emit("loading", false);
+      }, 1000);
       this.content = this.SeoContent.split(" ");
       this.content = this.content.map(item => ({ domain: item }));
       for (let i in this.content) {
@@ -143,20 +142,26 @@ export default {
     }
   },
   mounted() {
+    this.bus.$emit("loading", true);
+    setTimeout(() => {
+      this.bus.$emit("loading", false);
+    }, 1000);
     let storage = window.sessionStorage;
     this.SeoContent = storage.searchContent;
-    this.content = storage.searchContent.split(" ");
-    this.content = this.content.map(item => ({ domain: item }));
-    for (let i in this.content) {
-      this.content[i].cx = "";
-      this.content[i].cxjg = "";
-      this.content[i].loading = true;
-      this.content[i].Gerror = false;
-    }
-    let curIndex = this.content.length ? this.content.length : 0;
-    this.getIpInfo(curIndex, 0, true);
     storage.setItem("navIndex", "4");
     window.scrollTo(0, 0);
+    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+      this.content = storage.searchContent.split(" ");
+      this.content = this.content.map(item => ({ domain: item }));
+      for (let i in this.content) {
+        this.content[i].cx = "";
+        this.content[i].cxjg = "";
+        this.content[i].loading = true;
+        this.content[i].Gerror = false;
+      }
+      let curIndex = this.content.length ? this.content.length : 0;
+      this.getIpInfo(curIndex, 0, true);
+    }
   }
 };
 </script>

@@ -63,11 +63,13 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.checkWallInfo();
     },
     getNearly(msg) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
+      this.checkWallInfo();
       window.scrollTo(0, 0);
     },
     checkWallInfo() {
@@ -79,7 +81,6 @@ export default {
           }
         })
         .then(res => {
-          console.log(res);
           this.noResult = false;
           this.nogfw = res.data.data.nogfw;
           this.disgfw = res.data.data.disgfw;

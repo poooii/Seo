@@ -56,7 +56,7 @@
             <span class="weight_details_msg">ALEXA排名：</span>
             <span class="msg_details">
               世界排名：
-              <span class="black">{{alexa_rank}}</span>
+              <span @click="toAleax" class="black word_aleax">{{alexa_rank}}</span>
             </span>
             <span class="msg_details">
               预估日均IP≈
@@ -68,8 +68,10 @@
             </span>
           </li>
           <li>
-            <span class="weight_details_msg">网站标题：</span>
-            <span class="msg_details black">{{site_title}}</span>
+            <span class="weight_details_msg">网站价值：</span>
+            <span class="msg_details black">
+              <a target="_blank" href="http://www.zhongjie.com">您的网站价值XX元，更多详情点击了解你的网站价值多少?</a>
+            </span>
           </li>
           <li>
             <span class="weight_details_msg">备案信息：</span>
@@ -121,13 +123,42 @@
             <td class="bg_gray">一月收录</td>
           </tr>
           <tr>
-            <td>{{pc_cishu}}</td>
-            <td>{{yidong_cishu}}</td>
-            <td>{{baiduposition}}</td>
-            <td>{{baiduindex}}</td>
-            <td>{{shoulu_1day}}</td>
-            <td>{{shoulu_7day}}</td>
-            <td>{{shoulu_30day}}</td>
+            <td>
+              <a @click="toWeight()">{{pc_cishu}}</a>
+            </td>
+            <td>
+              <a @click="toWeight()">{{yidong_cishu}}</a>
+            </td>
+            <td>
+              <a
+                target="_blank"
+                :href="`https://www.baidu.com/s?wd=site%3A${content}`"
+              >{{baiduposition}}</a>
+            </td>
+            <td>
+              <a
+                target="_blank"
+                :href="`https://www.baidu.com/s?wd=site%3A${content}`"
+              >{{baiduindex}}</a>
+            </td>
+            <td>
+              <a
+                target="_blank"
+                :href="`https://www.baidu.com/s?wd=site%3A${content}&lm=1&gpc=stf=1563346067,1563432467|stftype=1`"
+              >{{shoulu_1day}}</a>
+            </td>
+            <td>
+              <a
+                target="_blank"
+                :href="`https://www.baidu.com/s?wd=site%3A${content}&lm=7&gpc=stf=1562827667,1563432467|stftype=1`"
+              >{{shoulu_7day}}</a>
+            </td>
+            <td>
+              <a
+                target="_blank"
+                :href="`https://www.baidu.com/s?wd=site%3A${content}&lm=30&gpc=stf=1560840467,1563432467|stftype=1`"
+              >{{shoulu_30day}}</a>
+            </td>
           </tr>
         </table>
       </div>
@@ -147,17 +178,51 @@
           </tr>
           <tr>
             <td>收录</td>
-            <td>{{shoulu_baidu}}</td>
-            <td>{{shoulu_google}}</td>
-            <td>{{shoulu_sougou}}</td>
-            <td>{{shoulu_360}}</td>
+            <td>
+              <a
+                target="_blank"
+                :href="`https://www.baidu.com/s?wd=site:${content}`"
+              >{{shoulu_baidu}}</a>
+            </td>
+            <td>
+              <a
+                target="_blank"
+                :href="`https://www.google.com.hk/search?hl=zh-CN&q=site:${content}`"
+              >{{shoulu_google}}</a>
+            </td>
+            <td>
+              <a
+                target="_blank"
+                :href="`https://www.sogou.com/web?query=site:${content}`"
+              >{{shoulu_sougou}}</a>
+            </td>
+            <td>
+              <a target="_blank" :href="`https://www.so.com/s?q=site%3A${content}`">{{shoulu_360}}</a>
+            </td>
           </tr>
           <tr>
             <td>反链</td>
-            <td>{{fanlian_baidu}}</td>
-            <td>{{fanlian_google}}</td>
-            <td>{{fanlian_sougou}}</td>
-            <td>{{fanlian_360}}</td>
+            <td>
+              <a
+                target="_blank"
+                :href="`https://www.baidu.com/s?wd=domain:${content}`"
+              >{{fanlian_baidu}}</a>
+            </td>
+            <td>
+              <a
+                target="_blank"
+                :href="`https://www.google.com.hk/search?hl=zh-CN&q=link:${content}`"
+              >{{fanlian_google}}</a>
+            </td>
+            <td>
+              <a
+                target="_blank"
+                :href="`https://www.sogou.com/web?&query=${content}`"
+              >{{fanlian_sougou}}</a>
+            </td>
+            <td>
+              <a target="_blank" :href="`https://www.so.com/s?q=${content}`">{{fanlian_360}}</a>
+            </td>
           </tr>
         </table>
       </div>
@@ -908,6 +973,7 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.doAllGet();
     },
     // 点击底部最近搜索
     getNearly(msg) {
@@ -959,6 +1025,12 @@ export default {
       this.$router.push({
         name: "AntiChain",
         params: { shcontent: val }
+      });
+    },
+    toAleax() {
+      this.$router.push({
+        name: "AleaxTrend",
+        params: { shcontent: this.content }
       });
     },
     //请求数据
@@ -1019,19 +1091,21 @@ export default {
           console.log(res.msg);
         });
     },
-    getPrzhangz(){
+    getPrzhangz() {
       return this.$http
-              .get("/Api/seo/getZPr", {
-                params: {
-                  domain: this.content
-                }
-              })
-              .then(res => {
-                this.weightcontent.zhanzhang.weight = res.Result.Br ? res.Result.Br : "-";
-              })
-              .catch(res => {
-                console.log(res.msg);
-              });
+        .get("/Api/seo/getZPr", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          this.weightcontent.zhanzhang.weight = res.Result.Br
+            ? res.Result.Br
+            : "-";
+        })
+        .catch(res => {
+          console.log(res.msg);
+        });
     },
     getPrSogou() {
       return this.$http
@@ -1636,6 +1710,9 @@ export default {
 
 .weight_details_p1 {
   margin-bottom: 20px;
+  a {
+    color: #00a0db;
+  }
 }
 
 .weight_details_p1 > li {
@@ -1661,6 +1738,9 @@ export default {
 .weight_details_p1 span.black {
   color: #333;
   margin-right: 5px;
+}
+.weight_details_p1 span .word_aleax {
+  cursor: pointer;
 }
 
 .weight_details_p1 span.blue {
@@ -2030,5 +2110,11 @@ export default {
     width: 46%;
     margin-left: 4%;
   }
+}
+table a:hover {
+  color: #333;
+}
+table a {
+  cursor: pointer;
 }
 </style>

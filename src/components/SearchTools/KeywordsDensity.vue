@@ -69,17 +69,12 @@
         </a>
       </div>
     </div>
-    <NearlySearch @msgNearlysearch="getNearly"></NearlySearch>
   </div>
 </template>
 
 <script>
-import NearlySearch from "../BaseComponents/NearlySearch";
 export default {
   name: "KeywordsDensity",
-  components: {
-    NearlySearch
-  },
   data() {
     return {
       title: "关键词密度查询",

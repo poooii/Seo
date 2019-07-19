@@ -14,7 +14,7 @@
         <tr>
           <td>1</td>
           <td>
-            <a target="_blank" :href="'http://'+content">{{content}}</a>
+            <a rel="nofollow" target="_blank" :href="'http://'+content">{{content}}</a>
           </td>
           <td>24小时收录：{{shoulu_1day}}</td>
         </tr>
@@ -57,11 +57,13 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getShoulu3();
     },
     getNearly(msg) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
+      this.getShoulu3();
       window.scrollTo(0, 0);
     },
     getShoulu3() {
@@ -79,6 +81,8 @@ export default {
         })
         .catch(res => {
           console.log(res.msg);
+          this.shoulu_1day = "-";
+          this.bus.$emit("loading", false);
         });
     }
   },

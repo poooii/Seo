@@ -57,11 +57,13 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getHttpInfo();
     },
     getNearly(msg) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
+      this.getHttpInfo();
       window.scrollTo(0, 0);
     },
     encode_unicode_param(t) {

@@ -10,7 +10,7 @@
               @keyup.enter="getList"
               v-model="SeoContent"
               type="text"
-              placeholder="输入想要查询价格的域名"
+              placeholder="请输入需要查询的内容"
               class="websiteValue_banner_input1"
               name="yuming"
             />
@@ -23,20 +23,11 @@
             />
           </form>
         </div>
-        <!-- 热门搜索 -->
-        <div class="clearfix websiteValue_banner_ul1">
-          <span class="websiteValue_banner_ul_title">热门搜索：</span>
-          <ul class="websiteValue_banner_ul clearfix">
-            <li v-for="items in hotsearch">
-              <a @click="searchHot(items)">{{items}}</a>
-            </li>
-          </ul>
-        </div>
       </div>
     </div>
     <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
     <div class="cha_default" v-show="nothing">未找到相关关键词</div>
-    <div class="main_content" v-if="!content==''">
+    <div class="main_content" v-if="!content==''" v-show="!nothing">
       <div class="content_title">查询结果</div>
       <table class="ip_main_table" width="1200px">
         <thead :class="fixed?'fix_top':''">
@@ -56,13 +47,13 @@
           <td v-html="item.ips"></td>
           <td>{{item.shoulu}}</td>
           <td>
-            <a target="_blank" :href="'http://'+item.page1_site">
+            <a rel="nofollow" target="_blank" :href="'http://'+item.page1_site">
               <p>{{item.page1_site}}</p>
               <p>{{item.page1_title|ellipsis}}</p>
             </a>
           </td>
           <td>
-            <a target="_blank" :href="'http://'+item.page2_site">
+            <a rel="nofollow" target="_blank" :href="'http://'+item.page2_site">
               <p>{{item.page2_site}}</p>
               <p>{{item.page2_title|ellipsis}}</p>
             </a>
@@ -80,18 +71,12 @@
         </a>
       </div>
     </div>
-    <NearlySearch @msgNearlysearch="getNearly"></NearlySearch>
   </div>
 </template>
 
 <script>
-import NearlySearch from "../BaseComponents/NearlySearch";
-
 export default {
   name: "KeyWords",
-  components: {
-    NearlySearch
-  },
   data() {
     return {
       title: "关键词挖掘",
@@ -100,16 +85,7 @@ export default {
       SeoContent: "",
       list: "",
       fixed: false,
-      advpic: ["adv1", "adv3", "adv2"],
-      hotsearch: [
-        "po188.com",
-        "www.hj135.com",
-        "jiaofu.cn",
-        "riyiseo.com",
-        "shuadan.cn",
-        "caoping6s.cn",
-        "014121.cn"
-      ]
+      advpic: ["adv1", "adv3", "adv2"]
     };
   },
   methods: {

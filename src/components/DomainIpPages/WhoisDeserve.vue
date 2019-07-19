@@ -20,7 +20,7 @@
               @keyup.enter="getList"
               v-model="SeoContent"
               type="text"
-              placeholder="输入想要查询的域名"
+              placeholder="请输入注册人"
               class="websiteValue_banner_input1"
               name="yuming"
             />
@@ -77,17 +77,12 @@
         </a>
       </div>
     </div>
-    <NearlySearch @msgNearlysearch="getNearly"></NearlySearch>
   </div>
 </template>
 
 <script>
-import NearlySearch from "../BaseComponents/NearlySearch";
 export default {
   name: "WhoisDeserve",
-  components: {
-    NearlySearch
-  },
   data() {
     return {
       searchIdx: "0",
@@ -416,7 +411,7 @@ export default {
     }
     td:nth-child(5),
     td:nth-child(6) {
-      min-width: 132px;
+      width: 132px;
     }
     td:first-child {
       width: 100px;

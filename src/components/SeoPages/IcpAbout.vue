@@ -22,7 +22,7 @@
         <tr>
           <td>网站首页网址：</td>
           <td>
-            <a target="_blank" :href="'http://'+site">{{site}}</a>
+            <a rel="nofollow" target="_blank" :href="'http://'+site">{{site}}</a>
           </td>
           <td>网站域名：</td>
           <td>{{domain}}</td>
@@ -83,11 +83,13 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getIcp();
     },
     getNearly(msg) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
+      this.getIcp();
       window.scrollTo(0, 0);
     },
     getIcp() {

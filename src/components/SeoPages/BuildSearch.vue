@@ -14,7 +14,7 @@
         <tr>
           <td>1</td>
           <td>
-            <a href="http://www.baidu.com">www.baidu.com</a>
+            <a rel="nofollow" target="_blank" :href="'http://'+content">{{content}}</a>
           </td>
           <td>建站：{{days}}天</td>
         </tr>
@@ -57,11 +57,13 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getWhois();
     },
     getNearly(msg) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
+      this.getWhois();
       window.scrollTo(0, 0);
     },
     getWhois() {
@@ -84,11 +86,14 @@ export default {
             day = "0" + day;
           }
           var nowDate = year + "-" + month + "-" + day;
-          this.days = this.DateDiff(nowDate, res.data.created);
+          this.days = this.DateDiff(nowDate, res.data.created)
+            ? this.DateDiff(nowDate, res.data.created)
+            : "-";
           this.bus.$emit("loading", false);
         })
         .catch(res => {
           console.log(res.msg);
+          this.days = "-";
           this.bus.$emit("loading", false);
         });
     },

@@ -13,11 +13,11 @@
             <img class="baidu_tags" src="../../assets/weight_01.png" alt />
             <ol>
               <li>
-                预计来路：
+                PC预计来路：
                 <span class="color_blue">{{pc_ip}}</span> IP
               </li>
               <li>
-                权重：
+                PC权重：
                 <img src="../../assets/bd_wt.png" alt />
                 <i>{{br}}</i>
               </li>
@@ -34,11 +34,11 @@
             <img class="baidu_tags" src="../../assets/weight_02.png" alt />
             <ol>
               <li>
-                预计来路：
+                移动预计来路：
                 <span class="color_blue">{{m_ip}}</span> IP
               </li>
               <li>
-                权重：
+                移动权重：
                 <img src="../../assets/bd_wt.png" alt />
                 <i>{{br_m}}</i>
               </li>
@@ -135,8 +135,8 @@
           </tr>
           <tr>
             <td>总词数</td>
-            <td>{{seriesRes[4].data[seriesRes[4].data.length-1]}}</td>
-            <td>{{seriesRes_m[4].data[seriesRes_m[4].data.length-1]}}</td>
+            <td class="cur" @click="toHistory">{{seriesRes[4].data[seriesRes[4].data.length-1]}}</td>
+            <td class="cur" @click="toHistory">{{seriesRes_m[4].data[seriesRes_m[4].data.length-1]}}</td>
           </tr>
           <tr v-for="(item,index) in trend_list">
             <td>{{`第${index+1}页`}}</td>
@@ -691,12 +691,14 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getAll();
     },
     // 最近搜索
     getNearly(msg) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
+      this.getAll();
       window.scrollTo(0, 0);
     },
     goToWeightDetail() {
@@ -999,6 +1001,12 @@ export default {
             this.bus.$emit("loading", false);
           })
         );
+    },
+    toHistory() {
+      this.$router.push({
+        name: "HistoryData",
+        params: { shcontent: this.content }
+      });
     }
   },
   filters: {
@@ -1312,6 +1320,9 @@ b {
       vertical-align: middle;
       width: 33.33%;
       height: 60px;
+    }
+    .cur {
+      cursor: pointer;
     }
   }
 }

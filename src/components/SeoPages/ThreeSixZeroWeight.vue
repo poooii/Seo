@@ -16,7 +16,7 @@
         <tr>
           <td>1</td>
           <td>
-            <a target="_blank" :href="content">{{content}}</a>
+            <a rel="nofollow" target="_blank" :href="'http://'+content">{{content}}</a>
           </td>
           <td class="weight_details" v-for="weights in weightcontent">
             <!-- 循环权重图片 -->
@@ -78,11 +78,13 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getPr();
     },
     getNearly(msg) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
+      this.getPr();
       window.scrollTo(0, 0);
     },
     getPr() {

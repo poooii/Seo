@@ -17,7 +17,7 @@
         <tr v-for="(item,index) in list">
           <td>{{index+1}}</td>
           <td>
-            <a :href="'http://'+item.site" target="_blank">{{item.site}}</a>
+            <a rel="nofollow" :href="'http://'+item.site" target="_blank">{{item.site}}</a>
           </td>
           <td>{{item.title}}</td>
           <td>
@@ -94,11 +94,15 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.page = 1;
+      this.getFlinkInfo();
     },
     getNearly(msg) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
+      this.page = 1;
+      this.getFlinkInfo();
       window.scrollTo(0, 0);
     },
     nextPage() {

@@ -22,17 +22,12 @@
         </a>
       </div>
     </div>
-    <NearlySearch></NearlySearch>
   </div>
 </template>
 
 <script>
-import NearlySearch from "../BaseComponents/NearlySearch";
 export default {
   name: "AutoSetType",
-  components: {
-    NearlySearch
-  },
   data() {
     return {
       title: "自动排版工具",

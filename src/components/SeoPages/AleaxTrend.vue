@@ -3,7 +3,8 @@
     <!-- 头部搜索框 -->
     <SearchBox :title="title" :content="content" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
     <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
-    <div class="main_content" v-if="!content==''">
+    <div class="cha_default" v-show="noResult">未查询到结果</div>
+    <div class="main_content" v-if="!content==''" v-show="!noResult">
       <div class="content_title">查询结果</div>
       <div class="aleax_trend_container">
         <table width="1198px">
@@ -31,20 +32,20 @@
             <img
               :src="`https://traffic.alexa.com/graph?w=700&h=280&r=6m&y=t&u=${this.content}`"
               alt
-            >
+            />
           </div>
           <div class="fr">
             <p>ALEXA搜索流量占比</p>
             <img
               :src="`https://traffic.alexa.com/graph?w=700&h=280&r=6m&y=q&u=${this.content}`"
               alt
-            >
+            />
           </div>
         </div>
       </div>
       <div class="adv_box">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
-          <img :src="require(`../../assets/${advs}.png`)">
+          <img :src="require(`../../assets/${advs}.png`)" />
         </a>
       </div>
     </div>
@@ -67,7 +68,7 @@ export default {
       title: "alexa趋势信息",
       content: "",
       advpic: ["adv1", "adv3", "adv2"],
-
+      noResult: false,
       alexa: {
         o_d: {
           v: "",
@@ -104,11 +105,13 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getAlexa();
     },
     getNearly(msg) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
+      this.getAlexa();
       window.scrollTo(0, 0);
     },
     getAlexa() {
@@ -120,35 +123,43 @@ export default {
           }
         })
         .then(res => {
-          this.alexa.o_d.v = res.data.alexaUsageStatistic.alexa_1days.value;
-          this.alexa.o_d.c = res.data.alexaUsageStatistic.alexa_1days.change;
-          this.alexa.o_d.o = this.getColor(
-            res.data.alexaUsageStatistic.alexa_1days.change
-          );
+          if (res.data == null || res.data.length == 0) {
+            this.noResult = true;
+          } else {
+            this.noResult = false;
+            this.alexa.o_d.v = res.data.alexaUsageStatistic.alexa_1days.value;
+            this.alexa.o_d.c = res.data.alexaUsageStatistic.alexa_1days.change;
+            this.alexa.o_d.o = this.getColor(
+              res.data.alexaUsageStatistic.alexa_1days.change
+            );
 
-          this.alexa.s_d.v = res.data.alexaUsageStatistic.alexa_7days.value;
-          this.alexa.s_d.c = res.data.alexaUsageStatistic.alexa_7days.change;
-          this.alexa.s_d.o = this.getColor(
-            res.data.alexaUsageStatistic.alexa_7days.change
-          );
+            this.alexa.s_d.v = res.data.alexaUsageStatistic.alexa_7days.value;
+            this.alexa.s_d.c = res.data.alexaUsageStatistic.alexa_7days.change;
+            this.alexa.s_d.o = this.getColor(
+              res.data.alexaUsageStatistic.alexa_7days.change
+            );
 
-          this.alexa.o_m.v = res.data.alexaUsageStatistic.alexa_1months.value;
-          this.alexa.o_m.c = res.data.alexaUsageStatistic.alexa_1months.change;
-          this.alexa.o_m.o = this.getColor(
-            res.data.alexaUsageStatistic.alexa_1months.change
-          );
+            this.alexa.o_m.v = res.data.alexaUsageStatistic.alexa_1months.value;
+            this.alexa.o_m.c =
+              res.data.alexaUsageStatistic.alexa_1months.change;
+            this.alexa.o_m.o = this.getColor(
+              res.data.alexaUsageStatistic.alexa_1months.change
+            );
 
-          this.alexa.t_m.v = res.data.alexaUsageStatistic.alexa_3months.value;
-          this.alexa.t_m.c = res.data.alexaUsageStatistic.alexa_3months.change;
-          this.alexa.t_m.o = this.getColor(
-            res.data.alexaUsageStatistic.alexa_3months.change
-          );
-
-          this.alexa_3month = res.data.alexaUsageStatistic.alexa_3months.value;
+            this.alexa.t_m.v = res.data.alexaUsageStatistic.alexa_3months.value;
+            this.alexa.t_m.c =
+              res.data.alexaUsageStatistic.alexa_3months.change;
+            this.alexa.t_m.o = this.getColor(
+              res.data.alexaUsageStatistic.alexa_3months.change
+            );
+            this.alexa_3month =
+              res.data.alexaUsageStatistic.alexa_3months.value;
+          }
           this.bus.$emit("loading", false);
         })
         .catch(res => {
           console.log(res.msg);
+          this.noResult = true;
           this.bus.$emit("loading", false);
         });
     },
@@ -163,6 +174,15 @@ export default {
     window.scrollTo(0, 0);
     if (storage.searchContent !== "" && storage.searchContent !== undefined) {
       this.getAlexa();
+    } else {
+      if (
+        this.$route.params.shcontent !== undefined &&
+        this.$route.params.shcontent !== ""
+      ) {
+        this.content = this.$route.params.shcontent;
+        this.SeoContent = this.$route.params.shcontent;
+        this.getAlexa();
+      }
     }
   }
 };

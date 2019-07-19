@@ -14,7 +14,7 @@
         <tr>
           <td>1</td>
           <td>
-            <a href="http://www.baidu.com">www.baidu.com</a>
+            <a rel="nofollow" target="_blank" :href="'http://'+content">{{content}}</a>
           </td>
           <td>
             百度收录：{{baiduindex}} 首页第
@@ -61,11 +61,13 @@ export default {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
+      this.getShoulu1();
     },
     getNearly(msg) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
+      this.getShoulu1();
       window.scrollTo(0, 0);
     },
     getShoulu1() {
@@ -87,6 +89,9 @@ export default {
         })
         .catch(res => {
           console.log(res.msg);
+          this.baiduindex = "-";
+          this.baiduposition = "-";
+          this.bus.$emit("loading", false);
         });
     }
   },

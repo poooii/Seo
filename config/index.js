@@ -16,7 +16,7 @@ module.exports = {
         changeOrigin: true,  //是否跨域
         // secure: false,
         pathRewrite: {
-          '^/Api': '/Api'   //需要rewrite的,
+          '^/Api': '/cha/public/Api'   //需要rewrite的,
         }
       }
     },

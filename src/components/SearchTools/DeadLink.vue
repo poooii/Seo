@@ -20,7 +20,7 @@
               @keyup.enter="getList"
               v-model="SeoContent"
               type="text"
-              placeholder="输入想要查询的域名"
+              placeholder="输入想要查询的内容"
               class="websiteValue_banner_input1"
               name="yuming"
             />
@@ -66,7 +66,7 @@
         <tr v-for="(item,index) in list">
           <td>{{index+1}}</td>
           <td>
-            <a target="_blank" :href="item.url">{{item.url}}</a>
+            <a rel="nofollow" target="_blank" :href="item.url">{{item.url}}</a>
           </td>
           <td>{{item.tilte}}</td>
           <td :class="{loading:item.loading,alive:true}">
@@ -120,6 +120,7 @@ export default {
         }
       ],
       hotsearch: [
+        "www.zhongjie.com",
         "po188.com",
         "www.hj135.com",
         "jiaofu.cn",
@@ -150,13 +151,18 @@ export default {
       storage.setItem("searchContent", data);
       this.SeoContent = storage.searchContent;
       this.content = storage.searchContent;
+      this.showViews = this.downList[0].idx;
+      this.deadLink = 0;
+      this.getDLinkInfo();
     },
     getNearly(msg) {
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
       this.SeoContent = storage.searchContent;
-      this.showViews = 0;
+      this.showViews = this.downList[0].idx;
+      this.deadLink = 0;
+      this.getDLinkInfo();
       window.scrollTo(0, 0);
     },
     getList() {

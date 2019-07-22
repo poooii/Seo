@@ -39,6 +39,13 @@
       <div class="home_describe">
         一起查（17cha.cn）致力于SEO常用工具、搜索优化工具、域名/IP查询工具的研究和开发应用，
         不断更新有利于站长的实用工具，同时免费开放给站长朋友使用，做站长的好助手，助力网站腾飞！
+        <p>
+          <br />网站综合查询提供网站信息,网站统计数据每日IP查询以及评估网站价值和评估网站日广告收入.
+          <br />站长网站价值查询评估工具包括网站价值,网站信息,Alexa排名,PR值,域名查询,域名信息,网站信息,GooglePR值,域名查询,是判断站长查询网站实力的重要标准.提供互联网络中所有的网站综合数据信息：网站价值,网站信息,Alexa排名,PR值,域名查询,域名信息的查询,其中Alexa世界排名则是统计网站综合信息的权威数据.
+          <br />网站综合查询是基于网页免费的网站估值查询工具,所有数据均来自互联网,本站进行了整合加工,站长查询工具提供网站信息,访问者统计数据. 我们尽力提供准确信息,但这并不是总能保证的,详细进一步研究和确认是必要的.
+          <br />Alexa排名是指网站的世界排名NNT流量，主要分两种：综合排名和分类排名，Alexa提供了包括综合排名、到访量排名、页面访问量排名等多个评价指标信息，大多数人把它当作当前较为权威的网站访问量评价指标。
+          <br />域名查询一般是指查询域名的whois注册信息，域名WHOIS是当前域名系统中不可或缺的一项信息服务。在使用域名进行Internet冲浪时，很多用户希望进一步了解域名、名字服务器详细信息，这就会用到WHOIS。对于域名的注册服务机构（registrar）而言，要确认域名数据是否已经正确注册到域名注册中心（registry），也经常会用到WHOIS。直观来看，WHOIS就是链接到域名数据库的搜索引擎，一般来说是属于网络信息中心（NIC）所提供和维护的名字服务之一。
+        </p>
       </div>
       <div class="home_list">
         <div class="list_left_pic">
@@ -204,13 +211,16 @@ export default {
 }
 .home_describe {
   width: 966px;
-  height: 98px;
   margin: 0 auto;
   font-size: 22px;
   line-height: 36px;
-  text-align: center;
+  text-align: left;
   color: #666;
   margin-top: 36px;
+}
+.home_describe > p {
+  font-size: 18px;
+  margin-top: -28px;
 }
 .home_list {
   width: 1120px;

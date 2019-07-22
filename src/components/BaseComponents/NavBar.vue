@@ -22,7 +22,7 @@
           </ul>
         </li>
         <li class="websiteValue_top_nostyle">
-          <a href="javascript:void(0);">关于我们</a>
+          <router-link :class="{websiteValue_top_on:navIndex == '5'}" to="/aboutus">关于我们</router-link>
         </li>
       </ul>
       <ul class="websiteValue_top_ul2 clearfix">

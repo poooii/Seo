@@ -470,12 +470,17 @@ export default {
             this.list[idx].hasLink = "链接：";
             this.list[idx].link = res.data.mapLink;
             this.list[idx].linkTitle = res.data.mapVal;
+            this.wordLink++;
             this.deserveLink++;
           }
-          if (!res.data.mapLink && !res.data.position && res.data.linkOther) {
+          if (res.data.linkOther) {
+            if (res.data.mapVal) {
+              this.list[idx].hasLink = "链接：";
+            } else {
+              this.list[idx].hasLink = "非首页链接：";
+            }
             this.list[idx].cx4 = "";
             this.list[idx].cxjg4 = "外链数：" + res.data.sum;
-            this.list[idx].hasLink = "非首页链接：";
             this.list[idx].links = [];
             for (let i in res.data.linkOther) {
               this.list[idx].links.push(res.data.linkOther[i]);
@@ -485,13 +490,18 @@ export default {
             }));
             for (let i in this.list[idx].links) {
               this.list[idx].links[i].linkTitle = res.data.linkOtherVal[i];
-              if (res.data.linkOtherVal[i] == "图片链接") {
+              if (
+                res.data.linkOtherVal[i] == "图片链接" ||
+                res.data.mapVal == "图片链接"
+              ) {
+                this.list[idx].links[i].linkTitle = "图片链接";
                 this.picLink++;
+                this.deserveLink++;
               } else {
                 this.wordLink++;
+                this.deserveLink++;
               }
             }
-            this.deserveLink++;
           }
           if (res.data.error) {
             this.list[idx].cx4 = "重测";
@@ -538,12 +548,17 @@ export default {
             this.list[idx].hasLink = "链接：";
             this.list[idx].link = res.data.mapLink;
             this.list[idx].linkTitle = res.data.mapVal;
+            this.wordLink++;
             this.deserveLink++;
           }
-          if (!res.data.mapLink && !res.data.position && res.data.linkOther) {
+          if (res.data.linkOther) {
+            if (res.data.mapVal) {
+              this.list[idx].hasLink = "链接：";
+            } else {
+              this.list[idx].hasLink = "非首页链接：";
+            }
             this.list[idx].cx4 = "";
             this.list[idx].cxjg4 = "外链数：" + res.data.sum;
-            this.list[idx].hasLink = "非首页链接：";
             this.list[idx].links = [];
             for (let i in res.data.linkOther) {
               this.list[idx].links.push(res.data.linkOther[i]);
@@ -553,13 +568,18 @@ export default {
             }));
             for (let i in this.list[idx].links) {
               this.list[idx].links[i].linkTitle = res.data.linkOtherVal[i];
-              if (res.data.linkOtherVal[i] == "图片链接") {
+              if (
+                res.data.linkOtherVal[i] == "图片链接" ||
+                res.data.mapVal == "图片链接"
+              ) {
+                this.list[idx].links[i].linkTitle = "图片链接";
                 this.picLink++;
+                this.deserveLink++;
               } else {
                 this.wordLink++;
+                this.deserveLink++;
               }
             }
-            this.deserveLink++;
           }
           if (res.data.error) {
             this.list[idx].cx4 = "重测";

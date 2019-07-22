@@ -42,6 +42,7 @@ import DomainNameHistory from '../components/DomainIpPages/DomainNameHistory'
 import OtherToolsMain from '../components/OtherTools/OtherToolsMain'
 import IpMultipleSearch from '../components/OtherTools/IpMultipleSearch'
 import AutoSetType from '../components/OtherTools/AutoSetType'
+import AboutUs from '../components/BaseComponents/AboutUs'
 
 Vue.use(Router)
 
@@ -54,8 +55,12 @@ export default new Router({
       component: Home,
     },
     {
+      path: '/aboutus',
+      name: 'AboutUs',
+      component: AboutUs,
+    },
+    {
       path: '/searchs',
-      // name: 'Searchs',
       component: SeoMain,
       children: [
         {

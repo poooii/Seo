@@ -7,7 +7,7 @@
     <div class="seo_main_content" v-if="!content==''">
       <!-- 主体第一大块 -->
       <div class="content_title clearfix">
-        <span class="t_title fl">{{site_title}}</span>
+        <span class="t_title fl clearfix">{{site_title}}</span>
         <span class="t_time fr">更新时间：{{update_time}}</span>
         <span class="t_history fr" @click="toHistory">
           <img src="../../assets/dataupdate.png" />历史数据
@@ -1542,7 +1542,6 @@ export default {
           }
         })
         .then(res => {
-          console.log(res);
           if (res.data == null || res.data.length == 0 || res.data.msg == "") {
             this.w_price = "数据维度较小，无法估算您的网站价值，点击了解详情。";
           } else {
@@ -1659,8 +1658,8 @@ export default {
 .t_title {
   font-size: 24px;
   line-height: 32px;
-  height: 26px;
   color: #333;
+  width: 760px;
 }
 
 .t_time {

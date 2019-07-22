@@ -70,7 +70,7 @@
           <li>
             <span class="weight_details_msg">网站价值：</span>
             <span class="msg_details black">
-              <a target="_blank" href="http://www.zhongjie.com">您的网站价值XX元，更多详情点击了解你的网站价值多少?</a>
+              <a target="_blank" href="https://www.zhongjie.com/pinggu">{{w_price}}</a>
             </span>
           </li>
           <li>
@@ -164,7 +164,9 @@
       </div>
       <!-- 第一块广告位 -->
       <div class="advertise_box">
-        <img v-for="advs in advpic" :src="require(`../../assets/${advs}.png`)" />
+        <a target="_blank" href="http://www.baidu.com">
+          <img v-for="advs in advpic" :src="require(`../../assets/${advs}.png`)" />
+        </a>
       </div>
       <!-- 第二表格 -->
       <div class="table_content_2nd">
@@ -337,7 +339,9 @@
       </div>
       <!-- 第二块广告位 -->
       <div class="advertise_box">
-        <img v-for="advs in advpic" :src="require(`../../assets/${advs}.png`)" />
+        <a target="_blank" href="http://www.baidu.com">
+          <img v-for="advs in advpic" :src="require(`../../assets/${advs}.png`)" />
+        </a>
       </div>
       <!-- 来路关键词 -->
       <div class="echarts_container">
@@ -617,6 +621,7 @@ export default {
     return {
       // 传入echarts中，是否显示x轴和y轴
       showxis: true,
+      w_price: "",
       //被遍历的ip集合
       related_web: [],
       same_ip: [],
@@ -1213,7 +1218,6 @@ export default {
           }
         })
         .then(res => {
-          console.log(res.data);
           this.alexa_ip = res.data.ip ? res.data.ip : "-";
           this.alexa_pv = res.data.pv ? res.data.pv : "-";
           this.alexa_rank = res.data.rank ? res.data.rank : "-";
@@ -1530,6 +1534,25 @@ export default {
           console.log(err);
         });
     },
+    getValue() {
+      return this.$http
+        .get("/Api/seo/getValue", {
+          params: {
+            domain: this.content
+          }
+        })
+        .then(res => {
+          console.log(res);
+          if (res.data == null || res.data.length == 0 || res.data.msg == "") {
+            this.w_price = "数据维度较小，无法估算您的网站价值，点击了解详情。";
+          } else {
+            this.w_price = res.data.msg;
+          }
+        })
+        .catch(res => {
+          console.log(res.msg);
+        });
+    },
     toThousands(t) {
       return (t || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, "$1,");
     },
@@ -1563,7 +1586,8 @@ export default {
           this.getWhois(),
           this.getWebpage(),
           this.getAlexa(),
-          this.getPrzhangz()
+          this.getPrzhangz(),
+          this.getValue()
         ])
         .then(
           this.$http.spread((acct, perms) => {

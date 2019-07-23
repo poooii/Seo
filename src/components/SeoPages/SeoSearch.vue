@@ -955,6 +955,10 @@ export default {
     },
     // 搜索框点击事件
     getMsg(data) {
+      this.$router.replace({
+        name: "SeoSearch",
+        params: { domain: data }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
@@ -975,6 +979,10 @@ export default {
     },
     // 点击热门搜索
     searchHot(data) {
+      this.$router.replace({
+        name: "SeoSearch",
+        params: { domain: data }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
@@ -982,6 +990,10 @@ export default {
     },
     // 点击底部最近搜索
     getNearly(msg) {
+      this.$router.replace({
+        name: "SeoSearch",
+        params: { domain: data }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
@@ -992,19 +1004,19 @@ export default {
     toHistory() {
       this.$router.push({
         name: "HistoryData",
-        params: { shcontent: this.content }
+        params: { shcontent: this.content, domain: this.content }
       });
     },
     toWeight(val) {
       if (!val) {
         this.$router.push({
           name: "BaiduWeight",
-          params: { shcontent: this.content }
+          params: { shcontent: this.content, domain: this.content }
         });
       } else {
         this.$router.push({
           name: "BaiduWeight",
-          params: { shcontent: val }
+          params: { shcontent: val, domain: val }
         });
       }
     },

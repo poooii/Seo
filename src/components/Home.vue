@@ -123,7 +123,7 @@ export default {
       storage.setItem("searchContent", this.content);
       this.$router.push({
         name: "SeoSearch",
-        params: { navIndex: "1" }
+        params: { domain: this.content }
       });
     },
     doHotSearch(val) {

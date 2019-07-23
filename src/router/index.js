@@ -60,16 +60,16 @@ export default new Router({
       component: AboutUs,
     },
     {
-      path: '/searchs',
+      path: '/searchs/',
       component: SeoMain,
       children: [
         {
-          path: '/',
+          path: '/searchs/:domain',
           name: 'SeoSearch',
           component: SeoSearch,
         },
         {
-          path: 'baiduweight',
+          path: 'baiduweight/:domain',
           name: 'BaiduWeight',
           component: BaiduWeight,
         },
@@ -79,7 +79,7 @@ export default new Router({
           component: WeightDetail,
         },
         {
-          path: 'historydata',
+          path: 'historydata/:domain',
           name: 'HistoryData',
           component: HistoryData,
         },

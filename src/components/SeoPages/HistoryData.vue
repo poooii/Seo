@@ -852,6 +852,10 @@ export default {
         return false;
       }
       this.content = this.SeoContent;
+      this.$router.replace({
+        name: "HistoryData",
+        params: { domain: this.content }
+      });
       this.showViews = this.downList[0].idx;
       let storage = window.sessionStorage;
       storage.setItem("searchContent", this.content);

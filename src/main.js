@@ -22,15 +22,15 @@ Vue.prototype.$echarts = echarts
 
 Vue.prototype.bus = new Vue;
 
-axios.interceptors.request.use(
-  config => {
-    config.url = "/cha/public" + config.url
-    return config
-  },
-  error => {
-    return Promise.reject(error);
-  }
-)
+// axios.interceptors.request.use(
+//   config => {
+//     config.url = "/cha/public" + config.url
+//     return config
+//   },
+//   error => {
+//     return Promise.reject(error);
+//   }
+// )
 
 axios.interceptors.response.use(
   res => {

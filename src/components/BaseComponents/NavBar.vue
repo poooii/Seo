@@ -1,7 +1,7 @@
 <template>
   <div class="websiteValue_top">
     <div class="websiteValue_top_contain">
-      <img src="../../assets/17chalogo.png" alt class="websiteValue_top_logo" @click="goToIndex">
+      <img src="../../assets/17chalogo.png" alt class="websiteValue_top_logo" @click="goToIndex" />
       <ul class="websiteValue_top_ul">
         <li class="websiteValue_top_nostyle" @click="changeIndexZero">
           <router-link :class="{websiteValue_top_on:navIndex == '0'}" to="/">首页</router-link>
@@ -67,7 +67,7 @@ export default {
             { name: "建站时间查询", links: "BuildSearch" },
             { name: "网站标题查询", links: "WebTitleSearch" },
             { name: "网站导出链接数量查询", links: "WebOutLink" },
-            { name: "友链检测", links: "FriendLink" },
+            { name: "友链检测", links: "FriendLink" }
           ]
         },
         {
@@ -125,7 +125,8 @@ export default {
   watch: {
     $route(to, from) {
       this.navIndex = window.sessionStorage.navIndex;
-      if (to.path !== "/searchs/") {
+      to.params.domain = ".";
+      if (to.name !== from.name && to.name !== "SeoSearch") {
         let storage = window.sessionStorage;
         storage.removeItem("searchContent");
         storage.removeItem("Keywords");

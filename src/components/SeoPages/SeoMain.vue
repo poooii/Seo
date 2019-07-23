@@ -20,7 +20,7 @@ export default {
   },
   name: "SeoMain",
   beforeRouteLeave(to, from, next) {
-    if (to.path !== "/searchs/") {
+    if (to.name !== "SeoSearch") {
       let storage = window.sessionStorage;
       storage.removeItem("searchContent");
       storage.removeItem("Keywords");

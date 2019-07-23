@@ -632,6 +632,10 @@ export default {
     },
     // 搜索框点击
     getMsg(data) {
+      this.$router.replace({
+        name: "BaiduWeight",
+        params: { domain: data }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;

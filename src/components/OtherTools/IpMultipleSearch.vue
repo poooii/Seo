@@ -70,19 +70,16 @@ export default {
     };
   },
   methods: {
-    getNearly(msg) {
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", msg);
-      this.content = storage.searchContent;
-      this.SeoContent = storage.searchContent;
-      window.scrollTo(0, 0);
-    },
     getlist() {
       this.bus.$emit("loading", true);
       setTimeout(() => {
         this.bus.$emit("loading", false);
       }, 1000);
       this.content = this.SeoContent.split(" ");
+      this.$router.replace({
+        name: "IpMultipleSearch",
+        params: { domain: this.content[0] + "%0D%0A" }
+      });
       this.content = this.content.map(item => ({ domain: item }));
       for (let i in this.content) {
         this.content[i].cx = "";
@@ -162,6 +159,10 @@ export default {
       let curIndex = this.content.length ? this.content.length : 0;
       this.getIpInfo(curIndex, 0, true);
     }
+  },
+  activated() {
+    let storage = window.sessionStorage;
+    storage.setItem("navIndex", "4");
   }
 };
 </script>

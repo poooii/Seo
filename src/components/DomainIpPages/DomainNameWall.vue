@@ -54,18 +54,30 @@ export default {
   },
   methods: {
     getMsg(data) {
+      this.$router.replace({
+        name: "DomainNameWall",
+        params: { domain: data }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
       this.checkWallInfo();
     },
     searchHot(data) {
+      this.$router.replace({
+        name: "DomainNameWall",
+        params: { domain: data }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
       this.checkWallInfo();
     },
     getNearly(msg) {
+      this.$router.replace({
+        name: "DomainNameWall",
+        params: { domain: msg }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
@@ -101,6 +113,10 @@ export default {
     if (storage.searchContent !== "" && storage.searchContent !== undefined) {
       this.checkWallInfo();
     }
+  },
+  activated() {
+    let storage = window.sessionStorage;
+    storage.setItem("navIndex", "3");
   }
 };
 </script>

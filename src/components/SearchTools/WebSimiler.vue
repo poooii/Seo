@@ -51,7 +51,7 @@
         </a>
       </div>
     </div>
-    <NearlySearch @msgNearlysearch="getNearly"></NearlySearch>
+    <NearlySearch></NearlySearch>
   </div>
 </template>
 
@@ -76,12 +76,6 @@ export default {
     };
   },
   methods: {
-    getNearly(msg) {
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", msg);
-      this.content = storage.searchContent;
-      window.scrollTo(0, 0);
-    },
     getList() {
       let netReg =
         "^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$";
@@ -101,6 +95,10 @@ export default {
         storage.setItem("S_SeoContent", this.S_SeoContent);
         this.getPageLikeInfo();
       }
+      this.$router.replace({
+        name: "WebSimiler",
+        params: { domain: this.content }
+      });
     },
     encode_unicode_param(t) {
       for (var e = "", a = 0; a < t.length; a++) {
@@ -151,6 +149,10 @@ export default {
     setTimeout(() => {
       this.bus.$emit("loading", false);
     }, 4000);
+  },
+  activated() {
+    let storage = window.sessionStorage;
+    storage.setItem("navIndex", "2");
   }
 };
 </script>

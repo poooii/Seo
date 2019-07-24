@@ -124,7 +124,6 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.navIndex = window.sessionStorage.navIndex;
       to.params.domain = ".";
       if (to.name !== from.name && to.name !== "SeoSearch") {
         let storage = window.sessionStorage;
@@ -132,6 +131,9 @@ export default {
         storage.removeItem("Keywords");
         storage.removeItem("S_SeoContent");
       }
+      setTimeout(() => {
+        this.navIndex = window.sessionStorage.navIndex;
+      }, 200);
     }
   },
   mounted() {

@@ -96,18 +96,30 @@ export default {
   },
   methods: {
     getMsg(data) {
+      this.$router.replace({
+        name: "AleaxTrend",
+        params: { domain: data }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
       this.getAlexa();
     },
     searchHot(data) {
+      this.$router.replace({
+        name: "AleaxTrend",
+        params: { domain: data }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
       this.getAlexa();
     },
     getNearly(msg) {
+      this.$router.replace({
+        name: "AleaxTrend",
+        params: { domain: msg }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
@@ -184,6 +196,10 @@ export default {
         this.getAlexa();
       }
     }
+  },
+  activated() {
+    let storage = window.sessionStorage;
+    storage.setItem("navIndex", "1");
   }
 };
 </script>

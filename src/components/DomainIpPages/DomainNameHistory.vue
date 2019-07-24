@@ -62,18 +62,30 @@ export default {
   },
   methods: {
     getMsg(data) {
+      this.$router.replace({
+        name: "DomainNameHistory",
+        params: { domain: data }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
       this.getHistory();
     },
     searchHot(data) {
+      this.$router.replace({
+        name: "DomainNameHistory",
+        params: { domain: data }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
       this.getHistory();
     },
     getNearly(msg) {
+      this.$router.replace({
+        name: "DomainNameHistory",
+        params: { domain: msg }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
@@ -120,6 +132,10 @@ export default {
     setTimeout(() => {
       this.bus.$emit("loading", false);
     }, 2000);
+  },
+  activated() {
+    let storage = window.sessionStorage;
+    storage.setItem("navIndex", "3");
   }
 };
 </script>

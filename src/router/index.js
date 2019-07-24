@@ -84,92 +84,92 @@ export default new Router({
           component: HistoryData,
         },
         {
-          path: 'icpabout',
+          path: 'icpabout/:domain',
           name: 'IcpAbout',
           component: IcpAbout,
         },
         {
-          path: 'ipsearch',
+          path: 'ipsearch/:domain',
           name: 'IpSearch',
           component: IpSearch,
         },
         {
-          path: 'threesixzeroweight',
+          path: 'threesixzeroweight/:domain',
           name: 'ThreeSixZeroWeight',
           component: ThreeSixZeroWeight,
         },
         {
-          path: 'threesixzerosafe',
+          path: 'threesixzerosafe/:domain',
           name: 'ThreeSixZeroSafe',
           component: ThreeSixZeroSafe,
         },
         {
-          path: 'aleaxtrend',
+          path: 'aleaxtrend/:domain',
           name: 'AleaxTrend',
           component: AleaxTrend,
         },
         {
-          path: 'pingtest',
+          path: 'pingtest/:domain',
           name: 'PingTest',
           component: PingTest,
         },
         {
-          path: 'prsearch',
+          path: 'prsearch/:domain',
           name: 'PrSearch',
           component: PrSearch,
         },
         {
-          path: 'bdseven',
+          path: 'bdseven/:domain',
           name: 'BdSevenSearch',
           component: BdSevenSearch,
         },
         {
-          path: 'bdwhethertake',
+          path: 'bdwhethertake/:domain',
           name: 'BdWhetherTake',
           component: BdWhetherTake,
         },
         {
-          path: 'bdtake',
+          path: 'bdtake/:domain',
           name: 'BdTake',
           component: BdTake,
         },
         {
-          path: 'bdsafetest',
+          path: 'bdsafetest/:domain',
           name: 'BdSafeTest',
           component: BdSafeTest,
         },
         {
-          path: 'bdonesearch',
+          path: 'bdonesearch/:domain',
           name: 'BdOneSearch',
           component: BdOneSearch,
         },
         {
-          path: 'antichain',
+          path: 'antichain/:domain',
           name: 'AntiChain',
           component: AntiChain,
         },
         {
-          path: 'keywords',
+          path: 'keywords/:domain',
           name: 'KeyWords',
           component: KeyWords,
         },
         {
-          path: 'buildsearch',
+          path: 'buildsearch/:domain',
           name: 'BuildSearch',
           component: BuildSearch,
         },
         {
-          path: 'webtitlesearch',
+          path: 'webtitlesearch/:domain',
           name: 'WebTitleSearch',
           component: WebTitleSearch,
         },
         {
-          path: 'weboutlink',
+          path: 'weboutlink/:domain',
           name: 'WebOutLink',
           component: WebOutLink,
         },
         {
-          path: 'friendlink',
+          path: 'friendlink/:domain',
           name: 'FriendLink',
           component: FriendLink,
         }
@@ -180,32 +180,32 @@ export default new Router({
       component: ToolsMain,
       children: [
         {
-          path: 'httpstate',
+          path: 'httpstate/:domain',
           name: 'HttpState',
           component: HttpState,
         },
         {
-          path: 'robotstest',
+          path: 'robotstest/:domain',
           name: 'RobotsTest',
           component: RobotsTest,
         },
         {
-          path: 'keywordsdensity',
+          path: 'keywordsdensity/:domain',
           name: 'KeywordsDensity',
           component: KeywordsDensity,
         },
         {
-          path: 'deadlink',
+          path: 'deadlink/:domain',
           name: 'DeadLink',
           component: DeadLink,
         },
         {
-          path: 'segrabepage',
+          path: 'segrabepage/:domain',
           name: 'SeGrabePage',
           component: SeGrabePage,
         },
         {
-          path: 'websimiler',
+          path: 'websimiler/:domain',
           name: 'WebSimiler',
           component: WebSimiler,
         },
@@ -216,32 +216,32 @@ export default new Router({
       component: DomainIpMain,
       children: [
         {
-          path: 'whoisSearch',
+          path: 'whoisSearch/:domain',
           name: 'WhoisSearch',
           component: WhoisSearch,
         },
         {
-          path: 'whoisdeserve',
+          path: 'whoisdeserve/:domain',
           name: 'WhoisDeserve',
           component: WhoisDeserve,
         },
         {
-          path: 'webipsearch',
+          path: 'webipsearch/:domain',
           name: 'WebIpSearch',
           component: WebIpSearch,
         },
         {
-          path: 'domainnamesealed',
+          path: 'domainnamesealed/:domain',
           name: 'DomainNameSealed',
           component: DomainNameSealed,
         },
         {
-          path: 'domainnamewall',
+          path: 'domainnamewall/:domain',
           name: 'DomainNameWall',
           component: DomainNameWall,
         },
         {
-          path: 'domainnamehistory',
+          path: 'domainnamehistory/:domain',
           name: 'DomainNameHistory',
           component: DomainNameHistory,
         }
@@ -252,12 +252,12 @@ export default new Router({
       component: OtherToolsMain,
       children: [
         {
-          path: 'ipmultiplesearch',
+          path: 'ipmultiplesearch/:domain',
           name: 'IpMultipleSearch',
           component: IpMultipleSearch,
         },
         {
-          path: 'autosettype',
+          path: 'autosettype/:domain',
           name: 'AutoSetType',
           component: AutoSetType,
         }

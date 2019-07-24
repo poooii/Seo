@@ -65,18 +65,30 @@ export default {
   },
   methods: {
     getMsg(data) {
+      this.$router.replace({
+        name: "WebTitleSearch",
+        params: { domain: data }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
       this.getWebpage();
     },
     searchHot(data) {
+      this.$router.replace({
+        name: "WebTitleSearch",
+        params: { domain: data }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
       this.getWebpage();
     },
     getNearly(msg) {
+      this.$router.replace({
+        name: "WebTitleSearch",
+        params: { domain: msg }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
@@ -114,6 +126,10 @@ export default {
     setTimeout(() => {
       this.bus.$emit("loading", false);
     }, 2000);
+  },
+  activated() {
+    let storage = window.sessionStorage;
+    storage.setItem("navIndex", "1");
   }
 };
 </script>

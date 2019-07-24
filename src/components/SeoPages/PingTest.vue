@@ -157,6 +157,10 @@ export default {
         return false;
       }
       this.content = this.SeoContent;
+      this.$router.replace({
+        name: "PingTest",
+        params: { domain: this.content }
+      });
       this.showViews = this.downList[0].idx;
       let storage = window.sessionStorage;
       storage.setItem("searchContent", this.content);
@@ -177,6 +181,10 @@ export default {
       }
     },
     searchHot(data) {
+      this.$router.replace({
+        name: "PingTest",
+        params: { domain: data }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.SeoContent = storage.searchContent;
@@ -185,6 +193,10 @@ export default {
       this.getAll();
     },
     getNearly(msg) {
+      this.$router.replace({
+        name: "PingTest",
+        params: { domain: msg }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
@@ -243,6 +255,10 @@ export default {
     setTimeout(() => {
       this.bus.$emit("loading", false);
     }, 2000);
+  },
+  activated() {
+    let storage = window.sessionStorage;
+    storage.setItem("navIndex", "1");
   }
 };
 </script>

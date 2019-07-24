@@ -119,16 +119,12 @@ export default {
         this.searchIdx = 0;
       }
     },
-    getNearly(msg) {
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", msg);
-      this.content = storage.searchContent;
-      this.SeoContent = storage.searchContent;
-      this.searchIdx = 0;
-      window.scrollTo(0, 0);
-    },
     getList() {
       this.content = this.SeoContent;
+      this.$router.replace({
+        name: "WhoisDeserve",
+        params: { domain: this.content }
+      });
       this.showViews = this.downList[0].idx;
       let storage = window.sessionStorage;
       storage.setItem("searchContent", this.content);
@@ -256,6 +252,10 @@ export default {
     setTimeout(() => {
       this.bus.$emit("loading", false);
     }, 2000);
+  },
+  activated() {
+    let storage = window.sessionStorage;
+    storage.setItem("navIndex", "3");
   }
 };
 </script>

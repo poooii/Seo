@@ -147,6 +147,10 @@ export default {
       }
     },
     searchHot(data) {
+      this.$router.replace({
+        name: "DeadLink",
+        params: { domain: data }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.SeoContent = storage.searchContent;
@@ -156,6 +160,10 @@ export default {
       this.getDLinkInfo();
     },
     getNearly(msg) {
+      this.$router.replace({
+        name: "DeadLink",
+        params: { domain: msg }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
@@ -174,6 +182,10 @@ export default {
         return false;
       }
       this.content = this.SeoContent;
+      this.$router.replace({
+        name: "DeadLink",
+        params: { domain: this.content }
+      });
       this.showViews = this.downList[0].idx;
       let storage = window.sessionStorage;
       storage.setItem("searchContent", this.content);
@@ -296,6 +308,10 @@ export default {
     setTimeout(() => {
       this.bus.$emit("loading", false);
     }, 2000);
+  },
+  activated() {
+    let storage = window.sessionStorage;
+    storage.setItem("navIndex", "2");
   }
 };
 </script>

@@ -1,6 +1,8 @@
 <template>
   <div>
-  <router-view></router-view>
+    <keep-alive :max="4">
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 

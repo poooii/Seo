@@ -87,12 +87,6 @@ export default {
     };
   },
   methods: {
-    getNearly(msg) {
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", msg);
-      this.content = storage.searchContent;
-      window.scrollTo(0, 0);
-    },
     getList() {
       let netReg =
         "^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$";
@@ -103,6 +97,10 @@ export default {
       }
       this.content = this.SeoContent;
       let storage = window.sessionStorage;
+      this.$router.replace({
+        name: "KeywordsDensity",
+        params: { domain: this.encode_unicode_param(this.SeoContent) }
+      });
       storage.setItem("searchContent", this.content);
       storage.setItem("Keywords", this.Keywords);
       this.getWDensity();
@@ -154,6 +152,10 @@ export default {
     setTimeout(() => {
       this.bus.$emit("loading", false);
     }, 2000);
+  },
+  activated() {
+    let storage = window.sessionStorage;
+    storage.setItem("navIndex", "2");
   }
 };
 </script>

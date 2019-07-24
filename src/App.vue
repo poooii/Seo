@@ -3,7 +3,9 @@
 <template>
   <div id="app">
     <navbar v-show="!this.$route.meta.showpublic"></navbar>
-    <router-view></router-view>
+    <keep-alive :exclude="'Home'">
+      <router-view></router-view>
+    </keep-alive>
     <Loading></Loading>
     <footerbar v-show="!this.$route.meta.showpublic"></footerbar>
   </div>

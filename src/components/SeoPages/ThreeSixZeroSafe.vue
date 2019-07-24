@@ -47,16 +47,28 @@ export default {
   },
   methods: {
     getMsg(data) {
+      this.$router.replace({
+        name: "ThreeSixZeroSafe",
+        params: { domain: data }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
     },
     searchHot(data) {
+      this.$router.replace({
+        name: "ThreeSixZeroSafe",
+        params: { domain: data }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
     },
     getNearly(msg) {
+      this.$router.replace({
+        name: "ThreeSixZeroSafe",
+        params: { domain: msg }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
@@ -68,6 +80,10 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
+  },
+  activated() {
+    let storage = window.sessionStorage;
+    storage.setItem("navIndex", "1");
   }
 };
 </script>

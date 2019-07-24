@@ -992,7 +992,7 @@ export default {
     getNearly(msg) {
       this.$router.replace({
         name: "SeoSearch",
-        params: { domain: data }
+        params: { domain: msg }
       });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
@@ -1649,6 +1649,10 @@ export default {
     setTimeout(() => {
       this.bus.$emit("loading", false);
     }, 2000);
+  },
+  activated() {
+    let storage = window.sessionStorage;
+    storage.setItem("navIndex", "1");
   }
 };
 </script>

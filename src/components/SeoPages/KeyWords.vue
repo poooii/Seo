@@ -91,24 +91,14 @@ export default {
   methods: {
     getList() {
       this.content = this.SeoContent;
+      this.$router.replace({
+        name: "KeyWords",
+        params: { domain: this.encode_unicode_param(this.content) }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", this.content);
       this.getKeyWords();
     },
-    searchHot(data) {
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.SeoContent = storage.searchContent;
-      this.content = storage.searchContent;
-    },
-    getNearly(msg) {
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", msg);
-      this.content = storage.searchContent;
-      this.SeoContent = storage.searchContent;
-      window.scrollTo(0, 0);
-    },
-
     encode_unicode_param(t) {
       for (var e = "", a = 0; a < t.length; a++) {
         var i = t.charCodeAt(a).toString(16);
@@ -199,6 +189,10 @@ export default {
   },
   destroyed() {
     window.removeEventListener("scroll", this.handleScroll);
+  },
+  activated() {
+    let storage = window.sessionStorage;
+    storage.setItem("navIndex", "1");
   }
 };
 </script>

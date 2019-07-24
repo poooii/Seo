@@ -53,18 +53,30 @@ export default {
   },
   methods: {
     getMsg(data) {
+      this.$router.replace({
+        name: "BdSafeTest",
+        params: { domain: data }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
       this.getSafe();
     },
     searchHot(data) {
+      this.$router.replace({
+        name: "BdSafeTest",
+        params: { domain: data }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.content = storage.searchContent;
       this.getSafe();
     },
     getNearly(msg) {
+      this.$router.replace({
+        name: "BdSafeTest",
+        params: { domain: msg }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
@@ -108,6 +120,10 @@ export default {
     if (storage.searchContent !== "" && storage.searchContent !== undefined) {
       this.getSafe();
     }
+  },
+  activated() {
+    let storage = window.sessionStorage;
+    storage.setItem("navIndex", "1");
   }
 };
 </script>

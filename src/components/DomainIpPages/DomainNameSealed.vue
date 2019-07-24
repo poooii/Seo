@@ -123,6 +123,10 @@ export default {
       }
     },
     searchHot(data) {
+      this.$router.replace({
+        name: "DomainNameSealed",
+        params: { domain: data }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", data);
       this.SeoContent = storage.searchContent;
@@ -130,6 +134,10 @@ export default {
       this.doGet();
     },
     getNearly(msg) {
+      this.$router.replace({
+        name: "DomainNameSealed",
+        params: { domain: msg }
+      });
       let storage = window.sessionStorage;
       storage.setItem("searchContent", msg);
       this.content = storage.searchContent;
@@ -147,6 +155,10 @@ export default {
         return false;
       }
       this.content = this.SeoContent;
+      this.$router.replace({
+        name: "DomainNameSealed",
+        params: { domain: this.content }
+      });
       this.showViews = this.downList[0].idx;
       let storage = window.sessionStorage;
       storage.setItem("searchContent", this.content);
@@ -168,6 +180,10 @@ export default {
     if (storage.searchContent !== "" && storage.searchContent !== undefined) {
       this.doGet();
     }
+  },
+  activated() {
+    let storage = window.sessionStorage;
+    storage.setItem("navIndex", "3");
   }
 };
 </script>

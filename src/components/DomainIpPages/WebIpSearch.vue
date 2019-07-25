@@ -4,7 +4,7 @@
     <SearchBox :title="title" :content="content" @msgToSearch="getMsg" @msgSearchHot="searchHot"></SearchBox>
     <div class="cha_default" v-if="content==''||content==undefined">请输入查询的网站</div>
     <div class="cha_default" v-show="noAnswer">未查询到该网站IP</div>
-    <div class="main_content" v-if="!content==''">
+    <div class="main_content" v-if="!content==''" v-show="!noAnswer">
       <div class="content_title">查询结果：</div>
       <table width="1200px" class="tsz_table">
         <tr>
@@ -19,7 +19,7 @@
           </td>
           <td>
             {{ip}}
-            <span> {{info}}</span>
+            <span>{{info}}</span>
           </td>
         </tr>
       </table>
@@ -58,9 +58,7 @@ export default {
         name: "WebIpSearch",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.getIpInfo();
     },
     getIpInfo() {
@@ -91,9 +89,7 @@ export default {
         name: "WebIpSearch",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.getIpInfo();
     },
     getNearly(msg) {
@@ -101,17 +97,15 @@ export default {
         name: "WebIpSearch",
         params: { domain: msg }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", msg);
-      this.content = storage.searchContent;
+      this.content = msg;
       this.getIpInfo();
       window.scrollTo(0, 0);
     }
   },
   mounted() {
     let storage = window.sessionStorage;
-    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
-      this.content = storage.searchContent;
+    if (this.$route.params.domain !== ".") {
+      this.content = this.$route.params.domain;
       this.getIpInfo();
     }
     storage.setItem("navIndex", "3");

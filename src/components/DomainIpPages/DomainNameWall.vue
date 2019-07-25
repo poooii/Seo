@@ -58,9 +58,7 @@ export default {
         name: "DomainNameWall",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.checkWallInfo();
     },
     searchHot(data) {
@@ -68,9 +66,7 @@ export default {
         name: "DomainNameWall",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.checkWallInfo();
     },
     getNearly(msg) {
@@ -78,9 +74,7 @@ export default {
         name: "DomainNameWall",
         params: { domain: msg }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", msg);
-      this.content = storage.searchContent;
+      this.content = msg;
       this.checkWallInfo();
       window.scrollTo(0, 0);
     },
@@ -107,10 +101,10 @@ export default {
   },
   mounted() {
     let storage = window.sessionStorage;
-    this.content = storage.searchContent;
     storage.setItem("navIndex", "3");
     window.scrollTo(0, 0);
-    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+    if (this.$route.params.domain !== ".") {
+      this.content = this.$route.params.domain;
       this.checkWallInfo();
     }
   },

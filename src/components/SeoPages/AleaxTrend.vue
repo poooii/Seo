@@ -100,9 +100,7 @@ export default {
         name: "AleaxTrend",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.getAlexa();
     },
     searchHot(data) {
@@ -110,9 +108,7 @@ export default {
         name: "AleaxTrend",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.getAlexa();
     },
     getNearly(msg) {
@@ -120,9 +116,7 @@ export default {
         name: "AleaxTrend",
         params: { domain: msg }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", msg);
-      this.content = storage.searchContent;
+      this.content = msg;
       this.getAlexa();
       window.scrollTo(0, 0);
     },
@@ -184,17 +178,9 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
-    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+    if (this.$route.params.domain !== ".") {
+      this.content = this.$route.params.domain;
       this.getAlexa();
-    } else {
-      if (
-        this.$route.params.shcontent !== undefined &&
-        this.$route.params.shcontent !== ""
-      ) {
-        this.content = this.$route.params.shcontent;
-        this.SeoContent = this.$route.params.shcontent;
-        this.getAlexa();
-      }
     }
   },
   activated() {

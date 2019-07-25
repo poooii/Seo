@@ -75,9 +75,7 @@ export default {
         name: "IcpAbout",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.getIcp();
       setTimeout(() => {
         this.bus.$emit("loading", false);
@@ -88,9 +86,7 @@ export default {
         name: "IcpAbout",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.getIcp();
     },
     getNearly(msg) {
@@ -98,9 +94,7 @@ export default {
         name: "IcpAbout",
         params: { domain: msg }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", msg);
-      this.content = storage.searchContent;
+      this.content = msg;
       this.getIcp();
       window.scrollTo(0, 0);
     },
@@ -147,20 +141,11 @@ export default {
   },
   mounted() {
     let storage = window.sessionStorage;
-    this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
-    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+    if (this.$route.params.domain !== ".") {
+      this.content = this.$route.params.domain;
       this.getIcp();
-    } else {
-      if (
-        this.$route.params.shcontent !== undefined &&
-        this.$route.params.shcontent !== ""
-      ) {
-        this.content = this.$route.params.shcontent;
-        this.SeoContent = this.$route.params.shcontent;
-        this.getIcp();
-      }
     }
     setTimeout(() => {
       this.bus.$emit("loading", false);

@@ -127,10 +127,8 @@ export default {
         name: "DomainNameSealed",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.SeoContent = storage.searchContent;
-      this.content = storage.searchContent;
+      this.SeoContent = data;
+      this.content = data;
       this.doGet();
     },
     getNearly(msg) {
@@ -138,10 +136,8 @@ export default {
         name: "DomainNameSealed",
         params: { domain: msg }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", msg);
-      this.content = storage.searchContent;
-      this.SeoContent = storage.searchContent;
+      this.content = msg;
+      this.SeoContent = msg;
       this.searchIdx = 0;
       this.doGet();
       window.scrollTo(0, 0);
@@ -160,8 +156,6 @@ export default {
         params: { domain: this.content }
       });
       this.showViews = this.downList[0].idx;
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", this.content);
       this.doGet();
     },
     doGet() {
@@ -173,13 +167,8 @@ export default {
   },
   mounted() {
     let storage = window.sessionStorage;
-    this.content = storage.searchContent;
-    this.SeoContent = storage.searchContent;
     storage.setItem("navIndex", "3");
     window.scrollTo(0, 0);
-    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
-      this.doGet();
-    }
   },
   activated() {
     let storage = window.sessionStorage;

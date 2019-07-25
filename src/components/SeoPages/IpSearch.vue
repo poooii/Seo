@@ -119,9 +119,7 @@ export default {
         name: "IpSearch",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.page = "1";
       this.getIp();
     },
@@ -130,9 +128,7 @@ export default {
         name: "IpSearch",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.getIp();
     },
     getNearly(msg) {
@@ -140,9 +136,7 @@ export default {
         name: "IpSearch",
         params: { domain: msg }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", msg);
-      this.content = storage.searchContent;
+      this.content = msg;
       this.getIp();
       window.scrollTo(0, 0);
     },
@@ -313,17 +307,9 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
-    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+    if (this.$route.params.domain !== ".") {
+      this.content = this.$route.params.domain;
       this.getIp();
-    } else {
-      if (
-        this.$route.params.shcontent !== undefined &&
-        this.$route.params.shcontent !== ""
-      ) {
-        this.content = this.$route.params.shcontent;
-        this.SeoContent = this.$route.params.shcontent;
-        this.getIp();
-      }
     }
     setTimeout(() => {
       this.bus.$emit("loading", false);

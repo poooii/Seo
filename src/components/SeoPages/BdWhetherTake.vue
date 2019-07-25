@@ -55,9 +55,7 @@ export default {
         name: "BdWhetherTake",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.getAll();
     },
     searchHot(data) {
@@ -65,9 +63,7 @@ export default {
         name: "BdWhetherTake",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.getAll();
     },
     getNearly(msg) {
@@ -75,9 +71,7 @@ export default {
         name: "BdWhetherTake",
         params: { domain: msg }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", msg);
-      this.content = storage.searchContent;
+      this.content = msg;
       this.getAll();
       window.scrollTo(0, 0);
     },
@@ -130,10 +124,10 @@ export default {
   },
   mounted() {
     let storage = window.sessionStorage;
-    this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
-    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+    if (this.$route.params.domain !== ".") {
+      this.content = this.$route.params.domain;
       this.getAll();
     }
     setTimeout(() => {

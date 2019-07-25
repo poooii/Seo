@@ -126,8 +126,6 @@ export default {
         params: { domain: this.content }
       });
       this.showViews = this.downList[0].idx;
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", this.content);
       if (this.showViews == "0") {
         this.getRWhois();
       }
@@ -242,11 +240,11 @@ export default {
   },
   mounted() {
     let storage = window.sessionStorage;
-    this.content = storage.searchContent;
-    this.SeoContent = storage.searchContent;
     storage.setItem("navIndex", "3");
     window.scrollTo(0, 0);
-    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+    if (this.$route.params.domain !== ".") {
+      this.content = this.$route.params.domain;
+      this.SeoContent = this.$route.params.domain;
       this.getRWhois();
     }
     setTimeout(() => {

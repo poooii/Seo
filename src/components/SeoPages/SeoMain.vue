@@ -21,15 +21,6 @@ export default {
     ]
   },
   name: "SeoMain",
-  beforeRouteLeave(to, from, next) {
-    if (to.name !== "SeoSearch") {
-      let storage = window.sessionStorage;
-      storage.removeItem("searchContent");
-      storage.removeItem("Keywords");
-      storage.removeItem("S_SeoContent");
-    }
-    next();
-  },
   data() {
     return {};
   }

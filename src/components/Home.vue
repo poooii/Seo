@@ -114,8 +114,6 @@ export default {
   },
   methods: {
     tosearch() {
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", this.content);
       this.$router.push({
         name: "SeoSearch",
         params: { domain: this.content }

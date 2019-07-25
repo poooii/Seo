@@ -275,7 +275,6 @@ export default {
       showxis: true,
       title1: "百度权重",
       content: "",
-      SeoContent: "",
       br: "",
       br_m: "",
       related_web: [],
@@ -636,9 +635,7 @@ export default {
         name: "BaiduWeight",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.related_web.length = 0;
       this.getAll();
       this.weightType = 0;
@@ -696,9 +693,7 @@ export default {
         name: "BaiduWeight",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.getAll();
     },
     // 最近搜索
@@ -707,9 +702,7 @@ export default {
         name: "BaiduWeight",
         params: { domain: msg }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", msg);
-      this.content = storage.searchContent;
+      this.content = msg;
       this.getAll();
       window.scrollTo(0, 0);
     },
@@ -1030,21 +1023,13 @@ export default {
   },
   mounted() {
     let storage = window.sessionStorage;
-    this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
-    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+    if (this.$route.params.domain !== ".") {
+      this.content = this.$route.params.domain;
       this.getAll();
-    } else {
-      if (
-        this.$route.params.shcontent !== undefined &&
-        this.$route.params.shcontent !== ""
-      ) {
-        this.content = this.$route.params.shcontent;
-        this.SeoContent = this.$route.params.shcontent;
-        this.getAll();
-      }
     }
+
     setTimeout(() => {
       this.bus.$emit("loading", false);
     }, 2000);

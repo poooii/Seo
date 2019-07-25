@@ -17,10 +17,7 @@
           {{menu.name}}
           <ul class="websiteValue_top_ul_next" hidden>
             <li v-for="itmes in menu.details">
-              <router-link
-                tag="a"
-                :to="{ name: itmes.links,params:{content:'',domain:'.'} }"
-              >{{itmes.name}}</router-link>
+              <router-link tag="a" :to="{ name: itmes.links,params:{domain:'.'} }">{{itmes.name}}</router-link>
             </li>
           </ul>
         </li>
@@ -127,13 +124,7 @@ export default {
   },
   watch: {
     $route(to, from) {
-      to.params.domain = ".";
-      if (to.name !== from.name && to.name !== "SeoSearch") {
-        let storage = window.sessionStorage;
-        storage.removeItem("searchContent");
-        storage.removeItem("Keywords");
-        storage.removeItem("S_SeoContent");
-      }
+      // to.params.domain = ".";
       setTimeout(() => {
         this.navIndex = window.sessionStorage.navIndex;
       }, 200);

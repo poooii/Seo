@@ -820,10 +820,8 @@ export default {
         name: "HistoryData",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.SeoContent = storage.searchContent;
-      this.content = storage.searchContent;
+      this.SeoContent = data;
+      this.content = data;
       this.showViews = this.downList[0].idx;
       this.getAll();
     },
@@ -833,10 +831,8 @@ export default {
         name: "HistoryData",
         params: { domain: msg }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", msg);
-      this.content = storage.searchContent;
-      this.SeoContent = storage.searchContent;
+      this.content = msg;
+      this.SeoContent = msg;
       this.showViews = this.downList[0].idx;
       this.getAll();
       window.scrollTo(0, 0);
@@ -903,21 +899,12 @@ export default {
   },
   mounted() {
     let storage = window.sessionStorage;
-    this.content = storage.searchContent;
-    this.SeoContent = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
-    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+    if (this.$route.params.domain !== ".") {
+      this.content = this.$route.params.domain;
+      this.SeoContent = this.$route.params.domain;
       this.getAll();
-    } else {
-      if (
-        this.$route.params.shcontent !== undefined &&
-        this.$route.params.shcontent !== ""
-      ) {
-        this.content = this.$route.params.shcontent;
-        this.SeoContent = this.$route.params.shcontent;
-        this.getAll();
-      }
     }
     setTimeout(() => {
       this.bus.$emit("loading", false);

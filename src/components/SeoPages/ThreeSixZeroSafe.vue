@@ -51,33 +51,29 @@ export default {
         name: "ThreeSixZeroSafe",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
     },
     searchHot(data) {
       this.$router.replace({
         name: "ThreeSixZeroSafe",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
     },
     getNearly(msg) {
       this.$router.replace({
         name: "ThreeSixZeroSafe",
         params: { domain: msg }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", msg);
-      this.content = storage.searchContent;
+      this.content = msg;
       window.scrollTo(0, 0);
     }
   },
   mounted() {
     let storage = window.sessionStorage;
-    this.content = storage.searchContent;
+    if (this.$route.params.domain !== ".") {
+      this.content = this.$route.params.domain;
+    }
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
   },

@@ -95,8 +95,6 @@ export default {
         name: "KeyWords",
         params: { domain: this.encode_unicode_param(this.content) }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", this.content);
       this.getKeyWords();
     },
     encode_unicode_param(t) {
@@ -175,11 +173,11 @@ export default {
   },
   mounted() {
     let storage = window.sessionStorage;
-    this.content = storage.searchContent;
-    this.SeoContent = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
-    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+    if (this.$route.params.domain !== ".") {
+      this.content = this.$route.params.domain;
+      this.SeoContent = this.$route.params.domain;
       this.getKeyWords();
     }
     setTimeout(() => {

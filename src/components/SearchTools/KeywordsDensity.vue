@@ -96,13 +96,10 @@ export default {
         return false;
       }
       this.content = this.SeoContent;
-      let storage = window.sessionStorage;
       this.$router.replace({
         name: "KeywordsDensity",
         params: { domain: this.encode_unicode_param(this.SeoContent) }
       });
-      storage.setItem("searchContent", this.content);
-      storage.setItem("Keywords", this.Keywords);
       this.getWDensity();
     },
     encode_unicode_param(t) {
@@ -141,14 +138,8 @@ export default {
   },
   mounted() {
     let storage = window.sessionStorage;
-    this.content = storage.searchContent;
-    this.SeoContent = storage.searchContent;
-    this.Keywords = storage.Keywords;
     storage.setItem("navIndex", "2");
     window.scrollTo(0, 0);
-    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
-      this.getWDensity();
-    }
     setTimeout(() => {
       this.bus.$emit("loading", false);
     }, 2000);

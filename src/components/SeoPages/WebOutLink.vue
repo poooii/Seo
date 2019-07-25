@@ -52,9 +52,7 @@ export default {
         name: "WebOutLink",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.getWebpage();
     },
     searchHot(data) {
@@ -62,9 +60,7 @@ export default {
         name: "WebOutLink",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.getWebpage();
     },
     getNearly(msg) {
@@ -72,9 +68,7 @@ export default {
         name: "WebOutLink",
         params: { domain: msg }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", msg);
-      this.content = storage.searchContent;
+      this.content = msg;
       this.getWebpage();
       window.scrollTo(0, 0);
     },
@@ -100,10 +94,10 @@ export default {
   },
   mounted() {
     let storage = window.sessionStorage;
-    this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
-    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+    if (this.$route.params.domain !== ".") {
+      this.content = this.$route.params.domain;
       this.getWebpage();
     }
     setTimeout(() => {

@@ -66,9 +66,7 @@ export default {
         name: "DomainNameHistory",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.getHistory();
     },
     searchHot(data) {
@@ -76,9 +74,7 @@ export default {
         name: "DomainNameHistory",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.getHistory();
     },
     getNearly(msg) {
@@ -86,9 +82,7 @@ export default {
         name: "DomainNameHistory",
         params: { domain: msg }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", msg);
-      this.content = storage.searchContent;
+      this.content = msg;
       this.getHistory();
       window.scrollTo(0, 0);
     },
@@ -117,16 +111,16 @@ export default {
     toWhois() {
       this.$router.push({
         name: "WhoisSearch",
-        params: { shcontent: this.content }
+        params: { domain: this.content }
       });
     }
   },
   mounted() {
     let storage = window.sessionStorage;
-    this.content = storage.searchContent;
     storage.setItem("navIndex", "3");
     window.scrollTo(0, 0);
-    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+    if (this.$route.params.domain !== ".") {
+      this.content = this.$route.params.domain;
       this.getHistory();
     }
     setTimeout(() => {

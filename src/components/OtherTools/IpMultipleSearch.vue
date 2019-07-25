@@ -89,8 +89,6 @@ export default {
       }
       let curIndex = this.content.length ? this.content.length : 0;
       this.getIpInfo(curIndex, 0, true);
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", this.SeoContent);
     },
     getIpInfo(cur, i, goOn) {
       if (cur <= i) {
@@ -111,7 +109,6 @@ export default {
           }
         })
         .then(res => {
-          console.log(res);
           if (res.data == null || res.data.length == 0 || !res.data.info) {
             this.content[i].cx = "重测";
             this.content[i].cxjg = "";
@@ -140,21 +137,20 @@ export default {
   },
   mounted() {
     let storage = window.sessionStorage;
-    this.SeoContent = storage.searchContent;
     storage.setItem("navIndex", "4");
     window.scrollTo(0, 0);
-    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
-      this.content = storage.searchContent.split(" ");
-      this.content = this.content.map(item => ({ domain: item }));
-      for (let i in this.content) {
-        this.content[i].cx = "";
-        this.content[i].cxjg = "";
-        this.content[i].loading = true;
-        this.content[i].Gerror = false;
-      }
-      let curIndex = this.content.length ? this.content.length : 0;
-      this.getIpInfo(curIndex, 0, true);
-    }
+    // if (this.$route.params.domain !== ".") {
+    //   this.content = storage.searchContent.split(" ");
+    //   this.content = this.content.map(item => ({ domain: item }));
+    //   for (let i in this.content) {
+    //     this.content[i].cx = "";
+    //     this.content[i].cxjg = "";
+    //     this.content[i].loading = true;
+    //     this.content[i].Gerror = false;
+    //   }
+    //   let curIndex = this.content.length ? this.content.length : 0;
+    //   this.getIpInfo(curIndex, 0, true);
+    // }
   },
   activated() {
     let storage = window.sessionStorage;

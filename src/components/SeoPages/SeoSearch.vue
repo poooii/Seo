@@ -959,9 +959,7 @@ export default {
         name: "SeoSearch",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.word_localtion_local.length = 0;
       this.word_localtion.length = 0;
       this.same_ip.length = 0;
@@ -983,9 +981,7 @@ export default {
         name: "SeoSearch",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.doAllGet();
     },
     // 点击底部最近搜索
@@ -994,9 +990,7 @@ export default {
         name: "SeoSearch",
         params: { domain: msg }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", msg);
-      this.content = storage.searchContent;
+      this.content = msg;
       window.scrollTo(0, 0);
       this.doAllGet();
     },
@@ -1011,43 +1005,43 @@ export default {
       if (!val) {
         this.$router.push({
           name: "BaiduWeight",
-          params: { shcontent: this.content, domain: this.content }
+          params: { domain: this.content }
         });
       } else {
         this.$router.push({
           name: "BaiduWeight",
-          params: { shcontent: val, domain: val }
+          params: { domain: val }
         });
       }
     },
     toPr() {
       this.$router.push({
         name: "PrSearch",
-        params: { shcontent: this.content, domain: this.content }
+        params: { domain: this.content }
       });
     },
     toIcp() {
       this.$router.push({
         name: "IcpAbout",
-        params: { shcontent: this.content, domain: this.content }
+        params: { domain: this.content }
       });
     },
     toIpSearch(val) {
       this.$router.push({
         name: "IpSearch",
-        params: { shcontent: val, domain: val }
+        params: { domain: val }
       });
     },
     toAntiChain(val) {
       this.$router.push({
         name: "AntiChain",
-        params: { shcontent: val, domain: val }
+        params: { domain: val }
       });
     },
     toAleax() {
       this.$router.push({
         name: "AleaxTrend",
-        params: { shcontent: this.content, domain: this.content }
+        params: { domain: this.content }
       });
     },
     //请求数据
@@ -1649,8 +1643,8 @@ export default {
   mounted() {
     let storage = window.sessionStorage;
     storage.setItem("navIndex", "1");
-    this.content = storage.searchContent;
-    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+    if (this.$route.params.domain !== ".") {
+      this.content = this.$route.params.domain;
       this.doAllGet();
     }
     setTimeout(() => {

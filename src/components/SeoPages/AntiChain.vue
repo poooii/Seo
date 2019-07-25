@@ -88,9 +88,7 @@ export default {
         name: "AntiChain",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.page = 1;
       this.getFlinkInfo();
     },
@@ -99,9 +97,7 @@ export default {
         name: "AntiChain",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.page = 1;
       this.getFlinkInfo();
     },
@@ -110,9 +106,7 @@ export default {
         name: "AntiChain",
         params: { domain: msg }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", msg);
-      this.content = storage.searchContent;
+      this.content = msg;
       this.page = 1;
       this.getFlinkInfo();
       window.scrollTo(0, 0);
@@ -161,17 +155,9 @@ export default {
     this.content = storage.searchContent;
     storage.setItem("navIndex", "1");
     window.scrollTo(0, 0);
-    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+    if (this.$route.params.shcontent !== ".") {
+      this.content = this.$route.params.domain;
       this.getFlinkInfo();
-    } else {
-      if (
-        this.$route.params.shcontent !== undefined &&
-        this.$route.params.shcontent !== ""
-      ) {
-        this.content = this.$route.params.shcontent;
-        this.SeoContent = this.$route.params.shcontent;
-        this.getFlinkInfo();
-      }
     }
     setTimeout(() => {
       this.bus.$emit("loading", false);

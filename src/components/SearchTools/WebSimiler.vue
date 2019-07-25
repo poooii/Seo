@@ -90,9 +90,6 @@ export default {
       } else {
         this.isSame = false;
         this.content = this.SeoContent;
-        let storage = window.sessionStorage;
-        storage.setItem("searchContent", this.content);
-        storage.setItem("S_SeoContent", this.S_SeoContent);
         this.getPageLikeInfo();
       }
       this.$router.replace({
@@ -138,14 +135,8 @@ export default {
   },
   mounted() {
     let storage = window.sessionStorage;
-    this.content = storage.searchContent;
-    this.SeoContent = storage.searchContent;
-    this.S_SeoContent = storage.S_SeoContent;
     storage.setItem("navIndex", "2");
     window.scrollTo(0, 0);
-    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
-      this.getPageLikeInfo();
-    }
     setTimeout(() => {
       this.bus.$emit("loading", false);
     }, 4000);

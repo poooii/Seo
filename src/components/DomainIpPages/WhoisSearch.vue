@@ -99,9 +99,7 @@ export default {
         name: "WhoisSearch",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.getWhois();
     },
     searchHot(data) {
@@ -109,9 +107,7 @@ export default {
         name: "WhoisSearch",
         params: { domain: data }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", data);
-      this.content = storage.searchContent;
+      this.content = data;
       this.getWhois();
     },
     getNearly(msg) {
@@ -119,9 +115,7 @@ export default {
         name: "WhoisSearch",
         params: { domain: msg }
       });
-      let storage = window.sessionStorage;
-      storage.setItem("searchContent", msg);
-      this.content = storage.searchContent;
+      this.content = msg;
       this.getWhois();
       window.scrollTo(0, 0);
     },
@@ -181,20 +175,11 @@ export default {
   },
   mounted() {
     let storage = window.sessionStorage;
-    this.content = storage.searchContent;
     storage.setItem("navIndex", "3");
     window.scrollTo(0, 0);
-    if (storage.searchContent !== "" && storage.searchContent !== undefined) {
+    if (this.$route.params.domain !== ".") {
+      this.content = this.$route.params.domain;
       this.getWhois();
-    } else {
-      if (
-        this.$route.params.shcontent !== undefined &&
-        this.$route.params.shcontent !== ""
-      ) {
-        this.content = this.$route.params.shcontent;
-        this.SeoContent = this.$route.params.shcontent;
-        this.getWhois();
-      }
     }
     setTimeout(() => {
       this.bus.$emit("loading", false);

@@ -144,7 +144,7 @@ export default {
   margin: 0 auto;
 }
 .content_title {
-  font-size: 24px;
+  font-size: 22px;
   margin: 60px 0 30px 0;
 }
 .tsz_table {
@@ -155,13 +155,12 @@ export default {
       border-top: 1px solid #ebebeb;
       vertical-align: middle;
       width: 250px;
-      height: 60px;
-      font-size: 16px;
+      height: 40px;
       text-align: center;
       a {
         width: 100%;
         height: 100%;
-        line-height: 60px;
+        line-height: 40px;
         color: #007bb7;
       }
     }

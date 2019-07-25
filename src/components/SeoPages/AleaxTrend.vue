@@ -211,7 +211,7 @@ export default {
 }
 
 .content_title {
-  font-size: 24px;
+  font-size: 22px;
   margin: 60px 0 30px 0;
 }
 
@@ -225,13 +225,11 @@ export default {
   border: 1px solid #ebebeb;
 
   table {
-    font-size: 16px;
-
     tr {
       td {
         border-bottom: 1px solid #ebebeb;
         border-right: 1px solid #ebebeb;
-        height: 60px;
+        height: 40px;
         text-align: center;
 
         .lower {

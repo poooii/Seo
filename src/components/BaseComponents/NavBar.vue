@@ -17,7 +17,10 @@
           {{menu.name}}
           <ul class="websiteValue_top_ul_next" hidden>
             <li v-for="itmes in menu.details">
-              <router-link tag="a" :to="{ name: itmes.links,params:{content:''} }">{{itmes.name}}</router-link>
+              <router-link
+                tag="a"
+                :to="{ name: itmes.links,params:{content:'',domain:'.'} }"
+              >{{itmes.name}}</router-link>
             </li>
           </ul>
         </li>

@@ -146,7 +146,7 @@ export default {
   margin: 0 auto;
 }
 .content_title {
-  font-size: 24px;
+  font-size: 22px;
   margin: 60px 0 30px 0;
 }
 .link_table {
@@ -154,9 +154,8 @@ export default {
   border-bottom: none;
   tr {
     td {
-      height: 60px;
+      height: 40px;
       text-align: center;
-      font-size: 16px;
       border-bottom: 1px solid #ebebeb;
       padding-right: 6px;
       max-width: 190px;
@@ -170,7 +169,6 @@ export default {
         line-height: 26px;
         border: 1px solid #008abd;
         display: block;
-        font-size: 14px;
         color: #008abd;
         border-radius: 4px;
         margin: 0 auto;

@@ -190,24 +190,23 @@ export default {
   margin: 0 auto;
 }
 .content_title {
-  font-size: 24px;
+  font-size: 22px;
   margin: 60px 0 30px 0;
 }
 .ip_main_table {
-  font-size: 16px;
   border: 1px solid #ebebeb;
   margin-top: 20px;
   border-bottom: none;
   tr {
     td {
       width: 180px;
-      height: 60px;
+      height: 40px;
       text-align: center;
       border-bottom: 1px solid #ebebeb;
       a {
         width: 100%;
         height: 100%;
-        line-height: 60px;
+        line-height: 40px;
         color: #007bb7;
       }
     }

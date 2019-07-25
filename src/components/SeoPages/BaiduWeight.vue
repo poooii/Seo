@@ -1071,24 +1071,24 @@ b {
   background: #fff;
   margin: 0 auto;
   margin-top: 60px;
-  font-size: 16px;
+  padding-bottom: 30px;
 }
 
 .t_title {
-  font-size: 24px;
+  font-size: 22px;
   line-height: 32px;
-  height: 26px;
+  height: 24px;
   color: #333;
 }
 
 .weight_content {
   .baidu_tags {
-    margin-top: 43px;
+    margin-top: 20px;
   }
 
   ol {
     color: #666;
-    line-height: 48px;
+    line-height: 36px;
     margin-top: 14px;
 
     img {
@@ -1103,12 +1103,11 @@ b {
 
   margin: 28px 0 0 0;
   color: #999;
-  font-size: 16px;
 
   .weight_details {
     float: left;
     width: 399px;
-    height: 450px;
+    height: 336px;
     text-align: center;
     border: 1px solid #ebebeb;
     border-right: none;
@@ -1158,12 +1157,12 @@ b {
   }
 
   .title_container {
-    height: 60px;
+    height: 50px;
     background: #fafafa;
     border-bottom: 1px solid #ebebeb;
 
     .ranking_trend {
-      font-size: 24px;
+      font-size: 22px;
     }
 
     a {
@@ -1188,8 +1187,8 @@ b {
     }
     span {
       display: inline-block;
-      height: 60px;
-      line-height: 60px;
+      height: 50px;
+      line-height: 50px;
       margin-left: 36px;
       min-width: 30px;
       text-align: center;
@@ -1212,9 +1211,8 @@ b {
       text-align: center;
       border: 1px solid #ccc;
       border-radius: 4px;
-      font-size: 14px;
       margin-left: 5px;
-      margin-top: 15px;
+      margin-top: 10px;
     }
 
     .days_blue {
@@ -1335,7 +1333,7 @@ b {
       text-align: center;
       vertical-align: middle;
       width: 33.33%;
-      height: 60px;
+      height: 50px;
     }
     .cur {
       cursor: pointer;
@@ -1398,7 +1396,7 @@ b {
     }
 
     .commerce_title_name {
-      font-size: 24px;
+      font-size: 22px;
       margin-right: 36px;
       cursor: default;
     }

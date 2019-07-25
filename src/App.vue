@@ -1,7 +1,7 @@
 
 
 <template>
-  <div id="app">
+  <div id="app" v-cloak>
     <navbar v-show="!this.$route.meta.showpublic"></navbar>
     <keep-alive :exclude="'Home'">
       <router-view></router-view>
@@ -26,13 +26,16 @@ export default {
 </script>
 
 <style>
+[v-cloak] {
+  display: none !important;
+}
 * {
   margin: 0;
   padding: 0;
 }
 body {
   font-family: "Microsoft Yahei", "微软雅黑", arial;
-  font-size: 13px;
+  font-size: 14px;
   color: #333;
 }
 table span {

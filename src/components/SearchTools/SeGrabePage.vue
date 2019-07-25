@@ -240,10 +240,10 @@ export default {
   margin: 0 auto;
 }
 .content_title {
-  font-size: 24px;
+  font-size: 22px;
   margin: 60px 0 30px 0;
   span {
-    font-size: 18px;
+    font-size: 16px;
     color: #666;
   }
 }
@@ -251,10 +251,9 @@ export default {
   border: 1px solid #ebebeb;
   tr {
     td {
-      height: 60px;
+      height: 40px;
       padding: 20px 40px;
       text-align: left;
-      font-size: 16px;
       line-height: 32px;
       .hide_detail {
         height: 320px;
@@ -280,12 +279,11 @@ export default {
 .web_table {
   border-top: 1px solid #ebebeb;
   border-right: 1px solid #ebebeb;
-  font-size: 16px;
   tr {
     td {
       border-left: 1px solid #ebebeb;
       border-bottom: 1px solid #ebebeb;
-      height: 60px;
+      height: 40px;
       min-width: 220px;
       text-align: left;
       padding-left: 40px;
@@ -315,11 +313,10 @@ export default {
 .server_table {
   border: 1px solid #ebebeb;
   border-bottom: none;
-  font-size: 16px;
   tr {
     td {
       border-bottom: 1px solid #ebebeb;
-      height: 60px;
+      height: 40px;
       text-align: left;
       padding-left: 40px;
       min-width: 220px;

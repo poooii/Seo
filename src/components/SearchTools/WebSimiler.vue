@@ -223,7 +223,7 @@ export default {
   margin: 0 auto;
 }
 .content_title {
-  font-size: 24px;
+  font-size: 22px;
   margin: 60px 0 30px 0;
 }
 .no_similar {

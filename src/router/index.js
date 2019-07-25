@@ -4,45 +4,6 @@ import Home from '@/components/Home'
 import SeoMain from '../components/SeoPages/SeoMain'
 import NotFound from '../components/BaseComponents/NotFound'
 import SeoSearch from '../components/SeoPages/SeoSearch'
-import BaiduWeight from '../components/SeoPages/BaiduWeight'
-import WeightDetail from '../components/SeoPages/WeightDetail'
-import HistoryData from '../components/SeoPages/HistoryData'
-import IcpAbout from '../components/SeoPages/IcpAbout'
-import IpSearch from '../components/SeoPages/IpSearch'
-import ThreeSixZeroWeight from '../components/SeoPages/ThreeSixZeroWeight'
-import ThreeSixZeroSafe from '../components/SeoPages/ThreeSixZeroSafe'
-import AleaxTrend from '../components/SeoPages/AleaxTrend'
-import PingTest from '../components/SeoPages/PingTest'
-import PrSearch from '../components/SeoPages/PrSearch'
-import BdSevenSearch from '../components/SeoPages/BdSevenSearch'
-import BdWhetherTake from '../components/SeoPages/BdWhetherTake'
-import BdTake from '../components/SeoPages/BdTake'
-import BdSafeTest from '../components/SeoPages/BdSafeTest'
-import BdOneSearch from '../components/SeoPages/BdOneSearch'
-import AntiChain from '../components/SeoPages/AntiChain'
-import KeyWords from '../components/SeoPages/KeyWords'
-import BuildSearch from '../components/SeoPages/BuildSearch'
-import WebTitleSearch from '../components/SeoPages/WebTitleSearch'
-import WebOutLink from '../components/SeoPages/WebOutLink'
-import FriendLink from '../components/SeoPages/FriendLink'
-import ToolsMain from '../components/SearchTools/ToolsMain'
-import HttpState from '../components/SearchTools/HttpState'
-import RobotsTest from '../components/SearchTools/RobotsTest'
-import KeywordsDensity from '../components/SearchTools/KeywordsDensity'
-import DeadLink from '../components/SearchTools/DeadLink'
-import SeGrabePage from '../components/SearchTools/SeGrabePage'
-import WebSimiler from '../components/SearchTools/WebSimiler'
-import DomainIpMain from '../components/DomainIpPages/DomainIpMain'
-import WhoisSearch from '../components/DomainIpPages/WhoisSearch'
-import WhoisDeserve from '../components/DomainIpPages/WhoisDeserve'
-import WebIpSearch from '../components/DomainIpPages/WebIpSearch'
-import DomainNameSealed from '../components/DomainIpPages/DomainNameSealed'
-import DomainNameWall from '../components/DomainIpPages/DomainNameWall'
-import DomainNameHistory from '../components/DomainIpPages/DomainNameHistory'
-import OtherToolsMain from '../components/OtherTools/OtherToolsMain'
-import IpMultipleSearch from '../components/OtherTools/IpMultipleSearch'
-import AutoSetType from '../components/OtherTools/AutoSetType'
-import AboutUs from '../components/BaseComponents/AboutUs'
 
 Vue.use(Router)
 
@@ -57,7 +18,7 @@ export default new Router({
     {
       path: '/aboutus',
       name: 'AboutUs',
-      component: AboutUs,
+      component: resolve => require(['../components/BaseComponents/AboutUs'], resolve),
     },
     {
       path: '/searchs/',
@@ -71,195 +32,195 @@ export default new Router({
         {
           path: 'baiduweight/:domain',
           name: 'BaiduWeight',
-          component: BaiduWeight,
+          component: resolve => require(['../components/SeoPages/BaiduWeight'], resolve),
         },
         {
           path: 'weightdetail',
           name: 'WeightDetail',
-          component: WeightDetail,
+          component: resolve => require(['../components/SeoPages/WeightDetail'], resolve),
         },
         {
           path: 'historydata/:domain',
           name: 'HistoryData',
-          component: HistoryData,
+          component: resolve => require(['../components/SeoPages/HistoryData'], resolve),
         },
         {
           path: 'icpabout/:domain',
           name: 'IcpAbout',
-          component: IcpAbout,
+          component: resolve => require(['../components/SeoPages/IcpAbout'], resolve),
         },
         {
           path: 'ipsearch/:domain',
           name: 'IpSearch',
-          component: IpSearch,
+          component: resolve => require(['../components/SeoPages/IpSearch'], resolve),
         },
         {
           path: 'threesixzeroweight/:domain',
           name: 'ThreeSixZeroWeight',
-          component: ThreeSixZeroWeight,
+          component: resolve => require(['../components/SeoPages/ThreeSixZeroWeight'], resolve),
         },
         {
           path: 'threesixzerosafe/:domain',
           name: 'ThreeSixZeroSafe',
-          component: ThreeSixZeroSafe,
+          component: resolve => require(['../components/SeoPages/ThreeSixZeroSafe'], resolve),
         },
         {
           path: 'aleaxtrend/:domain',
           name: 'AleaxTrend',
-          component: AleaxTrend,
+          component: resolve => require(['../components/SeoPages/AleaxTrend'], resolve),
         },
         {
           path: 'pingtest/:domain',
           name: 'PingTest',
-          component: PingTest,
+          component: resolve => require(['../components/SeoPages/PingTest'], resolve),
         },
         {
           path: 'prsearch/:domain',
           name: 'PrSearch',
-          component: PrSearch,
+          component: resolve => require(['../components/SeoPages/PrSearch'], resolve),
         },
         {
           path: 'bdseven/:domain',
           name: 'BdSevenSearch',
-          component: BdSevenSearch,
+          component: resolve => require(['../components/SeoPages/BdSevenSearch'], resolve),
         },
         {
           path: 'bdwhethertake/:domain',
           name: 'BdWhetherTake',
-          component: BdWhetherTake,
+          component: resolve => require(['../components/SeoPages/BdWhetherTake'], resolve),
         },
         {
           path: 'bdtake/:domain',
           name: 'BdTake',
-          component: BdTake,
+          component: resolve => require(['../components/SeoPages/BdTake'], resolve),
         },
         {
           path: 'bdsafetest/:domain',
           name: 'BdSafeTest',
-          component: BdSafeTest,
+          component: resolve => require(['../components/SeoPages/BdSafeTest'], resolve),
         },
         {
           path: 'bdonesearch/:domain',
           name: 'BdOneSearch',
-          component: BdOneSearch,
+          component: resolve => require(['../components/SeoPages/BdOneSearch'], resolve),
         },
         {
           path: 'antichain/:domain',
           name: 'AntiChain',
-          component: AntiChain,
+          component: resolve => require(['../components/SeoPages/AntiChain'], resolve),
         },
         {
           path: 'keywords/:domain',
           name: 'KeyWords',
-          component: KeyWords,
+          component: resolve => require(['../components/SeoPages/KeyWords'], resolve),
         },
         {
           path: 'buildsearch/:domain',
           name: 'BuildSearch',
-          component: BuildSearch,
+          component: resolve => require(['../components/SeoPages/BuildSearch'], resolve),
         },
         {
           path: 'webtitlesearch/:domain',
           name: 'WebTitleSearch',
-          component: WebTitleSearch,
+          component: resolve => require(['../components/SeoPages/WebTitleSearch'], resolve),
         },
         {
           path: 'weboutlink/:domain',
           name: 'WebOutLink',
-          component: WebOutLink,
+          component: resolve => require(['../components/SeoPages/WebOutLink'], resolve),
         },
         {
           path: 'friendlink/:domain',
           name: 'FriendLink',
-          component: FriendLink,
+          component: resolve => require(['../components/SeoPages/FriendLink'], resolve),
         }
       ]
     },
     {
-      path: '/searchtools',
-      component: ToolsMain,
+      path: '/searchtools/',
+      component: resolve => require(['../components/SearchTools/ToolsMain'], resolve),
       children: [
         {
-          path: 'httpstate/:domain',
+          path: '/searchtools/:domain',
           name: 'HttpState',
-          component: HttpState,
+          component: resolve => require(['../components/SearchTools/HttpState'], resolve),
         },
         {
           path: 'robotstest/:domain',
           name: 'RobotsTest',
-          component: RobotsTest,
+          component: resolve => require(['../components/SearchTools/RobotsTest'], resolve),
         },
         {
           path: 'keywordsdensity/:domain',
           name: 'KeywordsDensity',
-          component: KeywordsDensity,
+          component: resolve => require(['../components/SearchTools/KeywordsDensity'], resolve),
         },
         {
           path: 'deadlink/:domain',
           name: 'DeadLink',
-          component: DeadLink,
+          component: resolve => require(['../components/SearchTools/DeadLink'], resolve),
         },
         {
           path: 'segrabepage/:domain',
           name: 'SeGrabePage',
-          component: SeGrabePage,
+          component: resolve => require(['../components/SearchTools/SeGrabePage'], resolve),
         },
         {
           path: 'websimiler/:domain',
           name: 'WebSimiler',
-          component: WebSimiler,
+          component: resolve => require(['../components/SearchTools/WebSimiler'], resolve),
         },
       ]
     },
     {
-      path: '/domainsearchs',
-      component: DomainIpMain,
+      path: '/domainsearchs/',
+      component: resolve => require(['../components/DomainIpPages/DomainIpMain'], resolve),
       children: [
         {
-          path: 'whoisSearch/:domain',
+          path: '/domainsearchs/:domain',
           name: 'WhoisSearch',
-          component: WhoisSearch,
+          component: resolve => require(['../components/DomainIpPages/WhoisSearch'], resolve),
         },
         {
           path: 'whoisdeserve/:domain',
           name: 'WhoisDeserve',
-          component: WhoisDeserve,
+          component: resolve => require(['../components/DomainIpPages/WhoisDeserve'], resolve),
         },
         {
           path: 'webipsearch/:domain',
           name: 'WebIpSearch',
-          component: WebIpSearch,
+          component: resolve => require(['../components/DomainIpPages/WebIpSearch'], resolve),
         },
         {
           path: 'domainnamesealed/:domain',
           name: 'DomainNameSealed',
-          component: DomainNameSealed,
+          component: resolve => require(['../components/DomainIpPages/DomainNameSealed'], resolve),
         },
         {
           path: 'domainnamewall/:domain',
           name: 'DomainNameWall',
-          component: DomainNameWall,
+          component: resolve => require(['../components/DomainIpPages/DomainNameWall'], resolve),
         },
         {
           path: 'domainnamehistory/:domain',
           name: 'DomainNameHistory',
-          component: DomainNameHistory,
+          component: resolve => require(['../components/DomainIpPages/DomainNameHistory'], resolve),
         }
       ]
     },
     {
       path: '/othertools',
-      component: OtherToolsMain,
+      component: resolve => require(['../components/OtherTools/OtherToolsMain'], resolve),
       children: [
         {
           path: 'ipmultiplesearch/:domain',
           name: 'IpMultipleSearch',
-          component: IpMultipleSearch,
+          component: resolve => require(['../components/OtherTools/IpMultipleSearch'], resolve),
         },
         {
           path: 'autosettype/:domain',
           name: 'AutoSetType',
-          component: AutoSetType,
+          component: resolve => require(['../components/OtherTools/AutoSetType'], resolve),
         }
       ]
     },

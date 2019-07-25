@@ -697,10 +697,10 @@ export default {
   margin: 0 auto;
 }
 .content_title {
-  font-size: 24px;
+  font-size: 22px;
   margin: 60px 0 30px 0;
   span {
-    font-size: 18px;
+    font-size: 16px;
     color: #666;
     i {
       color: #ff3838;
@@ -713,10 +713,9 @@ export default {
 .title_table {
   border-right: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
-  font-size: 16px;
   tr {
     td {
-      height: 60px;
+      height: 40px;
       border-left: 1px solid #ebebeb;
       border-top: 1px solid #ebebeb;
       padding-left: 40px;
@@ -745,11 +744,10 @@ export default {
 .link_table {
   border-right: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
-  font-size: 16px;
   margin-top: 20px;
   tr {
     td {
-      height: 60px;
+      height: 40px;
       border-left: 1px solid #ebebeb;
       border-top: 1px solid #ebebeb;
       text-align: center;
@@ -766,7 +764,6 @@ export default {
   }
 }
 .ip_main_table {
-  font-size: 16px;
   border: 1px solid #ebebeb;
   margin-top: 20px;
   border-bottom: none;
@@ -778,7 +775,7 @@ export default {
   }
   tr {
     td {
-      height: 60px;
+      height: 40px;
       text-align: center;
       border-bottom: 1px solid #ebebeb;
       padding-right: 10px;

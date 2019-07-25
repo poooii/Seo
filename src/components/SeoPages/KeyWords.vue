@@ -265,19 +265,18 @@ export default {
 }
 
 .content_title {
-  font-size: 24px;
+  font-size: 22px;
   margin: 60px 0 30px 0;
 }
 
 .ip_main_table {
-  font-size: 16px;
   border: 1px solid #ebebeb;
   margin-top: 20px;
   border-bottom: none;
 
   tr {
     td {
-      height: 60px;
+      height: 40px;
       padding-right: 10px;
       text-align: center;
       border-bottom: 1px solid #ebebeb;

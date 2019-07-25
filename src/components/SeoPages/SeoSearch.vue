@@ -7,7 +7,7 @@
     <div class="seo_main_content" v-if="!content==''">
       <!-- 主体第一大块 -->
       <div class="content_title clearfix">
-        <span class="t_title fl clearfix">{{site_title}}</span>
+        <span class="t_title fl clearfix">{{site_title | ellipsist}}</span>
         <span class="t_time fr">更新时间：{{update_time}}</span>
         <span class="t_history fr" @click="toHistory">
           <img src="../../assets/dataupdate.png" />历史数据
@@ -1023,31 +1023,31 @@ export default {
     toPr() {
       this.$router.push({
         name: "PrSearch",
-        params: { shcontent: this.content }
+        params: { shcontent: this.content, domain: this.content }
       });
     },
     toIcp() {
       this.$router.push({
         name: "IcpAbout",
-        params: { shcontent: this.content }
+        params: { shcontent: this.content, domain: this.content }
       });
     },
     toIpSearch(val) {
       this.$router.push({
         name: "IpSearch",
-        params: { shcontent: val }
+        params: { shcontent: val, domain: val }
       });
     },
     toAntiChain(val) {
       this.$router.push({
         name: "AntiChain",
-        params: { shcontent: val }
+        params: { shcontent: val, domain: val }
       });
     },
     toAleax() {
       this.$router.push({
         name: "AleaxTrend",
-        params: { shcontent: this.content }
+        params: { shcontent: this.content, domain: this.content }
       });
     },
     //请求数据
@@ -1631,6 +1631,13 @@ export default {
       }
       return value;
     },
+    ellipsist(value) {
+      if (!value) return "";
+      if (value.length > 38) {
+        return value.slice(0, 38) + "...";
+      }
+      return value;
+    },
     NumFormat(value) {
       if (!value) return "-";
       var intPartFormat = value
@@ -1668,11 +1675,10 @@ export default {
   background: #fff;
   margin: 0 auto;
   margin-top: 60px;
-  font-size: 16px;
 }
 
 .t_title {
-  font-size: 24px;
+  font-size: 22px;
   line-height: 32px;
   color: #333;
   width: 760px;
@@ -1695,14 +1701,13 @@ export default {
 .weight_content {
   margin: 28px 0 20px 0;
   color: #999;
-  font-size: 14px;
 }
 
 .weight_content {
   .weight_details {
     float: left;
     width: 199px;
-    height: 100px;
+    height: 60px;
     text-align: center;
     border: 1px solid #ebebeb;
     border-right: none;
@@ -1721,7 +1726,7 @@ export default {
 .weight_net {
   font-size: 18px;
   color: #333;
-  margin-top: 20px;
+  margin-top: 7px;
   position: relative;
   cursor: pointer;
 
@@ -1739,7 +1744,6 @@ export default {
 
 .weight_name {
   display: block;
-  margin-top: 10px;
 }
 
 .t_history img {
@@ -1756,10 +1760,9 @@ export default {
 
 .weight_details_p1 > li {
   width: 1198px;
-  height: 60px;
+  height: 40px;
   display: flex;
   align-items: center;
-  font-size: 16px;
   color: #808080;
   border: 1px solid #ebebeb;
   border-bottom: none;
@@ -1788,11 +1791,11 @@ export default {
 }
 
 .weight_details_msg {
-  width: 220px;
+  width: 110px;
   background: #fafafa;
-  height: 60px;
-  line-height: 60px;
-  padding-left: 40px;
+  height: 40px;
+  line-height: 40px;
+  padding-left: 20px;
 }
 
 .msg_details {
@@ -1821,7 +1824,7 @@ export default {
   text-align: center;
   vertical-align: middle;
   width: 169px;
-  height: 60px;
+  height: 40px;
 }
 
 .echarts_main table {
@@ -1837,7 +1840,7 @@ export default {
 .table_content_2nd table td,
 .echarts_main table td {
   width: 239px;
-  height: 60px;
+  height: 40px;
 }
 
 .advertise_box {
@@ -1861,7 +1864,7 @@ export default {
 }
 
 .echarts_title_name {
-  font-size: 24px;
+  font-size: 22px;
   margin-right: 40px;
 }
 
@@ -1885,7 +1888,6 @@ export default {
   text-align: center;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 14px;
   margin-left: 5px;
 }
 
@@ -2133,7 +2135,7 @@ export default {
     text-align: center;
     vertical-align: middle;
     width: 169px;
-    height: 60px;
+    height: 40px;
   }
 }
 

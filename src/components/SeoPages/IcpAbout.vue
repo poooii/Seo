@@ -180,7 +180,7 @@ export default {
 }
 
 .content_title {
-  font-size: 24px;
+  font-size: 22px;
   margin: 60px 0 30px 0;
 }
 
@@ -194,9 +194,7 @@ export default {
       vertical-align: middle;
       padding-left: 40px;
       width: 300px;
-      height: 60px;
-      font-size: 16px;
-
+      height: 40px;
       a {
         width: 100%;
         height: 100%;

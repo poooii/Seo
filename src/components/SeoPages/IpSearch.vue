@@ -344,19 +344,18 @@ export default {
 .title_table {
   border-right: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
-  font-size: 16px;
   margin-top: 60px;
   tr {
     td {
       width: 33.33%;
-      height: 60px;
+      height: 40px;
       text-align: center;
       border-left: 1px solid #ebebeb;
       border-top: 1px solid #ebebeb;
       a {
         width: 100%;
         height: 100%;
-        line-height: 60px;
+        line-height: 40px;
         color: #007bb7;
       }
     }
@@ -369,7 +368,6 @@ export default {
   }
 }
 .ip_main_table {
-  font-size: 16px;
   border: 1px solid #ebebeb;
   margin-top: 20px;
   border-bottom: none;
@@ -386,13 +384,13 @@ export default {
   tr {
     td {
       width: 220px;
-      height: 60px;
+      height: 40px;
       text-align: center;
       border-bottom: 1px solid #ebebeb;
       a {
         width: 100%;
         height: 100%;
-        line-height: 60px;
+        line-height: 40px;
         color: #007bb7;
       }
       b {

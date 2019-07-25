@@ -204,7 +204,6 @@ export default {
     resize: none;
     outline: 0;
     -webkit-appearance: none;
-    font-size: 16px;
     color: #333;
     font-family: "Microsoft Yahei", "\5FAE\8F6F\96C5\9ED1", arial;
   }
@@ -220,7 +219,6 @@ export default {
       background-color: #00a7eb;
       border-radius: 4px;
       line-height: 32px;
-      font-size: 14px;
       color: #fff;
       cursor: pointer;
     }
@@ -241,12 +239,11 @@ export default {
     min-height: 300px;
     padding: 30px 30px;
     border: 1px solid #ebebeb;
-    font-size: 16px;
     color: #666;
   }
 }
 .content_title {
-  font-size: 24px;
+  font-size: 22px;
   margin: 60px 0 30px 0;
 }
 .adv_box {

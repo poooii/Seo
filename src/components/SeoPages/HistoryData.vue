@@ -995,7 +995,6 @@ export default {
 
 .websiteValue_banner_ul li a {
   color: #666;
-  font-size: 14px;
   cursor: pointer;
 }
 
@@ -1014,7 +1013,6 @@ export default {
   padding-left: 5px;
   border-left: 1px solid #ebebeb;
   height: 34px;
-  font-size: 14px;
   color: #666;
 }
 
@@ -1035,7 +1033,6 @@ export default {
 
   ul {
     li {
-      font-size: 14px;
       color: #666;
       height: 50px;
       line-height: 50px;
@@ -1058,9 +1055,9 @@ export default {
   margin: 0 auto;
 
   .content_title {
-    font-size: 24px;
+    font-size: 22px;
     color: #333;
-    margin: 60px 0 35px 0;
+    margin: 50px 0 25px 0;
   }
 }
 
@@ -1138,7 +1135,6 @@ export default {
       padding-left: 5px;
       border-left: 1px solid #ebebeb;
       height: 24px;
-      font-size: 14px;
       color: #666;
     }
 
@@ -1151,7 +1147,6 @@ export default {
       border-left: 1px solid #ebebeb;
       padding-left: 5px;
       height: 24px;
-      font-size: 14px;
       color: #666;
     }
 
@@ -1218,19 +1213,18 @@ export default {
   margin-top: 30px;
 
   .title_container {
-    height: 60px;
+    height: 50px;
     background: #fafafa;
     border-bottom: 1px solid #ebebeb;
 
     span {
       display: inline-block;
-      height: 60px;
-      line-height: 60px;
+      height: 50px;
+      line-height: 50px;
       margin-left: 36px;
       min-width: 30px;
       text-align: center;
       cursor: pointer;
-      font-size: 16px;
     }
 
     .color_line_blue {
@@ -1254,8 +1248,7 @@ export default {
         border-top: 1px solid #ebebeb;
         text-align: center;
         vertical-align: middle;
-        height: 50px;
-        font-size: 16px;
+        height: 40px;
 
         .lower {
           color: #00b35d;

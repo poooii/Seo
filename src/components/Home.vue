@@ -108,12 +108,7 @@ export default {
         "riyiseo.com",
         "shuadan.cn",
         "caoping6s.cn",
-        "014121.cn",
-        "www.hj135.com",
-        "jiaofu.cn",
-        "riyiseo.com",
-        "shuadan.cn",
-        "caoping6s.cn"
+        "014121.cn"
       ]
     };
   },
@@ -219,7 +214,7 @@ export default {
   margin-top: 36px;
 }
 .home_describe > p {
-  font-size: 18px;
+  font-size: 14px;
   margin-top: -28px;
 }
 .home_list {

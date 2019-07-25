@@ -129,16 +129,15 @@ export default {
   margin: 0 auto;
 }
 .content_title {
-  font-size: 24px;
+  font-size: 22px;
   margin: 60px 0 30px 0;
 }
 .http_table {
   border: 1px solid #ebebeb;
   border-bottom: none;
-  font-size: 16px;
   tr {
     td {
-      height: 60px;
+      height: 40px;
       border-bottom: 1px solid #ebebeb;
       padding-left: 30px;
     }

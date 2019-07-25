@@ -356,7 +356,6 @@ export default {
 
   ul {
     li {
-      font-size: 14px;
       color: #666;
       height: 50px;
       line-height: 50px;
@@ -378,7 +377,7 @@ export default {
   margin: 0 auto;
 }
 .content_title {
-  font-size: 24px;
+  font-size: 22px;
   margin: 60px 0 30px 0;
   span {
     font-size: 18px;
@@ -394,8 +393,7 @@ export default {
   border-bottom: none;
   tr {
     td {
-      height: 60px;
-      font-size: 16px;
+      height: 40px;
       text-align: center;
       border-bottom: 1px solid #ebebeb;
       min-width: 110px;

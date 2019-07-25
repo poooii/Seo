@@ -340,7 +340,6 @@ export default {
   }
   ul {
     li {
-      font-size: 14px;
       color: #666;
       height: 50px;
       line-height: 50px;
@@ -360,11 +359,11 @@ export default {
   width: 1200px;
   margin: 0 auto;
   .content_title {
-    font-size: 24px;
+    font-size: 22px;
     color: #333;
     margin: 60px 0 35px 0;
     span {
-      font-size: 18px;
+      font-size: 16px;
       color: #666;
       .alive {
         color: #00b35d;
@@ -387,9 +386,8 @@ export default {
   tr {
     td {
       min-width: 100px;
-      height: 60px;
+      height: 40px;
       text-align: center;
-      font-size: 16px;
       border-bottom: 1px solid #ebebeb;
       position: relative;
       a {
@@ -398,7 +396,7 @@ export default {
       }
       span {
         position: absolute;
-        top: 17px;
+        top: 9px;
         left: 74px;
         color: #fff;
       }

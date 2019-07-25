@@ -133,10 +133,10 @@ export default {
   margin: 0 auto;
 }
 .content_title {
-  font-size: 24px;
+  font-size: 22px;
   margin: 60px 0 30px 0;
   span {
-    font-size: 18px;
+    font-size: 16px;
     color: #666;
   }
 }
@@ -147,8 +147,7 @@ export default {
     td {
       border-top: 1px solid #ebebeb;
       vertical-align: middle;
-      height: 60px;
-      font-size: 16px;
+      height: 40px;
       padding-left: 35px;
     }
     td:first-child {

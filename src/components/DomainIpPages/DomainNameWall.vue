@@ -127,7 +127,7 @@ export default {
   margin: 0 auto;
 }
 .content_title {
-  font-size: 24px;
+  font-size: 22px;
   margin: 60px 0 30px 0;
 }
 .link_table {
@@ -136,9 +136,8 @@ export default {
   tr {
     td {
       min-width: 100px;
-      height: 60px;
+      height: 40px;
       text-align: center;
-      font-size: 16px;
       border-bottom: 1px solid #ebebeb;
       position: relative;
       a {

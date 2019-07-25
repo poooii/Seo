@@ -226,7 +226,7 @@ export default {
   margin: 0 auto;
 }
 .content_title {
-  font-size: 24px;
+  font-size: 22px;
   margin: 60px 0 30px 0;
 }
 .tsz_table {
@@ -235,8 +235,7 @@ export default {
   tr {
     td {
       border-top: 1px solid #ebebeb;
-      height: 60px;
-      font-size: 16px;
+      height: 40px;
       padding-left: 35px;
     }
     td:first-child {

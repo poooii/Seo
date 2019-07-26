@@ -85,7 +85,7 @@ export default {
   height: 100%;
   background: #fff;
   overflow: hidden;
-  opacity: 0.9;
+  opacity: 0.97;
 }
 
 .text-wrapper {

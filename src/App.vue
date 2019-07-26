@@ -21,6 +21,9 @@ export default {
     navbar: NavBar,
     footerbar: FooterBar,
     Loading
+  },
+  created() {
+    document.body.removeChild(document.getElementById("loading"));
   }
 };
 </script>

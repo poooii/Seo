@@ -198,58 +198,69 @@
         ></circleCharts>
       </div>
       <!-- 平台数据 -->
-      <!-- <div class="commerce_box">
-              <div class="commerce_title">
-                <span class="commerce_title_name">平台</span>
-                <span
-                  class="commerce_title_first"
-                  :class="{color_blue:networks=='pc'}"
-                  @click="changeNetworks('pc')"
-                >PC端</span>
-                <span :class="{color_blue:networks=='m'}" @click="changeNetworks('m')">移动端</span>
-              </div>
-              <div class="chart_container" style="padding:0">
-                <div class="title_container">
-                  <span :class="{color_line_blue:keywordsType=='0'}" @click="changeKeywords('0')">涨入关键词</span>
-                  <a @click="goToWeightDetail" href="javascript:void(0)">></a>
-                  <span :class="{color_line_blue:keywordsType=='1'}" @click="changeKeywords('1')">跌出关键词</span>
-                  <a @click="goToWeightDetail" href="javascript:void(0)">></a>
-                </div>
-                <table width="1200px" class="commerce_table">
-                  <tr>
-                    <td>关键词</td>
-                    <td>搜索量</td>
-                    <td>新排名</td>
-                    <td>旧排名</td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-            <div class="chart_container" style="padding:0;margin-bottom:60px">
-              <div class="title_container">
-                <span
-                  v-for="(item,index) in keywordsName"
-                  :class="{color_line_blue:keywords==index}"
-                  @click="changeKeywordsKey(index)"
-                >{{item}}</span>
-              </div>
-              <table width="1200px" class="commerce_detail_table">
-                <tr>
-                  <td>关键词</td>
-                  <td>排名</td>
-                  <td>（PC）搜索量</td>
-                  <td>收录量</td>
-                  <td>网页标题</td>
-                </tr>
-              </table>
-              <div class="page_box">
-                <span><</span>
-                <span v-for="num in 10">{{num}}</span>
-                <span>...</span>
-                <span>50</span>
-                <span>></span>
-              </div>
-      </div>-->
+      <div class="commerce_box">
+        <div class="commerce_title">
+          <span class="commerce_title_name">平台</span>
+          <span
+            class="commerce_title_first"
+            :class="{color_blue:networks=='pc'}"
+            @click="changeNetworks('pc')"
+          >PC端</span>
+          <span :class="{color_blue:networks=='m'}" @click="changeNetworks('m')">移动端</span>
+        </div>
+        <div class="chart_container" style="padding:0">
+          <div class="title_container">
+            <span :class="{color_line_blue:keywordsType=='0'}" @click="changeKeywords('0')">涨入关键词</span>
+            <a @click="goToWeightDetail" href="javascript:void(0)">></a>
+            <span :class="{color_line_blue:keywordsType=='1'}" @click="changeKeywords('1')">跌出关键词</span>
+            <a @click="goToWeightDetail" href="javascript:void(0)">></a>
+          </div>
+          <table width="1200px" class="commerce_table">
+            <tr>
+              <td>关键词</td>
+              <td>搜索量</td>
+              <td>新排名</td>
+              <td>旧排名</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="chart_container" style="padding:0;margin-bottom:60px">
+        <div class="title_container">
+          <span
+            v-for="item in keywordsName"
+            :class="{color_line_blue:keywords==item}"
+            @click="changeKeywordsKey(item)"
+          >{{item}}</span>
+        </div>
+        <table width="1200px" class="commerce_detail_table">
+          <tr>
+            <td>关键词</td>
+            <td>排名</td>
+            <td>（PC）搜索量</td>
+            <td>收录量</td>
+            <td>网页标题</td>
+          </tr>
+          <tr v-for="item in info">
+            <td>{{item.keyword}}</td>
+            <td>{{item.rank}}</td>
+            <td>{{item.sel_pc}}</td>
+            <td>{{item.shoulu}}</td>
+            <td>{{item.title}}</td>
+          </tr>
+        </table>
+        <div class="page_box" v-show="pageSum&&pageSum.length>0">
+          <span @click="changePage(page-2)"><</span>
+          <span
+            @click="changePage(index)"
+            :class="{color_blue:index==page-1}"
+            v-for="(num,index) in pageSum"
+            v-text="showText(index+1)"
+            v-if="showText(index+1)"
+          >{{num}}</span>
+          <span @click="changePage(page)">></span>
+        </div>
+      </div>
     </div>
     <NearlySearch @msgNearlysearch="getNearly"></NearlySearch>
   </div>
@@ -286,7 +297,7 @@ export default {
       //涨入跌出关键词
       keywordsType: "0",
       //最后一张表格的分类
-      keywords: "0",
+      keywords: "",
 
       //第一table
       m_ip: "",
@@ -299,7 +310,11 @@ export default {
       baiduindex: "",
       title: "",
       //关键词名称
-      keywordsName: ["/", "mipd", "company", "z", "n", "x"],
+      keywordsName: "",
+      info: "",
+      list: "",
+      page: 1,
+      pageSum: "",
       // 热门搜索测试数据
       hotsearch: [
         "po188.com",
@@ -641,6 +656,8 @@ export default {
       this.weightType = 0;
       this.rankingTrend = 0;
       this.dayschange = 2;
+      this.keywords = "";
+      this.page = 1;
       setTimeout(() => {
         this.bus.$emit("loading", false);
       }, 1500);
@@ -684,8 +701,37 @@ export default {
       this.keywordsType = idx;
     },
     //最后一张表格分类切换
-    changeKeywordsKey(idx) {
-      this.keywords = idx;
+    changeKeywordsKey(item) {
+      if (item == "/") {
+        this.keywords = "";
+      } else {
+        this.keywords = item;
+      }
+      this.page = 1;
+      this.getKeyWordInfo();
+    },
+    //切换分页
+    changePage(idx) {
+      if (idx <= -1) {
+        alert("已经是第一页！");
+        return;
+      }
+      if (idx >= this.pageSum.length) {
+        alert("已经是最后一页！");
+        return;
+      }
+      this.page = idx + 1;
+      this.getKeyWordInfo();
+    },
+    showText(idx) {
+      if (idx < 3 || idx > this.pageSum.length - 2) {
+        return idx;
+      } else if (idx <= this.page + 4 && idx >= this.page - 2) {
+        return idx;
+      } else if (idx === this.page + 5 || idx === this.page - 3) {
+        return "...";
+      }
+      return false;
     },
     // 热门搜索
     searchHot(data) {
@@ -708,7 +754,8 @@ export default {
     },
     goToWeightDetail() {
       this.$router.push({
-        name: "WeightDetail"
+        name: "WeightDetail",
+        params: { domain: this.content }
       });
     },
     toThousands(t) {
@@ -959,6 +1006,35 @@ export default {
           console.log(res.msg);
         });
     },
+    getKeyWordInfo() {
+      this.bus.$emit("loading", true);
+      return this.$http
+        .get("/Api/pageinfo/getKeyWordInfo", {
+          params: {
+            domain: this.content,
+            list: this.keywords,
+            page: this.page
+          }
+        })
+        .then(res => {
+          console.log(res);
+          window.scrollTo(0, 0);
+          if (res.data.list !== undefined && res.data.list.length !== 0) {
+            this.keywordsName = res.data.list;
+          }
+          this.info = res.data.info;
+          let pagesum = new Array();
+          for (let i = 1; i <= res.data.page; i++) {
+            pagesum.push(i);
+          }
+          this.pageSum = pagesum;
+          this.bus.$emit("loading", false);
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.bus.$emit("loading", false);
+        });
+    },
     getThisMonth() {
       var e = new Date(),
         t = e.getFullYear(),
@@ -1004,6 +1080,7 @@ export default {
         .then(
           this.$http.spread((acct, perms) => {
             this.bus.$emit("loading", false);
+            this.getKeyWordInfo();
           })
         );
     },
@@ -1142,7 +1219,6 @@ b {
   }
 
   .title_container {
-    height: 50px;
     background: #fafafa;
     border-bottom: 1px solid #ebebeb;
 
@@ -1172,12 +1248,13 @@ b {
     }
     span {
       display: inline-block;
-      height: 50px;
-      line-height: 50px;
+      height: 40px;
+      line-height: 40px;
       margin-left: 36px;
       min-width: 30px;
       text-align: center;
       cursor: pointer;
+      border-bottom: 2px solid transparent;
       i {
         display: inline-block;
         width: 16px;
@@ -1186,6 +1263,10 @@ b {
         margin-right: 8px;
         vertical-align: -2px;
       }
+    }
+    .color_line_blue {
+      border-bottom: 2px solid #2aa0ea;
+      color: #2aa0ea;
     }
 
     .echarts_days {
@@ -1233,16 +1314,15 @@ b {
   }
 
   .commerce_detail_table {
-    border-bottom: 1px solid #ebebeb;
-
     tr:first-child td {
       border-bottom: 1px solid #ebebeb;
       color: #666;
     }
 
     td {
-      height: 60px;
-      width: 18%;
+      height: 45px;
+      min-width: 10%;
+      padding-left: 4%;
       text-align: center;
     }
 
@@ -1251,15 +1331,14 @@ b {
       background: #fafafa;
       text-align: left;
       padding-left: 36px;
-      width: 20%;
-    }
-
-    td:last-child {
-      width: 26%;
+      width: 15%;
     }
 
     td:nth-child(2) {
       color: #2aa0ea;
+    }
+    td:nth-child(3) {
+      width: 90px;
     }
   }
 
@@ -1267,13 +1346,19 @@ b {
     width: 100%;
     height: 60px;
     text-align: right;
-
+    border-top: 1px solid #ebebeb;
     span {
       display: inline-block;
       height: 60px;
       line-height: 60px;
       margin-right: 24px;
       cursor: pointer;
+    }
+    span:hover {
+      color: #2aa0ea;
+    }
+    .color_blue {
+      color: #2aa0ea;
     }
   }
 }
@@ -1318,7 +1403,7 @@ b {
       text-align: center;
       vertical-align: middle;
       width: 33.33%;
-      height: 50px;
+      height: 40px;
     }
     .cur {
       cursor: pointer;

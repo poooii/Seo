@@ -35,7 +35,7 @@ export default new Router({
           component: resolve => require(['../components/SeoPages/BaiduWeight'], resolve),
         },
         {
-          path: 'weightdetail',
+          path: 'weightdetail/:domain',
           name: 'WeightDetail',
           component: resolve => require(['../components/SeoPages/WeightDetail'], resolve),
         },

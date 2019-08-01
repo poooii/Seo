@@ -203,12 +203,12 @@
           <span class="commerce_title_name">平台</span>
           <span
             class="commerce_title_first"
-            :class="{color_blue:networks=='pc'}"
-            @click="changeNetworks('pc')"
+            :class="{color_blue:networks==0}"
+            @click="changeNetworks(0)"
           >PC端</span>
-          <span :class="{color_blue:networks=='m'}" @click="changeNetworks('m')">移动端</span>
+          <span :class="{color_blue:networks==1}" @click="changeNetworks(1)">移动端</span>
         </div>
-        <div class="chart_container" style="padding:0">
+        <!-- <div class="chart_container" style="padding:0">
           <div class="title_container">
             <span :class="{color_line_blue:keywordsType=='0'}" @click="changeKeywords('0')">涨入关键词</span>
             <a @click="goToWeightDetail" href="javascript:void(0)">></a>
@@ -223,7 +223,7 @@
               <td>旧排名</td>
             </tr>
           </table>
-        </div>
+        </div>-->
       </div>
       <div class="chart_container" style="padding:0;margin-bottom:60px">
         <div class="title_container">
@@ -237,15 +237,16 @@
           <tr>
             <td>关键词</td>
             <td>排名</td>
-            <td>（PC）搜索量</td>
-            <td>收录量</td>
+            <td v-show="networks==0">（PC）搜索量</td>
+            <td v-show="networks==1">（移动）搜索量</td>
+            <td v-show="networks==0">收录量</td>
             <td>网页标题</td>
           </tr>
           <tr v-for="item in info">
             <td>{{item.keyword}}</td>
             <td>{{item.rank}}</td>
             <td>{{item.sel_pc}}</td>
-            <td>{{item.shoulu}}</td>
+            <td v-show="networks==0">{{item.shoulu}}</td>
             <td>{{item.title}}</td>
           </tr>
         </table>
@@ -293,7 +294,7 @@ export default {
       //折线图分类
       weightType: "0",
       //平台pc移动切换
-      networks: "pc",
+      networks: 0,
       //涨入跌出关键词
       keywordsType: "0",
       //最后一张表格的分类
@@ -658,6 +659,7 @@ export default {
       this.dayschange = 2;
       this.keywords = "";
       this.page = 1;
+      this.networks = 0;
       setTimeout(() => {
         this.bus.$emit("loading", false);
       }, 1500);
@@ -694,7 +696,16 @@ export default {
     },
     //平台移动pc切换
     changeNetworks(idx) {
-      this.networks = idx;
+      if (this.networks !== idx) {
+        this.networks = idx;
+        this.page = 1;
+        this.keywords = "";
+        if (this.networks == 0) {
+          this.getKeyWordInfo();
+        } else {
+          this.getKeyWordMInfo();
+        }
+      }
     },
     //切换涨入跌出关键词
     changeKeywords(idx) {
@@ -708,7 +719,11 @@ export default {
         this.keywords = item;
       }
       this.page = 1;
-      this.getKeyWordInfo();
+      if (this.networks == 0) {
+        this.getKeyWordInfo();
+      } else {
+        this.getKeyWordMInfo();
+      }
     },
     //切换分页
     changePage(idx) {
@@ -721,7 +736,11 @@ export default {
         return;
       }
       this.page = idx + 1;
-      this.getKeyWordInfo();
+      if (this.networks == 0) {
+        this.getKeyWordInfo();
+      } else {
+        this.getKeyWordMInfo();
+      }
     },
     showText(idx) {
       if (idx < 3 || idx > this.pageSum.length - 2) {
@@ -1010,6 +1029,35 @@ export default {
       this.bus.$emit("loading", true);
       return this.$http
         .get("/Api/pageinfo/getKeyWordInfo", {
+          params: {
+            domain: this.content,
+            list: this.keywords,
+            page: this.page
+          }
+        })
+        .then(res => {
+          console.log(res);
+          window.scrollTo(0, 0);
+          if (res.data.list !== undefined && res.data.list.length !== 0) {
+            this.keywordsName = res.data.list;
+          }
+          this.info = res.data.info;
+          let pagesum = new Array();
+          for (let i = 1; i <= res.data.page; i++) {
+            pagesum.push(i);
+          }
+          this.pageSum = pagesum;
+          this.bus.$emit("loading", false);
+        })
+        .catch(res => {
+          console.log(res.msg);
+          this.bus.$emit("loading", false);
+        });
+    },
+    getKeyWordMInfo() {
+      this.bus.$emit("loading", true);
+      return this.$http
+        .get("/Api/pageinfo/getKeyWordMInfo", {
           params: {
             domain: this.content,
             list: this.keywords,

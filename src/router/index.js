@@ -23,6 +23,7 @@ export default new Router({
     {
       path: '/searchs/',
       component: SeoMain,
+      redirect: '/searchs/.',
       children: [
         {
           path: '/searchs/:domain',
@@ -139,6 +140,7 @@ export default new Router({
     {
       path: '/searchtools/',
       component: resolve => require(['../components/SearchTools/ToolsMain'], resolve),
+      redirect: '/searchtools/.',
       children: [
         {
           path: '/searchtools/:domain',
@@ -175,6 +177,7 @@ export default new Router({
     {
       path: '/domainsearchs/',
       component: resolve => require(['../components/DomainIpPages/DomainIpMain'], resolve),
+      redirect: '/domainsearchs/.',
       children: [
         {
           path: '/domainsearchs/:domain',
@@ -209,11 +212,12 @@ export default new Router({
       ]
     },
     {
-      path: '/othertools',
+      path: '/othertools/',
       component: resolve => require(['../components/OtherTools/OtherToolsMain'], resolve),
+      redirect: '/othertools/.',
       children: [
         {
-          path: 'ipmultiplesearch/:domain',
+          path: '/othertools/:domain',
           name: 'IpMultipleSearch',
           component: resolve => require(['../components/OtherTools/IpMultipleSearch'], resolve),
         },

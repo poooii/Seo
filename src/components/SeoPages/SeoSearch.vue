@@ -1643,9 +1643,17 @@ export default {
   mounted() {
     let storage = window.sessionStorage;
     storage.setItem("navIndex", "1");
-    if (this.$route.params.domain !== ".") {
+    if (
+      this.$route.params.domain !== "." &&
+      this.$route.params.domain.indexOf(".") >= 0
+    ) {
       this.content = this.$route.params.domain;
       this.doAllGet();
+    } else {
+      this.$router.replace({
+        name: "SeoSearch",
+        params: { domain: "." }
+      });
     }
     setTimeout(() => {
       this.bus.$emit("loading", false);

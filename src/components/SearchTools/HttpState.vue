@@ -102,9 +102,17 @@ export default {
     let storage = window.sessionStorage;
     storage.setItem("navIndex", "2");
     window.scrollTo(0, 0);
-    if (this.$route.params.domain !== ".") {
+    if (
+      this.$route.params.domain !== "." &&
+      this.$route.params.domain.indexOf(".") >= 0
+    ) {
       this.content = this.$route.params.domain;
       this.getHttpInfo();
+    } else {
+      this.$router.replace({
+        name: "HttpState",
+        params: { domain: "." }
+      });
     }
     setTimeout(() => {
       this.bus.$emit("loading", false);

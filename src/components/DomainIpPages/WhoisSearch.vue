@@ -177,9 +177,17 @@ export default {
     let storage = window.sessionStorage;
     storage.setItem("navIndex", "3");
     window.scrollTo(0, 0);
-    if (this.$route.params.domain !== ".") {
+    if (
+      this.$route.params.domain !== "." &&
+      this.$route.params.domain.indexOf(".") >= 0
+    ) {
       this.content = this.$route.params.domain;
       this.getWhois();
+    } else {
+      this.$router.replace({
+        name: "WhoisSearch",
+        params: { domain: "." }
+      });
     }
     setTimeout(() => {
       this.bus.$emit("loading", false);

@@ -5,15 +5,6 @@
     <div class="cha_default" v-if="content==''||content==undefined">
       <img src="../../assets/no_data.png" alt />
       <p>请输入查询的网站</p>
-      <div class="bottom_tips">
-        <p class="title">
-          <span></span> 历史数据
-        </p>
-        <p>
-          历史数据功能可以通过用户输入域名后，查询该域名的百度SEO历史、Aleax排行历史、收录/反链历史。
-          <br />根据该功能可以自定义日期查询网站历史，自定义查询最大支持的范围为半年。
-        </p>
-      </div>
       <div class="adv_box_before">
         <a v-for="advs in advpic" target="_blank" href="http://www.baidu.com">
           <img :src="require(`../../assets/${advs}.png`)" />
